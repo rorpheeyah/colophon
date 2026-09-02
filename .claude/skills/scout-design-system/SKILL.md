@@ -71,9 +71,13 @@ never invent a value to fill one. "Dark mode was not published; any dark treatme
 invented, not extracted" is the correct answer, and the preview will render the absence
 honestly.
 
-The `--ds-*` alias set is still required, since the shared preview template reads it. Alias
-only what was actually observed. Where the source published no dark block, omit
-`[data-mode="dark"]` entirely rather than inventing one.
+All 29 `--ds-*` aliases are still required, since the shared preview template reads them.
+Alias only what was actually observed, and declare `none` for everything the source did not
+publish — that is the honest record, and it is also what makes the omission visible. Where the
+source published no dark block, omit `[data-mode="dark"]` entirely rather than inventing one.
+
+Propose the block in one pass, as step 3 of `new-design-system` describes. Do not interview
+the user alias by alias about work neither of you authored.
 
 ## The Never section
 

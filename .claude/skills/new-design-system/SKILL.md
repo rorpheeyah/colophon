@@ -55,6 +55,9 @@ Cover all of it:
    appear.
 9. **Prohibitions.** See step 2.
 
+Stay at the level of rules and meaning here. Individual token values come in step 3, in one
+pass, not as a nine-question tail to this interview.
+
 ### Push back when an answer is vague
 
 Vague answers produce files an agent cannot follow. Say so plainly and ask again:
@@ -87,28 +90,53 @@ their answers and ask them to confirm or cut. Every strong rule implies a prohib
 Always end the list with a catch-all: a colour, size, or family not defined in this file.
 Minimum five entries. Aim for eight to ten.
 
-## Step 3 — show the draft before writing
+## Step 3 — propose the whole token block in one pass
+
+The `--ds-*` contract is 29 required aliases. **Do not walk the user through 29 questions.**
+Eighteen lines in a file is a checklist; eighteen questions is a chore, and a chore is what
+stops a library reaching system twelve.
+
+Interview only on the aliases that carry the system's identity, because these are the ones
+where guessing wrong produces a system the user did not ask for:
+
+- `--ds-accent` — and what the accent *means* here
+- `--ds-button-bg` / `--ds-button-text` — often not the accent. A system whose accent is a
+  semantic state will have a button built from surface, border, and shadow instead
+- `--ds-success` / `--ds-warn` / `--ds-alarm` and their washes — including whether the system
+  refuses one. A system where colour means "something needs doing" may have no success colour
+  at all
+- `--ds-shadow` — the exact value, or `none`
+
+Infer the rest from answers already given. Then present the complete block once, as CSS, and
+ask the user to confirm or amend it in a single pass.
+
+Every alias is required. Where the system does not have a concept, declare `none` — that is a
+statement the author made, not a gap. `--ds-font-data: none` in a system that forbids
+monospace restates its own prohibition in machine-checkable form, which is the point.
+
+Only `--ds-shadow`, `--ds-font-data`, `--ds-hatch`, the six state aliases, and the three invert
+aliases may be declined. The rest carry structure. A state colour and its wash must agree.
+
+## Step 4 — show the draft before writing
 
 Show the complete file in the conversation and get explicit approval. Not a summary of it —
 the actual content, especially the tokens block and the Never list. It is much cheaper to fix
 here than after it is on disk and indexed.
 
-## Step 4 — write
+## Step 5 — write
 
 - Slug is kebab-case from the system name.
 - `version: "1.0"`, quoted. `status: active`, or `draft` if values are still provisional.
 - One fenced `css` block in the Tokens section, holding every custom property including font
   families, light and dark, copy-pasteable as-is.
-- Declare the full required `--ds-*` alias set, pointing at the system's own tokens with
-  `var()` references. Declare optional aliases only where the system genuinely has that
-  concept — a system with no success colour must not declare `--ds-positive`, so that its
-  preview shows the absence honestly.
+- Declare all 29 `--ds-*` aliases, pointing at the system's own tokens with `var()`
+  references, exactly as confirmed in step 3. `none` where the system declines a concept.
 - No colour literal anywhere outside the tokens block. Components are described by token
   reference: "`--ds-button-bg` fill, `--ds-radius-control`", never a restated hex.
 - Open the body with the binding line: **Drop this file into a project as `CLAUDE.md`, or
   reference it from one. Everything below is binding.**
 
-## Step 5 — index
+## Step 6 — index
 
 Append **one** entry to the end of `index.json`. Do not touch any other entry, do not reorder,
 do not rewrite the file wholesale:
@@ -117,7 +145,7 @@ do not rewrite the file wholesale:
 { "slug": "<slug>", "path": "systems/<slug>/<slug>.md", "origin": "own", "added": "YYYY-MM-DD" }
 ```
 
-## Step 6 — validate
+## Step 7 — validate
 
 ```
 node scripts/build-previews.mjs

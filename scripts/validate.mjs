@@ -39,16 +39,28 @@ const SECTIONS = [
   { slot: 'Never', test: /^never\b/ },
 ]
 
-const DS_REQUIRED = [
+// Every alias is required. A system refuses a concept by declaring `none`, so a
+// refusal is written down rather than inferred from a gap.
+const DS_ALIASES = [
   'bg', 'surface', 'text', 'text-2', 'text-3', 'line', 'accent',
   'radius-box', 'radius-control', 'border-width', 'border-color', 'shadow',
-  'button-bg', 'button-text', 'font-display', 'font-body', 'gap', 'pad',
+  'button-bg', 'button-text', 'font-display', 'font-body', 'font-data',
+  'gap', 'pad',
+  'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
+  'invert-bg', 'invert-text', 'invert-accent', 'hatch',
 ].map(n => `--ds-${n}`)
 
-const DS_OPTIONAL = [
-  'positive', 'positive-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
-  'invert-bg', 'invert-text', 'invert-accent', 'font-data', 'hatch',
-].map(n => `--ds-${n}`)
+// Aliases a system may decline. The rest carry structure, so `none` in one of them
+// is an error rather than an escape hatch.
+const DS_NONE_PERMITTED = new Set([
+  'shadow', 'font-data', 'hatch',
+  'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
+  'invert-bg', 'invert-text', 'invert-accent',
+].map(n => `--ds-${n}`))
+
+// A state colour and its wash must agree: declare both, or decline both.
+const DS_PAIRS = [['success', 'success-wash'], ['warn', 'warn-wash'], ['alarm', 'alarm-wash']]
+  .map(([a, b]) => [`--ds-${a}`, `--ds-${b}`])
 
 const COLOR_LITERAL = /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\s*\(/
 const MIN_NEVER_ENTRIES = 5
@@ -244,16 +256,38 @@ function validateSystem(slug) {
 
   if (canonical) {
     if (!/:root\s*\{/.test(canonical.code)) err('the tokens block declares no `:root` rule')
-    const declared = new Set([...canonical.code.matchAll(/(--ds-[a-z0-9-]+)\s*:/g)].map(m => m[1]))
+    const declared = new Map(
+      [...canonical.code.matchAll(/(--ds-[a-z0-9-]+)\s*:\s*([^;}]*)/g)]
+        .map(m => [m[1], m[2].trim().replace(/\s+/g, ' ')]))
 
-    const missing = DS_REQUIRED.filter(t => !declared.has(t))
+    const missing = DS_ALIASES.filter(t => !declared.has(t))
     if (missing.length) {
-      err(`tokens block is missing ${missing.length} required --ds-* alias(es): ${missing.join(', ')}`)
+      err(`tokens block is missing ${missing.length} required --ds-* alias(es): ${missing.join(', ')}. ` +
+          `Declare \`none\` to refuse a concept the system does not have`)
     }
-    const unknown = [...declared].filter(t => !DS_REQUIRED.includes(t) && !DS_OPTIONAL.includes(t))
+    const unknown = [...declared.keys()].filter(t => !DS_ALIASES.includes(t))
     if (unknown.length) {
       err(`unrecognised --ds-* alias(es): ${unknown.join(', ')}. ` +
           `The preview template reads a fixed set — see CLAUDE.md`)
+    }
+
+    for (const [token, value] of declared) {
+      if (!DS_ALIASES.includes(token)) continue
+      if (value === '') { err(`\`${token}\` is declared with no value`); continue }
+      if (value === 'none' && !DS_NONE_PERMITTED.has(token)) {
+        err(`\`${token}: none\` — this alias carries structure and must hold a value. ` +
+            `Only ${[...DS_NONE_PERMITTED].join(', ')} may be declined`)
+      }
+    }
+
+    for (const [colour, wash] of DS_PAIRS) {
+      const a = declared.get(colour)
+      const b = declared.get(wash)
+      if (a === undefined || b === undefined) continue
+      if ((a === 'none') !== (b === 'none')) {
+        err(`\`${colour}\` and \`${wash}\` disagree — one is \`none\` and the other is not. ` +
+            `Declare both or decline both`)
+      }
     }
 
     // Aliases must resolve through the dark block, so they are declared once only.

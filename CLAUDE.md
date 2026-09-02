@@ -143,46 +143,60 @@ properties — but any value that exists as a token must be referenced by name.
 
 The preview generator renders **one shared template** for every system, with no branching. It
 can only do that if the differences between systems live in token values rather than in code.
-So each system declares a thin alias layer inside its tokens block, pointing stable role names
-at its own tokens.
+So each system declares an alias layer inside its tokens block, pointing stable role names at
+its own tokens.
 
 Aliases are `var()` references, never copied values, so the tokens block stays the single
 source of truth. The dark block redefines the underlying tokens and the aliases resolve
 through automatically — never re-declare `--ds-*` in the dark block.
 
-Required:
+**All 29 aliases are required.** A system that does not have a concept declares `none`:
 
-| Token | Role |
-|---|---|
-| `--ds-bg` | Page background |
-| `--ds-surface` | Raised or contained surface |
-| `--ds-text` | Primary text |
-| `--ds-text-2` | Secondary text |
-| `--ds-text-3` | Tertiary text, captions, placeholders |
-| `--ds-line` | Row rules and hairlines |
-| `--ds-accent` | The system's accent, whatever it means here |
-| `--ds-radius-box` | Containers |
-| `--ds-radius-control` | Buttons, inputs, pills |
-| `--ds-border-width` | Container edge; `0` if the system forbids borders |
-| `--ds-border-color` | Container edge colour |
-| `--ds-shadow` | Full `box-shadow` value; `none` if the system forbids shadows |
-| `--ds-button-bg` | Primary button fill |
-| `--ds-button-text` | Primary button text |
-| `--ds-font-display` | Headings |
-| `--ds-font-body` | Body text |
-| `--ds-gap` | Base spacing step |
-| `--ds-pad` | Base container padding |
-
-Optional. The template renders only what is declared, so an absence is honest — a system with
-no success colour shows no success state, because it never declared one:
-
+```css
+--ds-success: none;
 ```
---ds-positive        --ds-positive-wash
---ds-warn            --ds-warn-wash
---ds-alarm           --ds-alarm-wash
---ds-invert-bg       --ds-invert-text        --ds-invert-accent
---ds-font-data       --ds-hatch
-```
+
+That is a statement, not a gap. A missing alias is always an error, so a refusal is something
+the author wrote down rather than something inferred from an absence. The preview renders only
+what is declared, which means a system with no success colour shows no success state — because
+it said so.
+
+| Token | Role | `none` |
+|---|---|---|
+| `--ds-bg` | Page background | |
+| `--ds-surface` | Raised or contained surface | |
+| `--ds-text` | Primary text | |
+| `--ds-text-2` | Secondary text | |
+| `--ds-text-3` | Tertiary text, captions, placeholders | |
+| `--ds-line` | Row rules and hairlines | |
+| `--ds-accent` | The system's accent, whatever it means here | |
+| `--ds-radius-box` | Containers | |
+| `--ds-radius-control` | Buttons, inputs, pills | |
+| `--ds-border-width` | Container edge; `0` if the system forbids borders | |
+| `--ds-border-color` | Container edge colour | |
+| `--ds-shadow` | Full `box-shadow` value | yes |
+| `--ds-button-bg` | Primary button fill | |
+| `--ds-button-text` | Primary button text | |
+| `--ds-font-display` | Headings | |
+| `--ds-font-body` | Body text | |
+| `--ds-font-data` | Figures and mono labels | yes |
+| `--ds-gap` | Base spacing step | |
+| `--ds-pad` | Base container padding | |
+| `--ds-success` | Healthy, resolved, correct | yes |
+| `--ds-success-wash` | Its pale background | yes |
+| `--ds-warn` | Needs attention soon | yes |
+| `--ds-warn-wash` | Its pale background | yes |
+| `--ds-alarm` | Needs attention now, or an error | yes |
+| `--ds-alarm-wash` | Its pale background | yes |
+| `--ds-invert-bg` | Inverted surface, where the system has one | yes |
+| `--ds-invert-text` | Text on it | yes |
+| `--ds-invert-accent` | Accent on it | yes |
+| `--ds-hatch` | Full `background` value for a hatch pattern | yes |
+
+Only the aliases marked `none` may be declined. The rest carry structure, and `none` in one of
+them is an error rather than an escape hatch — `--ds-bg: none` is not a design decision.
+
+A state colour and its wash must agree: declare both, or decline both.
 
 A system with no `[data-mode="dark"]` block renders as "no dark mode published" rather than
 having one invented for it.
