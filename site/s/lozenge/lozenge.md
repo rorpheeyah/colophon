@@ -12,7 +12,17 @@ avoid-for: [long-form reading, marketing pages, editorial layouts]
 
 # Lozenge
 
-**Drop this file into a project as `CLAUDE.md`, or reference it from one. Everything below is binding.**
+**Install:** copy this file into the target project as `.claude/design-system.md`, then add
+this to that project's own `CLAUDE.md`:
+
+```md
+## Design system
+
+This project follows Lozenge. The rules in @.claude/design-system.md are
+binding for all UI work. Where a rule and your instinct disagree, the rule wins.
+```
+
+Everything below is binding.
 
 A design system for retail and operational software. One primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. Built for dense, bilingual, decision-oriented screens.
 
@@ -24,6 +34,12 @@ Follow the rules literally. Where a rule and your instinct disagree, the rule wi
 
 When something isn't covered here, choose the option most consistent with the rules that are — and prefer removing the element over inventing a new token for it. Do not introduce colours, radii, shadows, borders, or type families that this file does not define. That is the most common way a system decays.
 
+
+**On installing this file.** Prefer the `@`-import above over pasting these rules into a
+project's `CLAUDE.md`: the import keeps the system in context for every turn without displacing
+the project's own rules, and updating the system later is a one-file copy. Installing instead as
+`.claude/skills/design-system/SKILL.md` costs less context but is not guaranteed to load on any
+given edit, which is how a system quietly stops being followed.
 ---
 
 ## 1. The primitive
@@ -126,6 +142,10 @@ The same shape appears at every scale:
 ```
 
 Dark mode is required, not optional. Every screen must work in both.
+
+Set `data-mode="dark"` on the **root element**. Scoped to a wrapper it will not work: a
+`var()` inside a custom property resolves where the property is declared, so the `--ds-*`
+aliases would keep their light values.
 
 ### Colour rules
 

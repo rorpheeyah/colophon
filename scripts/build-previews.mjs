@@ -12,6 +12,12 @@
 // --ds-shadow is a *control* shadow and is applied only to pressables. A system
 // may forbid elevation on containers while requiring it on buttons, and the
 // template must not be able to violate that.
+//
+// One stage per document, with the mode set on the ROOT element. This matters:
+// `--ds-bg: var(--paper)` is substituted where it is declared, so if the dark
+// block is scoped to a descendant the alias keeps the light value and dark mode
+// silently does nothing. The root is the only place the substitution sees the
+// dark tokens.
 
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
@@ -43,7 +49,7 @@ function fontLink(css) {
          `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?${q}&display=swap">`
 }
 
-function stage(t, meta, dark) {
+function stage(t, meta) {
   const states = [['success', 'Resolved'], ['warn', 'Attention'], ['alarm', 'Overdue']]
     .filter(([k]) => has(t, `--ds-${k}`))
 
@@ -57,7 +63,7 @@ function stage(t, meta, dark) {
     .map(s => `<p class="spec-x">${esc(SPECIMEN[s])}</p>`).join('')
 
   return `
-<div class="stage"${dark ? ' data-mode="dark"' : ''}>
+<div class="stage">
   <div class="sws">${swatches}</div>
 
   <div class="specimen">
@@ -150,23 +156,16 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       border-radius:4px;font-size:12px;color:#7c2d12;max-width:72ch}
 .notes{margin:8px 0 0;font-size:12px;color:#52525b}
 .notes li{margin:2px 0}
-.panels{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#d4d4d8}
-.panels.solo{grid-template-columns:1fr}
-.panel{background:#f4f4f5;min-width:0}
-.panel > b{display:block;padding:6px 12px;font:600 11px/1 system-ui;letter-spacing:.07em;
-           text-transform:uppercase;color:#71717a}
-@media (max-width:820px){.panels{grid-template-columns:1fr}}
 
-/* ?mode=light|dark shows one panel, ?chrome=0 hides the header. Used by the
-   compare page so two systems can be read in the same mode side by side. */
-[data-only] .panels{grid-template-columns:1fr}
-[data-only] .panel > b,[data-nochrome] .chrome{display:none}
-[data-only="light"] .panel.dark,[data-only="dark"] .panel.light{display:none}
+/* ?chrome=0 hides the header; ?mode=dark sets data-mode on the root element. */
+[data-nochrome] .chrome{display:none}
+.nodark{margin:0;padding:22px;color:#71717a;font-size:13px}
+[data-nodark] .stage{display:none}
 
 /* Everything below reads --ds-* only. */
 .stage{${shim}
   background:var(--ds-bg);color:var(--ds-text);font-family:var(--ds-font-body);
-  padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap);min-height:100%}
+  padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap)}
 .stage h3{margin:0;font-family:var(--ds-font-display);font-size:15px}
 .stage p{margin:0}
 .row{display:flex;gap:var(--_gap);align-items:center;flex-wrap:wrap}
@@ -180,7 +179,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .specimen{display:flex;flex-direction:column;gap:4px}
 .spec-d{font-family:var(--ds-font-display);font-size:26px;font-weight:700;line-height:1.15}
 .spec-b{font-size:15px;color:var(--ds-text-2)}
-.spec-x{font-size:15px;line-height:1.65}
+.spec-x{font-size:15px;line-height:2.1}
 .spec-n{font-family:var(--_data);font-size:15px;font-variant-numeric:tabular-nums}
 
 .card{background:var(--ds-surface);border-radius:var(--ds-radius-box);border:var(--_border);
@@ -231,15 +230,18 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
     Tokens are approximations, not the author's values.</p>` : ''}
   ${notes.length ? `<ul class="notes">${notes.map(n => `<li>${n}</li>`).join('')}</ul>` : ''}
 </div>
-<div class="panels${hasDark ? '' : ' solo'}">
-  <section class="panel light"><b>Light</b>${stage(t, meta, false)}</section>
-  ${hasDark ? `<section class="panel dark"><b>Dark</b>${stage(t, meta, true)}</section>` : ''}
-</div>
+${stage(t, meta)}
+<p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>
 <script>
+  // Set before paint. data-mode must live on the root element or the --ds-*
+  // aliases keep their light values — see the note at the top of the generator.
   const q = new URLSearchParams(location.search)
-  const mode = q.get('mode')
-  if (mode === 'light' || mode === 'dark') document.documentElement.dataset.only = mode
-  if (q.get('chrome') === '0') document.documentElement.dataset.nochrome = ''
+  const root = document.documentElement
+  if (q.get('chrome') === '0') root.dataset.nochrome = ''
+  if (q.get('mode') === 'dark') {
+    if (${hasDark}) root.dataset.mode = 'dark'
+    else { root.dataset.nodark = ''; document.querySelector('.nodark').hidden = false }
+  }
 </script>
 </body>
 </html>

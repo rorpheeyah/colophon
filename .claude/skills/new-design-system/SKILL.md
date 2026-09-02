@@ -139,8 +139,11 @@ here than after it is on disk and indexed.
   references, exactly as confirmed in step 3. `none` where the system declines a concept.
 - No colour literal anywhere outside the tokens block. Components are described by token
   reference: "`--ds-button-bg` fill, `--ds-radius-control`", never a restated hex.
-- Open the body with the binding line: **Drop this file into a project as `CLAUDE.md`, or
-  reference it from one. Everything below is binding.**
+- Open the body with the install block described in `CLAUDE.md` — copy to
+  `.claude/design-system.md`, plus the `@`-import stanza for the project's own `CLAUDE.md`,
+  naming this system. Never tell the reader to overwrite a project's `CLAUDE.md`.
+- Close the **How to apply this file** section with the note on why the import is preferred
+  over the skill form.
 
 ## Step 6 — index
 

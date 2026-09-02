@@ -14,12 +14,19 @@
   --flag-bg: #fffbeb;
   --r:       6px;
 }
+/* Dark values live in one place and are applied twice: by preference when the
+   viewer has made no choice, and by [data-theme="dark"] when they have. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #131316; --panel: #1a1a1e; --edge: #2a2a30; --edge-2: #3a3a42;
     --fg: #ececf0; --fg-2: #a1a1aa; --fg-3: #71717a;
     --link: #93b4fd; --flag: #fcd34d; --flag-bg: #26210f;
   }
+}
+:root[data-theme="dark"] {
+  --bg: #131316; --panel: #1a1a1e; --edge: #2a2a30; --edge-2: #3a3a42;
+  --fg: #ececf0; --fg-2: #a1a1aa; --fg-3: #71717a;
+  --link: #93b4fd; --flag: #fcd34d; --flag-bg: #26210f;
 }
 
 * { box-sizing: border-box }
@@ -114,7 +121,19 @@ h1 { font-size: 24px; letter-spacing: -.02em; margin: 26px 0 4px }
 }
 .prov a { color: inherit }
 .frame { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; margin-bottom: 26px }
-.frame iframe { display: block; width: 100%; height: 720px; border: 0 }
+.pvpair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--edge) }
+.pvpair > div { background: var(--bg); min-width: 0 }
+.pvpair > div > b {
+  display: block; padding: 6px 12px; font: 600 10px/1 ui-sans-serif, system-ui;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--fg-3);
+  border-bottom: 1px solid var(--edge);
+}
+.pvpair iframe { display: block; width: 100%; height: 620px; border: 0 }
+.pvpair[data-show="light"], .pvpair[data-show="dark"] { grid-template-columns: 1fr }
+.pvpair[data-show="light"] .pv-dark, .pvpair[data-show="dark"] .pv-light { display: none }
+.pvpair[data-show="light"] > div > b, .pvpair[data-show="dark"] > div > b { display: none }
+@media (max-width: 900px) { .pvpair { grid-template-columns: 1fr } }
+.frame .fine { margin-left: auto; font-size: 11px; text-transform: none; letter-spacing: 0; color: var(--fg-3) }
 .frame > b {
   display: block; padding: 8px 13px; border-bottom: 1px solid var(--edge);
   background: var(--panel); font: 600 10px/1 ui-sans-serif, system-ui;
@@ -159,7 +178,7 @@ h1 { font-size: 24px; letter-spacing: -.02em; margin: 26px 0 4px }
             background: var(--panel); font-size: 14px }
 .cpair h2 a { color: inherit; text-decoration: none }
 .cpair h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: 12px }
-.cpair iframe { display: block; width: 100%; height: 900px; border: 0 }
+.cpair iframe { display: block; width: 100%; height: 620px; border: 0 }
 .crow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
 .crow section { border: 1px solid var(--edge); border-radius: var(--r); background: var(--panel); padding: 13px 15px }
 .crow h3 { margin: 0 0 8px; font-size: 13px }
@@ -168,3 +187,80 @@ h1 { font-size: 24px; letter-spacing: -.02em; margin: 26px 0 4px }
 
 footer { border-top: 1px solid var(--edge); margin-top: 46px; padding: 18px 0 34px;
          color: var(--fg-3); font-size: 12.5px }
+
+
+/* ── theme toggle ─────────────────────────────────────────────────────── */
+.theme {
+  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg-2);
+  border-radius: 999px; padding: 3px 11px; font: 500 12px/1.5 inherit; cursor: pointer;
+  min-width: 62px;
+}
+.theme:hover { color: var(--fg); border-color: var(--fg-3) }
+.theme span { display: none }
+.theme[data-state="system"] [data-t="system"],
+.theme[data-state="light"] [data-t="light"],
+.theme[data-state="dark"] [data-t="dark"] { display: inline }
+
+/* ── search ───────────────────────────────────────────────────────────── */
+.search { display: flex; flex-direction: column; gap: 5px }
+.search > span {
+  font: 600 10px/1 ui-sans-serif, system-ui; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--fg-3);
+}
+.search input {
+  font: 14px inherit; padding: 6px 10px; border-radius: var(--r);
+  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); min-width: 240px;
+}
+.search input:focus-visible { outline: 2px solid var(--link); outline-offset: 1px }
+.chip.clear { border-style: dashed }
+.summary { margin: 0; font-size: 13.5px; color: var(--fg-2); line-height: 1.45 }
+
+/* ── system page: sections nav + install ──────────────────────────────── */
+.cols { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 34px; align-items: start }
+@media (max-width: 900px) { .cols { grid-template-columns: 1fr } .toc { position: static !important } }
+.toc { position: sticky; top: 18px; display: flex; flex-direction: column; gap: 2px; font-size: 13px }
+.toc > span {
+  font: 600 10px/1 ui-sans-serif, system-ui; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--fg-3); margin: 14px 0 4px;
+}
+.toc > span:first-child { margin-top: 0 }
+.toc a { color: var(--fg-2); text-decoration: none; padding: 3px 0; border-left: 2px solid var(--edge); padding-left: 10px }
+.toc a:hover { color: var(--fg); border-color: var(--fg-3) }
+.doc { scroll-padding-top: 20px }
+.doc h2, .doc h3 { scroll-margin-top: 18px }
+
+.install {
+  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
+  padding: 16px 18px; margin: 0 0 30px;
+}
+.install h2 { margin: 0 0 10px; font-size: 16px }
+.install ol { margin: 0 0 12px; padding-left: 20px; color: var(--fg-2); font-size: 14px }
+.install li { margin: 3px 0 }
+.install pre {
+  background: var(--bg); border: 1px solid var(--edge); border-radius: var(--r);
+  padding: 12px 14px; overflow-x: auto; font-size: 12.5px; margin: 0 0 12px;
+}
+.install .actions { padding: 0 }
+.install .fine { margin: 12px 0 0; font-size: 12.5px; color: var(--fg-3); max-width: 68ch }
+.frame .fine { margin-left: auto; font-size: 11px; text-transform: none; letter-spacing: 0; color: var(--fg-3) }
+.frame > b { display: flex; align-items: center; gap: 10px }
+.frame .modes { display: flex; gap: 5px; margin-left: auto }
+
+/* ── alias tables ─────────────────────────────────────────────────────── */
+table.aliases { font-size: 12.5px; display: table; width: 100% }
+table.aliases td, table.aliases th { padding: 4px 9px; white-space: nowrap }
+table.aliases td:last-child { white-space: normal }
+.declined, table.aliases tr.declined td { color: var(--fg-3) }
+.cdiff { overflow-x: auto; margin-bottom: 30px }
+.cdiff table.aliases { border-collapse: collapse }
+.cdiff th, .cdiff td { border: 1px solid var(--edge); text-align: left }
+.cdiff th { background: var(--panel); font-weight: 600 }
+h2.crule { font-size: 17px; margin: 30px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--edge) }
+.crow ul { list-style: none; padding: 0 }
+.crow li { margin: 3px 0 }
+.crow b {
+  display: inline-block; min-width: 74px; color: var(--fg-3); font-weight: 600;
+  font-size: 11px; letter-spacing: .05em; text-transform: uppercase;
+}
+.head h1 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: 16px }
+.head .lede { margin: 8px 0 0; font-size: 14px }

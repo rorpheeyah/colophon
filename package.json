@@ -4,9 +4,14 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-previews.mjs && node scripts/build-site.mjs",
-    "check": "node scripts/validate.mjs"
+    "check": "node scripts/validate.mjs",
+    "dev": "node scripts/serve.mjs"
   },
   "devDependencies": {
     "marked": "18.0.11"
+  },
+  "packageManager": "pnpm@11.24.0",
+  "engines": {
+    "node": ">=22"
   }
 }

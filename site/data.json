@@ -22,7 +22,9 @@
       "marketing pages",
       "editorial layouts"
     ],
-    "added": "2026-09-02"
+    "added": "2026-09-02",
+    "summary": "A design system for retail and operational software. One primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. Built for dense, bilingual, decision-oriented screens.",
+    "hasDark": true
   },
   {
     "slug": "newsprint",
@@ -48,7 +50,9 @@
       "dense operational dashboards",
       "touch-first mobile interfaces"
     ],
-    "added": "2026-09-02"
+    "added": "2026-09-02",
+    "summary": "An editorial, print-inspired system with first-class Khmer and Latin support. Intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed.",
+    "hasDark": true
   },
   {
     "slug": "pharmly",
@@ -74,6 +78,8 @@
     ],
     "credit": "Pharmly — Pharmacy Management Admin Dashboard UI Design, published on Behance. Author credit to be filled in from the project page.",
     "sourceUrl": "https://www.behance.net/",
-    "added": "2026-09-02"
+    "added": "2026-09-02",
+    "summary": "A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.",
+    "hasDark": false
   }
 ]

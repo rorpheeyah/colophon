@@ -5,24 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>colophon — design system library</title>
 <link rel="stylesheet" href="assets/style.css">
+<script>
+  // Runs before paint so a chosen theme never flashes the other one.
+  try {
+    const t = localStorage.getItem('colophon-theme');
+    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+  } catch {}
+</script>
 </head>
 <body>
 <div class="top"><div class="wrap">
   <b>colophon</b>
-  <nav>
-    <a href="index.html" aria-current="page">Library</a>
-    <a href="compare.html">Compare</a>
-  </nav>
+  <nav><a href="index.html" aria-current="page">Library</a><a href="compare.html">Compare</a><a href="about.html">About</a></nav>
+  <button class="theme" id="theme" title="Theme: system" aria-label="Change theme">
+    <span data-t="system">Auto</span><span data-t="light">Light</span><span data-t="dark">Dark</span>
+  </button>
 </div></div>
 
 <div class="wrap">
   <h1>Library</h1>
-  <p class="lede">Each system is one markdown file. Pick one, drop it into a project as
-  <code>CLAUDE.md</code> or reference it from one, and development follows that system.</p>
+  <p class="lede">Each system is one markdown file. Pick one, install it into a project, and
+  AI-assisted development follows that system.</p>
+
   <div class="filters">
-    <div class="fgroup"><span>register</span><button class="chip" data-k="register" data-v="editorial" aria-pressed="false">editorial</button><button class="chip" data-k="register" data-v="utility" aria-pressed="false">utility</button></div><div class="fgroup"><span>density</span><button class="chip" data-k="density" data-v="comfortable" aria-pressed="false">comfortable</button><button class="chip" data-k="density" data-v="compact" aria-pressed="false">compact</button><button class="chip" data-k="density" data-v="spacious" aria-pressed="false">spacious</button></div><div class="fgroup"><span>origin</span><button class="chip" data-k="origin" data-v="own" aria-pressed="false">own</button><button class="chip" data-k="origin" data-v="reference" aria-pressed="false">reference</button></div><div class="fgroup"><span>status</span><button class="chip" data-k="status" data-v="active" aria-pressed="false">active</button><button class="chip" data-k="status" data-v="draft" aria-pressed="false">draft</button></div><div class="fgroup"><span>scripts</span><button class="chip" data-k="scripts" data-v="khmer" aria-pressed="false">khmer</button><button class="chip" data-k="scripts" data-v="latin" aria-pressed="false">latin</button></div>
+    <label class="search">
+      <span>Search</span>
+      <input id="q" type="search" placeholder="POS, long-form reading, khmer…" autocomplete="off">
+    </label>
+    <div class="fgroup">
+  <span>register</span>
+  <button class="chip" data-k="register" data-v="editorial" aria-pressed="false">editorial</button><button class="chip" data-k="register" data-v="utility" aria-pressed="false">utility</button>
+</div><div class="fgroup">
+  <span>density</span>
+  <button class="chip" data-k="density" data-v="comfortable" aria-pressed="false">comfortable</button><button class="chip" data-k="density" data-v="compact" aria-pressed="false">compact</button><button class="chip" data-k="density" data-v="spacious" aria-pressed="false">spacious</button>
+</div><div class="fgroup">
+  <span>origin</span>
+  <button class="chip" data-k="origin" data-v="own" aria-pressed="false">own</button><button class="chip" data-k="origin" data-v="reference" aria-pressed="false">reference</button>
+</div><div class="fgroup">
+  <span>status</span>
+  <button class="chip" data-k="status" data-v="active" aria-pressed="false">active</button><button class="chip" data-k="status" data-v="draft" aria-pressed="false">draft</button>
+</div>
+    <div class="fgroup">
+  <span>scripts</span>
+  <button class="chip" data-k="scripts" data-v="khmer" aria-pressed="false">khmer</button><button class="chip" data-k="scripts" data-v="latin" aria-pressed="false">latin</button>
+</div>
     <span class="count" id="count"></span>
+    <button class="chip clear" id="clear" hidden>Clear</button>
   </div>
+
   <div class="grid" id="grid">
 <article class="card" data-slug="lozenge">
   <a class="thumb" href="s/lozenge/index.html" aria-label="Open Lozenge">
@@ -38,6 +68,7 @@
   
   
 </div>
+    <p class="summary">A design system for retail and operational software. One primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. Built for dense, bilingual, decision-oriented screens.</p>
     <p class="for"><b>Best for</b> dense data tables, retail and POS interfaces, inventory and status screens</p>
     <p class="for"><b>Avoid for</b> long-form reading, marketing pages</p>
     <div class="actions">
@@ -60,6 +91,7 @@
   
   <span class="tag ref">draft</span>
 </div>
+    <p class="summary">An editorial, print-inspired system with first-class Khmer and Latin support. Intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed.</p>
     <p class="for"><b>Best for</b> long-form reading, documentation, reports and printed output</p>
     <p class="for"><b>Avoid for</b> high-speed data entry, dense operational dashboards</p>
     <div class="actions">
@@ -82,6 +114,7 @@
   <span class="tag ref">reference</span>
   
 </div>
+    <p class="summary">A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.</p>
     <p class="for"><b>Best for</b> admin dashboards, list-and-detail CRUD interfaces, portfolio presentation</p>
     <p class="for"><b>Avoid for</b> point of sale, high-density catalogues</p>
     <div class="actions">
@@ -93,22 +126,28 @@
   <p class="empty" id="empty" hidden>No system matches those filters.</p>
 </div>
 <script>
-  const data = [{"slug":"lozenge","register":"utility","density":"compact","origin":"own","status":"active","scripts":["latin","khmer"]},{"slug":"newsprint","register":"editorial","density":"comfortable","origin":"own","status":"draft","scripts":["latin","khmer"]},{"slug":"pharmly","register":"utility","density":"spacious","origin":"reference","status":"active","scripts":["latin"]}];
+  const data = [{"slug":"lozenge","register":"utility","density":"compact","origin":"own","status":"active","scripts":["latin","khmer"],"text":"lozenge utility compact a design system for retail and operational software. one primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. built for dense, bilingual, decision-oriented screens. latin khmer dense data tables retail and pos interfaces inventory and status screens bilingual products long-form reading marketing pages editorial layouts"},{"slug":"newsprint","register":"editorial","density":"comfortable","origin":"own","status":"draft","scripts":["latin","khmer"],"text":"newsprint editorial comfortable an editorial, print-inspired system with first-class khmer and latin support. intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed. latin khmer long-form reading documentation reports and printed output bilingual editorial layouts ruled data tables high-speed data entry dense operational dashboards touch-first mobile interfaces"},{"slug":"pharmly","register":"utility","density":"spacious","origin":"reference","status":"active","scripts":["latin"],"text":"pharmly utility spacious a pharmacy admin dashboard concept. included because it does three things unusually well and gets three things visibly wrong, and both halves are useful. latin admin dashboards list-and-detail crud interfaces portfolio presentation point of sale high-density catalogues non-latin scripts anything requiring speed at a counter"}];
   const on = {};
   const cards = new Map([...document.querySelectorAll('.card')].map(c => [c.dataset.slug, c]));
+  const q = document.getElementById('q');
 
   function apply() {
+    const term = q.value.trim().toLowerCase();
     let shown = 0;
     for (const s of data) {
-      const ok = Object.entries(on).every(([k, vals]) =>
-        !vals.length || (Array.isArray(s[k]) ? s[k].some(v => vals.includes(v)) : vals.includes(s[k])));
+      const chips = Object.entries(on).every(([k, vals]) => !vals.length ||
+        (Array.isArray(s[k]) ? s[k].some(v => vals.includes(v)) : vals.includes(s[k])));
+      const ok = chips && (!term || s.text.includes(term));
       cards.get(s.slug).hidden = !ok;
       if (ok) shown++;
     }
+    const active = term || Object.values(on).some(v => v.length);
     document.getElementById('count').textContent = shown + ' of ' + data.length;
     document.getElementById('empty').hidden = shown > 0;
+    document.getElementById('clear').hidden = !active;
   }
-  for (const chip of document.querySelectorAll('.chip')) {
+
+  for (const chip of document.querySelectorAll('.chip[data-k]')) {
     chip.addEventListener('click', () => {
       const { k, v } = chip.dataset;
       on[k] ??= [];
@@ -118,8 +157,36 @@
       apply();
     });
   }
+  q.addEventListener('input', apply);
+  document.getElementById('clear').addEventListener('click', () => {
+    q.value = '';
+    for (const k in on) on[k] = [];
+    document.querySelectorAll('.chip[data-k]').forEach(c => c.setAttribute('aria-pressed', 'false'));
+    apply();
+  });
   apply();
 </script>
 <footer><div class="wrap">Design systems as drop-in markdown. Generated from the repo — the file is the product.</div></footer>
+<script>
+  // Three states: system (no attribute), light, dark. The site chrome only —
+  // a preview's own light and dark come from its tokens block, not from here.
+  (() => {
+    const order = ['system', 'light', 'dark'];
+    const btn = document.getElementById('theme');
+    const read = () => { try { return localStorage.getItem('colophon-theme') || 'system'; } catch { return 'system'; } };
+    function show(t) {
+      if (t === 'system') delete document.documentElement.dataset.theme;
+      else document.documentElement.dataset.theme = t;
+      btn.dataset.state = t;
+      btn.title = 'Theme: ' + t;
+    }
+    show(read());
+    btn.addEventListener('click', () => {
+      const next = order[(order.indexOf(read()) + 1) % order.length];
+      try { localStorage.setItem('colophon-theme', next); } catch {}
+      show(next);
+    });
+  })();
+</script>
 </body>
 </html>

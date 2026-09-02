@@ -12,7 +12,17 @@ avoid-for: [high-speed data entry, dense operational dashboards, touch-first mob
 
 # Newsprint
 
-**Drop this file into a project as `CLAUDE.md`, or reference it from one. Everything below is binding.**
+**Install:** copy this file into the target project as `.claude/design-system.md`, then add
+this to that project's own `CLAUDE.md`:
+
+```md
+## Design system
+
+This project follows Newsprint. The rules in @.claude/design-system.md are
+binding for all UI work. Where a rule and your instinct disagree, the rule wins.
+```
+
+Everything below is binding.
 
 > **Token values below are stand-ins, which is why this system is `status: draft`.** Replace the `css` block with the real `tokens.css`, then flip the status to `active`. Everything else — the rules, the type roles, the prohibitions — is accurate as written.
 >
@@ -28,6 +38,12 @@ Follow the rules literally. Where a rule and your instinct disagree, the rule wi
 
 When something isn't covered here, choose the option most consistent with the rules that are — and prefer removing the element over inventing a new token for it. Do not introduce colours, shadows, type families, or decorative details this file does not define.
 
+
+**On installing this file.** Prefer the `@`-import above over pasting these rules into a
+project's `CLAUDE.md`: the import keeps the system in context for every turn without displacing
+the project's own rules, and updating the system later is a one-file copy. Installing instead as
+`.claude/skills/design-system/SKILL.md` costs less context but is not guaranteed to load on any
+given edit, which is how a system quietly stops being followed.
 ---
 
 ## 1. The core idea
@@ -110,6 +126,10 @@ Two consequences that explain most of what follows:
 ```
 
 Dark mode is required, not optional. Every surface must work in both.
+
+Set `data-mode="dark"` on the **root element**. Scoped to a wrapper it will not work: a
+`var()` inside a custom property resolves where the property is declared, so the `--ds-*`
+aliases would keep their light values.
 
 ### Colour rules
 
