@@ -55,11 +55,27 @@ systems/
     preview.html                 generated, committed
     assets/                      optional, text only
 scripts/
+  lib.mjs                        shared parsing, so the two scripts cannot drift
   build-previews.mjs             tokens block -> preview.html
+  build-site.mjs                 system files -> site/
   validate.mjs                   format contract enforcement
-site/                            static browse UI
+site/
+  assets/style.css               hand-written source
+  index.html  compare.html       generated
+  s/<slug>/                      generated: page, preview copy, .md copy
+  data.json                      generated from frontmatter
 index.json                       append-only ledger
 ```
+
+```
+npm run build     previews, then the site
+npm run check     validate; fails on a stale preview or a stale site
+```
+
+One dependency: `marked`, build-time only, for rendering a system file to HTML on
+the system page. It pulls in nothing else. Hand-rolling GFM tables and fenced blocks
+would be more code than the rest of the repo and a rendering bug would silently
+corrupt the product. Nothing else may be added without the same justification.
 
 `index.json` records only what never changes: `slug`, `path`, `origin`, `added`. Everything
 mutable — version, status, register, density, filters — is read from frontmatter at build time

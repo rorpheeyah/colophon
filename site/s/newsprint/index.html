@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Newsprint — colophon</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <b>colophon</b>
+  <nav>
+    <a href="../../index.html">Library</a>
+    <a href="../../compare.html">Compare</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Newsprint <em style="font-style:normal;font-weight:400;color:var(--fg-3)">1.0</em></h1>
+      <div class="meta">
+  <span class="tag">editorial</span>
+  <span class="tag">comfortable</span>
+  <span class="tag">latin</span><span class="tag">khmer</span>
+  
+  <span class="tag ref">draft</span>
+</div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy">Copy file</button>
+      <a class="btn" href="newsprint.md" download>Download .md</a>
+    </div>
+  </div>
+  
+  <div class="frame">
+    <b>Generated preview — light and dark</b>
+    <iframe src="preview.html?chrome=0" title="Newsprint preview" loading="lazy"></iframe>
+  </div>
+  <div class="doc"><p><strong>Drop this file into a project as <code>CLAUDE.md</code>, or reference it from one. Everything below is binding.</strong></p>
+<blockquote>
+<p><strong>Token values below are stand-ins, which is why this system is <code>status: draft</code>.</strong> Replace the <code>css</code> block with the real <code>tokens.css</code>, then flip the status to <code>active</code>. Everything else — the rules, the type roles, the prohibitions — is accurate as written.</p>
+<p>This system specifies no spacing step, so <code>--ds-gap</code> and <code>--ds-pad</code> are declined. The preview spaces it from <code>density: comfortable</code> rather than inventing a value the system never stated.</p>
+</blockquote>
+<p>An editorial, print-inspired system with first-class Khmer and Latin support. Intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed.</p>
+<hr>
+<h2>How to apply this file</h2>
+<p>Follow the rules literally. Where a rule and your instinct disagree, the rule wins.</p>
+<p>When something isn&#39;t covered here, choose the option most consistent with the rules that are — and prefer removing the element over inventing a new token for it. Do not introduce colours, shadows, type families, or decorative details this file does not define.</p>
+<hr>
+<h2>1. The core idea</h2>
+<p>The page is a printed page. Structure is carried by <strong>rules and column alignment</strong>, not by cards, fills, or elevation. Where a screen design would reach for a container, this system reaches for a hairline and a shared baseline.</p>
+<p>Two consequences that explain most of what follows:</p>
+<ul>
+<li><strong>Depth is not a spatial metaphor here.</strong> The single shadow in the system is a zero-blur offset — a printer&#39;s registration mark, not a drop shadow. It means <em>pressable</em>, and nothing else.</li>
+<li><strong>Print is not an export target, it is the native register.</strong> Receipts, reports, and checklists inherit the screen rules directly, at 58mm and A5.</li>
+</ul>
+<hr>
+<h2>2. Tokens</h2>
+<pre><code class="language-css">:root {
+  --paper:   #F5F4F0;
+  --stock:   #FFFFFF;
+  --ink:     #1A1A18;
+  --ink-2:   #55534C;
+  --ink-3:   #8C8A80;
+  --rule:    #D6D4CC;
+  --rule-2:  #B6B3A8;
+  --teal:    #10786B;
+  --mark:    #B07A08;
+  --flag:    #A32D22;
+
+  --offset:  3px;
+  --radius:  2px;
+
+
+  --display: &quot;Archivo&quot;, system-ui, sans-serif;
+  --body:    &quot;Kantumruy Pro&quot;, system-ui, sans-serif;
+  --data:    &quot;JetBrains Mono&quot;, ui-monospace, monospace;
+
+  --ds-bg:             var(--paper);
+  --ds-surface:        var(--stock);
+  --ds-text:           var(--ink);
+  --ds-text-2:         var(--ink-2);
+  --ds-text-3:         var(--ink-3);
+  --ds-line:           var(--rule);
+  --ds-accent:         var(--ink);
+  --ds-radius-box:     var(--radius);
+  --ds-radius-control: var(--radius);
+  --ds-border-width:   1px;
+  --ds-border-color:   var(--ink);
+  --ds-shadow:         var(--offset) var(--offset) 0 var(--ink);
+  --ds-button-bg:      var(--stock);
+  --ds-button-text:    var(--ink);
+  --ds-font-display:   var(--display);
+  --ds-font-body:      var(--body);
+  --ds-font-data:      var(--data);
+  --ds-gap:            none;
+  --ds-pad:            none;
+  --ds-success:        var(--teal);
+  --ds-success-wash:   none;
+  --ds-warn:           var(--mark);
+  --ds-warn-wash:      none;
+  --ds-alarm:          var(--flag);
+  --ds-alarm-wash:     none;
+  --ds-invert-bg:      none;
+  --ds-invert-text:    none;
+  --ds-invert-accent:  none;
+  --ds-hatch:          none;
+}
+
+[data-mode=&quot;dark&quot;] {
+  --paper:   #16171A;
+  --stock:   #1D1F22;
+  --ink:     #EDEBE4;
+  --ink-2:   #A9A69C;
+  --ink-3:   #77746B;
+  --rule:    #2F3237;
+  --rule-2:  #454951;
+  --teal:    #4FBFAE;
+  --mark:    #D7A63F;
+  --flag:    #E08072;
+}
+</code></pre>
+<p>Dark mode is required, not optional. Every surface must work in both.</p>
+<h3>Colour rules</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>ink</code></td>
+<td>All text, all rules, the offset shadow</td>
+</tr>
+<tr>
+<td><code>teal</code></td>
+<td><strong>The positive pole.</strong> Healthy, resolved, correct</td>
+</tr>
+<tr>
+<td><code>mark</code></td>
+<td>Needs attention soon</td>
+</tr>
+<tr>
+<td><code>flag</code></td>
+<td>Needs attention now, or an error</td>
+</tr>
+<tr>
+<td><code>rule</code> / <code>rule-2</code></td>
+<td>Hairlines. <code>rule-2</code> for structural divisions, <code>rule</code> for rows</td>
+</tr>
+</tbody></table>
+<p>Three semantic states — positive, attention, alarm. Enough to be read without a legend. Do not add a fourth.</p>
+<hr>
+<h2>3. Type</h2>
+<p>Three families — <code>display</code>, <code>body</code>, <code>data</code> — each with a fixed job. Never substitute one for another&#39;s role.</p>
+<table>
+<thead>
+<tr>
+<th>Family</th>
+<th>Carries</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Archivo</strong></td>
+<td>Masthead, section headings, component titles. Display only — never body text</td>
+</tr>
+<tr>
+<td><strong>Kantumruy Pro</strong></td>
+<td>All body text, in <strong>both</strong> Khmer and Latin, at one optical weight</td>
+</tr>
+<tr>
+<td><strong>JetBrains Mono</strong></td>
+<td>Every figure — prices, quantities, dates, IDs, batch numbers — and small tracked-uppercase labels</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Family</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Tracking</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Masthead</td>
+<td>display</td>
+<td>42px</td>
+<td>800</td>
+<td>−0.03em</td>
+</tr>
+<tr>
+<td>Section head</td>
+<td>display</td>
+<td>15px</td>
+<td>700</td>
+<td>+0.01em</td>
+</tr>
+<tr>
+<td>Body</td>
+<td>body</td>
+<td>15px</td>
+<td>400</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Secondary</td>
+<td>body</td>
+<td>13px</td>
+<td>400</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Figure, large</td>
+<td>data</td>
+<td>26–30px</td>
+<td>700</td>
+<td>−0.04em</td>
+</tr>
+<tr>
+<td>Figure, inline</td>
+<td>data</td>
+<td>14px</td>
+<td>500</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Label</td>
+<td>data</td>
+<td>10–11px</td>
+<td>500</td>
+<td>+0.08em, uppercase</td>
+</tr>
+</tbody></table>
+<p><strong>Mono is not decoration.</strong> It exists so that every figure in a table right-aligns into one vertical spine down the page. That spine is what makes a ruled table scannable, and it is the reason a third family is justified at all.</p>
+<p>Uppercase is permitted <strong>only</strong> on mono labels and column heads. Everything else is sentence case.</p>
+<h3>Bilingual conventions</h3>
+<p>Kantumruy Pro sets Khmer and Latin at one optical weight, so a mixed row keeps even colour without per-script overrides. Raise line-height roughly 0.15 above the Latin value on any block that may contain Khmer — which is most of them.</p>
+<ul>
+<li><strong>Fully Khmer interface:</strong> Khmer label, Khmer value, no Latin fallback in the label.</li>
+<li><strong>Mixed interface:</strong> Latin label, value in whichever script the data is in. Never translate a product or person&#39;s name to match the label.</li>
+</ul>
+<hr>
+<h2>4. Structure</h2>
+<p><strong>Rules, not cards.</strong> A hairline and a shared column edge carry the structure. Do not wrap content in filled containers to group it.</p>
+<p><strong>One <code>ink</code> rule per structural division</strong>, <code>rule</code> hairlines between rows, <code>rule-2</code> between columns and sections. A container gets a 1px <code>ink</code> border; it never gets a fill to distinguish it from the page.</p>
+<p><strong>Column alignment is the layout.</strong> Figures right-align, labels left-align, and the alignment holds down the whole page. Breaking alignment for one row breaks the system.</p>
+<p><code>--radius: 2px</code> — effectively square. This is a print system; nothing here is a pill.</p>
+<hr>
+<h2>5. Depth — the offset shadow</h2>
+<pre><code class="language-css">box-shadow: var(--offset) var(--offset) 0 var(--ink);
+</code></pre>
+<p>Zero blur, 3px, <code>ink</code>. This is the entire interaction language of the system.</p>
+<ul>
+<li>Applied <strong>only to controls</strong> — buttons, and at most one hero block per page.</li>
+<li><strong>Never</strong> on containers, cards, tables, headers, or navigation.</li>
+<li>On press: <code>transform: translate(3px, 3px)</code> and drop the shadow to zero, so the element lands flush.</li>
+</ul>
+<p>If a shadow appears on something that cannot be pressed, it is wrong.</p>
+<hr>
+<h2>6. The deckle</h2>
+<p>A torn-paper edge, rendered as an SVG path, is the system&#39;s single signature detail.</p>
+<p><strong>It appears exactly once per surface</strong> — beneath the masthead, or on printed output. Used twice it stops being a signature and becomes a texture. There is no second decorative element in this system, and none should be added.</p>
+<hr>
+<h2>7. Components</h2>
+<p><strong>Button</strong> — 2px radius, 1px <code>ink</code> border, <code>stock</code> fill, offset shadow. Press translates and flattens.</p>
+<p><strong>Table</strong> — column heads in mono, tracked uppercase, on <code>paper</code>. Rows separated by 1px <code>rule</code>. Figures right-aligned in mono. No zebra striping, no row fills, no hover fill.</p>
+<p><strong>Group header</strong> — Archivo title, a mono count in a 1px bordered box, and exactly one underlined text action on the right. Nothing else.</p>
+<p><strong>Status label</strong> — mono, 11px, tracked, in <code>teal</code> / <code>mark</code> / <code>flag</code>, with a 1px border of the same colour. Not a filled pill.</p>
+<p><strong>Print surfaces</strong> — receipt, checklist, report — inherit these rules unchanged at 58mm and A5. Design them last; if they need special rules, the screen rules were wrong.</p>
+<hr>
+<h2>8. Motion</h2>
+<p>One moment per surface, tied to a user action that changed data, plus the press state on controls. Nothing ambient, nothing on load. Wrap in <code>@media (prefers-reduced-motion: no-preference)</code>.</p>
+<hr>
+<h2>9. Never</h2>
+<ul>
+<li>A blurred, soft, or coloured shadow of any kind</li>
+<li>The offset shadow on anything that cannot be pressed</li>
+<li>The deckle more than once per surface</li>
+<li>A second decorative detail</li>
+<li>Archivo in body text, or Kantumruy Pro carrying figures</li>
+<li>Filled cards or pills used to group content</li>
+<li>A radius above 2px</li>
+<li>A fourth semantic colour</li>
+<li>Uppercase outside mono labels and column heads</li>
+<li>Print treated as an afterthought</li>
+</ul>
+</div>
+</div>
+<script id="src" type="application/json">"\n**Drop this file into a project as `CLAUDE.md`, or reference it from one. Everything below is binding.**\n\n> **Token values below are stand-ins, which is why this system is `status: draft`.** Replace the `css` block with the real `tokens.css`, then flip the status to `active`. Everything else — the rules, the type roles, the prohibitions — is accurate as written.\n>\n> This system specifies no spacing step, so `--ds-gap` and `--ds-pad` are declined. The preview spaces it from `density: comfortable` rather than inventing a value the system never stated.\n\nAn editorial, print-inspired system with first-class Khmer and Latin support. Intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed.\n\n---\n\n## How to apply this file\n\nFollow the rules literally. Where a rule and your instinct disagree, the rule wins.\n\nWhen something isn't covered here, choose the option most consistent with the rules that are — and prefer removing the element over inventing a new token for it. Do not introduce colours, shadows, type families, or decorative details this file does not define.\n\n---\n\n## 1. The core idea\n\nThe page is a printed page. Structure is carried by **rules and column alignment**, not by cards, fills, or elevation. Where a screen design would reach for a container, this system reaches for a hairline and a shared baseline.\n\nTwo consequences that explain most of what follows:\n\n- **Depth is not a spatial metaphor here.** The single shadow in the system is a zero-blur offset — a printer's registration mark, not a drop shadow. It means *pressable*, and nothing else.\n- **Print is not an export target, it is the native register.** Receipts, reports, and checklists inherit the screen rules directly, at 58mm and A5.\n\n---\n\n## 2. Tokens\n\n```css\n:root {\n  --paper:   #F5F4F0;\n  --stock:   #FFFFFF;\n  --ink:     #1A1A18;\n  --ink-2:   #55534C;\n  --ink-3:   #8C8A80;\n  --rule:    #D6D4CC;\n  --rule-2:  #B6B3A8;\n  --teal:    #10786B;\n  --mark:    #B07A08;\n  --flag:    #A32D22;\n\n  --offset:  3px;\n  --radius:  2px;\n\n\n  --display: \"Archivo\", system-ui, sans-serif;\n  --body:    \"Kantumruy Pro\", system-ui, sans-serif;\n  --data:    \"JetBrains Mono\", ui-monospace, monospace;\n\n  --ds-bg:             var(--paper);\n  --ds-surface:        var(--stock);\n  --ds-text:           var(--ink);\n  --ds-text-2:         var(--ink-2);\n  --ds-text-3:         var(--ink-3);\n  --ds-line:           var(--rule);\n  --ds-accent:         var(--ink);\n  --ds-radius-box:     var(--radius);\n  --ds-radius-control: var(--radius);\n  --ds-border-width:   1px;\n  --ds-border-color:   var(--ink);\n  --ds-shadow:         var(--offset) var(--offset) 0 var(--ink);\n  --ds-button-bg:      var(--stock);\n  --ds-button-text:    var(--ink);\n  --ds-font-display:   var(--display);\n  --ds-font-body:      var(--body);\n  --ds-font-data:      var(--data);\n  --ds-gap:            none;\n  --ds-pad:            none;\n  --ds-success:        var(--teal);\n  --ds-success-wash:   none;\n  --ds-warn:           var(--mark);\n  --ds-warn-wash:      none;\n  --ds-alarm:          var(--flag);\n  --ds-alarm-wash:     none;\n  --ds-invert-bg:      none;\n  --ds-invert-text:    none;\n  --ds-invert-accent:  none;\n  --ds-hatch:          none;\n}\n\n[data-mode=\"dark\"] {\n  --paper:   #16171A;\n  --stock:   #1D1F22;\n  --ink:     #EDEBE4;\n  --ink-2:   #A9A69C;\n  --ink-3:   #77746B;\n  --rule:    #2F3237;\n  --rule-2:  #454951;\n  --teal:    #4FBFAE;\n  --mark:    #D7A63F;\n  --flag:    #E08072;\n}\n```\n\nDark mode is required, not optional. Every surface must work in both.\n\n### Colour rules\n\n| Token | Means |\n|---|---|\n| `ink` | All text, all rules, the offset shadow |\n| `teal` | **The positive pole.** Healthy, resolved, correct |\n| `mark` | Needs attention soon |\n| `flag` | Needs attention now, or an error |\n| `rule` / `rule-2` | Hairlines. `rule-2` for structural divisions, `rule` for rows |\n\nThree semantic states — positive, attention, alarm. Enough to be read without a legend. Do not add a fourth.\n\n---\n\n## 3. Type\n\nThree families — `display`, `body`, `data` — each with a fixed job. Never substitute one for another's role.\n\n| Family | Carries |\n|---|---|\n| **Archivo** | Masthead, section headings, component titles. Display only — never body text |\n| **Kantumruy Pro** | All body text, in **both** Khmer and Latin, at one optical weight |\n| **JetBrains Mono** | Every figure — prices, quantities, dates, IDs, batch numbers — and small tracked-uppercase labels |\n\n| Role | Family | Size | Weight | Tracking |\n|---|---|---|---|---|\n| Masthead | display | 42px | 800 | −0.03em |\n| Section head | display | 15px | 700 | +0.01em |\n| Body | body | 15px | 400 | 0 |\n| Secondary | body | 13px | 400 | 0 |\n| Figure, large | data | 26–30px | 700 | −0.04em |\n| Figure, inline | data | 14px | 500 | 0 |\n| Label | data | 10–11px | 500 | +0.08em, uppercase |\n\n**Mono is not decoration.** It exists so that every figure in a table right-aligns into one vertical spine down the page. That spine is what makes a ruled table scannable, and it is the reason a third family is justified at all.\n\nUppercase is permitted **only** on mono labels and column heads. Everything else is sentence case.\n\n### Bilingual conventions\n\nKantumruy Pro sets Khmer and Latin at one optical weight, so a mixed row keeps even colour without per-script overrides. Raise line-height roughly 0.15 above the Latin value on any block that may contain Khmer — which is most of them.\n\n- **Fully Khmer interface:** Khmer label, Khmer value, no Latin fallback in the label.\n- **Mixed interface:** Latin label, value in whichever script the data is in. Never translate a product or person's name to match the label.\n\n---\n\n## 4. Structure\n\n**Rules, not cards.** A hairline and a shared column edge carry the structure. Do not wrap content in filled containers to group it.\n\n**One `ink` rule per structural division**, `rule` hairlines between rows, `rule-2` between columns and sections. A container gets a 1px `ink` border; it never gets a fill to distinguish it from the page.\n\n**Column alignment is the layout.** Figures right-align, labels left-align, and the alignment holds down the whole page. Breaking alignment for one row breaks the system.\n\n`--radius: 2px` — effectively square. This is a print system; nothing here is a pill.\n\n---\n\n## 5. Depth — the offset shadow\n\n```css\nbox-shadow: var(--offset) var(--offset) 0 var(--ink);\n```\n\nZero blur, 3px, `ink`. This is the entire interaction language of the system.\n\n- Applied **only to controls** — buttons, and at most one hero block per page.\n- **Never** on containers, cards, tables, headers, or navigation.\n- On press: `transform: translate(3px, 3px)` and drop the shadow to zero, so the element lands flush.\n\nIf a shadow appears on something that cannot be pressed, it is wrong.\n\n---\n\n## 6. The deckle\n\nA torn-paper edge, rendered as an SVG path, is the system's single signature detail.\n\n**It appears exactly once per surface** — beneath the masthead, or on printed output. Used twice it stops being a signature and becomes a texture. There is no second decorative element in this system, and none should be added.\n\n---\n\n## 7. Components\n\n**Button** — 2px radius, 1px `ink` border, `stock` fill, offset shadow. Press translates and flattens.\n\n**Table** — column heads in mono, tracked uppercase, on `paper`. Rows separated by 1px `rule`. Figures right-aligned in mono. No zebra striping, no row fills, no hover fill.\n\n**Group header** — Archivo title, a mono count in a 1px bordered box, and exactly one underlined text action on the right. Nothing else.\n\n**Status label** — mono, 11px, tracked, in `teal` / `mark` / `flag`, with a 1px border of the same colour. Not a filled pill.\n\n**Print surfaces** — receipt, checklist, report — inherit these rules unchanged at 58mm and A5. Design them last; if they need special rules, the screen rules were wrong.\n\n---\n\n## 8. Motion\n\nOne moment per surface, tied to a user action that changed data, plus the press state on controls. Nothing ambient, nothing on load. Wrap in `@media (prefers-reduced-motion: no-preference)`.\n\n---\n\n## 9. Never\n\n- A blurred, soft, or coloured shadow of any kind\n- The offset shadow on anything that cannot be pressed\n- The deckle more than once per surface\n- A second decorative detail\n- Archivo in body text, or Kantumruy Pro carrying figures\n- Filled cards or pills used to group content\n- A radius above 2px\n- A fourth semantic colour\n- Uppercase outside mono labels and column heads\n- Print treated as an afterthought\n"</script>
+<script>
+  const raw = JSON.parse(document.getElementById('src').textContent);
+  const btn = document.getElementById('copy');
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(raw);
+      btn.textContent = 'Copied';
+    } catch {
+      btn.textContent = 'Copy failed — use Download';
+    }
+    setTimeout(() => { btn.textContent = 'Copy file'; }, 2200);
+  });
+</script>
+<footer><div class="wrap">Design systems as drop-in markdown. Generated from the repo — the file is the product.</div></footer>
+</body>
+</html>

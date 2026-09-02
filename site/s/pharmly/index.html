@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pharmly — colophon</title>
+<link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <b>colophon</b>
+  <nav>
+    <a href="../../index.html">Library</a>
+    <a href="../../compare.html">Compare</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Pharmly <em style="font-style:normal;font-weight:400;color:var(--fg-3)">1.0</em></h1>
+      <div class="meta">
+  <span class="tag">utility</span>
+  <span class="tag">spacious</span>
+  <span class="tag">latin</span>
+  <span class="tag ref">reference</span>
+  
+</div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy">Copy file</button>
+      <a class="btn" href="pharmly.md" download>Download .md</a>
+    </div>
+  </div>
+  <p class="prov">
+    <strong>Reference record.</strong> This is a reading of someone else's public work, not an
+    original system and not a claim of authorship. Pharmly — Pharmacy Management Admin Dashboard UI Design, published on Behance. Author credit to be filled in from the project page.
+    <a href="https://www.behance.net/">Source</a>.
+    Token values are approximations, not the author's own.</p>
+  <div class="frame">
+    <b>Generated preview — light and dark</b>
+    <iframe src="preview.html?chrome=0" title="Pharmly preview" loading="lazy"></iframe>
+  </div>
+  <div class="doc"><blockquote>
+<p><strong>This is my reading of someone else&#39;s public work, not my design.</strong> Tokens below are extracted by eye from published screenshots and are approximations, not the original author&#39;s values. No assets are reproduced. Credit and source above; fill in the author&#39;s name before publishing this entry.</p>
+</blockquote>
+<p>A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.</p>
+<hr>
+<h2>How to apply this file</h2>
+<p><strong>Don&#39;t apply it directly.</strong> This is a reference record, not a system to build in. Use it to compare against, to borrow specific ideas from, or to argue with. If a project should be built in this style, fork it into an <code>origin: own</code> system first and fix what section 10 lists.</p>
+<hr>
+<h2>1. The core idea</h2>
+<p>A dark rail plus a light content area, with every screen built from the same template: summary cards → search and actions → data table → pagination. Consistency is total; the trade-off is that no individual screen is designed for its own job.</p>
+<p>The distinguishing move is a <strong>capsule chart language</strong> — bars drawn as rounded pills against a ghost track showing the maximum. In a pharmacy product this is a domain idiom rather than a default, and it costs nothing.</p>
+<hr>
+<h2>2. Tokens</h2>
+<p>Approximated from screenshots. The type family, the spacing steps, and the status-pill wash
+colours were <strong>not</strong> extracted: the family is named in the published work but never specified,
+no spacing step was measurable, and the wash tints were not readable from the screenshots with
+any confidence. The spacing and wash aliases are
+declared <code>none</code> rather than guessed, so the preview renders status labels without a fill it
+cannot vouch for.</p>
+<pre><code class="language-css">:root {
+  --pine:      #1D4237;
+  --pine-deep: #133029;
+  --lime:      #C8E64C;
+  --paper:     #F7F7F5;
+  --card:      #FFFFFF;
+  --ink:       #14201B;
+  --ink-2:     #5C6660;
+  --ink-3:     #929B96;
+  --mist:      #E6E9E7;
+  --ok:        #2EA05C;
+  --warn:      #E3A33A;
+  --fail:      #E15241;
+
+  --radius-card: 16px;
+  --radius-pill: 999px;
+
+  --sans: &quot;Poppins&quot;, system-ui, sans-serif;
+
+
+  --ds-bg:             var(--paper);
+  --ds-surface:        var(--card);
+  --ds-text:           var(--ink);
+  --ds-text-2:         var(--ink-2);
+  --ds-text-3:         var(--ink-3);
+  --ds-line:           var(--mist);
+  --ds-accent:         var(--lime);
+  --ds-radius-box:     var(--radius-card);
+  --ds-radius-control: var(--radius-pill);
+  --ds-border-width:   0;
+  --ds-border-color:   none;
+  --ds-shadow:         none;
+  --ds-button-bg:      var(--lime);
+  --ds-button-text:    var(--ink);
+  --ds-font-display:   var(--sans);
+  --ds-font-body:      var(--sans);
+  --ds-font-data:      none;
+  --ds-gap:            none;
+  --ds-pad:            none;
+  --ds-success:        var(--ok);
+  --ds-success-wash:   none;
+  --ds-warn:           var(--warn);
+  --ds-warn-wash:      none;
+  --ds-alarm:          var(--fail);
+  --ds-alarm-wash:     none;
+  --ds-invert-bg:      var(--pine);
+  --ds-invert-text:    var(--card);
+  --ds-invert-accent:  var(--lime);
+  --ds-hatch: repeating-linear-gradient(
+    45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
+}
+</code></pre>
+<p>Dark mode was not published. Any dark treatment would be invented, not extracted.</p>
+<h3>Colour rules, as observed</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>pine</code></td>
+<td>Nav rail, and exactly one filled stat card per screen</td>
+</tr>
+<tr>
+<td><code>lime</code></td>
+<td><strong>Action.</strong> Active nav item plus the one primary button</td>
+</tr>
+<tr>
+<td><code>ok</code> / <code>warn</code> / <code>fail</code></td>
+<td>Status pills, as pale washes with strong text</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>3. Type</h2>
+<p>A rounded geometric sans throughout — <code>sans</code> is Poppins or a close relative. One family, all weights. Figures are not tabular, which shows in the table columns.</p>
+<hr>
+<h2>4. Structure</h2>
+<p>Fixed ~220px dark rail with icon-and-label navigation, a promotional block pinned to its base, and logout beneath. Content on <code>paper</code>, everything in white 16px cards. Pill-shaped search, filters, export, and date range. Tables with per-row icon actions and pill pagination.</p>
+<hr>
+<h2>5. What it gets right</h2>
+<p><strong>Accent discipline.</strong> Lime appears on exactly one element per screen — active nav plus one primary button — held across every published screen without a slip. That restraint is the single best thing in the project.</p>
+<p><strong>Hatch as a secondary encoding.</strong> The selected chart bar is diagonally hatched rather than recoloured, and the hour-by-weekday heatmap pairs hatch with tint. Meaning never rests on colour alone.</p>
+<p><strong>Capsule bars over a ghost track.</strong> The maximum stays visible behind every value, so a bar reads as a proportion rather than a height. Domain-appropriate and free.</p>
+<p><strong>One filled card among unfilled ones.</strong> Cheap hierarchy that needs no chart and no extra colour.</p>
+<p><strong>Orders-by-time heatmap.</strong> Genuinely actionable — it tells an owner when to staff.</p>
+<hr>
+<h2>6. Components worth noting</h2>
+<p><strong>Status pill</strong> — pale wash, strong text, 999px. In stock / low stock / out of stock. Simple and it works.</p>
+<p><strong>Stat card</strong> — label, large value, delta chip with an arrow and a &quot;since last week&quot; caption. The filled variant inverts to pine with a lime chip.</p>
+<p><strong>Capsule bar</strong> — pine pill inside a <code>mist</code> pill track, hatched when selected.</p>
+<hr>
+<h2>7. Motion</h2>
+<p>Not published.</p>
+<hr>
+<h2>8. What I would take</h2>
+<ul>
+<li>One accent, one use per screen — verbatim</li>
+<li>Capsule bars over a ghost track</li>
+<li>Hatch as a second encoding, promoted to a stated rule</li>
+<li>One filled card among unfilled ones</li>
+<li>Status pills as pale wash plus strong text</li>
+</ul>
+<h2>9. What is broken</h2>
+<p>Errors visible in the published screens, worth recording because they show the project was designed as an image rather than modelled:</p>
+<ul>
+<li><strong>&quot;Total Customer — $12,500.&quot;</strong> A currency symbol on a headcount.</li>
+<li><strong>Settings: Appearance reads &quot;English&quot;, Language reads &quot;Light.&quot;</strong> The two values are swapped.</li>
+<li><strong>Mobile settings: &quot;Desktop Notification — Select your language.&quot;</strong> Wrong caption.</li>
+<li><strong>Top Selling Medicine lists Keytruda, Ozempic, Dupixent, Eliquis, Darzalex.</strong> Specialty biologics — hospital and specialty-pharmacy drugs. An independent retail pharmacy sells none of them. That list came from a pharma revenue ranking, not from a shop.</li>
+<li><strong>20,579 products, 1,200 customers with email addresses.</strong> That is a distributor, not a corner pharmacy.</li>
+<li><strong>Payment methods are Credit Card, PayPal, Bank Transfer.</strong> Region-blind.</li>
+</ul>
+<h2>10. Structural problems</h2>
+<p><strong>Twelve summary cards above a four-row table</strong>, on a catalogue of 20,579 products. The ratio is inverted: the cards are decoration and the table is the tool.</p>
+<p><strong>Every screen is the same template.</strong> Payments, Products, Customers, and Orders differ only in column headings. Efficient to produce, but it means no screen was designed for what it is for.</p>
+<p><strong>There is no point of sale.</strong> No cart, no cash tendered, no change, no barcode. The actual bottleneck in a pharmacy — selling quickly at a counter with a queue — does not exist in the project. That absence is the largest gap, and the clearest opening for anything built in response.</p>
+<hr>
+<h2>11. Never — if forking this</h2>
+<ul>
+<li>A currency symbol on a count</li>
+<li>More than three summary cards</li>
+<li>One template applied to every screen regardless of purpose</li>
+<li>Placeholder data drawn from a different market or a different kind of business</li>
+<li>Shipping a management system with no till</li>
+</ul>
+</div>
+</div>
+<script id="src" type="application/json">"\n> **This is my reading of someone else's public work, not my design.** Tokens below are extracted by eye from published screenshots and are approximations, not the original author's values. No assets are reproduced. Credit and source above; fill in the author's name before publishing this entry.\n\nA pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.\n\n---\n\n## How to apply this file\n\n**Don't apply it directly.** This is a reference record, not a system to build in. Use it to compare against, to borrow specific ideas from, or to argue with. If a project should be built in this style, fork it into an `origin: own` system first and fix what section 10 lists.\n\n---\n\n## 1. The core idea\n\nA dark rail plus a light content area, with every screen built from the same template: summary cards → search and actions → data table → pagination. Consistency is total; the trade-off is that no individual screen is designed for its own job.\n\nThe distinguishing move is a **capsule chart language** — bars drawn as rounded pills against a ghost track showing the maximum. In a pharmacy product this is a domain idiom rather than a default, and it costs nothing.\n\n---\n\n## 2. Tokens\n\nApproximated from screenshots. The type family, the spacing steps, and the status-pill wash\ncolours were **not** extracted: the family is named in the published work but never specified,\nno spacing step was measurable, and the wash tints were not readable from the screenshots with\nany confidence. The spacing and wash aliases are\ndeclared `none` rather than guessed, so the preview renders status labels without a fill it\ncannot vouch for.\n\n```css\n:root {\n  --pine:      #1D4237;\n  --pine-deep: #133029;\n  --lime:      #C8E64C;\n  --paper:     #F7F7F5;\n  --card:      #FFFFFF;\n  --ink:       #14201B;\n  --ink-2:     #5C6660;\n  --ink-3:     #929B96;\n  --mist:      #E6E9E7;\n  --ok:        #2EA05C;\n  --warn:      #E3A33A;\n  --fail:      #E15241;\n\n  --radius-card: 16px;\n  --radius-pill: 999px;\n\n  --sans: \"Poppins\", system-ui, sans-serif;\n\n\n  --ds-bg:             var(--paper);\n  --ds-surface:        var(--card);\n  --ds-text:           var(--ink);\n  --ds-text-2:         var(--ink-2);\n  --ds-text-3:         var(--ink-3);\n  --ds-line:           var(--mist);\n  --ds-accent:         var(--lime);\n  --ds-radius-box:     var(--radius-card);\n  --ds-radius-control: var(--radius-pill);\n  --ds-border-width:   0;\n  --ds-border-color:   none;\n  --ds-shadow:         none;\n  --ds-button-bg:      var(--lime);\n  --ds-button-text:    var(--ink);\n  --ds-font-display:   var(--sans);\n  --ds-font-body:      var(--sans);\n  --ds-font-data:      none;\n  --ds-gap:            none;\n  --ds-pad:            none;\n  --ds-success:        var(--ok);\n  --ds-success-wash:   none;\n  --ds-warn:           var(--warn);\n  --ds-warn-wash:      none;\n  --ds-alarm:          var(--fail);\n  --ds-alarm-wash:     none;\n  --ds-invert-bg:      var(--pine);\n  --ds-invert-text:    var(--card);\n  --ds-invert-accent:  var(--lime);\n  --ds-hatch: repeating-linear-gradient(\n    45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);\n}\n```\n\nDark mode was not published. Any dark treatment would be invented, not extracted.\n\n### Colour rules, as observed\n\n| Token | Means |\n|---|---|\n| `pine` | Nav rail, and exactly one filled stat card per screen |\n| `lime` | **Action.** Active nav item plus the one primary button |\n| `ok` / `warn` / `fail` | Status pills, as pale washes with strong text |\n\n---\n\n## 3. Type\n\nA rounded geometric sans throughout — `sans` is Poppins or a close relative. One family, all weights. Figures are not tabular, which shows in the table columns.\n\n---\n\n## 4. Structure\n\nFixed ~220px dark rail with icon-and-label navigation, a promotional block pinned to its base, and logout beneath. Content on `paper`, everything in white 16px cards. Pill-shaped search, filters, export, and date range. Tables with per-row icon actions and pill pagination.\n\n---\n\n## 5. What it gets right\n\n**Accent discipline.** Lime appears on exactly one element per screen — active nav plus one primary button — held across every published screen without a slip. That restraint is the single best thing in the project.\n\n**Hatch as a secondary encoding.** The selected chart bar is diagonally hatched rather than recoloured, and the hour-by-weekday heatmap pairs hatch with tint. Meaning never rests on colour alone.\n\n**Capsule bars over a ghost track.** The maximum stays visible behind every value, so a bar reads as a proportion rather than a height. Domain-appropriate and free.\n\n**One filled card among unfilled ones.** Cheap hierarchy that needs no chart and no extra colour.\n\n**Orders-by-time heatmap.** Genuinely actionable — it tells an owner when to staff.\n\n---\n\n## 6. Components worth noting\n\n**Status pill** — pale wash, strong text, 999px. In stock / low stock / out of stock. Simple and it works.\n\n**Stat card** — label, large value, delta chip with an arrow and a \"since last week\" caption. The filled variant inverts to pine with a lime chip.\n\n**Capsule bar** — pine pill inside a `mist` pill track, hatched when selected.\n\n---\n\n## 7. Motion\n\nNot published.\n\n---\n\n## 8. What I would take\n\n- One accent, one use per screen — verbatim\n- Capsule bars over a ghost track\n- Hatch as a second encoding, promoted to a stated rule\n- One filled card among unfilled ones\n- Status pills as pale wash plus strong text\n\n## 9. What is broken\n\nErrors visible in the published screens, worth recording because they show the project was designed as an image rather than modelled:\n\n- **\"Total Customer — $12,500.\"** A currency symbol on a headcount.\n- **Settings: Appearance reads \"English\", Language reads \"Light.\"** The two values are swapped.\n- **Mobile settings: \"Desktop Notification — Select your language.\"** Wrong caption.\n- **Top Selling Medicine lists Keytruda, Ozempic, Dupixent, Eliquis, Darzalex.** Specialty biologics — hospital and specialty-pharmacy drugs. An independent retail pharmacy sells none of them. That list came from a pharma revenue ranking, not from a shop.\n- **20,579 products, 1,200 customers with email addresses.** That is a distributor, not a corner pharmacy.\n- **Payment methods are Credit Card, PayPal, Bank Transfer.** Region-blind.\n\n## 10. Structural problems\n\n**Twelve summary cards above a four-row table**, on a catalogue of 20,579 products. The ratio is inverted: the cards are decoration and the table is the tool.\n\n**Every screen is the same template.** Payments, Products, Customers, and Orders differ only in column headings. Efficient to produce, but it means no screen was designed for what it is for.\n\n**There is no point of sale.** No cart, no cash tendered, no change, no barcode. The actual bottleneck in a pharmacy — selling quickly at a counter with a queue — does not exist in the project. That absence is the largest gap, and the clearest opening for anything built in response.\n\n---\n\n## 11. Never — if forking this\n\n- A currency symbol on a count\n- More than three summary cards\n- One template applied to every screen regardless of purpose\n- Placeholder data drawn from a different market or a different kind of business\n- Shipping a management system with no till\n"</script>
+<script>
+  const raw = JSON.parse(document.getElementById('src').textContent);
+  const btn = document.getElementById('copy');
+  btn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(raw);
+      btn.textContent = 'Copied';
+    } catch {
+      btn.textContent = 'Copy failed — use Download';
+    }
+    setTimeout(() => { btn.textContent = 'Copy file'; }, 2200);
+  });
+</script>
+<footer><div class="wrap">Design systems as drop-in markdown. Generated from the repo — the file is the product.</div></footer>
+</body>
+</html>
