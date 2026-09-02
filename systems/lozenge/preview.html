@@ -16,12 +16,12 @@
   --paper:     #F1F3F2;
   --card:      #FFFFFF;
   --ink:       #111815;
-  --ink-2:     #5B665F;
-  --ink-3:     #8E9992;
+  --ink-2:     #4A534D;
+  --ink-3:     #657069;
   --mist:      #DFE4E1;
   --amber:     #E0952B;
   --amber-w:   #FBF0DC;
-  --verm:      #E04B33;
+  --verm:      #E4624E;
   --verm-w:    #FCE6E1;
 
   --on-hemlock: #E9EFEB;
@@ -69,6 +69,7 @@
   --ds-invert-bg:      var(--hemlock);
   --ds-invert-text:    var(--on-hemlock);
   --ds-invert-accent:  var(--citron);
+  --ds-state-text:     var(--hemlock);
   --ds-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
   --ds-font-script:    var(--km);
@@ -88,7 +89,7 @@
   --card:      #161E1B;
   --ink:       #E9EFEB;
   --ink-2:     #9BA8A1;
-  --ink-3:     #6B7873;
+  --ink-3:     #7A8882;
   --mist:      #27322D;
   --amber-w:   #2E230F;
   --verm-w:    #2F1712;
@@ -227,10 +228,10 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   font:600 11px/1.6 var(--_data);letter-spacing:.04em;display:inline-block}
 .alert{border-radius:var(--ds-radius-box);padding:10px 13px;font-size:12.5px}
 .alert b{font-weight:700}
-.s-warn{color:var(--ds-warn);background:var(--ds-warn-wash)}
-.a-warn{color:var(--ds-warn);background:var(--ds-warn-wash)}
-.s-alarm{color:var(--ds-alarm);background:var(--ds-alarm-wash)}
-.a-alarm{color:var(--ds-alarm);background:var(--ds-alarm-wash)}
+.s-warn{background:var(--ds-warn);color:var(--ds-state-text)}
+.a-warn{background:var(--ds-warn-wash);color:var(--ds-text)}
+.s-alarm{background:var(--ds-alarm);color:var(--ds-state-text)}
+.a-alarm{background:var(--ds-alarm-wash);color:var(--ds-text)}
 .toast{background:var(--ds-surface);color:var(--ds-text);border:var(--_border);
   border-radius:var(--ds-radius-box);box-shadow:var(--ds-shadow-surface);
   padding:10px 15px;font-size:13px;align-self:flex-start}
@@ -261,7 +262,7 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
 </head>
 <body>
 <div class="chrome">
-  <h1>Lozenge <span style="font-weight:400;color:#71717a">1.0</span></h1>
+  <h1>Lozenge <span style="font-weight:400;color:#71717a">1.1</span></h1>
   <dl>
     <div><dt>status</dt><dd>active</dd></div>
     <div><dt>origin</dt><dd>own</dd></div>

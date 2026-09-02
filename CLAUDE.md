@@ -217,7 +217,7 @@ light value: `--paper` goes dark, `--ds-bg` does not, and dark mode silently doe
 root is the only place the substitution sees the dark tokens. The preview generator therefore
 renders one mode per document and sets `data-mode` on `<html>`.
 
-**All 38 aliases are required.** A system that does not have a concept declares `none`:
+**All 39 aliases are required.** A system that does not have a concept declares `none`:
 
 ```css
 --ds-success: none;
@@ -245,6 +245,7 @@ it said so.
 | `--ds-button-bg` | Primary button fill | |
 | `--ds-button-text` | Primary button text | |
 | `--ds-button2-bg` | Secondary button fill; its text is `--ds-text` | yes |
+| `--ds-state-text` | Text on a state *fill*; declining it means states are coloured text | yes |
 | `--ds-font-display` | Headings | |
 | `--ds-font-body` | Body text | |
 | `--ds-font-data` | Figures and mono labels | yes |
@@ -267,6 +268,19 @@ it said so.
 
 Only the aliases marked `none` may be declined. The rest carry structure, and `none` in one of
 them is an error rather than an escape hatch — `--ds-bg: none` is not a design decision.
+
+How a state renders follows from what the system declared, and the preview and the contrast
+check read it the same way:
+
+| declared | treatment | contrast pair |
+|---|---|---|
+| `--ds-state-text` | filled with the state colour, that token as text | state-text on the state colour |
+| a wash, no state-text | coloured text on the wash | state colour on its wash |
+| neither | coloured text with a border of the same colour | state colour on the page |
+
+A system may declare both: `--ds-state-text` fills the small pill while the wash tints a larger
+banner, which is what Lozenge does. `--ds-state-text` without any state colour is an error —
+there is nothing to fill.
 
 Two coherence rules, both there to stop a system inventing a value it does not have:
 

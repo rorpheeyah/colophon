@@ -35,7 +35,7 @@ const DS_ALIASES = [
   'gap', 'pad',
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent', 'hatch',
-  'font-script', 'scrim', 'shadow-surface', 'button2-bg',
+  'font-script', 'scrim', 'shadow-surface', 'button2-bg', 'state-text',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
 ].map(n => `--ds-${n}`)
 
@@ -45,7 +45,7 @@ const DS_NONE_PERMITTED = new Set([
   'shadow', 'font-data', 'hatch', 'border-color', 'gap', 'pad',
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent',
-  'font-script', 'scrim', 'shadow-surface', 'button2-bg',
+  'font-script', 'scrim', 'shadow-surface', 'button2-bg', 'state-text',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
 ].map(n => `--ds-${n}`))
 
@@ -190,6 +190,15 @@ function validateSystem(slug) {
         err(`\`--ds-chart-${laterDeclared + 1}\` is declared but \`--ds-chart-${firstNone + 1}\` ` +
             `is \`none\` — a series palette must be declared in order, with no gaps`)
       }
+    }
+
+    const stateText = declared.get('--ds-state-text')
+    const anyState = ['success', 'warn', 'alarm'].some(k => {
+      const v = declared.get(`--ds-${k}`)
+      return v !== undefined && v !== 'none'
+    })
+    if (stateText !== undefined && stateText !== 'none' && !anyState) {
+      err('`--ds-state-text` is declared but the system has no state colour to fill with')
     }
 
     const borderWidth = declared.get('--ds-border-width')

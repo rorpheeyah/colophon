@@ -95,6 +95,7 @@ cannot vouch for.
   --ds-invert-bg:      var(--pine);
   --ds-invert-text:    var(--card);
   --ds-invert-accent:  var(--lime);
+  --ds-state-text:     none;
   --ds-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
   --ds-font-script:    none;

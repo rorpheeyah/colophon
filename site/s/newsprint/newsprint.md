@@ -116,6 +116,7 @@ Two consequences that explain most of what follows:
   --ds-invert-bg:      none;
   --ds-invert-text:    none;
   --ds-invert-accent:  none;
+  --ds-state-text:     none;
   --ds-hatch:          none;
   --ds-font-script:    var(--body);
   --ds-scrim:          none;
