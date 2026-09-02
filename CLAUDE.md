@@ -174,14 +174,14 @@ it said so.
 | `--ds-radius-control` | Buttons, inputs, pills | |
 | `--ds-border-width` | Container edge; `0` if the system forbids borders | |
 | `--ds-border-color` | Container edge colour | yes |
-| `--ds-shadow` | Full `box-shadow` value | yes |
+| `--ds-shadow` | Full `box-shadow` value, applied to controls only | yes |
 | `--ds-button-bg` | Primary button fill | |
 | `--ds-button-text` | Primary button text | |
 | `--ds-font-display` | Headings | |
 | `--ds-font-body` | Body text | |
 | `--ds-font-data` | Figures and mono labels | yes |
-| `--ds-gap` | Base spacing step | |
-| `--ds-pad` | Base container padding | |
+| `--ds-gap` | Base spacing step | yes |
+| `--ds-pad` | Base container padding | yes |
 | `--ds-success` | Healthy, resolved, correct | yes |
 | `--ds-success-wash` | Its pale background | yes |
 | `--ds-warn` | Needs attention soon | yes |
@@ -202,6 +202,12 @@ Two coherence rules, both there to stop a system inventing a value it does not h
   reverse does not hold — a system may mark states with a border or with type colour alone and
   never fill anything.
 - `--ds-border-color` may only be declined where `--ds-border-width` is `0`.
+- `--ds-shadow` describes the shadow on a pressable control. The preview never puts it on a
+  container, because a system may require it on a button and forbid it on a card. A system
+  that needs container elevation is a gap in this contract — raise it, do not work around it.
+- `--ds-gap` and `--ds-pad` may be declined by a system that never specified a spacing step.
+  The preview then falls back to a preset chosen by the `density` field, which every system
+  declares. That is still the file speaking — it is not the generator inventing a value.
 
 A system with no `[data-mode="dark"]` block renders as "no dark mode published" rather than
 having one invented for it.

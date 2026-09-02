@@ -5,12 +5,13 @@
 //   node scripts/validate.mjs            validate every system
 //   node scripts/validate.mjs lozenge    validate one
 
-import { readdirSync, readFileSync, existsSync } from 'node:fs'
-import { join, dirname } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { readFileSync, existsSync } from 'node:fs'
+import { join } from 'node:path'
 import { execFileSync } from 'node:child_process'
-
-const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
+import {
+  ROOT, ARRAY_FIELDS, SECTIONS, TOKENS_SECTION,
+  parseFrontmatter, scanBody, scalar, tokensBlock, declaredAliases, systemSlugs,
+} from './lib.mjs'
 
 // ── format contract ──────────────────────────────────────────────────────────
 
@@ -19,28 +20,12 @@ const REQUIRED_FRONTMATTER = [
   'register', 'density', 'scripts', 'best-for', 'avoid-for',
 ]
 const REFERENCE_FRONTMATTER = ['source-url', 'credit']
-const ARRAY_FIELDS = ['scripts', 'best-for', 'avoid-for']
 const ENUMS = {
   status: ['active', 'draft', 'archived'],
   origin: ['own', 'reference'],
   density: ['compact', 'comfortable', 'spacious'],
 }
 
-// Matched against the heading with any leading number stripped, so inserting an
-// optional section never forces a renumber elsewhere in the file.
-const SECTIONS = [
-  { slot: 'How to apply this file', test: /^how to apply\b/ },
-  { slot: 'The primitive / core idea', test: /^(the\s+)?(primitive|core\s+idea)\b/ },
-  { slot: 'Tokens', test: /^tokens\b/ },
-  { slot: 'Type', test: /^type\b/ },
-  { slot: 'Structure', test: /^structure\b/ },
-  { slot: 'Components', test: /^components\b/ },
-  { slot: 'Motion', test: /^motion\b/ },
-  { slot: 'Never', test: /^never\b/ },
-]
-
-// Every alias is required. A system refuses a concept by declaring `none`, so a
-// refusal is written down rather than inferred from a gap.
 const DS_ALIASES = [
   'bg', 'surface', 'text', 'text-2', 'text-3', 'line', 'accent',
   'radius-box', 'radius-control', 'border-width', 'border-color', 'shadow',
@@ -53,7 +38,7 @@ const DS_ALIASES = [
 // Aliases a system may decline. The rest carry structure, so `none` in one of them
 // is an error rather than an escape hatch.
 const DS_NONE_PERMITTED = new Set([
-  'shadow', 'font-data', 'hatch', 'border-color',
+  'shadow', 'font-data', 'hatch', 'border-color', 'gap', 'pad',
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent',
 ].map(n => `--ds-${n}`))
@@ -65,103 +50,6 @@ const DS_PAIRS = [['success', 'success-wash'], ['warn', 'warn-wash'], ['alarm', 
 
 const COLOR_LITERAL = /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\s*\(/
 const MIN_NEVER_ENTRIES = 5
-
-// ── frontmatter ──────────────────────────────────────────────────────────────
-
-// Restricted YAML subset: `key: value`, `key: "quoted"`, `key: [a, b, c]`.
-// Deliberately hand-rolled — see CLAUDE.md. Do not swap in a YAML library.
-function parseFrontmatter(text, err) {
-  if (!text.startsWith('---\n')) {
-    err('file does not open with a `---` frontmatter block')
-    return { data: {}, body: text, endLine: 0 }
-  }
-  const close = text.indexOf('\n---\n', 3)
-  if (close === -1) {
-    err('frontmatter block is never closed with `---`')
-    return { data: {}, body: text, endLine: 0 }
-  }
-  const raw = text.slice(4, close)
-  const body = text.slice(close + 5)
-  const data = {}
-
-  raw.split('\n').forEach((line, i) => {
-    if (!line.trim() || line.trim().startsWith('#')) return
-    const m = /^([A-Za-z][A-Za-z0-9_-]*):\s*(.*)$/.exec(line)
-    if (!m) {
-      err(`frontmatter line ${i + 2} is not \`key: value\`: ${line.trim()}`)
-      return
-    }
-    const [, key, rawValue] = m
-    const v = rawValue.trim()
-    if (key in data) err(`frontmatter key \`${key}\` appears more than once`)
-
-    if (v.startsWith('[') && v.endsWith(']')) {
-      const inner = v.slice(1, -1).trim()
-      data[key] = inner ? inner.split(',').map(s => unquote(s.trim())) : []
-    } else if (v.startsWith('"') && v.endsWith('"') && v.length > 1) {
-      data[key] = { value: v.slice(1, -1), quoted: true }
-    } else {
-      data[key] = { value: v, quoted: false }
-    }
-  })
-
-  return { data, body, endLine: raw.split('\n').length + 2 }
-}
-
-const unquote = s =>
-  (s.startsWith('"') && s.endsWith('"')) || (s.startsWith("'") && s.endsWith("'"))
-    ? s.slice(1, -1)
-    : s
-
-const scalar = f => (f && !Array.isArray(f) ? f.value : undefined)
-
-// ── body scanning ────────────────────────────────────────────────────────────
-
-const normalizeHeading = h =>
-  h.replace(/^#+\s*/, '')
-    .replace(/^\d+(?:\.\d+)*[.)]?\s+/, '')
-    .trim().toLowerCase().replace(/\s+/g, ' ')
-
-// Walks the body once, returning headings, fenced blocks, and prose lines.
-// `offset` is the frontmatter length so reported line numbers match the file.
-function scanBody(body, offset) {
-  const lines = body.split('\n')
-  const headings = []
-  const blocks = []
-  const prose = []
-  let fence = null
-  let buf = []
-  let section = null
-
-  lines.forEach((text, i) => {
-    const lineNo = i + 1 + offset
-    const fenceMatch = /^\s*(```+|~~~+)\s*(.*)$/.exec(text)
-
-    if (fenceMatch) {
-      if (!fence) {
-        fence = { lang: fenceMatch[2].trim().split(/\s+/)[0].toLowerCase(), line: lineNo, section }
-        buf = []
-      } else {
-        blocks.push({ ...fence, code: buf.join('\n') })
-        fence = null
-      }
-      return
-    }
-    if (fence) { buf.push(text); return }
-
-    const h = /^(#{1,6})\s+(.+)$/.exec(text)
-    if (h) {
-      const norm = normalizeHeading(h[2])
-      headings.push({ title: h[2].trim(), norm, line: lineNo, depth: h[1].length })
-      if (h[1].length <= 2) section = norm
-      return
-    }
-    prose.push({ text, line: lineNo, section })
-  })
-
-  if (fence) blocks.push({ ...fence, code: buf.join('\n'), unterminated: true })
-  return { headings, blocks, prose }
-}
 
 // ── checks ───────────────────────────────────────────────────────────────────
 
@@ -244,8 +132,7 @@ function validateSystem(slug) {
   }
 
   // tokens block -------------------------------------------------------------
-  const tokensSpec = SECTIONS.find(s => s.slot === 'Tokens')
-  const tokenBlocks = blocks.filter(b => b.lang === 'css' && b.section && tokensSpec.test.test(b.section))
+  const tokenBlocks = tokensBlock(blocks)
   const canonical = tokenBlocks[0]
 
   if (!canonical) {
@@ -257,9 +144,7 @@ function validateSystem(slug) {
 
   if (canonical) {
     if (!/:root\s*\{/.test(canonical.code)) err('the tokens block declares no `:root` rule')
-    const declared = new Map(
-      [...canonical.code.matchAll(/(--ds-[a-z0-9-]+)\s*:\s*([^;}]*)/g)]
-        .map(m => [m[1], m[2].trim().replace(/\s+/g, ' ')]))
+    const declared = declaredAliases(canonical.code)
 
     const missing = DS_ALIASES.filter(t => !declared.has(t))
     if (missing.length) {
@@ -336,7 +221,7 @@ function validateSystem(slug) {
   }
 
   // the Never section --------------------------------------------------------
-  const neverSpec = SECTIONS.find(s => s.slot === 'Never')
+  const neverSpec = SECTIONS.find(x => x.slot === 'Never')
   const neverHeading = headings.find(h => neverSpec.test.test(h.norm))
   if (neverHeading) {
     const after = headings.filter(h => h.line > neverHeading.line && h.depth <= neverHeading.depth)
@@ -442,15 +327,6 @@ function checkPreviews() {
 }
 
 // ── run ──────────────────────────────────────────────────────────────────────
-
-function systemSlugs() {
-  const dir = join(ROOT, 'systems')
-  if (!existsSync(dir)) return []
-  return readdirSync(dir, { withFileTypes: true })
-    .filter(d => d.isDirectory() && !d.name.startsWith('.'))
-    .map(d => d.name)
-    .sort()
-}
 
 const only = process.argv.slice(2).filter(a => !a.startsWith('-'))
 const all = systemSlugs()
