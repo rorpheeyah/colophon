@@ -263,5 +263,7 @@ One moment per surface, tied to a user action that changed data, plus the press 
 - Filled cards or pills used to group content
 - A radius above 2px
 - A fourth semantic colour
+- A fifth spacing step, or a margin that is not one of the four
+- A text colour that does not clear 4.5:1 on both `paper` and `stock`, in both modes
 - Uppercase outside mono labels and column heads
 - Print treated as an afterthought
