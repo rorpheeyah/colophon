@@ -75,7 +75,6 @@ function stage(t, meta) {
 
   <div class="card">
     <h3>Summary</h3>
-    <p>A contained surface, spaced and bordered as the system declares.</p>
     <div class="row">
       <button class="btn">Primary action</button>
       <span class="input">Search</span>
@@ -85,7 +84,6 @@ function stage(t, meta) {
   ${has(t, '--ds-invert-bg') ? `
   <div class="card invert">
     <h3>Inverted</h3>
-    <p>The one filled surface.</p>
     ${has(t, '--ds-invert-accent') ? '<span class="chip">+12</span>' : ''}
   </div>` : ''}
 

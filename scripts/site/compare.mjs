@@ -1,13 +1,12 @@
 import { html, json } from './html.mjs'
-import { shell } from './layout.mjs'
+import { shell, crumbs } from './layout.mjs'
 
 export const comparePage = all => shell({
   base: '', current: 'compare', title: 'Compare — colophon',
   body: html`
 <div class="wrap">
+  ${crumbs('', ['Compare'])}
   <h1>Compare</h1>
-  <p class="lede">Two systems on the same generated preview, in the same mode. Everything shown
-  comes from each system's own tokens block — nothing here is hand-drawn per system.</p>
 
   <div class="cbar">
     <label>Left <select id="a">${all.map(s => html`<option value="${s.slug}">${s.system}</option>`)}</select></label>
@@ -28,8 +27,6 @@ export const comparePage = all => shell({
   <div class="crow" id="facts"></div>
 
   <h2 class="crule">Where they disagree</h2>
-  <p class="lede">Aliases the two systems answer differently. A <code>none</code> here is a
-  refusal, so this is also the list of concepts one has and the other rejects.</p>
   <div class="cdiff" id="diff"></div>
 </div>
 <script>
@@ -47,10 +44,11 @@ export const comparePage = all => shell({
   el('b').value = by[q.get('b')] ? q.get('b') : (data[1] ?? data[0]).slug;
 
   const FACTS = ['register', 'density', 'origin', 'status'];
-  const facts = s => FACTS.map(k => '<li><b>' + k + '</b> ' + s[k] + '</li>').join('') +
-    '<li><b>scripts</b> ' + s.scripts.join(', ') + '</li>' +
-    '<li><b>best for</b> ' + s.bestFor.join(', ') + '</li>' +
-    '<li><b>avoid for</b> ' + s.avoidFor.join(', ') + '</li>';
+  const row = (k, v) => '<dt>' + k + '</dt><dd>' + v + '</dd>';
+  const facts = s => FACTS.map(k => row(k, s[k])).join('') +
+    row('scripts', s.scripts.join(', ')) +
+    row('for', s.bestFor.join(', ')) +
+    row('not', s.avoidFor.join(', '));
 
   function diff(a, b) {
     const names = [...new Set([...Object.keys(a.aliases), ...Object.keys(b.aliases)])].sort();
@@ -72,8 +70,8 @@ export const comparePage = all => shell({
         '</a> <em>' + s.version + '</em>';
     }
     el('facts').innerHTML =
-      '<section><h3>' + a.system + '</h3><ul>' + facts(a) + '</ul></section>' +
-      '<section><h3>' + b.system + '</h3><ul>' + facts(b) + '</ul></section>';
+      '<section><h3>' + a.system + '</h3><dl>' + facts(a) + '</dl></section>' +
+      '<section><h3>' + b.system + '</h3><dl>' + facts(b) + '</dl></section>';
     el('diff').innerHTML = diff(a, b);
     history.replaceState(null, '', '?a=' + a.slug + '&b=' + b.slug + '&mode=' + mode);
   }

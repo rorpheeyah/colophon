@@ -6,7 +6,7 @@
 <title>Compare — colophon</title>
 <link rel="stylesheet" href="assets/style.css">
 <script>
-  // Runs before paint so a chosen theme never flashes the other one.
+  // Before paint, so a chosen theme never flashes the other one.
   try {
     const t = localStorage.getItem('colophon-theme');
     if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -17,15 +17,23 @@
 <div class="top"><div class="wrap">
   <b>colophon</b>
   <nav><a href="index.html">Library</a><a href="compare.html" aria-current="page">Compare</a><a href="about.html">About</a></nav>
-  <button class="theme" id="theme" title="Theme: system" aria-label="Change theme">
-    <span data-t="system">Auto</span><span data-t="light">Light</span><span data-t="dark">Dark</span>
-  </button>
+  <button class="theme" id="theme" aria-label="Change theme">
+<svg data-t="system" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <circle cx="8" cy="8" r="5.9" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <path d="M8 2.1a5.9 5.9 0 000 11.8z" fill="currentColor"/></svg>
+<svg data-t="light" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <circle cx="8" cy="8" r="3.1" fill="currentColor"/>
+  <path d="M8 .9v2.1M8 13v2.1M.9 8h2.1M13 8h2.1M3 3l1.5 1.5M11.5 11.5L13 13M13 3l-1.5 1.5M4.5 11.5L3 13"
+    stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+<svg data-t="dark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <path d="M13.4 10.3A6.2 6.2 0 015.7 2.6a6.2 6.2 0 107.7 7.7z" fill="currentColor"/></svg></button>
 </div></div>
 
 <div class="wrap">
+  <nav class="crumbs">
+  <a href="index.html">Library</a> <span>/</span> <b>Compare</b>
+</nav>
   <h1>Compare</h1>
-  <p class="lede">Two systems on the same generated preview, in the same mode. Everything shown
-  comes from each system's own tokens block — nothing here is hand-drawn per system.</p>
 
   <div class="cbar">
     <label>Left <select id="a"><option value="lozenge">Lozenge</option><option value="newsprint">Newsprint</option><option value="pharmly">Pharmly</option></select></label>
@@ -46,8 +54,6 @@
   <div class="crow" id="facts"></div>
 
   <h2 class="crule">Where they disagree</h2>
-  <p class="lede">Aliases the two systems answer differently. A <code>none</code> here is a
-  refusal, so this is also the list of concepts one has and the other rejects.</p>
   <div class="cdiff" id="diff"></div>
 </div>
 <script>
@@ -61,10 +67,11 @@
   el('b').value = by[q.get('b')] ? q.get('b') : (data[1] ?? data[0]).slug;
 
   const FACTS = ['register', 'density', 'origin', 'status'];
-  const facts = s => FACTS.map(k => '<li><b>' + k + '</b> ' + s[k] + '</li>').join('') +
-    '<li><b>scripts</b> ' + s.scripts.join(', ') + '</li>' +
-    '<li><b>best for</b> ' + s.bestFor.join(', ') + '</li>' +
-    '<li><b>avoid for</b> ' + s.avoidFor.join(', ') + '</li>';
+  const row = (k, v) => '<dt>' + k + '</dt><dd>' + v + '</dd>';
+  const facts = s => FACTS.map(k => row(k, s[k])).join('') +
+    row('scripts', s.scripts.join(', ')) +
+    row('for', s.bestFor.join(', ')) +
+    row('not', s.avoidFor.join(', '));
 
   function diff(a, b) {
     const names = [...new Set([...Object.keys(a.aliases), ...Object.keys(b.aliases)])].sort();
@@ -86,8 +93,8 @@
         '</a> <em>' + s.version + '</em>';
     }
     el('facts').innerHTML =
-      '<section><h3>' + a.system + '</h3><ul>' + facts(a) + '</ul></section>' +
-      '<section><h3>' + b.system + '</h3><ul>' + facts(b) + '</ul></section>';
+      '<section><h3>' + a.system + '</h3><dl>' + facts(a) + '</dl></section>' +
+      '<section><h3>' + b.system + '</h3><dl>' + facts(b) + '</dl></section>';
     el('diff').innerHTML = diff(a, b);
     history.replaceState(null, '', '?a=' + a.slug + '&b=' + b.slug + '&mode=' + mode);
   }
@@ -132,20 +139,19 @@
     x.setAttribute('aria-pressed', x.dataset.mode === mode));
   draw();
 </script>
-<footer><div class="wrap">Design systems as drop-in markdown. Generated from the repo — the file is the product.</div></footer>
+<footer><div class="wrap eyebrow">Generated from the repo</div></footer>
 <script>
-  // Three states: system (no attribute), light, dark. The site chrome only —
-  // a preview's own light and dark come from its tokens block, not from here.
+  // Site chrome only. A preview's light and dark come from its tokens block.
   (() => {
     const order = ['system', 'light', 'dark'];
     const btn = document.getElementById('theme');
     const read = () => { try { return localStorage.getItem('colophon-theme') || 'system'; } catch { return 'system'; } };
-    function show(t) {
+    const show = t => {
       if (t === 'system') delete document.documentElement.dataset.theme;
       else document.documentElement.dataset.theme = t;
       btn.dataset.state = t;
       btn.title = 'Theme: ' + t;
-    }
+    };
     show(read());
     btn.addEventListener('click', () => {
       const next = order[(order.indexOf(read()) + 1) % order.length];

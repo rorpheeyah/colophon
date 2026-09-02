@@ -49,7 +49,13 @@ files.set('index.html', assertScriptsParse(String(libraryPage(all)), 'index.html
 files.set('compare.html', assertScriptsParse(String(comparePage(all)), 'compare.html'))
 files.set('about.html', assertScriptsParse(String(aboutPage(all)), 'about.html'))
 files.set('data.json', JSON.stringify(
-  all.map(({ body, aliases, sections, ...rest }) => rest), null, 2) + '\n')
+  all.map(({ body, aliases, sections, prev, next, ...rest }) => rest), null, 2) + '\n')
+
+const link = n => n ? { slug: n.slug, system: n.system } : null
+all.forEach((s, i) => {
+  s.prev = link(all[i - 1])
+  s.next = link(all[i + 1])
+})
 
 for (const s of all) {
   const dir = join(ROOT, 'systems', s.slug)
