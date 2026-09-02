@@ -100,8 +100,14 @@ Interview only on the aliases that carry the system's identity, because these ar
 where guessing wrong produces a system the user did not ask for:
 
 - `--ds-accent` — and what the accent *means* here
-- `--ds-button-bg` / `--ds-button-text` — often not the accent. A system whose accent is a
-  semantic state will have a button built from surface, border, and shadow instead
+- `--ds-button-bg` / `--ds-button-text` — **always ask, never infer.** Often not the accent: a
+  system whose accent is a semantic state will have a button built from surface, border, and
+  shadow instead. Inferring the button from the palette is right about two times in three,
+  which is the failure rate that looks reliable and is not.
+
+  When they *are* the same, say so out loud — "so the button is the accent, `--ds-button-bg:
+  var(--citron)`" — and have the user confirm it. A system where the two diverge must not be
+  distinguished from one where they coincide only by the absence of a question.
 - `--ds-success` / `--ds-warn` / `--ds-alarm` and their washes — including whether the system
   refuses one. A system where colour means "something needs doing" may have no success colour
   at all

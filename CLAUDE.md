@@ -173,7 +173,7 @@ it said so.
 | `--ds-radius-box` | Containers | |
 | `--ds-radius-control` | Buttons, inputs, pills | |
 | `--ds-border-width` | Container edge; `0` if the system forbids borders | |
-| `--ds-border-color` | Container edge colour | |
+| `--ds-border-color` | Container edge colour | yes |
 | `--ds-shadow` | Full `box-shadow` value | yes |
 | `--ds-button-bg` | Primary button fill | |
 | `--ds-button-text` | Primary button text | |
@@ -196,7 +196,12 @@ it said so.
 Only the aliases marked `none` may be declined. The rest carry structure, and `none` in one of
 them is an error rather than an escape hatch — `--ds-bg: none` is not a design decision.
 
-A state colour and its wash must agree: declare both, or decline both.
+Two coherence rules, both there to stop a system inventing a value it does not have:
+
+- A wash needs a colour to pair with, so `--ds-warn-wash` without `--ds-warn` is an error. The
+  reverse does not hold — a system may mark states with a border or with type colour alone and
+  never fill anything.
+- `--ds-border-color` may only be declined where `--ds-border-width` is `0`.
 
 A system with no `[data-mode="dark"]` block renders as "no dark mode published" rather than
 having one invented for it.
