@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare — colophon</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <b>colophon</b>
+  <nav>
+    <a href="index.html">Library</a>
+    <a href="compare.html" aria-current="page">Compare</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+  <h1>Compare</h1>
+  <p class="lede">Two systems on the same generated preview, in the same mode. Everything shown
+  comes from each system's own tokens block.</p>
+  <div class="cbar">
+    <label>Left <select id="a"><option value="lozenge">Lozenge</option><option value="newsprint">Newsprint</option><option value="pharmly">Pharmly</option></select></label>
+    <label>Right <select id="b"><option value="lozenge">Lozenge</option><option value="newsprint">Newsprint</option><option value="pharmly">Pharmly</option></select></label>
+    <div class="modes">
+      <button class="btn" data-mode="light" aria-pressed="true">Light</button>
+      <button class="btn" data-mode="dark" aria-pressed="false">Dark</button>
+    </div>
+  </div>
+  <div class="cpair">
+    <div><h2 id="ha"></h2><iframe id="fa" title="Left system preview"></iframe></div>
+    <div><h2 id="hb"></h2><iframe id="fb" title="Right system preview"></iframe></div>
+  </div>
+  <div class="crow" id="facts"></div>
+</div>
+<script>
+  const data = [{"slug":"lozenge","system":"Lozenge","version":"1.0","register":"utility","density":"compact","scripts":["latin","khmer"],"origin":"own","status":"active","bestFor":["dense data tables","retail and POS interfaces","inventory and status screens","bilingual products"],"avoidFor":["long-form reading","marketing pages","editorial layouts"]},{"slug":"newsprint","system":"Newsprint","version":"1.0","register":"editorial","density":"comfortable","scripts":["latin","khmer"],"origin":"own","status":"draft","bestFor":["long-form reading","documentation","reports and printed output","bilingual editorial layouts","ruled data tables"],"avoidFor":["high-speed data entry","dense operational dashboards","touch-first mobile interfaces"]},{"slug":"pharmly","system":"Pharmly","version":"1.0","register":"utility","density":"spacious","scripts":["latin"],"origin":"reference","status":"active","bestFor":["admin dashboards","list-and-detail CRUD interfaces","portfolio presentation"],"avoidFor":["point of sale","high-density catalogues","non-Latin scripts","anything requiring speed at a counter"]}];
+  const by = Object.fromEntries(data.map(s => [s.slug, s]));
+  const q = new URLSearchParams(location.search);
+  const el = id => document.getElementById(id);
+  let mode = q.get('mode') === 'dark' ? 'dark' : 'light';
+
+  el('a').value = by[q.get('a')] ? q.get('a') : data[0].slug;
+  el('b').value = by[q.get('b')] ? q.get('b') : (data[1] ?? data[0]).slug;
+
+  const facts = s => ['register', 'density', 'origin', 'status']
+    .map(k => '<li><b>' + k + '</b> — ' + s[k] + '</li>').join('')
+    + '<li><b>scripts</b> — ' + s.scripts.join(', ') + '</li>'
+    + '<li><b>best for</b> — ' + s.bestFor.join(', ') + '</li>'
+    + '<li><b>avoid for</b> — ' + s.avoidFor.join(', ') + '</li>';
+
+  function draw() {
+    const a = by[el('a').value], b = by[el('b').value];
+    for (const [side, s] of [['a', a], ['b', b]]) {
+      el('f' + side).src = 's/' + s.slug + '/preview.html?mode=' + mode + '&chrome=0';
+      el('h' + side).innerHTML = '<a href="s/' + s.slug + '/index.html">' + s.system +
+        '</a> <em>' + s.version + '</em>';
+    }
+    el('facts').innerHTML = '<section><h3>' + a.system + '</h3><ul>' + facts(a) + '</ul></section>' +
+                            '<section><h3>' + b.system + '</h3><ul>' + facts(b) + '</ul></section>';
+    history.replaceState(null, '', '?a=' + a.slug + '&b=' + b.slug + '&mode=' + mode);
+  }
+  el('a').addEventListener('change', draw);
+  el('b').addEventListener('change', draw);
+  for (const btn of document.querySelectorAll('[data-mode]')) {
+    btn.addEventListener('click', () => {
+      mode = btn.dataset.mode;
+      document.querySelectorAll('[data-mode]').forEach(x =>
+        x.setAttribute('aria-pressed', x.dataset.mode === mode));
+      draw();
+    });
+  }
+  document.querySelectorAll('[data-mode]').forEach(x =>
+    x.setAttribute('aria-pressed', x.dataset.mode === mode));
+  draw();
+</script>
+<footer><div class="wrap">Design systems as drop-in markdown. Generated from the repo — the file is the product.</div></footer>
+</body>
+</html>

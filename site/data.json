@@ -1,0 +1,79 @@
+[
+  {
+    "slug": "lozenge",
+    "system": "Lozenge",
+    "version": "1.0",
+    "status": "active",
+    "origin": "own",
+    "register": "utility",
+    "density": "compact",
+    "scripts": [
+      "latin",
+      "khmer"
+    ],
+    "bestFor": [
+      "dense data tables",
+      "retail and POS interfaces",
+      "inventory and status screens",
+      "bilingual products"
+    ],
+    "avoidFor": [
+      "long-form reading",
+      "marketing pages",
+      "editorial layouts"
+    ],
+    "added": "2026-09-02"
+  },
+  {
+    "slug": "newsprint",
+    "system": "Newsprint",
+    "version": "1.0",
+    "status": "draft",
+    "origin": "own",
+    "register": "editorial",
+    "density": "comfortable",
+    "scripts": [
+      "latin",
+      "khmer"
+    ],
+    "bestFor": [
+      "long-form reading",
+      "documentation",
+      "reports and printed output",
+      "bilingual editorial layouts",
+      "ruled data tables"
+    ],
+    "avoidFor": [
+      "high-speed data entry",
+      "dense operational dashboards",
+      "touch-first mobile interfaces"
+    ],
+    "added": "2026-09-02"
+  },
+  {
+    "slug": "pharmly",
+    "system": "Pharmly",
+    "version": "1.0",
+    "status": "active",
+    "origin": "reference",
+    "register": "utility",
+    "density": "spacious",
+    "scripts": [
+      "latin"
+    ],
+    "bestFor": [
+      "admin dashboards",
+      "list-and-detail CRUD interfaces",
+      "portfolio presentation"
+    ],
+    "avoidFor": [
+      "point of sale",
+      "high-density catalogues",
+      "non-Latin scripts",
+      "anything requiring speed at a counter"
+    ],
+    "credit": "Pharmly — Pharmacy Management Admin Dashboard UI Design, published on Behance. Author credit to be filled in from the project page.",
+    "sourceUrl": "https://www.behance.net/",
+    "added": "2026-09-02"
+  }
+]

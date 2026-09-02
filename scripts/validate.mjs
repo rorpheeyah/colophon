@@ -312,17 +312,17 @@ function gitShow(file) {
 
 // ── preview freshness ────────────────────────────────────────────────────────
 
-function checkPreviews() {
-  const builder = join(ROOT, 'scripts', 'build-previews.mjs')
+function checkGenerated(name, script, hint) {
+  const builder = join(ROOT, 'scripts', script)
   if (!existsSync(builder)) {
-    return { slug: 'previews', errors: [], warnings: ['scripts/build-previews.mjs does not exist yet — skipping freshness check'] }
+    return { slug: name, errors: [], warnings: [`scripts/${script} does not exist yet — skipping freshness check`] }
   }
   try {
     execFileSync('node', [builder, '--check'], { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] })
-    return { slug: 'previews', errors: [], warnings: [] }
+    return { slug: name, errors: [], warnings: [] }
   } catch (e) {
-    const detail = (e.stdout || '') + (e.stderr || '')
-    return { slug: 'previews', errors: [`previews are stale — run \`node scripts/build-previews.mjs\`\n${detail.trim()}`], warnings: [] }
+    const detail = ((e.stdout || '') + (e.stderr || '')).trim()
+    return { slug: name, errors: [`out of date — run \`${hint}\`\n${detail}`], warnings: [] }
   }
 }
 
@@ -341,7 +341,11 @@ for (const slug of only) {
 
 const results = [
   ...targets.map(validateSystem),
-  ...(only.length ? [] : [validateIndex(all), checkPreviews()]),
+  ...(only.length ? [] : [
+    validateIndex(all),
+    checkGenerated('previews', 'build-previews.mjs', 'node scripts/build-previews.mjs'),
+    checkGenerated('site', 'build-site.mjs', 'node scripts/build-site.mjs'),
+  ]),
 ]
 
 let errors = 0

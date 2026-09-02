@@ -157,6 +157,12 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
            text-transform:uppercase;color:#71717a}
 @media (max-width:820px){.panels{grid-template-columns:1fr}}
 
+/* ?mode=light|dark shows one panel, ?chrome=0 hides the header. Used by the
+   compare page so two systems can be read in the same mode side by side. */
+[data-only] .panels{grid-template-columns:1fr}
+[data-only] .panel > b,[data-nochrome] .chrome{display:none}
+[data-only="light"] .panel.dark,[data-only="dark"] .panel.light{display:none}
+
 /* Everything below reads --ds-* only. */
 .stage{${shim}
   background:var(--ds-bg);color:var(--ds-text);font-family:var(--ds-font-body);
@@ -226,9 +232,15 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
   ${notes.length ? `<ul class="notes">${notes.map(n => `<li>${n}</li>`).join('')}</ul>` : ''}
 </div>
 <div class="panels${hasDark ? '' : ' solo'}">
-  <section class="panel"><b>Light</b>${stage(t, meta, false)}</section>
-  ${hasDark ? `<section class="panel"><b>Dark</b>${stage(t, meta, true)}</section>` : ''}
+  <section class="panel light"><b>Light</b>${stage(t, meta, false)}</section>
+  ${hasDark ? `<section class="panel dark"><b>Dark</b>${stage(t, meta, true)}</section>` : ''}
 </div>
+<script>
+  const q = new URLSearchParams(location.search)
+  const mode = q.get('mode')
+  if (mode === 'light' || mode === 'dark') document.documentElement.dataset.only = mode
+  if (q.get('chrome') === '0') document.documentElement.dataset.nochrome = ''
+</script>
 </body>
 </html>
 `

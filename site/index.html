@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>colophon — design system library</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <b>colophon</b>
+  <nav>
+    <a href="index.html" aria-current="page">Library</a>
+    <a href="compare.html">Compare</a>
+  </nav>
+</div></div>
+
+<div class="wrap">
+  <h1>Library</h1>
+  <p class="lede">Each system is one markdown file. Pick one, drop it into a project as
+  <code>CLAUDE.md</code> or reference it from one, and development follows that system.</p>
+  <div class="filters">
+    <div class="fgroup"><span>register</span><button class="chip" data-k="register" data-v="editorial" aria-pressed="false">editorial</button><button class="chip" data-k="register" data-v="utility" aria-pressed="false">utility</button></div><div class="fgroup"><span>density</span><button class="chip" data-k="density" data-v="comfortable" aria-pressed="false">comfortable</button><button class="chip" data-k="density" data-v="compact" aria-pressed="false">compact</button><button class="chip" data-k="density" data-v="spacious" aria-pressed="false">spacious</button></div><div class="fgroup"><span>origin</span><button class="chip" data-k="origin" data-v="own" aria-pressed="false">own</button><button class="chip" data-k="origin" data-v="reference" aria-pressed="false">reference</button></div><div class="fgroup"><span>status</span><button class="chip" data-k="status" data-v="active" aria-pressed="false">active</button><button class="chip" data-k="status" data-v="draft" aria-pressed="false">draft</button></div><div class="fgroup"><span>scripts</span><button class="chip" data-k="scripts" data-v="khmer" aria-pressed="false">khmer</button><button class="chip" data-k="scripts" data-v="latin" aria-pressed="false">latin</button></div>
+    <span class="count" id="count"></span>
+  </div>
+  <div class="grid" id="grid">
+<article class="card" data-slug="lozenge">
+  <a class="thumb" href="s/lozenge/index.html" aria-label="Open Lozenge">
+    <iframe src="s/lozenge/preview.html?mode=light&amp;chrome=0" loading="lazy"
+            title="Lozenge preview" tabindex="-1" scrolling="no"></iframe>
+  </a>
+  <div class="body">
+    <h2><a href="s/lozenge/index.html">Lozenge</a> <em>1.0</em></h2>
+    <div class="meta">
+  <span class="tag">utility</span>
+  <span class="tag">compact</span>
+  <span class="tag">latin</span><span class="tag">khmer</span>
+  
+  
+</div>
+    <p class="for"><b>Best for</b> dense data tables, retail and POS interfaces, inventory and status screens</p>
+    <p class="for"><b>Avoid for</b> long-form reading, marketing pages</p>
+    <div class="actions">
+      <a class="btn primary" href="s/lozenge/lozenge.md" download>Download .md</a>
+      <a class="btn" href="s/lozenge/index.html">Open</a>
+    </div>
+  </div>
+</article>
+<article class="card" data-slug="newsprint">
+  <a class="thumb" href="s/newsprint/index.html" aria-label="Open Newsprint">
+    <iframe src="s/newsprint/preview.html?mode=light&amp;chrome=0" loading="lazy"
+            title="Newsprint preview" tabindex="-1" scrolling="no"></iframe>
+  </a>
+  <div class="body">
+    <h2><a href="s/newsprint/index.html">Newsprint</a> <em>1.0</em></h2>
+    <div class="meta">
+  <span class="tag">editorial</span>
+  <span class="tag">comfortable</span>
+  <span class="tag">latin</span><span class="tag">khmer</span>
+  
+  <span class="tag ref">draft</span>
+</div>
+    <p class="for"><b>Best for</b> long-form reading, documentation, reports and printed output</p>
+    <p class="for"><b>Avoid for</b> high-speed data entry, dense operational dashboards</p>
+    <div class="actions">
+      <a class="btn primary" href="s/newsprint/newsprint.md" download>Download .md</a>
+      <a class="btn" href="s/newsprint/index.html">Open</a>
+    </div>
+  </div>
+</article>
+<article class="card" data-slug="pharmly">
+  <a class="thumb" href="s/pharmly/index.html" aria-label="Open Pharmly">
+    <iframe src="s/pharmly/preview.html?mode=light&amp;chrome=0" loading="lazy"
+            title="Pharmly preview" tabindex="-1" scrolling="no"></iframe>
+  </a>
+  <div class="body">
+    <h2><a href="s/pharmly/index.html">Pharmly</a> <em>1.0</em></h2>
+    <div class="meta">
+  <span class="tag">utility</span>
+  <span class="tag">spacious</span>
+  <span class="tag">latin</span>
+  <span class="tag ref">reference</span>
+  
+</div>
+    <p class="for"><b>Best for</b> admin dashboards, list-and-detail CRUD interfaces, portfolio presentation</p>
+    <p class="for"><b>Avoid for</b> point of sale, high-density catalogues</p>
+    <div class="actions">
+      <a class="btn primary" href="s/pharmly/pharmly.md" download>Download .md</a>
+      <a class="btn" href="s/pharmly/index.html">Open</a>
+    </div>
+  </div>
+</article></div>
+  <p class="empty" id="empty" hidden>No system matches those filters.</p>
+</div>
+<script>
+  const data = [{"slug":"lozenge","register":"utility","density":"compact","origin":"own","status":"active","scripts":["latin","khmer"]},{"slug":"newsprint","register":"editorial","density":"comfortable","origin":"own","status":"draft","scripts":["latin","khmer"]},{"slug":"pharmly","register":"utility","density":"spacious","origin":"reference","status":"active","scripts":["latin"]}];
+  const on = {};
+  const cards = new Map([...document.querySelectorAll('.card')].map(c => [c.dataset.slug, c]));
+
+  function apply() {
+    let shown = 0;
+    for (const s of data) {
+      const ok = Object.entries(on).every(([k, vals]) =>
+        !vals.length || (Array.isArray(s[k]) ? s[k].some(v => vals.includes(v)) : vals.includes(s[k])));
+      cards.get(s.slug).hidden = !ok;
+      if (ok) shown++;
+    }
+    document.getElementById('count').textContent = shown + ' of ' + data.length;
+    document.getElementById('empty').hidden = shown > 0;
+  }
+  for (const chip of document.querySelectorAll('.chip')) {
+    chip.addEventListener('click', () => {
+      const { k, v } = chip.dataset;
+      on[k] ??= [];
+      const i = on[k].indexOf(v);
+      i === -1 ? on[k].push(v) : on[k].splice(i, 1);
+      chip.setAttribute('aria-pressed', i === -1);
+      apply();
+    });
+  }
+  apply();
+</script>
+<footer><div class="wrap">Design systems as drop-in markdown. Generated from the repo — the file is the product.</div></footer>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "name": "colophon",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-previews.mjs && node scripts/build-site.mjs",
+    "check": "node scripts/validate.mjs"
+  },
+  "devDependencies": {
+    "marked": "18.0.11"
+  }
+}

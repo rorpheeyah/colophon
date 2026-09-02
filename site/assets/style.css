@@ -1,0 +1,170 @@
+/* colophon — browse UI. Hand-written source; the HTML around it is generated.
+   Deliberately neutral: the systems supply the design, this supplies the frame. */
+
+:root {
+  --bg:      #fafafa;
+  --panel:   #ffffff;
+  --edge:    #e4e4e7;
+  --edge-2:  #d4d4d8;
+  --fg:      #18181b;
+  --fg-2:    #52525b;
+  --fg-3:    #8b8b93;
+  --link:    #1d4ed8;
+  --flag:    #92400e;
+  --flag-bg: #fffbeb;
+  --r:       6px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #131316; --panel: #1a1a1e; --edge: #2a2a30; --edge-2: #3a3a42;
+    --fg: #ececf0; --fg-2: #a1a1aa; --fg-3: #71717a;
+    --link: #93b4fd; --flag: #fcd34d; --flag-bg: #26210f;
+  }
+}
+
+* { box-sizing: border-box }
+/* .card sets display:flex, which would beat the UA [hidden] rule. */
+[hidden] { display: none !important }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.55 ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--link) }
+code, kbd { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .92em }
+
+.wrap { max-width: 1180px; margin: 0 auto; padding: 0 22px }
+.wrap.narrow { max-width: 840px }
+
+/* ── masthead ─────────────────────────────────────────────────────────── */
+.top { border-bottom: 1px solid var(--edge); background: var(--panel) }
+.top .wrap { display: flex; align-items: baseline; gap: 18px; padding: 14px 22px }
+.top b { font-size: 16px; letter-spacing: -.01em }
+.top nav { display: flex; gap: 14px; font-size: 13px; margin-left: auto }
+.top nav a { color: var(--fg-2); text-decoration: none }
+.top nav a:hover, .top nav a[aria-current] { color: var(--fg); text-decoration: underline }
+
+h1 { font-size: 24px; letter-spacing: -.02em; margin: 26px 0 4px }
+.lede { color: var(--fg-2); margin: 0 0 22px; max-width: 68ch }
+
+/* ── filters ──────────────────────────────────────────────────────────── */
+.filters {
+  display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 14px 0 18px;
+  border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge); margin-bottom: 22px;
+}
+.fgroup { display: flex; align-items: center; gap: 7px; flex-wrap: wrap }
+.fgroup > span {
+  font: 600 10px/1 ui-sans-serif, system-ui; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--fg-3);
+}
+.chip {
+  border: 1px solid var(--edge-2); background: transparent; color: var(--fg-2);
+  border-radius: 999px; padding: 3px 11px; font-size: 12.5px; cursor: pointer;
+}
+.chip:hover { border-color: var(--fg-3); color: var(--fg) }
+.chip[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg) }
+.count { margin-left: auto; font-size: 12.5px; color: var(--fg-3); align-self: center }
+
+/* ── library ──────────────────────────────────────────────────────────── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px }
+.card {
+  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.card > a.thumb {
+  display: block; border-bottom: 1px solid var(--edge); background: var(--bg);
+  height: 168px; overflow: hidden;
+}
+.card iframe {
+  display: block; width: 200%; height: 336px; border: 0; pointer-events: none;
+  transform: scale(.5); transform-origin: top left;
+}
+.card .body { padding: 13px 15px; display: flex; flex-direction: column; gap: 9px; flex: 1 }
+.card h2 { margin: 0; font-size: 16.5px; letter-spacing: -.01em }
+.card h2 a { color: inherit; text-decoration: none }
+.card h2 a:hover { text-decoration: underline }
+.card h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: 13px }
+.meta { display: flex; flex-wrap: wrap; gap: 5px }
+.tag {
+  font: 500 11px/1.5 ui-sans-serif, system-ui; color: var(--fg-2);
+  background: var(--bg); border: 1px solid var(--edge); border-radius: 4px; padding: 1px 7px;
+}
+.tag.ref { color: var(--flag); background: var(--flag-bg); border-color: currentColor }
+.for { font-size: 13px; color: var(--fg-2); margin: 0 }
+.for b { color: var(--fg-3); font-weight: 600 }
+.actions { display: flex; gap: 8px; margin-top: auto; padding-top: 4px }
+
+.btn {
+  display: inline-block; border: 1px solid var(--edge-2); background: var(--panel);
+  color: var(--fg); border-radius: var(--r); padding: 7px 13px; font-size: 13px;
+  font-weight: 500; text-decoration: none; cursor: pointer; font-family: inherit;
+}
+.btn:hover { border-color: var(--fg-3) }
+.btn.primary { background: var(--fg); border-color: var(--fg); color: var(--bg) }
+.btn.primary:hover { opacity: .88 }
+.empty { color: var(--fg-2); padding: 40px 0; text-align: center }
+
+/* ── system page ──────────────────────────────────────────────────────── */
+.head { display: flex; align-items: flex-start; gap: 18px; flex-wrap: wrap; margin: 26px 0 16px }
+.head h1 { margin: 0 0 6px }
+.head .actions { margin: 0 0 0 auto; padding: 0 }
+.prov {
+  background: var(--flag-bg); color: var(--flag); border: 1px solid currentColor;
+  border-radius: var(--r); padding: 11px 13px; font-size: 13.5px; margin: 0 0 20px;
+}
+.prov a { color: inherit }
+.frame { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; margin-bottom: 26px }
+.frame iframe { display: block; width: 100%; height: 720px; border: 0 }
+.frame > b {
+  display: block; padding: 8px 13px; border-bottom: 1px solid var(--edge);
+  background: var(--panel); font: 600 10px/1 ui-sans-serif, system-ui;
+  letter-spacing: .09em; text-transform: uppercase; color: var(--fg-3);
+}
+
+/* rendered markdown */
+.doc { max-width: 74ch }
+.doc h1 { font-size: 22px; margin: 30px 0 8px }
+.doc h2 { font-size: 17px; margin: 34px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--edge) }
+.doc h3 { font-size: 15px; margin: 22px 0 6px }
+.doc p, .doc li { color: var(--fg-2) }
+.doc strong { color: var(--fg); font-weight: 600 }
+.doc hr { border: 0; border-top: 1px solid var(--edge); margin: 26px 0 }
+.doc blockquote {
+  margin: 18px 0; padding: 11px 14px; background: var(--flag-bg); color: var(--flag);
+  border: 1px solid currentColor; border-radius: var(--r);
+}
+.doc blockquote p { color: inherit; margin: 0 }
+.doc pre {
+  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
+  padding: 13px 15px; overflow-x: auto; font-size: 12.5px; line-height: 1.5;
+}
+.doc :not(pre) > code { background: var(--panel); border: 1px solid var(--edge); border-radius: 3px; padding: .5px 4px }
+.doc table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 13.5px; display: block; overflow-x: auto }
+.doc th, .doc td { border: 1px solid var(--edge); padding: 6px 10px; text-align: left; vertical-align: top }
+.doc th { background: var(--panel); font-weight: 600; white-space: nowrap }
+.doc td { color: var(--fg-2) }
+
+/* ── compare ──────────────────────────────────────────────────────────── */
+.cbar { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; margin: 22px 0 18px }
+.cbar label { display: flex; flex-direction: column; gap: 5px; font: 600 10px/1 ui-sans-serif, system-ui;
+              letter-spacing: .09em; text-transform: uppercase; color: var(--fg-3) }
+.cbar select {
+  font: 14px ui-sans-serif, system-ui; padding: 7px 9px; border-radius: var(--r);
+  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); min-width: 190px;
+}
+.modes { display: flex; gap: 6px; margin-left: auto }
+.cpair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px }
+.cpair > div { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; min-width: 0 }
+.cpair h2 { margin: 0; padding: 9px 13px; border-bottom: 1px solid var(--edge);
+            background: var(--panel); font-size: 14px }
+.cpair h2 a { color: inherit; text-decoration: none }
+.cpair h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: 12px }
+.cpair iframe { display: block; width: 100%; height: 900px; border: 0 }
+.crow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
+.crow section { border: 1px solid var(--edge); border-radius: var(--r); background: var(--panel); padding: 13px 15px }
+.crow h3 { margin: 0 0 8px; font-size: 13px }
+.crow ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--fg-2) }
+@media (max-width: 900px) { .cpair, .crow { grid-template-columns: 1fr } }
+
+footer { border-top: 1px solid var(--edge); margin-top: 46px; padding: 18px 0 34px;
+         color: var(--fg-3); font-size: 12.5px }
