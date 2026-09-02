@@ -94,6 +94,7 @@ Two consequences that explain most of what follows:
   --ds-shadow:         var(--offset) var(--offset) 0 var(--ink);
   --ds-button-bg:      var(--stock);
   --ds-button-text:    var(--ink);
+  --ds-button2-bg:     var(--stock);
   --ds-font-display:   var(--display);
   --ds-font-body:      var(--body);
   --ds-font-data:      var(--data);
@@ -109,6 +110,14 @@ Two consequences that explain most of what follows:
   --ds-invert-text:    none;
   --ds-invert-accent:  none;
   --ds-hatch:          none;
+  --ds-font-script:    var(--body);
+  --ds-scrim:          none;
+  --ds-shadow-surface: none;
+  --ds-chart-1:        none;
+  --ds-chart-2:        none;
+  --ds-chart-3:        none;
+  --ds-chart-4:        none;
+  --ds-chart-5:        none;
 }
 
 [data-mode="dark"] {

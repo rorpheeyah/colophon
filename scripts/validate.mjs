@@ -33,6 +33,8 @@ const DS_ALIASES = [
   'gap', 'pad',
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent', 'hatch',
+  'font-script', 'scrim', 'shadow-surface', 'button2-bg',
+  'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
 ].map(n => `--ds-${n}`)
 
 // Aliases a system may decline. The rest carry structure, so `none` in one of them
@@ -41,6 +43,8 @@ const DS_NONE_PERMITTED = new Set([
   'shadow', 'font-data', 'hatch', 'border-color', 'gap', 'pad',
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent',
+  'font-script', 'scrim', 'shadow-surface', 'button2-bg',
+  'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
 ].map(n => `--ds-${n}`))
 
 // A wash needs a colour to pair with. The reverse does not hold: a system may mark
@@ -173,6 +177,16 @@ function validateSystem(slug) {
       if (a === 'none' && b !== 'none') {
         err(`\`${wash}\` is declared but \`${colour}\` is \`none\` — a wash with no colour ` +
             `to pair with`)
+      }
+    }
+
+    const series = [1, 2, 3, 4, 5].map(n => declared.get(`--ds-chart-${n}`))
+    const firstNone = series.findIndex(v => v === 'none')
+    if (firstNone !== -1) {
+      const laterDeclared = series.findIndex((v, i) => i > firstNone && v !== undefined && v !== 'none')
+      if (laterDeclared !== -1) {
+        err(`\`--ds-chart-${laterDeclared + 1}\` is declared but \`--ds-chart-${firstNone + 1}\` ` +
+            `is \`none\` — a series palette must be declared in order, with no gaps`)
       }
     }
 

@@ -80,6 +80,7 @@ cannot vouch for.
   --ds-shadow:         none;
   --ds-button-bg:      var(--lime);
   --ds-button-text:    var(--ink);
+  --ds-button2-bg:     var(--card);
   --ds-font-display:   var(--sans);
   --ds-font-body:      var(--sans);
   --ds-font-data:      none;
@@ -96,6 +97,14 @@ cannot vouch for.
   --ds-invert-accent:  var(--lime);
   --ds-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
+  --ds-font-script:    none;
+  --ds-scrim:          none;
+  --ds-shadow-surface: none;
+  --ds-chart-1:        var(--pine);
+  --ds-chart-2:        none;
+  --ds-chart-3:        none;
+  --ds-chart-4:        none;
+  --ds-chart-5:        none;
 }
 ```
 

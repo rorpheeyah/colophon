@@ -109,6 +109,7 @@ The same shape appears at every scale:
   --ds-shadow:         none;
   --ds-button-bg:      var(--citron);
   --ds-button-text:    var(--hemlock);
+  --ds-button2-bg:     var(--mist);
   --ds-font-display:   var(--sans);
   --ds-font-body:      var(--sans);
   --ds-font-data:      none;
@@ -125,6 +126,14 @@ The same shape appears at every scale:
   --ds-invert-accent:  var(--citron);
   --ds-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
+  --ds-font-script:    var(--km);
+  --ds-scrim:          none;
+  --ds-shadow-surface: none;
+  --ds-chart-1:        var(--hemlock);
+  --ds-chart-2:        none;
+  --ds-chart-3:        none;
+  --ds-chart-4:        none;
+  --ds-chart-5:        none;
 }
 
 [data-mode="dark"] {
