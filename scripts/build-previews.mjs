@@ -85,7 +85,7 @@ function stage(t, meta) {
   ${group('Base', rows(`
     <div class="row">
       <button class="btn">Primary</button>
-      <button class="btn b2">Secondary</button>
+      ${has(t, '--ds-button2-bg') ? '<button class="btn b2">Secondary</button>' : ''}
       <button class="btn b3">Ghost</button>
       <button class="btn" disabled>Disabled</button>
     </div>
@@ -161,7 +161,10 @@ function stage(t, meta) {
         ? '<div class="toast">Saved</div>'
         : '<p class="none">No floating surface: this system declares no elevation for one.</p>')
       + (has(t, '--ds-scrim')
-        ? '<div class="scrimbox"><div class="dialog"><b>Discard changes?</b><div class="row"><button class="btn">Discard</button><button class="btn b2">Keep</button></div></div></div>'
+        ? '<div class="scrimbox"><div class="dialog"><b>Discard changes?</b><div class="row">'
+          + '<button class="btn">Discard</button>'
+          + (has(t, '--ds-button2-bg') ? '<button class="btn b2">Keep</button>' : '')
+          + '</div></div></div>'
         : '<p class="none">No dialog: this system declares no scrim.</p>')) : '')}
 
   ${group('Charts', series.length ? rows(`
@@ -271,7 +274,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .btn{background:var(--ds-button-bg);color:var(--ds-button-text);border:var(--_border);
   border-radius:var(--ds-radius-control);box-shadow:var(--ds-shadow);
   font:600 13px/1 var(--ds-font-body);padding:10px 15px;cursor:pointer}
-.btn.b2{background:var(--ds-surface);color:var(--ds-text)}
+.btn.b2{background:var(--ds-button2-bg);color:var(--ds-text)}
 .btn.b3{background:transparent;color:var(--ds-text-2);border:0;box-shadow:none}
 .btn[disabled]{background:var(--ds-line);color:var(--ds-text-3);border:0;box-shadow:none;cursor:default}
 .badge{background:var(--ds-line);color:var(--ds-text-2);border-radius:var(--ds-radius-control);

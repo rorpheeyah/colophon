@@ -80,6 +80,7 @@ cannot vouch for.
   --ds-shadow:         none;
   --ds-button-bg:      var(--lime);
   --ds-button-text:    var(--ink);
+  --ds-button2-bg:     var(--card);
   --ds-font-display:   var(--sans);
   --ds-font-body:      var(--sans);
   --ds-font-data:      none;

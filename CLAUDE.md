@@ -197,7 +197,7 @@ light value: `--paper` goes dark, `--ds-bg` does not, and dark mode silently doe
 root is the only place the substitution sees the dark tokens. The preview generator therefore
 renders one mode per document and sets `data-mode` on `<html>`.
 
-**All 37 aliases are required.** A system that does not have a concept declares `none`:
+**All 38 aliases are required.** A system that does not have a concept declares `none`:
 
 ```css
 --ds-success: none;
@@ -224,6 +224,7 @@ it said so.
 | `--ds-shadow` | Full `box-shadow` value, applied to controls only | yes |
 | `--ds-button-bg` | Primary button fill | |
 | `--ds-button-text` | Primary button text | |
+| `--ds-button2-bg` | Secondary button fill; its text is `--ds-text` | yes |
 | `--ds-font-display` | Headings | |
 | `--ds-font-body` | Body text | |
 | `--ds-font-data` | Figures and mono labels | yes |
@@ -269,9 +270,11 @@ having one invented for it.
 
 The preview is a **specimen sheet, not a screen.** It shows every component the system declares
 support for, side by side, so per-screen limits — "one accent per screen", "at most three
-summary cards" — are not observed there and cannot be. Secondary and ghost control treatments
-are composed from `--ds-surface`, `--ds-line` and `--ds-border-*` rather than declared outright,
-so they are the template's most conservative reading rather than the system's own word.
+summary cards" — are not observed there and cannot be.
+
+A system that declines `--ds-button2-bg` gets no secondary button, rather than one composed from
+`--ds-surface`. The ghost treatment is still derived — transparent with `--ds-text-2` — and is
+the template's most conservative reading rather than the system's own word.
 
 ---
 

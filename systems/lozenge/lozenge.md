@@ -109,6 +109,7 @@ The same shape appears at every scale:
   --ds-shadow:         none;
   --ds-button-bg:      var(--citron);
   --ds-button-text:    var(--hemlock);
+  --ds-button2-bg:     var(--mist);
   --ds-font-display:   var(--sans);
   --ds-font-body:      var(--sans);
   --ds-font-data:      none;

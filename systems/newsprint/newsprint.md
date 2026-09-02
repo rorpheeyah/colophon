@@ -94,6 +94,7 @@ Two consequences that explain most of what follows:
   --ds-shadow:         var(--offset) var(--offset) 0 var(--ink);
   --ds-button-bg:      var(--stock);
   --ds-button-text:    var(--ink);
+  --ds-button2-bg:     var(--stock);
   --ds-font-display:   var(--display);
   --ds-font-body:      var(--body);
   --ds-font-data:      var(--data);
