@@ -1,7 +1,7 @@
 ---
 system: Newsprint
 version: "1.0"
-status: draft
+status: active
 origin: own
 register: editorial
 density: comfortable
@@ -24,9 +24,10 @@ binding for all UI work. Where a rule and your instinct disagree, the rule wins.
 
 Everything below is binding.
 
-> **Token values below are stand-ins, which is why this system is `status: draft`.** Replace the `css` block with the real `tokens.css`, then flip the status to `active`. Everything else — the rules, the type roles, the prohibitions — is accurate as written.
->
-> This system specifies no spacing step, so `--ds-gap` and `--ds-pad` are declined. The preview spaces it from `density: comfortable` rather than inventing a value the system never stated.
+> **Every text colour here clears WCAG AA on both surfaces**, in both modes. That is a
+> constraint of the system, not a coincidence: status is carried by type colour and a 1px border
+> of the same colour, never by a fill, so `teal`, `mark` and `flag` have to be legible as text.
+> A replacement colour that does not clear 4.5:1 on `paper` and on `stock` is not a candidate.
 
 An editorial, print-inspired system with first-class Khmer and Latin support. Intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed.
 
@@ -61,19 +62,24 @@ Two consequences that explain most of what follows:
 
 ```css
 :root {
-  --paper:   #F5F4F0;
+  --paper:   #F4F2EC;
   --stock:   #FFFFFF;
-  --ink:     #1A1A18;
-  --ink-2:   #55534C;
-  --ink-3:   #8C8A80;
-  --rule:    #D6D4CC;
-  --rule-2:  #B6B3A8;
-  --teal:    #10786B;
-  --mark:    #B07A08;
-  --flag:    #A32D22;
+  --ink:     #1B1A17;
+  --ink-2:   #545149;
+  --ink-3:   #726E65;
+  --rule:    #D8D5CB;
+  --rule-2:  #B4B0A4;
+  --teal:    #0E6E60;
+  --mark:    #8A5A0B;
+  --flag:    #A32A1E;
 
   --offset:  3px;
   --radius:  2px;
+
+  --gap-tight: 8px;
+  --gap:       16px;
+  --gap-loose: 28px;
+  --pad:       20px 22px;
 
 
   --display: "Archivo", system-ui, sans-serif;
@@ -98,8 +104,8 @@ Two consequences that explain most of what follows:
   --ds-font-display:   var(--display);
   --ds-font-body:      var(--body);
   --ds-font-data:      var(--data);
-  --ds-gap:            none;
-  --ds-pad:            none;
+  --ds-gap:            var(--gap);
+  --ds-pad:            var(--pad);
   --ds-success:        var(--teal);
   --ds-success-wash:   none;
   --ds-warn:           var(--mark);
@@ -121,16 +127,16 @@ Two consequences that explain most of what follows:
 }
 
 [data-mode="dark"] {
-  --paper:   #16171A;
-  --stock:   #1D1F22;
-  --ink:     #EDEBE4;
-  --ink-2:   #A9A69C;
-  --ink-3:   #77746B;
-  --rule:    #2F3237;
-  --rule-2:  #454951;
-  --teal:    #4FBFAE;
-  --mark:    #D7A63F;
-  --flag:    #E08072;
+  --paper:   #191917;
+  --stock:   #212020;
+  --ink:     #EDEBE3;
+  --ink-2:   #AEABA1;
+  --ink-3:   #8B877D;
+  --rule:    #302F2B;
+  --rule-2:  #494640;
+  --teal:    #54C1AF;
+  --mark:    #DCA842;
+  --flag:    #EB8B76;
 }
 ```
 
@@ -195,6 +201,10 @@ Kantumruy Pro sets Khmer and Latin at one optical weight, so a mixed row keeps e
 
 **Column alignment is the layout.** Figures right-align, labels left-align, and the alignment holds down the whole page. Breaking alignment for one row breaks the system.
 
+**Vertical rhythm.** `gap-tight` inside a group, `gap` between groups, `gap-loose` between
+sections, `pad` for container padding. Four steps, no fifth, and no arbitrary margin between
+them — the rhythm is what makes a ruled page read as typeset rather than assembled.
+
 `--radius: 2px` — effectively square. This is a print system; nothing here is a pill.
 
 ---
@@ -253,5 +263,7 @@ One moment per surface, tied to a user action that changed data, plus the press 
 - Filled cards or pills used to group content
 - A radius above 2px
 - A fourth semantic colour
+- A fifth spacing step, or a margin that is not one of the four
+- A text colour that does not clear 4.5:1 on both `paper` and `stock`, in both modes
 - Uppercase outside mono labels and column heads
 - Print treated as an afterthought
