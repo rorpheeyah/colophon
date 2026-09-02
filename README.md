@@ -60,6 +60,8 @@ pnpm install     one dependency: marked, build-time only
 pnpm dev         http://localhost:4321, rebuilds on save
 pnpm build       previews, then the site
 pnpm check       validate everything
+
+node scripts/contrast.mjs <slug>    WCAG ratios while choosing a palette
 ```
 
 `pnpm check` must pass before anything is called done. It enforces the format, checks

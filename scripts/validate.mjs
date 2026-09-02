@@ -12,6 +12,7 @@ import {
   ROOT, ARRAY_FIELDS, SECTIONS, TOKENS_SECTION,
   parseFrontmatter, scanBody, scalar, tokensBlock, declaredAliases, systemSlugs,
 } from './lib.mjs'
+import { THRESHOLDS, check as checkContrast } from './contrast.mjs'
 
 // ── format contract ──────────────────────────────────────────────────────────
 
@@ -21,6 +22,7 @@ const REQUIRED_FRONTMATTER = [
 ]
 const REFERENCE_FRONTMATTER = ['source-url', 'credit']
 const ENUMS = {
+  contrast: ['AA', 'AAA'],
   status: ['active', 'draft', 'archived'],
   origin: ['own', 'reference'],
   density: ['compact', 'comfortable', 'spacious'],
@@ -208,6 +210,24 @@ function validateSystem(slug) {
             `${[...new Set(redeclared.map(m => m[1]))].join(', ')}. ` +
             `Aliases point at tokens; redefine the underlying token instead`)
       }
+    }
+  }
+
+  // contrast, only where the system declares a floor -------------------------
+  const declaredContrast = scalar(data.contrast)
+  if (canonical && declaredContrast && THRESHOLDS[declaredContrast]) {
+    const threshold = THRESHOLDS[declaredContrast]
+    const { findings, skipped } = checkContrast(canonical.code, threshold)
+    for (const f of findings.filter(x => !x.pass)) {
+      err(`\`contrast: ${declaredContrast}\` but ${f.fgName} on ${f.bgName} (${f.mode}) is ` +
+          `${f.ratio.toFixed(2)}:1, under ${threshold}:1`)
+    }
+    if (!findings.length) {
+      warn(`\`contrast: ${declaredContrast}\` is declared but nothing was comparable — ` +
+           `every text pair resolved to a declined alias or a non-hex value`)
+    } else if (skipped.length) {
+      warn(`${skipped.length} text pair(s) not checked: a declined alias, or a value that is ` +
+           `not an opaque hex`)
     }
   }
 

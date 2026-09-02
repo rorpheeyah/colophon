@@ -5,6 +5,7 @@ status: active
 origin: own
 register: editorial
 density: comfortable
+contrast: AA
 scripts: [latin, khmer]
 best-for: [long-form reading, documentation, reports and printed output, bilingual editorial layouts, ruled data tables]
 avoid-for: [high-speed data entry, dense operational dashboards, touch-first mobile interfaces]
