@@ -1,6 +1,6 @@
 import { marked } from 'marked'
 import { html, raw, json } from './html.mjs'
-import { shell, tags } from './layout.mjs'
+import { shell, tags, crumbs } from './layout.mjs'
 
 const slug = s => s.replace(/<[^>]+>/g, '').toLowerCase()
   .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
@@ -11,11 +11,10 @@ const withAnchors = md => marked.parse(md)
 
 const installBlock = s => html`
 <section class="install" id="install">
-  <h2>Install into a project</h2>
+  <h2>Install</h2>
   <ol>
-    <li>Save <code>${s.slug}.md</code> into the project as <code>.claude/design-system.md</code>.</li>
-    <li>Add this to the project's own <code>CLAUDE.md</code> — it keeps the system in context for
-        every turn without displacing the project's own rules:</li>
+    <li>Save <code>${s.slug}.md</code> as <code>.claude/design-system.md</code>.</li>
+    <li>Add to the project's <code>CLAUDE.md</code>:</li>
   </ol>
   <pre id="snippet">## Design system
 
@@ -25,16 +24,19 @@ binding for all UI work. Where a rule and your instinct disagree, the rule wins.
     <button class="btn" id="copysnip">Copy snippet</button>
     <a class="btn" href="${s.slug}.md" download>Download .md</a>
   </div>
-  <p class="fine">Prefer on-demand loading? Save it as
-  <code>.claude/skills/design-system/SKILL.md</code> with a frontmatter <code>name</code> and
-  <code>description</code> instead. It costs less context but is not guaranteed to load on a
-  given edit, which is how a system quietly stops being followed.</p>
+  <details class="alt">
+    <summary>Install as a skill instead</summary>
+    <p>Save as <code>.claude/skills/design-system/SKILL.md</code> with a frontmatter
+    <code>name</code> and <code>description</code>. Costs less context, but is not guaranteed to
+    load on a given edit — which is how a system quietly stops being followed.</p>
+  </details>
 </section>`
 
 export const systemPage = s => shell({
   base: '../../', current: null, title: `${s.system} — colophon`,
   body: html`
 <div class="wrap">
+  ${crumbs('../../', [s.system])}
   <div class="head">
     <div>
       <h1>${s.system} <em>${s.version}</em></h1>
@@ -48,10 +50,9 @@ export const systemPage = s => shell({
   </div>
 
   ${s.origin === 'reference' && html`<p class="prov">
-    <strong>Reference record.</strong> This is a reading of someone else's public work — not an
-    original system, and not a claim of authorship. ${s.credit}
-    ${s.sourceUrl && html`<a href="${s.sourceUrl}">Source</a>.`}
-    Token values are approximations, not the author's own.</p>`}
+    <strong>Reference record</strong> — someone else's public work, read and annotated, not a
+    claim of authorship. Tokens are approximated by eye. ${s.credit}
+    ${s.sourceUrl && html`<a href="${s.sourceUrl}">Source</a>.`}</p>`}
 
   <div class="frame">
     <b>Generated preview
@@ -72,24 +73,21 @@ export const systemPage = s => shell({
   ${s.origin === 'own' ? installBlock(s) : html`
   <section class="install">
     <h2>Not for direct use</h2>
-    <p>This is a reference record. To build in this style, fork it into an
-    <code>origin: own</code> system first and fix what its problem sections list.</p>
+    <p>Fork it into an <code>origin: own</code> system first, and fix what its problem sections
+    list.</p>
   </section>`}
 
   <div class="cols">
     <nav class="toc" aria-label="Sections">
-      <span>Sections</span>
       ${s.sections.map(t => html`<a href="#${slug(t)}">${t}</a>`)}
-      <span>Declared tokens</span>
-      <a href="#tokens-table">${s.aliases.length} aliases</a>
+      <a href="#tokens-table">Declared aliases</a>
     </nav>
 
     <div class="doc">
       ${raw(withAnchors(s.body))}
 
       <h2 id="tokens-table">Declared aliases</h2>
-      <p>What this system tells the preview template. <code>none</code> is a refusal the author
-      wrote down, not a gap — the preview renders nothing for it.</p>
+      <p><code>none</code> is a refusal the author wrote down. The preview renders nothing for it.</p>
       <table class="aliases">
         <thead><tr><th>Alias</th><th>Value</th></tr></thead>
         <tbody>${s.aliases.map(([name, value]) => html`<tr${value === 'none' ? html` class="declined"` : ''}>
@@ -97,6 +95,11 @@ export const systemPage = s => shell({
       </table>
     </div>
   </div>
+
+  <nav class="pager">
+    ${s.prev ? html`<a href="../${s.prev.slug}/index.html">\u2190 ${s.prev.system}</a>` : html`<span></span>`}
+    ${s.next ? html`<a href="../${s.next.slug}/index.html">${s.next.system} \u2192</a>` : html`<span></span>`}
+  </nav>
 </div>
 <script id="src" type="application/json">${json(s.body)}</script>
 <script>

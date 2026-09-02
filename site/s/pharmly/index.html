@@ -6,7 +6,7 @@
 <title>Pharmly — colophon</title>
 <link rel="stylesheet" href="../../assets/style.css">
 <script>
-  // Runs before paint so a chosen theme never flashes the other one.
+  // Before paint, so a chosen theme never flashes the other one.
   try {
     const t = localStorage.getItem('colophon-theme');
     if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
@@ -17,12 +17,22 @@
 <div class="top"><div class="wrap">
   <b>colophon</b>
   <nav><a href="../../index.html">Library</a><a href="../../compare.html">Compare</a><a href="../../about.html">About</a></nav>
-  <button class="theme" id="theme" title="Theme: system" aria-label="Change theme">
-    <span data-t="system">Auto</span><span data-t="light">Light</span><span data-t="dark">Dark</span>
-  </button>
+  <button class="theme" id="theme" aria-label="Change theme">
+<svg data-t="system" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <circle cx="8" cy="8" r="5.9" fill="none" stroke="currentColor" stroke-width="1.4"/>
+  <path d="M8 2.1a5.9 5.9 0 000 11.8z" fill="currentColor"/></svg>
+<svg data-t="light" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <circle cx="8" cy="8" r="3.1" fill="currentColor"/>
+  <path d="M8 .9v2.1M8 13v2.1M.9 8h2.1M13 8h2.1M3 3l1.5 1.5M11.5 11.5L13 13M13 3l-1.5 1.5M4.5 11.5L3 13"
+    stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+<svg data-t="dark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <path d="M13.4 10.3A6.2 6.2 0 015.7 2.6a6.2 6.2 0 107.7 7.7z" fill="currentColor"/></svg></button>
 </div></div>
 
 <div class="wrap">
+  <nav class="crumbs">
+  <a href="../../index.html">Library</a> <span>/</span> <b>Pharmly</b>
+</nav>
   <div class="head">
     <div>
       <h1>Pharmly <em>1.0</em></h1>
@@ -42,10 +52,9 @@
   </div>
 
   <p class="prov">
-    <strong>Reference record.</strong> This is a reading of someone else's public work — not an
-    original system, and not a claim of authorship. Pharmly — Pharmacy Management Admin Dashboard UI Design, published on Behance. Author credit to be filled in from the project page.
-    <a href="https://www.behance.net/">Source</a>.
-    Token values are approximations, not the author's own.</p>
+    <strong>Reference record</strong> — someone else's public work, read and annotated, not a
+    claim of authorship. Tokens are approximated by eye. Pharmly — Pharmacy Management Admin Dashboard UI Design, published on Behance. Author credit to be filled in from the project page.
+    <a href="https://www.behance.net/">Source</a>.</p>
 
   <div class="frame">
     <b>Generated preview
@@ -61,16 +70,14 @@
   
   <section class="install">
     <h2>Not for direct use</h2>
-    <p>This is a reference record. To build in this style, fork it into an
-    <code>origin: own</code> system first and fix what its problem sections list.</p>
+    <p>Fork it into an <code>origin: own</code> system first, and fix what its problem sections
+    list.</p>
   </section>
 
   <div class="cols">
     <nav class="toc" aria-label="Sections">
-      <span>Sections</span>
       <a href="#how-to-apply-this-file">How to apply this file</a><a href="#1-the-core-idea">1. The core idea</a><a href="#2-tokens">2. Tokens</a><a href="#3-type">3. Type</a><a href="#4-structure">4. Structure</a><a href="#5-what-it-gets-right">5. What it gets right</a><a href="#6-components-worth-noting">6. Components worth noting</a><a href="#7-motion">7. Motion</a><a href="#8-what-i-would-take">8. What I would take</a><a href="#9-what-is-broken">9. What is broken</a><a href="#10-structural-problems">10. Structural problems</a><a href="#11-never-if-forking-this">11. Never — if forking this</a>
-      <span>Declared tokens</span>
-      <a href="#tokens-table">29 aliases</a>
+      <a href="#tokens-table">Declared aliases</a>
     </nav>
 
     <div class="doc">
@@ -224,8 +231,7 @@ cannot vouch for.</p>
 
 
       <h2 id="tokens-table">Declared aliases</h2>
-      <p>What this system tells the preview template. <code>none</code> is a refusal the author
-      wrote down, not a gap — the preview renders nothing for it.</p>
+      <p><code>none</code> is a refusal the author wrote down. The preview renders nothing for it.</p>
       <table class="aliases">
         <thead><tr><th>Alias</th><th>Value</th></tr></thead>
         <tbody><tr>
@@ -261,6 +267,11 @@ cannot vouch for.</p>
       </table>
     </div>
   </div>
+
+  <nav class="pager">
+    <a href="../newsprint/index.html">← Newsprint</a>
+    <span></span>
+  </nav>
 </div>
 <script id="src" type="application/json">"\n> **This is my reading of someone else's public work, not my design.** Tokens below are extracted by eye from published screenshots and are approximations, not the original author's values. No assets are reproduced. Credit and source above; fill in the author's name before publishing this entry.\n\nA pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.\n\n---\n\n## How to apply this file\n\n**Don't apply it directly, and don't install it.** This is a reference record, not a system to build in. Use it to compare against, to borrow specific ideas from, or to argue with.\n\nIf a project should be built in this style, fork it into an `origin: own` system first and fix what section 10 lists. That forked system is the one that gets installed into a project, as `.claude/design-system.md` with an `@`-import from the project's `CLAUDE.md`.\n\n---\n\n## 1. The core idea\n\nA dark rail plus a light content area, with every screen built from the same template: summary cards → search and actions → data table → pagination. Consistency is total; the trade-off is that no individual screen is designed for its own job.\n\nThe distinguishing move is a **capsule chart language** — bars drawn as rounded pills against a ghost track showing the maximum. In a pharmacy product this is a domain idiom rather than a default, and it costs nothing.\n\n---\n\n## 2. Tokens\n\nApproximated from screenshots. The type family, the spacing steps, and the status-pill wash\ncolours were **not** extracted: the family is named in the published work but never specified,\nno spacing step was measurable, and the wash tints were not readable from the screenshots with\nany confidence. The spacing and wash aliases are\ndeclared `none` rather than guessed, so the preview renders status labels without a fill it\ncannot vouch for.\n\n```css\n:root {\n  --pine:      #1D4237;\n  --pine-deep: #133029;\n  --lime:      #C8E64C;\n  --paper:     #F7F7F5;\n  --card:      #FFFFFF;\n  --ink:       #14201B;\n  --ink-2:     #5C6660;\n  --ink-3:     #929B96;\n  --mist:      #E6E9E7;\n  --ok:        #2EA05C;\n  --warn:      #E3A33A;\n  --fail:      #E15241;\n\n  --radius-card: 16px;\n  --radius-pill: 999px;\n\n  --sans: \"Poppins\", system-ui, sans-serif;\n\n\n  --ds-bg:             var(--paper);\n  --ds-surface:        var(--card);\n  --ds-text:           var(--ink);\n  --ds-text-2:         var(--ink-2);\n  --ds-text-3:         var(--ink-3);\n  --ds-line:           var(--mist);\n  --ds-accent:         var(--lime);\n  --ds-radius-box:     var(--radius-card);\n  --ds-radius-control: var(--radius-pill);\n  --ds-border-width:   0;\n  --ds-border-color:   none;\n  --ds-shadow:         none;\n  --ds-button-bg:      var(--lime);\n  --ds-button-text:    var(--ink);\n  --ds-font-display:   var(--sans);\n  --ds-font-body:      var(--sans);\n  --ds-font-data:      none;\n  --ds-gap:            none;\n  --ds-pad:            none;\n  --ds-success:        var(--ok);\n  --ds-success-wash:   none;\n  --ds-warn:           var(--warn);\n  --ds-warn-wash:      none;\n  --ds-alarm:          var(--fail);\n  --ds-alarm-wash:     none;\n  --ds-invert-bg:      var(--pine);\n  --ds-invert-text:    var(--card);\n  --ds-invert-accent:  var(--lime);\n  --ds-hatch: repeating-linear-gradient(\n    45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);\n}\n```\n\nDark mode was not published. Any dark treatment would be invented, not extracted.\n\n### Colour rules, as observed\n\n| Token | Means |\n|---|---|\n| `pine` | Nav rail, and exactly one filled stat card per screen |\n| `lime` | **Action.** Active nav item plus the one primary button |\n| `ok` / `warn` / `fail` | Status pills, as pale washes with strong text |\n\n---\n\n## 3. Type\n\nA rounded geometric sans throughout — `sans` is Poppins or a close relative. One family, all weights. Figures are not tabular, which shows in the table columns.\n\n---\n\n## 4. Structure\n\nFixed ~220px dark rail with icon-and-label navigation, a promotional block pinned to its base, and logout beneath. Content on `paper`, everything in white 16px cards. Pill-shaped search, filters, export, and date range. Tables with per-row icon actions and pill pagination.\n\n---\n\n## 5. What it gets right\n\n**Accent discipline.** Lime appears on exactly one element per screen — active nav plus one primary button — held across every published screen without a slip. That restraint is the single best thing in the project.\n\n**Hatch as a secondary encoding.** The selected chart bar is diagonally hatched rather than recoloured, and the hour-by-weekday heatmap pairs hatch with tint. Meaning never rests on colour alone.\n\n**Capsule bars over a ghost track.** The maximum stays visible behind every value, so a bar reads as a proportion rather than a height. Domain-appropriate and free.\n\n**One filled card among unfilled ones.** Cheap hierarchy that needs no chart and no extra colour.\n\n**Orders-by-time heatmap.** Genuinely actionable — it tells an owner when to staff.\n\n---\n\n## 6. Components worth noting\n\n**Status pill** — pale wash, strong text, 999px. In stock / low stock / out of stock. Simple and it works.\n\n**Stat card** — label, large value, delta chip with an arrow and a \"since last week\" caption. The filled variant inverts to pine with a lime chip.\n\n**Capsule bar** — pine pill inside a `mist` pill track, hatched when selected.\n\n---\n\n## 7. Motion\n\nNot published.\n\n---\n\n## 8. What I would take\n\n- One accent, one use per screen — verbatim\n- Capsule bars over a ghost track\n- Hatch as a second encoding, promoted to a stated rule\n- One filled card among unfilled ones\n- Status pills as pale wash plus strong text\n\n## 9. What is broken\n\nErrors visible in the published screens, worth recording because they show the project was designed as an image rather than modelled:\n\n- **\"Total Customer — $12,500.\"** A currency symbol on a headcount.\n- **Settings: Appearance reads \"English\", Language reads \"Light.\"** The two values are swapped.\n- **Mobile settings: \"Desktop Notification — Select your language.\"** Wrong caption.\n- **Top Selling Medicine lists Keytruda, Ozempic, Dupixent, Eliquis, Darzalex.** Specialty biologics — hospital and specialty-pharmacy drugs. An independent retail pharmacy sells none of them. That list came from a pharma revenue ranking, not from a shop.\n- **20,579 products, 1,200 customers with email addresses.** That is a distributor, not a corner pharmacy.\n- **Payment methods are Credit Card, PayPal, Bank Transfer.** Region-blind.\n\n## 10. Structural problems\n\n**Twelve summary cards above a four-row table**, on a catalogue of 20,579 products. The ratio is inverted: the cards are decoration and the table is the tool.\n\n**Every screen is the same template.** Payments, Products, Customers, and Orders differ only in column headings. Efficient to produce, but it means no screen was designed for what it is for.\n\n**There is no point of sale.** No cart, no cash tendered, no change, no barcode. The actual bottleneck in a pharmacy — selling quickly at a counter with a queue — does not exist in the project. That absence is the largest gap, and the clearest opening for anything built in response.\n\n---\n\n## 11. Never — if forking this\n\n- A currency symbol on a count\n- More than three summary cards\n- One template applied to every screen regardless of purpose\n- Placeholder data drawn from a different market or a different kind of business\n- Shipping a management system with no till\n"</script>
 <script>
@@ -313,20 +324,19 @@ cannot vouch for.</p>
   }
   fitAll(pair.querySelectorAll('iframe'));
 </script>
-<footer><div class="wrap">Design systems as drop-in markdown. Generated from the repo — the file is the product.</div></footer>
+<footer><div class="wrap eyebrow">Generated from the repo</div></footer>
 <script>
-  // Three states: system (no attribute), light, dark. The site chrome only —
-  // a preview's own light and dark come from its tokens block, not from here.
+  // Site chrome only. A preview's light and dark come from its tokens block.
   (() => {
     const order = ['system', 'light', 'dark'];
     const btn = document.getElementById('theme');
     const read = () => { try { return localStorage.getItem('colophon-theme') || 'system'; } catch { return 'system'; } };
-    function show(t) {
+    const show = t => {
       if (t === 'system') delete document.documentElement.dataset.theme;
       else document.documentElement.dataset.theme = t;
       btn.dataset.state = t;
       btn.title = 'Theme: ' + t;
-    }
+    };
     show(read());
     btn.addEventListener('click', () => {
       const next = order[(order.indexOf(read()) + 1) % order.length];

@@ -1,266 +1,304 @@
 /* colophon — browse UI. Hand-written source; the HTML around it is generated.
-   Deliberately neutral: the systems supply the design, this supplies the frame. */
+   Deliberately quiet: the systems supply the design, this supplies the frame.
+   Quiet is not the same as careless — everything here sits on one scale. */
 
 :root {
-  --bg:      #fafafa;
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 36px; --s7: 56px;
+
+  --t-xs: 11px; --t-sm: 12.5px; --t-md: 14px; --t-lg: 15.5px; --t-xl: 21px;
+
+  --bg:      #fbfbfa;
   --panel:   #ffffff;
-  --edge:    #e4e4e7;
-  --edge-2:  #d4d4d8;
-  --fg:      #18181b;
-  --fg-2:    #52525b;
-  --fg-3:    #8b8b93;
+  --panel-2: #f4f4f3;
+  --edge:    #e7e7e4;
+  --edge-2:  #d2d2ce;
+  --fg:      #1a1a18;
+  --fg-2:    #55554f;
+  --fg-3:    #8d8d85;
   --link:    #1d4ed8;
-  --flag:    #92400e;
-  --flag-bg: #fffbeb;
-  --r:       6px;
+  --good:    #1c6b4d;
+  --bad:     #9a4218;
+  --flag:    #8a5a12;
+  --flag-bg: #fdf8ec;
+  --r:       7px;
+  --mono:    ui-monospace, "SF Mono", Menlo, monospace;
 }
-/* Dark values live in one place and are applied twice: by preference when the
-   viewer has made no choice, and by [data-theme="dark"] when they have. */
+/* Dark values in one place, applied twice: by preference when no choice has
+   been made, and by [data-theme] when one has. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #131316; --panel: #1a1a1e; --edge: #2a2a30; --edge-2: #3a3a42;
-    --fg: #ececf0; --fg-2: #a1a1aa; --fg-3: #71717a;
-    --link: #93b4fd; --flag: #fcd34d; --flag-bg: #26210f;
+    --bg: #121214; --panel: #191919; --panel-2: #212122;
+    --edge: #292929; --edge-2: #3b3b3b;
+    --fg: #eeeeec; --fg-2: #a3a39c; --fg-3: #73736c;
+    --link: #97b6fd; --good: #5cc496; --bad: #e39365;
+    --flag: #d9ab52; --flag-bg: #241d0e;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #131316; --panel: #1a1a1e; --edge: #2a2a30; --edge-2: #3a3a42;
-  --fg: #ececf0; --fg-2: #a1a1aa; --fg-3: #71717a;
-  --link: #93b4fd; --flag: #fcd34d; --flag-bg: #26210f;
+  --bg: #121214; --panel: #191919; --panel-2: #212122;
+  --edge: #292929; --edge-2: #3b3b3b;
+  --fg: #eeeeec; --fg-2: #a3a39c; --fg-3: #73736c;
+  --link: #97b6fd; --good: #5cc496; --bad: #e39365;
+  --flag: #d9ab52; --flag-bg: #241d0e;
 }
 
 * { box-sizing: border-box }
 /* .card sets display:flex, which would beat the UA [hidden] rule. */
 [hidden] { display: none !important }
+
 body {
   margin: 0; background: var(--bg); color: var(--fg);
-  font: 15px/1.55 ui-sans-serif, system-ui, sans-serif;
+  font: var(--t-md)/1.55 ui-sans-serif, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 a { color: var(--link) }
-code, kbd { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .92em }
+code, kbd { font-family: var(--mono); font-size: .92em }
+h1, h2, h3 { letter-spacing: -.015em }
 
-.wrap { max-width: 1180px; margin: 0 auto; padding: 0 22px }
-.wrap.narrow { max-width: 840px }
-
-/* ── masthead ─────────────────────────────────────────────────────────── */
-.top { border-bottom: 1px solid var(--edge); background: var(--panel) }
-.top .wrap { display: flex; align-items: baseline; gap: 18px; padding: 14px 22px }
-.top b { font-size: 16px; letter-spacing: -.01em }
-.top nav { display: flex; gap: 14px; font-size: 13px; margin-left: auto }
-.top nav a { color: var(--fg-2); text-decoration: none }
-.top nav a:hover, .top nav a[aria-current] { color: var(--fg); text-decoration: underline }
-
-h1 { font-size: 24px; letter-spacing: -.02em; margin: 26px 0 4px }
-.lede { color: var(--fg-2); margin: 0 0 22px; max-width: 68ch }
-
-/* ── filters ──────────────────────────────────────────────────────────── */
-.filters {
-  display: flex; flex-wrap: wrap; gap: 8px 20px; padding: 14px 0 18px;
-  border-top: 1px solid var(--edge); border-bottom: 1px solid var(--edge); margin-bottom: 22px;
-}
-.fgroup { display: flex; align-items: center; gap: 7px; flex-wrap: wrap }
-.fgroup > span {
-  font: 600 10px/1 ui-sans-serif, system-ui; letter-spacing: .09em;
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 var(--s5) }
+.wrap.narrow { max-width: 720px }
+.eyebrow {
+  font: 600 var(--t-xs)/1 ui-sans-serif, system-ui; letter-spacing: .1em;
   text-transform: uppercase; color: var(--fg-3);
 }
-.chip {
-  border: 1px solid var(--edge-2); background: transparent; color: var(--fg-2);
-  border-radius: 999px; padding: 3px 11px; font-size: 12.5px; cursor: pointer;
-}
-.chip:hover { border-color: var(--fg-3); color: var(--fg) }
-.chip[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg) }
-.count { margin-left: auto; font-size: 12.5px; color: var(--fg-3); align-self: center }
 
-/* ── library ──────────────────────────────────────────────────────────── */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr)); gap: 16px }
+/* ── masthead ─────────────────────────────────────────────────────────── */
+.top {
+  position: sticky; top: 0; z-index: 5;
+  border-bottom: 1px solid var(--edge); background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+.top .wrap { display: flex; align-items: center; gap: var(--s5); height: 46px }
+.top b { font-size: var(--t-lg); letter-spacing: -.02em }
+.top nav { display: flex; gap: var(--s4); font-size: var(--t-sm); margin-left: auto }
+.top nav a { color: var(--fg-2); text-decoration: none }
+.top nav a:hover { color: var(--fg) }
+.top nav a[aria-current] { color: var(--fg); font-weight: 600 }
+
+.theme {
+  display: grid; place-items: center; width: 28px; height: 28px; padding: 0;
+  border: 1px solid transparent; border-radius: 999px; background: none;
+  color: var(--fg-3); cursor: pointer;
+}
+.theme:hover { color: var(--fg); background: var(--panel-2) }
+.theme svg { display: none }
+.theme[data-state="system"] [data-t="system"],
+.theme[data-state="light"] [data-t="light"],
+.theme[data-state="dark"] [data-t="dark"] { display: block }
+
+/* ── page heads ───────────────────────────────────────────────────────── */
+.crumbs {
+  display: flex; align-items: center; gap: var(--s2);
+  font-size: var(--t-sm); color: var(--fg-3); padding-top: var(--s5);
+}
+.crumbs a { color: var(--fg-2); text-decoration: none }
+.crumbs a:hover { color: var(--fg); text-decoration: underline }
+.crumbs b { color: var(--fg); font-weight: 500 }
+
+h1 { font-size: var(--t-xl); margin: var(--s4) 0 var(--s4) }
+.crumbs + h1 { margin-top: var(--s2) }
+
+/* ── filter bar ───────────────────────────────────────────────────────── */
+.bar {
+  display: flex; align-items: center; flex-wrap: wrap; gap: var(--s2) var(--s3);
+  padding: var(--s3) 0 var(--s4); border-bottom: 1px solid var(--edge);
+  margin-bottom: var(--s5);
+}
+.searchwrap { position: relative; display: flex; align-items: center }
+.searchwrap svg { position: absolute; left: 9px; color: var(--fg-3); pointer-events: none }
+.searchwrap input {
+  font: var(--t-md) inherit; padding: 6px 10px 6px 29px; border-radius: 999px;
+  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); width: 230px;
+}
+.searchwrap input::placeholder { color: var(--fg-3) }
+.searchwrap input:focus-visible { outline: 2px solid var(--link); outline-offset: 1px }
+
+.chips { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s1) }
+.sep { width: 1px; height: 15px; background: var(--edge-2); margin: 0 var(--s2) }
+.chip {
+  border: 1px solid transparent; background: var(--panel-2); color: var(--fg-2);
+  border-radius: 999px; padding: 3px 10px; font: var(--t-sm)/1.5 inherit; cursor: pointer;
+}
+.chip:hover { color: var(--fg); border-color: var(--edge-2) }
+.chip[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg) }
+.count { margin-left: auto; font-size: var(--t-sm); color: var(--fg-3) }
+.clear {
+  border: 0; background: none; color: var(--fg-3); font: var(--t-sm) inherit;
+  cursor: pointer; text-decoration: underline;
+}
+.clear:hover { color: var(--fg) }
+
+/* ── library grid ─────────────────────────────────────────────────────── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s4) }
 .card {
   background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
   display: flex; flex-direction: column; overflow: hidden;
 }
 .card > a.thumb {
-  display: block; border-bottom: 1px solid var(--edge); background: var(--bg);
-  height: 168px; overflow: hidden;
+  display: block; height: 150px; overflow: hidden;
+  border-bottom: 1px solid var(--edge); background: var(--bg);
 }
 .card iframe {
-  display: block; width: 200%; height: 336px; border: 0; pointer-events: none;
-  transform: scale(.5); transform-origin: top left;
+  display: block; width: 182%; height: 273px; border: 0; pointer-events: none;
+  transform: scale(.55); transform-origin: top left;
+  /* the thumbnail is a crop; fade the cut so it reads as deliberate */
+  mask-image: linear-gradient(to bottom, #000 76%, transparent);
 }
-.card .body { padding: 13px 15px; display: flex; flex-direction: column; gap: 9px; flex: 1 }
-.card h2 { margin: 0; font-size: 16.5px; letter-spacing: -.01em }
+.card .body { padding: var(--s3) var(--s4) var(--s4); display: flex; flex-direction: column; gap: var(--s3); flex: 1 }
+.card h2 { margin: 0; font-size: var(--t-lg) }
 .card h2 a { color: inherit; text-decoration: none }
 .card h2 a:hover { text-decoration: underline }
-.card h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: 13px }
-.meta { display: flex; flex-wrap: wrap; gap: 5px }
-.tag {
-  font: 500 11px/1.5 ui-sans-serif, system-ui; color: var(--fg-2);
-  background: var(--bg); border: 1px solid var(--edge); border-radius: 4px; padding: 1px 7px;
-}
-.tag.ref { color: var(--flag); background: var(--flag-bg); border-color: currentColor }
-.for { font-size: 13px; color: var(--fg-2); margin: 0 }
-.for b { color: var(--fg-3); font-weight: 600 }
-.actions { display: flex; gap: 8px; margin-top: auto; padding-top: 4px }
+.card h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: var(--t-sm) }
 
+.meta { display: flex; flex-wrap: wrap; gap: var(--s1) }
+.tag {
+  font: 500 var(--t-xs)/1.6 inherit; color: var(--fg-2);
+  background: var(--panel-2); border-radius: 4px; padding: 1px 7px;
+}
+.tag.ref { color: var(--flag); background: var(--flag-bg); box-shadow: inset 0 0 0 1px currentColor }
+
+.fit { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--s2); font-size: var(--t-sm) }
+.fit dt { font-weight: 600; font-size: var(--t-xs); letter-spacing: .04em; text-transform: uppercase; padding-top: 2px }
+.fit dd { margin: 0; color: var(--fg-2) }
+.fit .yes { color: var(--good) }
+.fit .no  { color: var(--bad) }
+
+.actions { display: flex; gap: var(--s2); margin-top: auto; padding-top: var(--s1) }
 .btn {
   display: inline-block; border: 1px solid var(--edge-2); background: var(--panel);
-  color: var(--fg); border-radius: var(--r); padding: 7px 13px; font-size: 13px;
-  font-weight: 500; text-decoration: none; cursor: pointer; font-family: inherit;
+  color: var(--fg); border-radius: var(--r); padding: 6px 12px; font: 500 var(--t-sm) inherit;
+  text-decoration: none; cursor: pointer;
 }
 .btn:hover { border-color: var(--fg-3) }
 .btn.primary { background: var(--fg); border-color: var(--fg); color: var(--bg) }
-.btn.primary:hover { opacity: .88 }
-.empty { color: var(--fg-2); padding: 40px 0; text-align: center }
+.btn.primary:hover { opacity: .87 }
+.empty { color: var(--fg-3); padding: var(--s7) 0; text-align: center }
 
 /* ── system page ──────────────────────────────────────────────────────── */
-.head { display: flex; align-items: flex-start; gap: 18px; flex-wrap: wrap; margin: 26px 0 16px }
-.head h1 { margin: 0 0 6px }
+.head { display: flex; align-items: flex-start; gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s4) }
+.head > div:first-child { min-width: 0 }
+.head h1 { margin: 0 0 var(--s2) }
+.head h1 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: var(--t-lg) }
 .head .actions { margin: 0 0 0 auto; padding: 0 }
+.lede { color: var(--fg-2); margin: var(--s2) 0 0; max-width: 66ch }
+
 .prov {
-  background: var(--flag-bg); color: var(--flag); border: 1px solid currentColor;
-  border-radius: var(--r); padding: 11px 13px; font-size: 13.5px; margin: 0 0 20px;
+  background: var(--flag-bg); color: var(--flag); box-shadow: inset 0 0 0 1px currentColor;
+  border-radius: var(--r); padding: var(--s3); font-size: var(--t-sm); margin: 0 0 var(--s5);
 }
 .prov a { color: inherit }
-.frame { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; margin-bottom: 26px }
+
+.frame { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; margin-bottom: var(--s5) }
+.frame > b {
+  display: flex; align-items: center; gap: var(--s3); padding: var(--s2) var(--s3);
+  border-bottom: 1px solid var(--edge); background: var(--panel);
+  font: 600 var(--t-xs)/1 inherit; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3);
+}
+.frame .modes { display: flex; gap: var(--s1); margin-left: auto }
+.frame .fine { margin-left: auto; font-size: var(--t-xs); text-transform: none; letter-spacing: 0 }
 .pvpair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--edge) }
 .pvpair > div { background: var(--bg); min-width: 0 }
 .pvpair > div > b {
-  display: block; padding: 6px 12px; font: 600 10px/1 ui-sans-serif, system-ui;
-  letter-spacing: .09em; text-transform: uppercase; color: var(--fg-3);
-  border-bottom: 1px solid var(--edge);
+  display: block; padding: var(--s1) var(--s3); border-bottom: 1px solid var(--edge);
+  font: 600 var(--t-xs)/1.8 inherit; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3);
 }
 .pvpair iframe { display: block; width: 100%; height: 620px; border: 0 }
 .pvpair[data-show="light"], .pvpair[data-show="dark"] { grid-template-columns: 1fr }
-.pvpair[data-show="light"] .pv-dark, .pvpair[data-show="dark"] .pv-light { display: none }
+.pvpair[data-show="light"] .pv-dark, .pvpair[data-show="dark"] .pv-light,
 .pvpair[data-show="light"] > div > b, .pvpair[data-show="dark"] > div > b { display: none }
 @media (max-width: 900px) { .pvpair { grid-template-columns: 1fr } }
-.frame .fine { margin-left: auto; font-size: 11px; text-transform: none; letter-spacing: 0; color: var(--fg-3) }
-.frame > b {
-  display: block; padding: 8px 13px; border-bottom: 1px solid var(--edge);
-  background: var(--panel); font: 600 10px/1 ui-sans-serif, system-ui;
-  letter-spacing: .09em; text-transform: uppercase; color: var(--fg-3);
-}
 
-/* rendered markdown */
-.doc { max-width: 74ch }
-.doc h1 { font-size: 22px; margin: 30px 0 8px }
-.doc h2 { font-size: 17px; margin: 34px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--edge) }
-.doc h3 { font-size: 15px; margin: 22px 0 6px }
+.install {
+  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
+  padding: var(--s4); margin: 0 0 var(--s5);
+}
+.install h2 { margin: 0 0 var(--s3); font-size: var(--t-lg) }
+.install ol { margin: 0 0 var(--s3); padding-left: var(--s5); color: var(--fg-2); font-size: var(--t-sm) }
+.install pre {
+  background: var(--panel-2); border-radius: var(--r); padding: var(--s3);
+  overflow-x: auto; font-size: var(--t-sm); margin: 0 0 var(--s3);
+}
+.install .actions { padding: 0 }
+details.alt { margin-top: var(--s3); font-size: var(--t-sm); color: var(--fg-2) }
+details.alt summary { cursor: pointer; color: var(--fg-3) }
+details.alt p { margin: var(--s2) 0 0; max-width: 66ch }
+
+/* ── sections nav + rendered markdown ─────────────────────────────────── */
+.cols { display: grid; grid-template-columns: 186px minmax(0, 1fr); gap: var(--s6); align-items: start }
+@media (max-width: 900px) { .cols { grid-template-columns: 1fr } .toc { position: static !important } }
+.toc { position: sticky; top: 62px; display: flex; flex-direction: column; gap: 1px; font-size: var(--t-sm) }
+.toc a {
+  color: var(--fg-2); text-decoration: none; padding: 3px 0 3px var(--s3);
+  border-left: 2px solid var(--edge);
+}
+.toc a:hover { color: var(--fg); border-color: var(--fg-3) }
+
+.doc { max-width: 72ch }
+.doc h2, .doc h3 { scroll-margin-top: 62px }
+.doc h1 { font-size: var(--t-xl); margin: var(--s6) 0 var(--s2) }
+.doc h2 { font-size: var(--t-lg); margin: var(--s6) 0 var(--s3); padding-bottom: var(--s2); border-bottom: 1px solid var(--edge) }
+.doc h3 { font-size: var(--t-md); margin: var(--s5) 0 var(--s1) }
 .doc p, .doc li { color: var(--fg-2) }
 .doc strong { color: var(--fg); font-weight: 600 }
-.doc hr { border: 0; border-top: 1px solid var(--edge); margin: 26px 0 }
+.doc hr { border: 0; border-top: 1px solid var(--edge); margin: var(--s5) 0 }
 .doc blockquote {
-  margin: 18px 0; padding: 11px 14px; background: var(--flag-bg); color: var(--flag);
-  border: 1px solid currentColor; border-radius: var(--r);
+  margin: var(--s4) 0; padding: var(--s3); background: var(--flag-bg); color: var(--flag);
+  box-shadow: inset 0 0 0 1px currentColor; border-radius: var(--r);
 }
 .doc blockquote p { color: inherit; margin: 0 }
 .doc pre {
   background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
-  padding: 13px 15px; overflow-x: auto; font-size: 12.5px; line-height: 1.5;
+  padding: var(--s3) var(--s4); overflow-x: auto; font-size: var(--t-sm); line-height: 1.5;
 }
-.doc :not(pre) > code { background: var(--panel); border: 1px solid var(--edge); border-radius: 3px; padding: .5px 4px }
-.doc table { border-collapse: collapse; width: 100%; margin: 16px 0; font-size: 13.5px; display: block; overflow-x: auto }
-.doc th, .doc td { border: 1px solid var(--edge); padding: 6px 10px; text-align: left; vertical-align: top }
+.doc :not(pre) > code { background: var(--panel-2); border-radius: 3px; padding: 1px 4px }
+.doc table { border-collapse: collapse; width: 100%; margin: var(--s4) 0; font-size: var(--t-sm); display: block; overflow-x: auto }
+.doc th, .doc td { border: 1px solid var(--edge); padding: var(--s1) var(--s3); text-align: left; vertical-align: top }
 .doc th { background: var(--panel); font-weight: 600; white-space: nowrap }
 .doc td { color: var(--fg-2) }
 
-/* ── compare ──────────────────────────────────────────────────────────── */
-.cbar { display: flex; gap: 14px; flex-wrap: wrap; align-items: flex-end; margin: 22px 0 18px }
-.cbar label { display: flex; flex-direction: column; gap: 5px; font: 600 10px/1 ui-sans-serif, system-ui;
-              letter-spacing: .09em; text-transform: uppercase; color: var(--fg-3) }
-.cbar select {
-  font: 14px ui-sans-serif, system-ui; padding: 7px 9px; border-radius: var(--r);
-  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); min-width: 190px;
-}
-.modes { display: flex; gap: 6px; margin-left: auto }
-.cpair { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 28px }
-.cpair > div { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; min-width: 0 }
-.cpair h2 { margin: 0; padding: 9px 13px; border-bottom: 1px solid var(--edge);
-            background: var(--panel); font-size: 14px }
-.cpair h2 a { color: inherit; text-decoration: none }
-.cpair h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: 12px }
-.cpair iframe { display: block; width: 100%; height: 620px; border: 0 }
-.crow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px }
-.crow section { border: 1px solid var(--edge); border-radius: var(--r); background: var(--panel); padding: 13px 15px }
-.crow h3 { margin: 0 0 8px; font-size: 13px }
-.crow ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: var(--fg-2) }
-@media (max-width: 900px) { .cpair, .crow { grid-template-columns: 1fr } }
-
-footer { border-top: 1px solid var(--edge); margin-top: 46px; padding: 18px 0 34px;
-         color: var(--fg-3); font-size: 12.5px }
-
-
-/* ── theme toggle ─────────────────────────────────────────────────────── */
-.theme {
-  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg-2);
-  border-radius: 999px; padding: 3px 11px; font: 500 12px/1.5 inherit; cursor: pointer;
-  min-width: 62px;
-}
-.theme:hover { color: var(--fg); border-color: var(--fg-3) }
-.theme span { display: none }
-.theme[data-state="system"] [data-t="system"],
-.theme[data-state="light"] [data-t="light"],
-.theme[data-state="dark"] [data-t="dark"] { display: inline }
-
-/* ── search ───────────────────────────────────────────────────────────── */
-.search { display: flex; flex-direction: column; gap: 5px }
-.search > span {
-  font: 600 10px/1 ui-sans-serif, system-ui; letter-spacing: .09em;
-  text-transform: uppercase; color: var(--fg-3);
-}
-.search input {
-  font: 14px inherit; padding: 6px 10px; border-radius: var(--r);
-  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); min-width: 240px;
-}
-.search input:focus-visible { outline: 2px solid var(--link); outline-offset: 1px }
-.chip.clear { border-style: dashed }
-.summary { margin: 0; font-size: 13.5px; color: var(--fg-2); line-height: 1.45 }
-
-/* ── system page: sections nav + install ──────────────────────────────── */
-.cols { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 34px; align-items: start }
-@media (max-width: 900px) { .cols { grid-template-columns: 1fr } .toc { position: static !important } }
-.toc { position: sticky; top: 18px; display: flex; flex-direction: column; gap: 2px; font-size: 13px }
-.toc > span {
-  font: 600 10px/1 ui-sans-serif, system-ui; letter-spacing: .09em; text-transform: uppercase;
-  color: var(--fg-3); margin: 14px 0 4px;
-}
-.toc > span:first-child { margin-top: 0 }
-.toc a { color: var(--fg-2); text-decoration: none; padding: 3px 0; border-left: 2px solid var(--edge); padding-left: 10px }
-.toc a:hover { color: var(--fg); border-color: var(--fg-3) }
-.doc { scroll-padding-top: 20px }
-.doc h2, .doc h3 { scroll-margin-top: 18px }
-
-.install {
-  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
-  padding: 16px 18px; margin: 0 0 30px;
-}
-.install h2 { margin: 0 0 10px; font-size: 16px }
-.install ol { margin: 0 0 12px; padding-left: 20px; color: var(--fg-2); font-size: 14px }
-.install li { margin: 3px 0 }
-.install pre {
-  background: var(--bg); border: 1px solid var(--edge); border-radius: var(--r);
-  padding: 12px 14px; overflow-x: auto; font-size: 12.5px; margin: 0 0 12px;
-}
-.install .actions { padding: 0 }
-.install .fine { margin: 12px 0 0; font-size: 12.5px; color: var(--fg-3); max-width: 68ch }
-.frame .fine { margin-left: auto; font-size: 11px; text-transform: none; letter-spacing: 0; color: var(--fg-3) }
-.frame > b { display: flex; align-items: center; gap: 10px }
-.frame .modes { display: flex; gap: 5px; margin-left: auto }
-
-/* ── alias tables ─────────────────────────────────────────────────────── */
-table.aliases { font-size: 12.5px; display: table; width: 100% }
-table.aliases td, table.aliases th { padding: 4px 9px; white-space: nowrap }
+table.aliases { font-size: var(--t-sm); display: table; width: 100% }
+table.aliases td, table.aliases th { padding: 3px var(--s3); white-space: nowrap }
 table.aliases td:last-child { white-space: normal }
 .declined, table.aliases tr.declined td { color: var(--fg-3) }
-.cdiff { overflow-x: auto; margin-bottom: 30px }
+
+.pager { display: flex; gap: var(--s4); justify-content: space-between; margin: var(--s6) 0 0; font-size: var(--t-sm) }
+.pager a { color: var(--fg-2); text-decoration: none }
+.pager a:hover { color: var(--fg); text-decoration: underline }
+
+/* ── compare ──────────────────────────────────────────────────────────── */
+.cbar { display: flex; gap: var(--s3); flex-wrap: wrap; align-items: center; margin-bottom: var(--s4) }
+.cbar select {
+  font: var(--t-md) inherit; padding: 6px 9px; border-radius: var(--r);
+  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); min-width: 170px;
+}
+.cbar .modes { display: flex; gap: var(--s1); margin-left: auto }
+.cpair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-bottom: var(--s6) }
+.cpair > div { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; min-width: 0 }
+.cpair h2 {
+  margin: 0; padding: var(--s2) var(--s3); border-bottom: 1px solid var(--edge);
+  background: var(--panel); font-size: var(--t-md);
+}
+.cpair h2 a { color: inherit; text-decoration: none }
+.cpair h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: var(--t-sm) }
+.cpair iframe { display: block; width: 100%; height: 620px; border: 0 }
+.crow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-bottom: var(--s6) }
+.crow section { border: 1px solid var(--edge); border-radius: var(--r); background: var(--panel); padding: var(--s3) var(--s4) }
+.crow h3 { margin: 0 0 var(--s2); font-size: var(--t-md) }
+.crow dl { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--s3); margin: 0; font-size: var(--t-sm) }
+.crow dt { font-size: var(--t-xs); letter-spacing: .04em; text-transform: uppercase; color: var(--fg-3); padding-top: 2px }
+.crow dd { margin: 0; color: var(--fg-2) }
+h2.crule { font-size: var(--t-lg); margin: 0 0 var(--s3); padding-bottom: var(--s2); border-bottom: 1px solid var(--edge) }
+.cdiff { overflow-x: auto; margin-bottom: var(--s6) }
 .cdiff table.aliases { border-collapse: collapse }
 .cdiff th, .cdiff td { border: 1px solid var(--edge); text-align: left }
 .cdiff th { background: var(--panel); font-weight: 600 }
-h2.crule { font-size: 17px; margin: 30px 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--edge) }
-.crow ul { list-style: none; padding: 0 }
-.crow li { margin: 3px 0 }
-.crow b {
-  display: inline-block; min-width: 74px; color: var(--fg-3); font-weight: 600;
-  font-size: 11px; letter-spacing: .05em; text-transform: uppercase;
-}
-.head h1 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: 16px }
-.head .lede { margin: 8px 0 0; font-size: 14px }
+@media (max-width: 900px) { .cpair, .crow { grid-template-columns: 1fr } }
+
+/* ── about ────────────────────────────────────────────────────────────── */
+.about h2 { font-size: var(--t-lg); margin: var(--s6) 0 var(--s2) }
+.about p, .about li { color: var(--fg-2) }
+.about ol, .about ul { padding-left: var(--s5) }
+.about li { margin: 2px 0 }
+
+footer { border-top: 1px solid var(--edge); margin-top: var(--s7); padding: var(--s4) 0 var(--s6) }
