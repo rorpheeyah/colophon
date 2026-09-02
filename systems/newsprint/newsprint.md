@@ -16,7 +16,7 @@ avoid-for: [high-speed data entry, dense operational dashboards, touch-first mob
 
 > **Token values below are stand-ins, which is why this system is `status: draft`.** Replace the `css` block with the real `tokens.css`, then flip the status to `active`. Everything else — the rules, the type roles, the prohibitions — is accurate as written.
 >
-> The spacing tokens are stand-ins in a stronger sense: this system was written without any, and `--gap` and `--pad` were added during migration because the shared preview template needs a spacing step to render density. Treat them as placeholders, not as design decisions.
+> This system specifies no spacing step, so `--ds-gap` and `--ds-pad` are declined. The preview spaces it from `density: comfortable` rather than inventing a value the system never stated.
 
 An editorial, print-inspired system with first-class Khmer and Latin support. Intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed.
 
@@ -59,8 +59,6 @@ Two consequences that explain most of what follows:
   --offset:  3px;
   --radius:  2px;
 
-  --gap:     14px;
-  --pad:     18px 20px;
 
   --display: "Archivo", system-ui, sans-serif;
   --body:    "Kantumruy Pro", system-ui, sans-serif;
@@ -83,8 +81,8 @@ Two consequences that explain most of what follows:
   --ds-font-display:   var(--display);
   --ds-font-body:      var(--body);
   --ds-font-data:      var(--data);
-  --ds-gap:            var(--gap);
-  --ds-pad:            var(--pad);
+  --ds-gap:            none;
+  --ds-pad:            none;
   --ds-success:        var(--teal);
   --ds-success-wash:   none;
   --ds-warn:           var(--mark);

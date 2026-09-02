@@ -38,8 +38,8 @@ The distinguishing move is a **capsule chart language** — bars drawn as rounde
 
 Approximated from screenshots. The type family, the spacing steps, and the status-pill wash
 colours were **not** extracted: the family is named in the published work but never specified,
-the spacing was added during migration because the preview template needs a step, and the wash
-tints were not readable from the screenshots with any confidence. The three wash aliases are
+no spacing step was measurable, and the wash tints were not readable from the screenshots with
+any confidence. The spacing and wash aliases are
 declared `none` rather than guessed, so the preview renders status labels without a fill it
 cannot vouch for.
 
@@ -63,8 +63,6 @@ cannot vouch for.
 
   --sans: "Poppins", system-ui, sans-serif;
 
-  --gap:  12px;
-  --pad:  18px 20px;
 
   --ds-bg:             var(--paper);
   --ds-surface:        var(--card);
@@ -83,8 +81,8 @@ cannot vouch for.
   --ds-font-display:   var(--sans);
   --ds-font-body:      var(--sans);
   --ds-font-data:      none;
-  --ds-gap:            var(--gap);
-  --ds-pad:            var(--pad);
+  --ds-gap:            none;
+  --ds-pad:            none;
   --ds-success:        var(--ok);
   --ds-success-wash:   none;
   --ds-warn:           var(--warn);
