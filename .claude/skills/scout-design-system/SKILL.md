@@ -33,9 +33,10 @@ find it, say so in the file explicitly — "author not identified on the source 
 than leaving a placeholder that reads as finished. Never invent, guess, or infer an author
 from a URL.
 
-Open the body with a provenance note in place of the binding line, stating plainly that this
+Open the body with a provenance note in place of the install block, stating plainly that this
 is the user's reading of someone else's public work, and that the tokens are approximations
-extracted by eye rather than the author's values.
+extracted by eye rather than the author's values. A reference record carries no install block:
+it is never installed into a project, only forked into an `origin: own` system that is.
 
 ## Do not reproduce assets
 

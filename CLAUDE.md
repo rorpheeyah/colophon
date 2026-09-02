@@ -139,6 +139,24 @@ In this relative order. Extra sections may be inserted anywhere between them.
 Headings may be numbered. Validation strips a leading number and matches on the title, so
 inserting an optional section never forces a renumber elsewhere.
 
+### The install block
+
+The body opens with an install block, not with a bare instruction to overwrite a project's
+`CLAUDE.md`. A target project needs its own `CLAUDE.md` for its own build commands and
+conventions, so the system file is copied alongside it and imported:
+
+```
+.claude/design-system.md      the system file, verbatim, never edited in place
+CLAUDE.md                     the project's own file, plus an @-import stanza
+```
+
+The import keeps the whole system in context on every turn without displacing anything, and
+updating the system later is a one-file copy. The skill form
+(`.claude/skills/design-system/SKILL.md`) is documented as a secondary option: it costs less
+context but is not guaranteed to load on a given edit, which is how a system quietly stops
+being followed. A reference record is never installed — it is forked into an `origin: own`
+system first.
+
 **Section 8 is the most important section in the file.** Systems do not decay because a stated
 value is used wrongly. They decay because something not in the system gets added — an extra
 radius, a subtle shadow, a fourth colour. Every system file must forbid explicitly.

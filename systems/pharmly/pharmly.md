@@ -22,7 +22,9 @@ A pharmacy admin dashboard concept. Included because it does three things unusua
 
 ## How to apply this file
 
-**Don't apply it directly.** This is a reference record, not a system to build in. Use it to compare against, to borrow specific ideas from, or to argue with. If a project should be built in this style, fork it into an `origin: own` system first and fix what section 10 lists.
+**Don't apply it directly, and don't install it.** This is a reference record, not a system to build in. Use it to compare against, to borrow specific ideas from, or to argue with.
+
+If a project should be built in this style, fork it into an `origin: own` system first and fix what section 10 lists. That forked system is the one that gets installed into a project, as `.claude/design-system.md` with an `@`-import from the project's `CLAUDE.md`.
 
 ---
 
