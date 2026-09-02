@@ -60,8 +60,10 @@ export function resolve(name, env, seen = new Set()) {
 
 // ── what gets checked ────────────────────────────────────────────────────────
 
-// A state colour sits on its wash where one is declared, and on the page
-// otherwise — Newsprint borders its status labels rather than filling them.
+// Which pair matters depends on how the system renders a state, and that is
+// readable from the aliases: `--ds-state-text` means the colour is a fill and
+// that token is the text on it; a wash means coloured text on the wash; neither
+// means coloured text on the page, as Newsprint's bordered labels do.
 function pairs(env) {
   const out = []
   const on = (fg, bg) => out.push([fg, bg])
@@ -70,9 +72,11 @@ function pairs(env) {
     on(fg, '--ds-bg')
     on(fg, '--ds-surface')
   }
+  const filled = resolve('--ds-state-text', env)
   for (const state of ['--ds-success', '--ds-warn', '--ds-alarm']) {
     const wash = `${state}-wash`
-    if (resolve(wash, env)) on(state, wash)
+    if (filled) on('--ds-state-text', state)
+    else if (resolve(wash, env)) on(state, wash)
     else { on(state, '--ds-bg'); on(state, '--ds-surface') }
   }
   on('--ds-button-text', '--ds-button-bg')

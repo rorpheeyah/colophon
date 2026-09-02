@@ -1,10 +1,11 @@
 ---
 system: Lozenge
-version: "1.0"
+version: "1.1"
 status: active
 origin: own
 register: utility
 density: compact
+contrast: AA
 scripts: [latin, khmer]
 best-for: [dense data tables, retail and POS interfaces, inventory and status screens, bilingual products]
 avoid-for: [long-form reading, marketing pages, editorial layouts]
@@ -71,12 +72,12 @@ The same shape appears at every scale:
   --paper:     #F1F3F2;
   --card:      #FFFFFF;
   --ink:       #111815;
-  --ink-2:     #5B665F;
-  --ink-3:     #8E9992;
+  --ink-2:     #4A534D;
+  --ink-3:     #657069;
   --mist:      #DFE4E1;
   --amber:     #E0952B;
   --amber-w:   #FBF0DC;
-  --verm:      #E04B33;
+  --verm:      #E4624E;
   --verm-w:    #FCE6E1;
 
   --on-hemlock: #E9EFEB;
@@ -124,6 +125,7 @@ The same shape appears at every scale:
   --ds-invert-bg:      var(--hemlock);
   --ds-invert-text:    var(--on-hemlock);
   --ds-invert-accent:  var(--citron);
+  --ds-state-text:     var(--hemlock);
   --ds-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
   --ds-font-script:    var(--km);
@@ -143,7 +145,7 @@ The same shape appears at every scale:
   --card:      #161E1B;
   --ink:       #E9EFEB;
   --ink-2:     #9BA8A1;
-  --ink-3:     #6B7873;
+  --ink-3:     #7A8882;
   --mist:      #27322D;
   --amber-w:   #2E230F;
   --verm-w:    #2F1712;
@@ -165,6 +167,7 @@ aliases would keep their light values.
 | `mist` | Neutral, resolved, nothing to do here |
 | `amber` | Needs attention soon |
 | `verm` | Needs attention now |
+| `amber-w` / `verm-w` | The same meaning on a larger surface, with `ink`/`ink-2` text |
 
 **Citron appears on exactly one element per screen** — the active nav item, or the single primary action, not both. If two things are citron, one of them is a bug. Citron is never a chart fill, never a status pill, never a background, never text.
 
@@ -223,7 +226,11 @@ Column heads sit on a `paper` lozenge strip. Rows separate with a 1px `mist` lin
 
 **Button** — lozenge, 36px, no border. Primary is `citron` on `hemlock` text. Secondary is `mist` on `ink`. On dark surfaces, secondary is `ghost`.
 
-**Status pill** — lozenge, 11.5px/700, wash background with the matching strong colour as text: `mist`/`ink-2`, `amber-w`/`amber`, `verm-w`/`verm`. An at-risk state adds hatch over the wash.
+**Status pill** — lozenge, 11.5px/700, **filled with its state colour, text `hemlock`**: `mist`/`ink-2`, `amber`/`hemlock`, `verm`/`hemlock`. An at-risk state adds hatch over the fill.
+
+The pill is filled rather than washed because a washed pill could not carry legible text: `amber` on `amber-w` reaches only 2.19:1, and no wash value fixes it — `amber` on pure white tops out at 2.47:1. A status a cashier cannot read at a glance is not a status.
+
+`amber-w` and `verm-w` keep their job on larger tinted surfaces — a banner, a flagged row — where the text is `ink` or `ink-2` rather than the state colour.
 
 **Stat card** — `14px` box. Label 12px `ink-3`, value 27px/800, delta as a lozenge chip beneath. The filled variant inverts to `hemlock`, text `on-hemlock`, with a `citron` chip.
 
@@ -261,6 +268,8 @@ One moment per screen, tied to a user action that changed data. Nothing ambient,
 - Citron on more than one element per screen
 - A green or blue "success" state
 - Hatch used decoratively
+- A state colour used as text on its own wash
+- A text colour that does not clear 4.5:1 on both `paper` and `card`, in both modes
 - A monospace family
 - Uppercase outside column heads and small labels
 - More than three summary cards

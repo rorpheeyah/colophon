@@ -357,10 +357,19 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .alert b{font-weight:700}
 ${['success', 'warn', 'alarm'].filter(k => has(t, `--ds-${k}`)).map(k => {
   const wash = has(t, `--ds-${k}-wash`)
-  return `.s-${k}{color:var(--ds-${k});` + (wash ? `background:var(--ds-${k}-wash)}` : `border:1px solid var(--ds-${k})}`) +
-    `\n.a-${k}{color:var(--ds-${k});` + (wash
-      ? `background:var(--ds-${k}-wash)}`
-      : `border:1px solid var(--ds-${k})}`)
+  // Three treatments, chosen by what the system declared: a fill with
+  // --ds-state-text on it, coloured text on a wash, or coloured text with a
+  // border. A pill and a banner can differ — a system may fill the small one
+  // and tint the large one, which is what --ds-state-text plus a wash means.
+  const pill = has(t, '--ds-state-text')
+    ? `background:var(--ds-${k});color:var(--ds-state-text)}`
+    : wash
+      ? `color:var(--ds-${k});background:var(--ds-${k}-wash)}`
+      : `color:var(--ds-${k});border:1px solid var(--ds-${k})}`
+  const banner = wash
+    ? `background:var(--ds-${k}-wash);color:${has(t, '--ds-state-text') ? 'var(--ds-text)' : `var(--ds-${k})`}}`
+    : `color:var(--ds-${k});border:1px solid var(--ds-${k})}`
+  return `.s-${k}{${pill}\n.a-${k}{${banner}`
 }).join('\n')}
 .toast{background:var(--ds-surface);color:var(--ds-text);border:var(--_border);
   border-radius:var(--ds-radius-box);box-shadow:var(--ds-shadow-surface);
