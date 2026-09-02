@@ -56,13 +56,13 @@ using `none` to refuse a concept the system does not have.
 ## Working on the repo
 
 ```
-npm install         one dependency: marked, build-time only
-npm run dev         http://localhost:4321, rebuilds on save
-npm run build       previews, then the site
-npm run check       validate everything
+pnpm install     one dependency: marked, build-time only
+pnpm dev         http://localhost:4321, rebuilds on save
+pnpm build       previews, then the site
+pnpm check       validate everything
 ```
 
-`npm run check` must pass before anything is called done. It enforces the format, checks
+`pnpm check` must pass before anything is called done. It enforces the format, checks
 `index.json` is still append-only against git history, and fails if a committed preview or the
 built site is stale.
 
@@ -76,4 +76,4 @@ concept, the preview shows the refusal by rendering nothing for it.
 ## Serving the site
 
 `site/` is fully static and committed, so any static host will serve it as-is, and
-`npm run dev` serves it locally. No deploy is configured in this repo.
+`pnpm dev` serves it locally. No deploy is configured in this repo.

@@ -127,6 +127,10 @@ Two consequences that explain most of what follows:
 
 Dark mode is required, not optional. Every surface must work in both.
 
+Set `data-mode="dark"` on the **root element**. Scoped to a wrapper it will not work: a
+`var()` inside a custom property resolves where the property is declared, so the `--ds-*`
+aliases would keep their light values.
+
 ### Colour rules
 
 | Token | Means |

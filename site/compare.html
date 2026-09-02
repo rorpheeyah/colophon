@@ -92,6 +92,29 @@
     history.replaceState(null, '', '?a=' + a.slug + '&b=' + b.slug + '&mode=' + mode);
   }
 
+  // Fit each frame to the preview inside it: no dead space, nothing clipped,
+  // whatever a given system's content adds up to. Measured from the parent
+  // because both documents are same-origin — messaging from the frame would
+  // race the parent's listener and usually lose.
+  function fit(f) {
+    const doc = f.contentDocument;
+    if (!doc) return;
+    const set = () => {
+      const h = Math.ceil(doc.body.getBoundingClientRect().height) + 2;
+      if (Math.abs(h - parseFloat(f.style.height || 0)) > 1) f.style.height = h + 'px';
+    };
+    set();
+    if (doc.fonts) doc.fonts.ready.then(set);
+    new ResizeObserver(set).observe(doc.body);
+  }
+  function fitAll(frames) {
+    for (const f of frames) {
+      f.addEventListener('load', () => fit(f));
+      if (f.contentDocument && f.contentDocument.readyState === 'complete') fit(f);
+    }
+  }
+  fitAll([el('fa'), el('fb')]);
+
   el('a').addEventListener('change', draw);
   el('b').addEventListener('change', draw);
   el('swap').addEventListener('click', () => {

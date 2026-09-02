@@ -40,6 +40,7 @@ export function load() {
       added: added[slug] ?? null,
       summary: scalar(f.summary) ?? derivedSummary(body),
       aliases: block ? [...declaredAliases(block.code)] : [],
+      hasDark: block ? /\[data-mode\s*=\s*["']?dark["']?\]/.test(block.code) : false,
       sections: sys.headings.filter(h => h.depth === 2).map(h => h.title),
       body,
     }

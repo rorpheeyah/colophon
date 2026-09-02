@@ -18,18 +18,42 @@ import { systemPage } from './site/system.mjs'
 import { comparePage } from './site/compare.mjs'
 import { aboutPage } from './site/about.mjs'
 
+// The site emits JavaScript as strings, and html`` escapes interpolations —
+// so a bare quoted string interpolated into a <script> silently becomes
+// &#39;...&#39;. Parse every inline script at build time rather than finding
+// out from a console error.
+function assertScriptsParse(html, label) {
+  const re = /<script(?![^>]*application\/json)[^>]*>([\s\S]*?)<\/script>/g
+  for (const [, code] of html.matchAll(re)) {
+    try {
+      new Function(code)
+    } catch (e) {
+      throw new Error(`${label}: inline script does not parse — ${e.message}`)
+    }
+  }
+  const jsonRe = /<script[^>]*application\/json[^>]*>([\s\S]*?)<\/script>/g
+  for (const [, payload] of html.matchAll(jsonRe)) {
+    try {
+      JSON.parse(payload)
+    } catch (e) {
+      throw new Error(`${label}: embedded JSON payload is invalid — ${e.message}`)
+    }
+  }
+  return html
+}
+
 const all = load()
 const files = new Map()
 
-files.set('index.html', String(libraryPage(all)))
-files.set('compare.html', String(comparePage(all)))
-files.set('about.html', String(aboutPage(all)))
+files.set('index.html', assertScriptsParse(String(libraryPage(all)), 'index.html'))
+files.set('compare.html', assertScriptsParse(String(comparePage(all)), 'compare.html'))
+files.set('about.html', assertScriptsParse(String(aboutPage(all)), 'about.html'))
 files.set('data.json', JSON.stringify(
   all.map(({ body, aliases, sections, ...rest }) => rest), null, 2) + '\n')
 
 for (const s of all) {
   const dir = join(ROOT, 'systems', s.slug)
-  files.set(`s/${s.slug}/index.html`, String(systemPage(s)))
+  files.set(`s/${s.slug}/index.html`, assertScriptsParse(String(systemPage(s)), `s/${s.slug}/index.html`))
   files.set(`s/${s.slug}/${s.slug}.md`, readFileSync(join(dir, `${s.slug}.md`), 'utf8'))
   files.set(`s/${s.slug}/preview.html`, readFileSync(join(dir, 'preview.html'), 'utf8'))
 }

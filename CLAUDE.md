@@ -68,9 +68,14 @@ index.json                       append-only ledger
 ```
 
 ```
-npm run build     previews, then the site
-npm run check     validate; fails on a stale preview or a stale site
+pnpm build     previews, then the site
+pnpm check     validate; fails on a stale preview or a stale site
 ```
+
+`scripts/site/html.mjs` escapes every interpolation. Inside a `<script>` that means a bare
+interpolated string arrives as `&#39;...&#39;` and the script will not parse — use `json()` or
+`raw()` for anything interpolated into script text. `build-site.mjs` parses every inline script
+and JSON payload it emits and fails the build otherwise, so this cannot ship silently.
 
 One dependency: `marked`, build-time only, for rendering a system file to HTML on
 the system page. It pulls in nothing else. Hand-rolling GFM tables and fenced blocks
@@ -181,8 +186,16 @@ So each system declares an alias layer inside its tokens block, pointing stable 
 its own tokens.
 
 Aliases are `var()` references, never copied values, so the tokens block stays the single
-source of truth. The dark block redefines the underlying tokens and the aliases resolve
-through automatically — never re-declare `--ds-*` in the dark block.
+source of truth. Declare each one exactly once, in `:root` — never re-declare `--ds-*` inside
+the dark block.
+
+**`data-mode` must be set on the root element.** A `var()` inside a custom property is
+substituted where that property is *declared*, not where it is used. So `--ds-bg: var(--paper)`
+declared in `:root` resolves against whatever `--paper` is on `:root`, and that resolved colour
+inherits down unchanged. Scope the dark block to a wrapper element and every alias keeps its
+light value: `--paper` goes dark, `--ds-bg` does not, and dark mode silently does nothing. The
+root is the only place the substitution sees the dark tokens. The preview generator therefore
+renders one mode per document and sets `data-mode` on `<html>`.
 
 **All 29 aliases are required.** A system that does not have a concept declares `none`:
 
