@@ -8,13 +8,13 @@ density: spacious
 scripts: [latin]
 best-for: [admin dashboards, list-and-detail CRUD interfaces, portfolio presentation]
 avoid-for: [point of sale, high-density catalogues, non-Latin scripts, anything requiring speed at a counter]
-source-url: https://www.behance.net/
-credit: "Pharmly — Pharmacy Management Admin Dashboard UI Design, published on Behance. Author credit to be filled in from the project page."
+source-url: https://www.behance.net/gallery/214668383/Pharmacy-Management-Admin-Dashboard-UI-Design
+credit: "Pharmacy Management Admin Dashboard UI Design by Opedia Studio, Samsun Nahar and M A Monim. Published on Behance, 13 December 2024."
 ---
 
 # Pharmly — scouted reference
 
-> **This is my reading of someone else's public work, not my design.** Tokens below are extracted by eye from published screenshots and are approximations, not the original author's values. No assets are reproduced. Credit and source above; fill in the author's name before publishing this entry.
+> **This is my reading of someone else's public work, not my design.** Credited to Opedia Studio, Samsun Nahar and M A Monim; source above. Tokens below are extracted by eye from published screenshots and are approximations, not the authors' values. No assets are reproduced.
 
 A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.
 
@@ -40,10 +40,12 @@ The distinguishing move is a **capsule chart language** — bars drawn as rounde
 
 Approximated from screenshots. The type family, the spacing steps, and the status-pill wash
 colours were **not** extracted: the family is named in the published work but never specified,
-no spacing step was measurable, and the wash tints were not readable from the screenshots with
-any confidence. The spacing and wash aliases are
-declared `none` rather than guessed, so the preview renders status labels without a fill it
-cannot vouch for.
+no spacing step was measurable, and the wash tints were not readable with any confidence. Those
+aliases are declared `none` rather than guessed, so the preview renders status labels without a
+fill it cannot vouch for.
+
+The published work states Figma and Adobe Photoshop as its tools. It does not publish a token
+file, so nothing here is transcribed — every value is a reading.
 
 ```css
 :root {
