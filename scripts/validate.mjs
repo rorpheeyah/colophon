@@ -53,12 +53,13 @@ const DS_ALIASES = [
 // Aliases a system may decline. The rest carry structure, so `none` in one of them
 // is an error rather than an escape hatch.
 const DS_NONE_PERMITTED = new Set([
-  'shadow', 'font-data', 'hatch',
+  'shadow', 'font-data', 'hatch', 'border-color',
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent',
 ].map(n => `--ds-${n}`))
 
-// A state colour and its wash must agree: declare both, or decline both.
+// A wash needs a colour to pair with. The reverse does not hold: a system may mark
+// states with a border or with type colour alone and never fill anything.
 const DS_PAIRS = [['success', 'success-wash'], ['warn', 'warn-wash'], ['alarm', 'alarm-wash']]
   .map(([a, b]) => [`--ds-${a}`, `--ds-${b}`])
 
@@ -284,10 +285,17 @@ function validateSystem(slug) {
       const a = declared.get(colour)
       const b = declared.get(wash)
       if (a === undefined || b === undefined) continue
-      if ((a === 'none') !== (b === 'none')) {
-        err(`\`${colour}\` and \`${wash}\` disagree — one is \`none\` and the other is not. ` +
-            `Declare both or decline both`)
+      if (a === 'none' && b !== 'none') {
+        err(`\`${wash}\` is declared but \`${colour}\` is \`none\` — a wash with no colour ` +
+            `to pair with`)
       }
+    }
+
+    const borderWidth = declared.get('--ds-border-width')
+    const borderColor = declared.get('--ds-border-color')
+    if (borderColor === 'none' && borderWidth !== undefined && !/^0[a-z]*$/.test(borderWidth)) {
+      err(`\`--ds-border-color: none\` but \`--ds-border-width\` is \`${borderWidth}\` — ` +
+          `a border with no colour. Decline the colour only where the width is 0`)
     }
 
     // Aliases must resolve through the dark block, so they are declared once only.
@@ -319,6 +327,11 @@ function validateSystem(slug) {
             `use var(--token): ${text.trim().slice(0, 72)}`)
       }
     })
+    const stray = [...new Set([...block.code.matchAll(/^\s*(--[A-Za-z0-9-]+)\s*:/gm)].map(m => m[1]))]
+    if (stray.length) {
+      err(`line ${block.line + 1}: custom propert(ies) declared outside the tokens block — ` +
+          `${stray.join(', ')}. The tokens block holds every property the system defines`)
+    }
     if (block.unterminated) err(`unterminated code fence opened at line ${block.line}`)
   }
 
