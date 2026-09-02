@@ -56,6 +56,7 @@ systems/
     assets/                      optional, text only
 scripts/
   lib.mjs                        shared parsing, so the two scripts cannot drift
+  contrast.mjs                   WCAG ratios, opt-in via the `contrast` field
   build-previews.mjs             tokens block -> preview.html
   build-site.mjs                 system files -> site/
   validate.mjs                   format contract enforcement
@@ -123,7 +124,26 @@ source-url     where the work was published
 credit         author and title, as a quoted string
 ```
 
-Anything else is optional and may be added freely. See rule 4.
+Anything else is optional and may be added freely. See rule 4. One optional field is
+enforced when present:
+
+```
+contrast       AA | AAA — opt in to a contrast floor on text
+```
+
+`AA` is 4.5:1, `AAA` is 7:1. Declaring it makes `validate.mjs` resolve the `--ds-*` text roles
+through the alias layer, in both modes, and fail the build on anything under the floor: primary,
+secondary and tertiary text on `--ds-bg` and `--ds-surface`; each state colour on its wash where
+one is declared and on the page where none is; button text on button fill; inverted text on the
+inverted surface. `--ds-accent` is not checked, because a system may declare an accent and
+forbid it as text.
+
+**A system that declares nothing is not checked.** A floor it never agreed to is not its rule —
+that is what keeps the field optional in the sense rule 4 requires, and it is why a reference
+record, whose colours are approximations of someone else's work, is never held to one.
+
+`node scripts/contrast.mjs [slug]` prints the table for authoring; `--all` includes systems that
+have not opted in.
 
 ### Required body sections
 

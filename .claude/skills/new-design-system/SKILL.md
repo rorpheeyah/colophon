@@ -113,6 +113,12 @@ where guessing wrong produces a system the user did not ask for:
   at all
 - `--ds-shadow` — the exact value, or `none`
 
+Ask whether the system should hold itself to a contrast floor. If the palette is being authored
+now rather than transcribed, `contrast: AA` in frontmatter is usually right: it makes
+`validate.mjs` fail on any text colour under 4.5:1 in either mode, so a later colour swap cannot
+quietly break legibility. Run `node scripts/contrast.mjs <slug>` while choosing values. Do not
+add the field to a system whose colours are approximations of someone else's work.
+
 Infer the rest from answers already given. Then present the complete block once, as CSS, and
 ask the user to confirm or amend it in a single pass.
 
