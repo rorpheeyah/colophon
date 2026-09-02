@@ -96,6 +96,14 @@ cannot vouch for.
   --ds-invert-accent:  var(--lime);
   --ds-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
+  --ds-font-script:    none;
+  --ds-scrim:          none;
+  --ds-shadow-surface: none;
+  --ds-chart-1:        var(--pine);
+  --ds-chart-2:        none;
+  --ds-chart-3:        none;
+  --ds-chart-4:        none;
+  --ds-chart-5:        none;
 }
 ```
 

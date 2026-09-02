@@ -109,6 +109,14 @@ Two consequences that explain most of what follows:
   --ds-invert-text:    none;
   --ds-invert-accent:  none;
   --ds-hatch:          none;
+  --ds-font-script:    var(--body);
+  --ds-scrim:          none;
+  --ds-shadow-surface: none;
+  --ds-chart-1:        none;
+  --ds-chart-2:        none;
+  --ds-chart-3:        none;
+  --ds-chart-4:        none;
+  --ds-chart-5:        none;
 }
 
 [data-mode="dark"] {
