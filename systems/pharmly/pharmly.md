@@ -38,14 +38,7 @@ The distinguishing move is a **capsule chart language** — bars drawn as rounde
 
 ## 2. Tokens
 
-Approximated from screenshots. `paper` was corrected after the fact: at the value first
-extracted it sat only 1.07:1 from `card`, and this system declines both borders and shadows, so
-a surface step is the *only* thing separating a white card from the page. White cards did not
-read against it, which the record itself says they must — "everything in white 16px cards".
-The corrected value sits 1.15:1 from `card`, a little clearer than the two original systems in
-the library, because neither of them relies on the step alone.
-
-The type family, the spacing steps, and the status-pill wash
+Approximated from screenshots. The type family, the spacing steps, and the status-pill wash
 colours were **not** extracted: the family is named in the published work but never specified,
 no spacing step was measurable, and the wash tints were not readable with any confidence. Those
 aliases are declared `none` rather than guessed, so the preview renders status labels without a
@@ -59,7 +52,7 @@ file, so nothing here is transcribed — every value is a reading.
   --pine:      #1D4237;
   --pine-deep: #133029;
   --lime:      #C8E64C;
-  --paper:     #EFEFEC;
+  --paper:     #F7F7F5;
   --card:      #FFFFFF;
   --ink:       #14201B;
   --ink-2:     #5C6660;

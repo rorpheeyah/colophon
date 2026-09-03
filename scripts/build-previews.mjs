@@ -238,7 +238,7 @@ function stage(t, meta) {
       <button class="pg">2</button><button class="pg">3</button><button class="pg" data-step>Next</button>
     </div>
     <div class="prog"><i style="width:62%"></i></div>
-    <div class="slider"><span class="track"><i style="width:44%"></i></span><span class="knob"></span></div>
+    <label class="slider"><input type="range" min="0" max="100" value="44" aria-label="Threshold"></label>
     <div class="avatars"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
     <div class="skel"><i></i><i></i><i></i></div>
     <details class="acc" open><summary>What this system refuses</summary>
@@ -509,11 +509,20 @@ input.input{font:13px var(--clp-font-body);width:100%}
 .pg.on{background:var(--clp-text);color:var(--clp-bg)}
 .prog{height:8px;border-radius:var(--clp-radius-control);background:var(--clp-line);overflow:hidden;max-width:280px}
 .prog i{display:block;height:100%;background:var(--clp-text);border-radius:var(--clp-radius-control)}
-.slider{display:flex;align-items:center;max-width:280px;position:relative}
-.slider .track{flex:1;height:5px;border-radius:var(--clp-radius-control);background:var(--clp-line);overflow:hidden}
-.slider .track i{display:block;height:100%;background:var(--clp-text)}
-.slider .knob{width:15px;height:15px;border-radius:var(--clp-radius-control);background:var(--clp-surface);
-  border:2px solid var(--clp-text);margin-left:-8px}
+.slider{display:flex;max-width:280px;width:100%}
+/* A real range input. The filled portion is a gradient stop moved by JS, so
+   both halves stay declared colours and the percentage is only geometry. */
+.slider input{appearance:none;-webkit-appearance:none;width:100%;height:16px;
+  background:none;cursor:pointer;margin:0}
+.slider input::-webkit-slider-runnable-track{height:5px;border-radius:var(--clp-radius-control);
+  background:linear-gradient(90deg,var(--clp-text) var(--_pct,44%),var(--clp-line) var(--_pct,44%))}
+.slider input::-moz-range-track{height:5px;border-radius:var(--clp-radius-control);
+  background:linear-gradient(90deg,var(--clp-text) var(--_pct,44%),var(--clp-line) var(--_pct,44%))}
+.slider input::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:15px;height:15px;
+  margin-top:-5px;border-radius:var(--clp-radius-control);background:var(--clp-surface);
+  border:2px solid var(--clp-text)}
+.slider input::-moz-range-thumb{width:15px;height:15px;box-sizing:border-box;
+  border-radius:var(--clp-radius-control);background:var(--clp-surface);border:2px solid var(--clp-text)}
 .avatars{display:flex;gap:4px}
 .avatars span{display:grid;place-items:center;width:26px;height:26px;
   border-radius:var(--clp-radius-control);background:var(--clp-line);
@@ -625,6 +634,16 @@ ${stage(t, meta)}
   const q = new URLSearchParams(location.search)
   const root = document.documentElement
   if (q.get('chrome') === '0') root.dataset.nochrome = ''
+  // The slider's filled portion is the one thing a native range cannot express
+  // on its own, so the fill stop is set from the value. Both colours are still
+  // the system's; only the position is computed.
+  for (const r of document.querySelectorAll('.slider input')) {
+    const set = () => r.style.setProperty('--_pct',
+      ((r.value - r.min) / (r.max - r.min) * 100).toFixed(1) + '%')
+    r.addEventListener('input', set)
+    set()
+  }
+
   // Tabs, pagination and the nav rail move between two states the system has
   // already declared — active and inactive. Nothing here invents a treatment;
   // it only changes which element wears the one that exists. Card thumbnails
