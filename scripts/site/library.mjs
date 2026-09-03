@@ -58,6 +58,10 @@ export const libraryPage = all => {
       html`${i > 0 && html`<i class="sep"></i>`}${chips(key, values)}`)}</div>
     <span class="count" id="count"></span>
     <button class="clear" id="clear" hidden>Clear</button>
+    <div class="views" role="group" aria-label="Layout">
+      <button class="chip" data-view="cards" aria-pressed="true">Cards</button>
+      <button class="chip" data-view="list" aria-pressed="false">List</button>
+    </div>
   </div>
 
   <div class="grid" id="grid">${all.map(card)}</div>
@@ -106,6 +110,20 @@ export const libraryPage = all => {
     document.querySelectorAll('.chip[data-k]').forEach(c => c.setAttribute('aria-pressed', 'false'));
     apply();
   });
+  // Layout is a reading preference, so it is remembered per visitor.
+  const grid = document.getElementById('grid');
+  function view(v) {
+    grid.dataset.view = v;
+    for (const b of document.querySelectorAll('[data-view]'))
+      if (b.tagName === 'BUTTON') b.setAttribute('aria-pressed', String(b.dataset.view === v));
+    try { localStorage.setItem('colophon-view', v); } catch (e) {}
+  }
+  let saved = 'cards';
+  try { saved = localStorage.getItem('colophon-view') === 'list' ? 'list' : 'cards'; } catch (e) {}
+  for (const b of document.querySelectorAll('button[data-view]'))
+    b.addEventListener('click', () => view(b.dataset.view));
+  view(saved);
+
   apply();
 </script>`,
   })

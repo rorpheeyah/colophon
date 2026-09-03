@@ -84,6 +84,21 @@ export function sparkline(n = 1) {
 }
 
 /**
+ * A single proportion. One series and a track, so every system that charts at
+ * all gets a circle — the donut below needs three and most systems have one.
+ */
+export function gauge(n = 1, pct = 72) {
+  const R = 52, SW = 16, C = 2 * Math.PI * R
+  return `<svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Completion, ${pct} percent">
+    <circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--clp-line)" stroke-width="${SW}"/>
+    <circle cx="70" cy="70" r="${R}" fill="none" stroke="${c(n)}" stroke-width="${SW}"
+      stroke-linecap="butt" stroke-dasharray="${((pct / 100) * C).toFixed(1)} ${C}"
+      transform="rotate(-90 70 70)" data-tip="Completed \u00b7 ${pct}%"/>
+    <text x="70" y="68" text-anchor="middle" class="donut-n">${pct}%</text>
+    <text x="70" y="86" text-anchor="middle" class="ax">complete</text></svg>`
+}
+
+/**
  * Composition of a whole. Needs at least three declared series — with two it is
  * a proportion, which the stacked bar already says more clearly.
  */

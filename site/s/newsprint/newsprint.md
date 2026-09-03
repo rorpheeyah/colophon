@@ -123,8 +123,8 @@ Two consequences that explain most of what follows:
   --clp-focus:          var(--ink);
   --clp-scrim:          none;
   --clp-shadow-surface: none;
-  --clp-chart-1:        none;
-  --clp-chart-2:        none;
+  --clp-chart-1:        var(--ink);
+  --clp-chart-2:        var(--ink-2);
   --clp-chart-3:        none;
   --clp-chart-4:        none;
   --clp-chart-5:        none;
@@ -202,6 +202,11 @@ Kantumruy Pro sets Khmer and Latin at one optical weight, so a mixed row keeps e
 **Rules, not cards.** A hairline and a shared column edge carry the structure. Do not wrap content in filled containers to group it.
 
 **One `ink` rule per structural division**, `rule` hairlines between rows, `rule-2` between columns and sections. A container gets a 1px `ink` border; it never gets a fill to distinguish it from the page.
+
+**Data marks are ink.** Charts take `chart-1` and `chart-2`, two steps of the ink ladder — the
+same ladder the type uses, which is why a chart reads as set matter rather than as decoration.
+Two series is the ceiling: `ink-3` is tuned for legibility against paper, not against `ink-2`,
+and the two are too close to separate as adjacent marks.
 
 **Column alignment is the layout.** Figures right-align, labels left-align, and the alignment holds down the whole page. Breaking alignment for one row breaks the system.
 
