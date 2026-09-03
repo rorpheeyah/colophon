@@ -387,6 +387,12 @@ a `border-radius` that is not a `var()`, or a `box-shadow` that is not exactly `
 single `--clp-*` reference. The template therefore cannot invent an appearance; it can only
 misplace a declared one.
 
+**That check scans the stylesheet, not the markup.** Fills written as SVG attributes are on
+discipline alone, and today every one of them is a `var(--clp-*)` — except the `white` and
+`black` inside the avatar row's mask, which are that mask's 1 and 0 rather than an appearance.
+Extending the check to markup would be worth doing; until then this paragraph is the record of
+what it does not cover.
+
 ### Resolving a declined alias — four shims
 
 | shim | when the alias is declined |
@@ -424,14 +430,15 @@ misplace a declared one.
   each declared stack ends with.
 - **Overlapping avatars are separated by a 2px seam cut out of each.** A ring is a shadow and an
   outline is a border, and two of the three systems forbid each outright, so the separation is
-  geometric. The cut is straight rather than disc-shaped, so it suits a circle and a square
-  alike and says nothing about curvature. **The overlap is therefore set by what the label
-  needs, not by the stacking effect:** the initials centre in the slice that stays visible, so
-  the tuck stops where two characters still fit clear of the cut. The known cost of a straight
-  cut is that a capsule reads with a flat trailing edge rather than as a disc behind a disc —
-  honouring the neighbour's curvature would mean cutting with its outline dilated by 2px, which
-  the template cannot derive from an arbitrary declared radius. Raise it if it matters; do not
-  reach for a ring.
+  geometric. The cut follows the neighbour's own corner: it is that neighbour's outline offset
+  outward by the seam, which for a rounded rect is the same shape at `--clp-radius-control`
+  plus 2px. A capsule therefore reads as a disc behind a disc and a square as a square behind a
+  square, and the template supplies only the 2px, which it already owns. **The row is drawn as
+  SVG for this reason** — an HTML box cannot be masked by a shape whose radius is a `var()`, and
+  SVG's own clamping of `rx` to half the side is what turns a declared `999px` into a true
+  circle without the template naming a number. **The overlap is set by what the label needs,
+  not by the stacking effect:** the initials centre in the slice that stays visible, so the tuck
+  stops where two characters still fit clear of the cut.
 - **Line weights** are the template's: 1px for a hairline, 2px for emphasis. No alias describes
   them, which is a known gap rather than a decision made silently.
 - **Sample content and layout** — figures, labels, record names, how many stat tiles, how many

@@ -267,27 +267,15 @@ input.input{font:13px var(--clp-font-body);width:100%}
   border:2px solid var(--clp-text)}
 .slider input::-moz-range-thumb{width:15px;height:15px;box-sizing:border-box;
   border-radius:var(--clp-radius-control);background:var(--clp-surface);border:2px solid var(--clp-text)}
-.avatars{display:flex;gap:4px;--_av:26px}
-/* Overlap is 6px of 26, and the seam is cut 2px before the next avatar's
-   leading edge, so the 2px gap falls between the two shapes rather than under
-   one of them. That leaves 18px of each avatar showing, which is what the
-   modest overlap buys: two initials fit centred in the visible slice instead
-   of being pushed against the cut and clipped mid-letter. */
-.avatars.lap{gap:0;--_ov:6px;--_edge:calc(var(--_av) - var(--_ov));
-  --_seam:linear-gradient(90deg,currentColor calc(var(--_edge) - 2px),
-    transparent calc(var(--_edge) - 2px) var(--_edge),currentColor var(--_edge))}
-.avatars.lap span{margin-left:calc(var(--_ov) * -1)}
-.avatars.lap span:first-child{margin-left:0}
-.avatars.lap span:not(:last-child){
-  /* the content box is the slice that stays visible, so place-items centres
-     the initials in what can be seen and not in the whole avatar */
-  padding-right:calc(var(--_ov) + 2px);
-  mask-image:var(--_seam);-webkit-mask-image:var(--_seam)}
-.avatars span{box-sizing:border-box;display:grid;place-items:center;
-  width:var(--_av);height:var(--_av);
-  border-radius:var(--clp-radius-control);background:var(--clp-line);
-  color:var(--clp-text-2);font:700 10px/1 var(--_data)}
-.avatars .more{background:var(--clp-text);color:var(--clp-bg)}
+.avstack{display:block;flex:none}
+.avstack .av rect{rx:var(--clp-radius-control);fill:var(--clp-line)}
+.avstack .av text{font:700 10px/1 var(--_data);fill:var(--clp-text-2);
+  text-anchor:middle;dominant-baseline:central}
+.avstack .more rect{fill:var(--clp-text)}
+.avstack .more text{fill:var(--clp-bg)}
+/* the cutter is the neighbour's shape grown by the seam width, so the gap
+   follows the curve the system declared rather than cutting across it */
+.av-cut{rx:calc(var(--clp-radius-control) + 2px)}
 .acc{border-bottom:1px solid var(--clp-line);padding:8px 0;max-width:340px}
 .acc summary{cursor:pointer;font-size:13px;font-weight:600}
 .acc p{margin:6px 0 0;font-size:12.5px;color:var(--clp-text-2)}
@@ -522,8 +510,17 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
     <div class="prog"><i style="width:62%"></i></div>
     <label class="slider"><input type="range" min="0" max="100" value="44" aria-label="Threshold"></label>
     <div class="row">
-      <div class="avatars"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
-      <div class="avatars lap"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
+      <svg class="avstack" viewBox="0 0 116 26" width="116" height="26" role="img"
+    aria-label="Assigned to SK, MR, AL, and 3 more"
+    ><g transform="translate(0 0)"><g class="av"><rect width="26" height="26"/><text x="13" y="13">SK</text></g></g><g transform="translate(30 0)"><g class="av"><rect width="26" height="26"/><text x="13" y="13">MR</text></g></g><g transform="translate(60 0)"><g class="av"><rect width="26" height="26"/><text x="13" y="13">AL</text></g></g><g transform="translate(90 0)"><g class="av more"><rect width="26" height="26"/><text x="13" y="13">+3</text></g></g></svg>
+      <svg class="avstack" viewBox="0 0 86 26" width="86" height="26" role="img"
+    aria-label="Assigned to SK, MR, AL, and 3 more"
+    ><mask id="av-seam" maskUnits="userSpaceOnUse"
+      x="0" y="0" width="26" height="26">
+      <rect width="26" height="26" fill="white"/>
+      <rect class="av-cut" x="18" y="-2"
+            width="30" height="30" fill="black"/>
+    </mask><g transform="translate(0 0)"><g class="av" mask="url(#av-seam)"><rect width="26" height="26"/><text x="9" y="13">SK</text></g></g><g transform="translate(20 0)"><g class="av" mask="url(#av-seam)"><rect width="26" height="26"/><text x="9" y="13">MR</text></g></g><g transform="translate(40 0)"><g class="av" mask="url(#av-seam)"><rect width="26" height="26"/><text x="9" y="13">AL</text></g></g><g transform="translate(60 0)"><g class="av more"><rect width="26" height="26"/><text x="13" y="13">+3</text></g></g></svg>
     </div>
     <div class="skel"><i></i><i></i><i></i></div>
     <details class="acc" open><summary>What this system refuses</summary>
