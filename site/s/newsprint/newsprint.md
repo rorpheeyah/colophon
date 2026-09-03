@@ -87,47 +87,47 @@ Two consequences that explain most of what follows:
   --body:    "Kantumruy Pro", system-ui, sans-serif;
   --data:    "JetBrains Mono", ui-monospace, monospace;
 
-  --ds-bg:             var(--paper);
-  --ds-surface:        var(--stock);
-  --ds-text:           var(--ink);
-  --ds-text-2:         var(--ink-2);
-  --ds-text-3:         var(--ink-3);
-  --ds-line:           var(--rule);
-  --ds-accent:         var(--ink);
-  --ds-radius-box:     var(--radius);
-  --ds-radius-control: var(--radius);
-  --ds-border-width:   1px;
-  --ds-border-color:   var(--ink);
-  --ds-shadow:         var(--offset) var(--offset) 0 var(--ink);
-  --ds-button-bg:      var(--stock);
-  --ds-button-text:    var(--ink);
-  --ds-button2-bg:     var(--stock);
-  --ds-font-display:   var(--display);
-  --ds-font-body:      var(--body);
-  --ds-font-data:      var(--data);
-  --ds-gap:            var(--gap);
-  --ds-pad:            var(--pad);
-  --ds-success:        var(--teal);
-  --ds-success-wash:   none;
-  --ds-warn:           var(--mark);
-  --ds-warn-wash:      none;
-  --ds-alarm:          var(--flag);
-  --ds-alarm-wash:     none;
-  --ds-invert-bg:      none;
-  --ds-invert-text:    none;
-  --ds-invert-accent:  none;
-  --ds-state-text:     none;
-  --ds-hatch:          none;
-  --ds-font-script:    var(--body);
-  --ds-press:          translate(var(--offset), var(--offset));
-  --ds-focus:          var(--ink);
-  --ds-scrim:          none;
-  --ds-shadow-surface: none;
-  --ds-chart-1:        none;
-  --ds-chart-2:        none;
-  --ds-chart-3:        none;
-  --ds-chart-4:        none;
-  --ds-chart-5:        none;
+  --clp-bg:             var(--paper);
+  --clp-surface:        var(--stock);
+  --clp-text:           var(--ink);
+  --clp-text-2:         var(--ink-2);
+  --clp-text-3:         var(--ink-3);
+  --clp-line:           var(--rule);
+  --clp-accent:         var(--ink);
+  --clp-radius-box:     var(--radius);
+  --clp-radius-control: var(--radius);
+  --clp-border-width:   1px;
+  --clp-border-color:   var(--ink);
+  --clp-shadow:         var(--offset) var(--offset) 0 var(--ink);
+  --clp-button-bg:      var(--stock);
+  --clp-button-text:    var(--ink);
+  --clp-button2-bg:     var(--stock);
+  --clp-font-display:   var(--display);
+  --clp-font-body:      var(--body);
+  --clp-font-data:      var(--data);
+  --clp-gap:            var(--gap);
+  --clp-pad:            var(--pad);
+  --clp-success:        var(--teal);
+  --clp-success-wash:   none;
+  --clp-warn:           var(--mark);
+  --clp-warn-wash:      none;
+  --clp-alarm:          var(--flag);
+  --clp-alarm-wash:     none;
+  --clp-invert-bg:      none;
+  --clp-invert-text:    none;
+  --clp-invert-accent:  none;
+  --clp-state-text:     none;
+  --clp-hatch:          none;
+  --clp-font-script:    var(--body);
+  --clp-press:          translate(var(--offset), var(--offset));
+  --clp-focus:          var(--ink);
+  --clp-scrim:          none;
+  --clp-shadow-surface: none;
+  --clp-chart-1:        none;
+  --clp-chart-2:        none;
+  --clp-chart-3:        none;
+  --clp-chart-4:        none;
+  --clp-chart-5:        none;
 }
 
 [data-mode="dark"] {
@@ -147,7 +147,7 @@ Two consequences that explain most of what follows:
 Dark mode is required, not optional. Every surface must work in both.
 
 Set `data-mode="dark"` on the **root element**. Scoped to a wrapper it will not work: a
-`var()` inside a custom property resolves where the property is declared, so the `--ds-*`
+`var()` inside a custom property resolves where the property is declared, so the `--clp-*`
 aliases would keep their light values.
 
 ### Colour rules

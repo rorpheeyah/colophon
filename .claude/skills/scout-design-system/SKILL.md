@@ -72,7 +72,7 @@ never invent a value to fill one. "Dark mode was not published; any dark treatme
 invented, not extracted" is the correct answer, and the preview will render the absence
 honestly.
 
-All 29 `--ds-*` aliases are still required, since the shared preview template reads them.
+All 29 `--clp-*` aliases are still required, since the shared preview template reads them.
 Alias only what was actually observed, and declare `none` for everything the source did not
 publish — that is the honest record, and it is also what makes the omission visible. Where the
 source published no dark block, omit `[data-mode="dark"]` entirely rather than inventing one.

@@ -28,7 +28,7 @@ const ENUMS = {
   density: ['compact', 'comfortable', 'spacious'],
 }
 
-const DS_ALIASES = [
+const CLP_ALIASES = [
   'bg', 'surface', 'text', 'text-2', 'text-3', 'line', 'accent',
   'radius-box', 'radius-control', 'border-width', 'border-color', 'shadow',
   'button-bg', 'button-text', 'font-display', 'font-body', 'font-data',
@@ -38,23 +38,23 @@ const DS_ALIASES = [
   'font-script', 'scrim', 'shadow-surface', 'button2-bg', 'state-text',
   'press', 'focus',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
-].map(n => `--ds-${n}`)
+].map(n => `--clp-${n}`)
 
 // Aliases a system may decline. The rest carry structure, so `none` in one of them
 // is an error rather than an escape hatch.
-const DS_NONE_PERMITTED = new Set([
+const CLP_NONE_PERMITTED = new Set([
   'shadow', 'font-data', 'hatch', 'border-color', 'gap', 'pad',
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent',
   'font-script', 'scrim', 'shadow-surface', 'button2-bg', 'state-text',
   'press', 'focus',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
-].map(n => `--ds-${n}`))
+].map(n => `--clp-${n}`))
 
 // A wash needs a colour to pair with. The reverse does not hold: a system may mark
 // states with a border or with type colour alone and never fill anything.
-const DS_PAIRS = [['success', 'success-wash'], ['warn', 'warn-wash'], ['alarm', 'alarm-wash']]
-  .map(([a, b]) => [`--ds-${a}`, `--ds-${b}`])
+const CLP_PAIRS = [['success', 'success-wash'], ['warn', 'warn-wash'], ['alarm', 'alarm-wash']]
+  .map(([a, b]) => [`--clp-${a}`, `--clp-${b}`])
 
 const COLOR_LITERAL = /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\s*\(/
 const MIN_NEVER_ENTRIES = 5
@@ -154,27 +154,27 @@ function validateSystem(slug) {
     if (!/:root\s*\{/.test(canonical.code)) err('the tokens block declares no `:root` rule')
     const declared = declaredAliases(canonical.code)
 
-    const missing = DS_ALIASES.filter(t => !declared.has(t))
+    const missing = CLP_ALIASES.filter(t => !declared.has(t))
     if (missing.length) {
-      err(`tokens block is missing ${missing.length} required --ds-* alias(es): ${missing.join(', ')}. ` +
+      err(`tokens block is missing ${missing.length} required --clp-* alias(es): ${missing.join(', ')}. ` +
           `Declare \`none\` to refuse a concept the system does not have`)
     }
-    const unknown = [...declared.keys()].filter(t => !DS_ALIASES.includes(t))
+    const unknown = [...declared.keys()].filter(t => !CLP_ALIASES.includes(t))
     if (unknown.length) {
-      err(`unrecognised --ds-* alias(es): ${unknown.join(', ')}. ` +
+      err(`unrecognised --clp-* alias(es): ${unknown.join(', ')}. ` +
           `The preview template reads a fixed set — see CLAUDE.md`)
     }
 
     for (const [token, value] of declared) {
-      if (!DS_ALIASES.includes(token)) continue
+      if (!CLP_ALIASES.includes(token)) continue
       if (value === '') { err(`\`${token}\` is declared with no value`); continue }
-      if (value === 'none' && !DS_NONE_PERMITTED.has(token)) {
+      if (value === 'none' && !CLP_NONE_PERMITTED.has(token)) {
         err(`\`${token}: none\` — this alias carries structure and must hold a value. ` +
-            `Only ${[...DS_NONE_PERMITTED].join(', ')} may be declined`)
+            `Only ${[...CLP_NONE_PERMITTED].join(', ')} may be declined`)
       }
     }
 
-    for (const [colour, wash] of DS_PAIRS) {
+    for (const [colour, wash] of CLP_PAIRS) {
       const a = declared.get(colour)
       const b = declared.get(wash)
       if (a === undefined || b === undefined) continue
@@ -184,29 +184,29 @@ function validateSystem(slug) {
       }
     }
 
-    const series = [1, 2, 3, 4, 5].map(n => declared.get(`--ds-chart-${n}`))
+    const series = [1, 2, 3, 4, 5].map(n => declared.get(`--clp-chart-${n}`))
     const firstNone = series.findIndex(v => v === 'none')
     if (firstNone !== -1) {
       const laterDeclared = series.findIndex((v, i) => i > firstNone && v !== undefined && v !== 'none')
       if (laterDeclared !== -1) {
-        err(`\`--ds-chart-${laterDeclared + 1}\` is declared but \`--ds-chart-${firstNone + 1}\` ` +
+        err(`\`--clp-chart-${laterDeclared + 1}\` is declared but \`--clp-chart-${firstNone + 1}\` ` +
             `is \`none\` — a series palette must be declared in order, with no gaps`)
       }
     }
 
-    const stateText = declared.get('--ds-state-text')
+    const stateText = declared.get('--clp-state-text')
     const anyState = ['success', 'warn', 'alarm'].some(k => {
-      const v = declared.get(`--ds-${k}`)
+      const v = declared.get(`--clp-${k}`)
       return v !== undefined && v !== 'none'
     })
     if (stateText !== undefined && stateText !== 'none' && !anyState) {
-      err('`--ds-state-text` is declared but the system has no state colour to fill with')
+      err('`--clp-state-text` is declared but the system has no state colour to fill with')
     }
 
-    const borderWidth = declared.get('--ds-border-width')
-    const borderColor = declared.get('--ds-border-color')
+    const borderWidth = declared.get('--clp-border-width')
+    const borderColor = declared.get('--clp-border-color')
     if (borderColor === 'none' && borderWidth !== undefined && !/^0[a-z]*$/.test(borderWidth)) {
-      err(`\`--ds-border-color: none\` but \`--ds-border-width\` is \`${borderWidth}\` — ` +
+      err(`\`--clp-border-color: none\` but \`--clp-border-width\` is \`${borderWidth}\` — ` +
           `a border with no colour. Decline the colour only where the width is 0`)
     }
 
@@ -215,9 +215,9 @@ function validateSystem(slug) {
     if (darkStart === -1) {
       warn('no `[data-mode="dark"]` block — the preview will render "no dark mode published"')
     } else {
-      const redeclared = [...canonical.code.slice(darkStart).matchAll(/(--ds-[a-z0-9-]+)\s*:/g)]
+      const redeclared = [...canonical.code.slice(darkStart).matchAll(/(--clp-[a-z0-9-]+)\s*:/g)]
       if (redeclared.length) {
-        err(`--ds-* alias(es) re-declared inside the dark block: ` +
+        err(`--clp-* alias(es) re-declared inside the dark block: ` +
             `${[...new Set(redeclared.map(m => m[1]))].join(', ')}. ` +
             `Aliases point at tokens; redefine the underlying token instead`)
       }

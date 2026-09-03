@@ -50,7 +50,7 @@ else is touched — adding a system must never modify an existing one.
 
 Doing it by hand instead means matching the format contract in [CLAUDE.md](CLAUDE.md):
 required frontmatter, eight required body sections in order, one `css` block holding every
-custom property, no colour literal anywhere outside it, and all 29 `--ds-*` aliases declared —
+custom property, no colour literal anywhere outside it, and all 29 `--clp-*` aliases declared —
 using `none` to refuse a concept the system does not have.
 
 ## Working on the repo
@@ -71,7 +71,7 @@ built site is stale.
 ## Why previews can be trusted
 
 No preview is hand-written. Each one embeds its system's own `css` block verbatim and renders a
-single shared template driven entirely by that system's declared `--ds-*` aliases. A preview is
+single shared template driven entirely by that system's declared `--clp-*` aliases. A preview is
 therefore incapable of showing a value its file does not contain — and when a system refuses a
 concept, the preview shows the refusal by rendering nothing for it.
 

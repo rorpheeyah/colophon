@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// WCAG contrast checking for a system's --ds-* text roles.
+// WCAG contrast checking for a system's --clp-* text roles.
 //
 //   node scripts/contrast.mjs            every system that declares `contrast`
 //   node scripts/contrast.mjs newsprint  one system, declared or not
@@ -102,26 +102,26 @@ export function resolve(name, env, seen = new Set()) {
 // ── what gets checked ────────────────────────────────────────────────────────
 
 // Which pair matters depends on how the system renders a state, and that is
-// readable from the aliases: `--ds-state-text` means the colour is a fill and
+// readable from the aliases: `--clp-state-text` means the colour is a fill and
 // that token is the text on it; a wash means coloured text on the wash; neither
 // means coloured text on the page, as Newsprint's bordered labels do.
 function pairs(env) {
   const out = []
   const on = (fg, bg) => out.push([fg, bg])
 
-  for (const fg of ['--ds-text', '--ds-text-2', '--ds-text-3']) {
-    on(fg, '--ds-bg')
-    on(fg, '--ds-surface')
+  for (const fg of ['--clp-text', '--clp-text-2', '--clp-text-3']) {
+    on(fg, '--clp-bg')
+    on(fg, '--clp-surface')
   }
-  const filled = resolve('--ds-state-text', env)
-  for (const state of ['--ds-success', '--ds-warn', '--ds-alarm']) {
+  const filled = resolve('--clp-state-text', env)
+  for (const state of ['--clp-success', '--clp-warn', '--clp-alarm']) {
     const wash = `${state}-wash`
-    if (filled) on('--ds-state-text', state)
+    if (filled) on('--clp-state-text', state)
     else if (resolve(wash, env)) on(state, wash)
-    else { on(state, '--ds-bg'); on(state, '--ds-surface') }
+    else { on(state, '--clp-bg'); on(state, '--clp-surface') }
   }
-  on('--ds-button-text', '--ds-button-bg')
-  on('--ds-invert-text', '--ds-invert-bg')
+  on('--clp-button-text', '--clp-button-bg')
+  on('--clp-invert-text', '--clp-invert-bg')
   return out
 }
 
@@ -161,14 +161,14 @@ export function checkSeries(code) {
   for (const [mode, env] of [['light', light], ['dark', dark]]) {
     if (!env) continue
     const hexes = [1, 2, 3, 4, 5]
-      .map(n => ({ n, hex: resolve(`--ds-chart-${n}`, env) }))
+      .map(n => ({ n, hex: resolve(`--clp-chart-${n}`, env) }))
       .filter(x => x.hex)
     for (let i = 1; i < hexes.length; i++) {
       const a = hexes[i - 1], b = hexes[i]
       const normal = deltaE(a.hex, b.hex)
       const cvd = Math.min(deltaE(a.hex, b.hex, 'protan'), deltaE(a.hex, b.hex, 'deutan'))
       out.push({
-        mode, pair: `--ds-chart-${a.n} / --ds-chart-${b.n}`, normal, cvd,
+        mode, pair: `--clp-chart-${a.n} / --clp-chart-${b.n}`, normal, cvd,
         level: normal < NORMAL_FLOOR || cvd < CVD_FLOOR ? 'fail'
              : cvd < CVD_TARGET ? 'warn' : 'ok',
       })

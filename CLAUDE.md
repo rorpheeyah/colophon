@@ -133,11 +133,11 @@ enforced when present:
 contrast       AA | AAA — opt in to a contrast floor on text
 ```
 
-`AA` is 4.5:1, `AAA` is 7:1. Declaring it makes `validate.mjs` resolve the `--ds-*` text roles
+`AA` is 4.5:1, `AAA` is 7:1. Declaring it makes `validate.mjs` resolve the `--clp-*` text roles
 through the alias layer, in both modes, and fail the build on anything under the floor: primary,
-secondary and tertiary text on `--ds-bg` and `--ds-surface`; each state colour on its wash where
+secondary and tertiary text on `--clp-bg` and `--clp-surface`; each state colour on its wash where
 one is declared and on the page where none is; button text on button fill; inverted text on the
-inverted surface. `--ds-accent` is not checked, because a system may declare an accent and
+inverted surface. `--clp-accent` is not checked, because a system may declare an accent and
 forbid it as text.
 
 **A system that declares nothing is not checked.** A floor it never agreed to is not its rule —
@@ -200,7 +200,7 @@ this. Other code blocks are illustrative recipes and may reference `var(--token)
 Sizes in prose are permitted — a type scale reads better as a table than as fourteen custom
 properties — but any value that exists as a token must be referenced by name.
 
-### The `--ds-*` preview contract
+### The `--clp-*` preview contract
 
 The preview generator renders **one shared template** for every system, with no branching. It
 can only do that if the differences between systems live in token values rather than in code.
@@ -208,21 +208,21 @@ So each system declares an alias layer inside its tokens block, pointing stable 
 its own tokens.
 
 Aliases are `var()` references, never copied values, so the tokens block stays the single
-source of truth. Declare each one exactly once, in `:root` — never re-declare `--ds-*` inside
+source of truth. Declare each one exactly once, in `:root` — never re-declare `--clp-*` inside
 the dark block.
 
 **`data-mode` must be set on the root element.** A `var()` inside a custom property is
-substituted where that property is *declared*, not where it is used. So `--ds-bg: var(--paper)`
+substituted where that property is *declared*, not where it is used. So `--clp-bg: var(--paper)`
 declared in `:root` resolves against whatever `--paper` is on `:root`, and that resolved colour
 inherits down unchanged. Scope the dark block to a wrapper element and every alias keeps its
-light value: `--paper` goes dark, `--ds-bg` does not, and dark mode silently does nothing. The
+light value: `--paper` goes dark, `--clp-bg` does not, and dark mode silently does nothing. The
 root is the only place the substitution sees the dark tokens. The preview generator therefore
 renders one mode per document and sets `data-mode` on `<html>`.
 
 **All 41 aliases are required.** A system that does not have a concept declares `none`:
 
 ```css
---ds-success: none;
+--clp-success: none;
 ```
 
 That is a statement, not a gap. A missing alias is always an error, so a refusal is something
@@ -232,74 +232,74 @@ it said so.
 
 | Token | Role | `none` |
 |---|---|---|
-| `--ds-bg` | Page background | |
-| `--ds-surface` | Raised or contained surface | |
-| `--ds-text` | Primary text | |
-| `--ds-text-2` | Secondary text | |
-| `--ds-text-3` | Tertiary text, captions, placeholders | |
-| `--ds-line` | Row rules and hairlines | |
-| `--ds-accent` | The system's accent, whatever it means here | |
-| `--ds-radius-box` | Containers | |
-| `--ds-radius-control` | Buttons, inputs, pills | |
-| `--ds-border-width` | Container edge; `0` if the system forbids borders | |
-| `--ds-border-color` | Container edge colour | yes |
-| `--ds-shadow` | Full `box-shadow` value, applied to controls only | yes |
-| `--ds-press` | `transform` for a control being pressed | yes |
-| `--ds-focus` | Keyboard focus ring colour | yes |
-| `--ds-button-bg` | Primary button fill | |
-| `--ds-button-text` | Primary button text | |
-| `--ds-button2-bg` | Secondary button fill; its text is `--ds-text` | yes |
-| `--ds-state-text` | Text on a state *fill*; declining it means states are coloured text | yes |
-| `--ds-font-display` | Headings | |
-| `--ds-font-body` | Body text | |
-| `--ds-font-data` | Figures and mono labels | yes |
-| `--ds-gap` | Base spacing step | yes |
-| `--ds-pad` | Base container padding | yes |
-| `--ds-success` | Healthy, resolved, correct | yes |
-| `--ds-success-wash` | Its pale background | yes |
-| `--ds-warn` | Needs attention soon | yes |
-| `--ds-warn-wash` | Its pale background | yes |
-| `--ds-alarm` | Needs attention now, or an error | yes |
-| `--ds-alarm-wash` | Its pale background | yes |
-| `--ds-invert-bg` | Inverted surface, where the system has one | yes |
-| `--ds-invert-text` | Text on it | yes |
-| `--ds-invert-accent` | Accent on it | yes |
-| `--ds-hatch` | Full `background` value for a hatch pattern | yes |
-| `--ds-font-script` | Family for a non-Latin script, where the body family does not cover it | yes |
-| `--ds-scrim` | Overlay behind a modal or drawer | yes |
-| `--ds-shadow-surface` | Elevation for a floating surface — toast, popover, dialog | yes |
-| `--ds-chart-1` … `--ds-chart-5` | Categorical series palette, in order | yes |
+| `--clp-bg` | Page background | |
+| `--clp-surface` | Raised or contained surface | |
+| `--clp-text` | Primary text | |
+| `--clp-text-2` | Secondary text | |
+| `--clp-text-3` | Tertiary text, captions, placeholders | |
+| `--clp-line` | Row rules and hairlines | |
+| `--clp-accent` | The system's accent, whatever it means here | |
+| `--clp-radius-box` | Containers | |
+| `--clp-radius-control` | Buttons, inputs, pills | |
+| `--clp-border-width` | Container edge; `0` if the system forbids borders | |
+| `--clp-border-color` | Container edge colour | yes |
+| `--clp-shadow` | Full `box-shadow` value, applied to controls only | yes |
+| `--clp-press` | `transform` for a control being pressed | yes |
+| `--clp-focus` | Keyboard focus ring colour | yes |
+| `--clp-button-bg` | Primary button fill | |
+| `--clp-button-text` | Primary button text | |
+| `--clp-button2-bg` | Secondary button fill; its text is `--clp-text` | yes |
+| `--clp-state-text` | Text on a state *fill*; declining it means states are coloured text | yes |
+| `--clp-font-display` | Headings | |
+| `--clp-font-body` | Body text | |
+| `--clp-font-data` | Figures and mono labels | yes |
+| `--clp-gap` | Base spacing step | yes |
+| `--clp-pad` | Base container padding | yes |
+| `--clp-success` | Healthy, resolved, correct | yes |
+| `--clp-success-wash` | Its pale background | yes |
+| `--clp-warn` | Needs attention soon | yes |
+| `--clp-warn-wash` | Its pale background | yes |
+| `--clp-alarm` | Needs attention now, or an error | yes |
+| `--clp-alarm-wash` | Its pale background | yes |
+| `--clp-invert-bg` | Inverted surface, where the system has one | yes |
+| `--clp-invert-text` | Text on it | yes |
+| `--clp-invert-accent` | Accent on it | yes |
+| `--clp-hatch` | Full `background` value for a hatch pattern | yes |
+| `--clp-font-script` | Family for a non-Latin script, where the body family does not cover it | yes |
+| `--clp-scrim` | Overlay behind a modal or drawer | yes |
+| `--clp-shadow-surface` | Elevation for a floating surface — toast, popover, dialog | yes |
+| `--clp-chart-1` … `--clp-chart-5` | Categorical series palette, in order | yes |
 
 Only the aliases marked `none` may be declined. The rest carry structure, and `none` in one of
-them is an error rather than an escape hatch — `--ds-bg: none` is not a design decision.
+them is an error rather than an escape hatch — `--clp-bg: none` is not a design decision.
 
 How a state renders follows from what the system declared, and the preview and the contrast
 check read it the same way:
 
 | declared | treatment | contrast pair |
 |---|---|---|
-| `--ds-state-text` | filled with the state colour, that token as text | state-text on the state colour |
+| `--clp-state-text` | filled with the state colour, that token as text | state-text on the state colour |
 | a wash, no state-text | coloured text on the wash | state colour on its wash |
 | neither | coloured text with a border of the same colour | state colour on the page |
 
-A system may declare both: `--ds-state-text` fills the small pill while the wash tints a larger
-banner, which is what Lozenge does. `--ds-state-text` without any state colour is an error —
+A system may declare both: `--clp-state-text` fills the small pill while the wash tints a larger
+banner, which is what Lozenge does. `--clp-state-text` without any state colour is an error —
 there is nothing to fill.
 
 Two coherence rules, both there to stop a system inventing a value it does not have:
 
-- A wash needs a colour to pair with, so `--ds-warn-wash` without `--ds-warn` is an error. The
+- A wash needs a colour to pair with, so `--clp-warn-wash` without `--clp-warn` is an error. The
   reverse does not hold — a system may mark states with a border or with type colour alone and
   never fill anything.
-- `--ds-border-color` may only be declined where `--ds-border-width` is `0`.
-- `--ds-shadow` describes the shadow on a pressable control. The preview never puts it on a
+- `--clp-border-color` may only be declined where `--clp-border-width` is `0`.
+- `--clp-shadow` describes the shadow on a pressable control. The preview never puts it on a
   container, because a system may require it on a button and forbid it on a card. A system
   that needs container elevation is a gap in this contract — raise it, do not work around it.
-- The series palette is declared in order with no gaps: `--ds-chart-3` with `--ds-chart-2` at
-  `none` is an error. A system that declines `--ds-chart-1` gets no chart at all, because the
+- The series palette is declared in order with no gaps: `--clp-chart-3` with `--clp-chart-2` at
+  `none` is an error. A system that declines `--clp-chart-1` gets no chart at all, because the
   alternative is the template choosing a data colour the file never named. Note that the accent
   is *not* a fallback — Lozenge declares an accent and forbids it as a chart fill.
-- `--ds-gap` and `--ds-pad` may be declined by a system that never specified a spacing step.
+- `--clp-gap` and `--clp-pad` may be declined by a system that never specified a spacing step.
   The preview then falls back to a preset chosen by the `density` field, which every system
   declares. That is still the file speaking — it is not the generator inventing a value.
 
@@ -313,31 +313,31 @@ knows — letterforms and digits, never a sentence, so a specimen cannot mistran
 read right-to-left are rendered that way. A bilingual system also gets a mixed line, because
 both bilingual systems in the library state that scripts share a row.
 
-`--ds-font-script` names one family, but a font stack is not limited to one: a trilingual
+`--clp-font-script` names one family, but a font stack is not limited to one: a trilingual
 system writes `"Noto Sans Khmer", "Noto Sans Thai", sans-serif` and needs no extra alias.
 
-Charts take `--ds-chart-1` … `--ds-chart-5` **in the order declared, never cycled.** A chart
+Charts take `--clp-chart-1` … `--clp-chart-5` **in the order declared, never cycled.** A chart
 needing more series than the system declared is not drawn — there is no generated sixth hue and
-no fallback to the accent. Text in a chart wears `--ds-text-*`, never a series colour, so
+no fallback to the accent. Text in a chart wears `--clp-text-*`, never a series colour, so
 identity is carried by the mark beside a label rather than by the label. Grid and axis lines
-are `--ds-line` and stay recessive. A legend appears for two or more series and never for one,
+are `--clp-line` and stay recessive. A legend appears for two or more series and never for one,
 where the card title already names the series.
 
 ### Interaction states
 
-`--ds-press` is the `transform` a control takes while it is being pressed — Newsprint declares
+`--clp-press` is the `transform` a control takes while it is being pressed — Newsprint declares
 `translate(var(--offset), var(--offset))`, which is its whole interaction language and which no
 preview showed until it could be declared. **A system that declares both a press transform and a
 shadow has its shadow flattened on press**, because a control that moves has to land somewhere;
 that is the template's reading, stated here so it is not a surprise.
 
-`--ds-focus` is the keyboard focus ring. Declining it does **not** mean no focus ring — it means
+`--clp-focus` is the keyboard focus ring. Declining it does **not** mean no focus ring — it means
 the platform's own ring stands, which is the accessible default. The template never removes a
 focus indicator, only replaces one the system asked for.
 
 A chart's hover readout wears whichever separation the system declared, in this order:
-elevation (`--ds-shadow-surface`), then an edge (`--ds-border-*` with a non-zero width), then a
-contrasting fill (`--ds-invert-bg`). A system declaring none of the three gets no tooltip rather
+elevation (`--clp-shadow-surface`), then an edge (`--clp-border-*` with a non-zero width), then a
+contrasting fill (`--clp-invert-bg`). A system declaring none of the three gets no tooltip rather
 than one composed from nothing — the same ladder the states and the buttons use.
 
 **Adjacent series must be tellable apart.** `scripts/contrast.mjs` measures every neighbouring
@@ -354,8 +354,8 @@ The preview is a **specimen sheet, not a screen.** It shows every component the 
 support for, side by side, so per-screen limits — "one accent per screen", "at most three
 summary cards" — are not observed there and cannot be.
 
-A system that declines `--ds-button2-bg` gets no secondary button, rather than one composed from
-`--ds-surface`. The ghost treatment is still derived — transparent with `--ds-text-2` — and is
+A system that declines `--clp-button2-bg` gets no secondary button, rather than one composed from
+`--clp-surface`. The ghost treatment is still derived — transparent with `--clp-text-2` — and is
 the template's most conservative reading rather than the system's own word.
 
 ---

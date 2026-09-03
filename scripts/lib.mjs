@@ -117,9 +117,9 @@ export function scanBody(body, offset = 0) {
 export const tokensBlock = blocks =>
   blocks.filter(b => b.lang === 'css' && b.section && TOKENS_SECTION.test.test(b.section))
 
-// Declared --ds-* aliases as a Map of name -> value, whitespace collapsed.
+// Declared --clp-* aliases as a Map of name -> value, whitespace collapsed.
 export const declaredAliases = code =>
-  new Map([...code.matchAll(/(--ds-[a-z0-9-]+)\s*:\s*([^;}]*)/g)]
+  new Map([...code.matchAll(/(--clp-[a-z0-9-]+)\s*:\s*([^;}]*)/g)]
     .map(m => [m[1], m[2].trim().replace(/\s+/g, ' ')]))
 
 export function systemSlugs() {
