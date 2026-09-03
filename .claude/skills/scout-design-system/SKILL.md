@@ -72,13 +72,25 @@ never invent a value to fill one. "Dark mode was not published; any dark treatme
 invented, not extracted" is the correct answer, and the preview will render the absence
 honestly.
 
-All 29 `--clp-*` aliases are still required, since the shared preview template reads them.
+All 42 `--clp-*` aliases are still required, since the shared preview template reads them.
 Alias only what was actually observed, and declare `none` for everything the source did not
 publish — that is the honest record, and it is also what makes the omission visible. Where the
 source published no dark block, omit `[data-mode="dark"]` entirely rather than inventing one.
 
 Propose the block in one pass, as step 3 of `new-design-system` describes. Do not interview
 the user alias by alias about work neither of you authored.
+
+**Never add `contrast: AA` to a reference record.** The colours are approximations of someone
+else's palette, and holding them to a floor the source never met would be inventing a standard
+and then blaming the author for missing it. `node scripts/contrast.mjs <slug>` still reports the
+numbers, and the adjacent series check still warns, which is the right level for a reading.
+
+**Decline rather than guess, and say what was not observable.** A wash tint that cannot be read
+off a screenshot with confidence is `none` with a sentence explaining why — not a plausible hex.
+Everything in the file must be either observed or declined. Where a value is later found to be
+wrong by the record's own standard — it asserts a relationship its numbers cannot produce — fix
+it and record the measurement, but do not adjust an approximation to make a preview look
+better.
 
 ## The Never section
 

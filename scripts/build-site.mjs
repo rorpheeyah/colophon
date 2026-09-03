@@ -50,6 +50,7 @@ files.set('index.html', assertScriptsParse(String(libraryPage(all)), 'index.html
 files.set('compare.html', assertScriptsParse(String(comparePage(all)), 'compare.html'))
 files.set('about.html', assertScriptsParse(String(aboutPage(all)), 'about.html'))
 files.set('colophon.html', assertScriptsParse(String(colophonPage(all)), 'colophon.html'))
+files.set('assets/mark.svg', readFileSync(join(ROOT, 'site', 'assets', 'mark.svg'), 'utf8'))
 files.set('data.json', JSON.stringify(
   all.map(({ body, aliases, sections, prev, next, ...rest }) => rest), null, 2) + '\n')
 
