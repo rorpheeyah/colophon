@@ -35,7 +35,8 @@ export function barChart(n = 1) {
   const bw = (W - gap * (WEEK.length - 1)) / WEEK.length
   const bars = WEEK.map((v, i) => {
     const h = Math.round((v / max) * (base - top))
-    return `<path d="${bar(i * (bw + gap), base - h, bw, h)}" fill="${c(n)}"/>`
+    return `<path d="${bar(i * (bw + gap), base - h, bw, h)}" fill="${c(n)}"
+      data-tip="${DAYS[i]} \u00b7 ${v}"/>`
   }).join('')
   return `<svg viewBox="0 0 ${W} ${H}" class="chart" role="img" aria-label="Sessions by day">
     <line x1="0" y1="${base}" x2="${W}" y2="${base}" class="gridline"/>
@@ -60,8 +61,12 @@ export function lineChart(n = 1, { area = false } = {}) {
     ${area ? `<path d="${d} L${W} ${base} L0 ${base} Z" fill="${c(n)}" fill-opacity=".14"/>` : ''}
     <path d="${d}" fill="none" stroke="${c(n)}" stroke-width="2"
           stroke-linejoin="round" stroke-linecap="round"/>
+    <line class="cross" x1="0" y1="${top}" x2="0" y2="${base}" hidden/>
     <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="4" fill="${c(n)}"
             stroke="var(--ds-surface)" stroke-width="2"/>
+    ${pts.map(([x], i) => `<rect x="${(x - step / 2).toFixed(1)}" y="0" width="${step.toFixed(1)}"
+      height="${base}" fill="transparent" data-x="${x.toFixed(1)}"
+      data-tip="Point ${i + 1} \u00b7 ${TREND[i]}"/>`).join('')}
     ${axisText(0, top - 2, String(max), 'start')}
     ${axisText(0, H - 4, 'Jan', 'start')}
     ${axisText(W, H - 4, 'Oct', 'end')}
@@ -92,7 +97,8 @@ export function donut(series) {
     const len = (v / total) * C
     const seg = `<circle cx="70" cy="70" r="${R}" fill="none" stroke="${c(series[i])}"
       stroke-width="${SW}" stroke-dasharray="${Math.max(0, len - GAP)} ${C - Math.max(0, len - GAP)}"
-      stroke-dashoffset="${-offset}" transform="rotate(-90 70 70)"/>`
+      stroke-dashoffset="${-offset}" transform="rotate(-90 70 70)"
+      data-tip="Series ${i + 1} \u00b7 ${v}"/>`
     offset += len
     return seg
   }).join('')
@@ -108,7 +114,8 @@ export function stacked(series) {
   const vals = SPLIT.slice(0, series.length)
   const total = vals.reduce((a, b) => a + b, 0)
   return `<div class="stack">${vals.map((v, i) =>
-    `<i style="width:${((v / total) * 100).toFixed(1)}%;background:${c(series[i])}"></i>`).join('')}</div>`
+    `<i style="width:${((v / total) * 100).toFixed(1)}%;background:${c(series[i])}"
+       data-tip="Series ${i + 1} \u00b7 ${v}"></i>`).join('')}</div>`
 }
 
 /** Identity is never colour alone: every series gets a swatch and a name. */
@@ -122,6 +129,6 @@ export function legend(series, names = ['Direct', 'Organic', 'Referral', 'Social
 export function ranked(n = 1) {
   const rows = [['Direct', 432, 100], ['Organic', 216, 50], ['Referral', 168, 39], ['Social', 96, 22]]
   return `<div class="ranked">${rows.map(([name, v, pct]) =>
-    `<div class="rank"><span>${name}</span><b>${v}</b>
+    `<div class="rank" data-tip="${name} \u00b7 ${v}"><span>${name}</span><b>${v}</b>
       <i class="rbar"><s style="width:${pct}%;background:${c(n)}"></s></i></div>`).join('')}</div>`
 }

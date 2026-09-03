@@ -13,6 +13,22 @@ import { ROOT, systemSlugs, readSystem, scalar, tokensBlock } from './lib.mjs'
 
 export const THRESHOLDS = { AA: 4.5, AAA: 7 }
 
+// Chart series thresholds, as OKLab Delta E x100. Two adjacent series must be
+// tellable apart by a full-colour reader (NORMAL_FLOOR) and by a colour-blind
+// one (CVD_*). Ported from the data-visualisation reference implementation;
+// the CVD numbers are calibrated to the Machado-Oliveira-Fernandes simulation
+// below, so the matrices and the thresholds move together or not at all.
+export const NORMAL_FLOOR = 15
+export const CVD_TARGET = 8
+export const CVD_FLOOR = 6
+
+const MACHADO = {
+  protan: [[0.152286, 1.052583, -0.204868], [0.114503, 0.786281, 0.099216],
+           [-0.003882, -0.048116, 1.051998]],
+  deutan: [[0.367322, 0.860646, -0.227968], [0.280085, 0.672501, 0.047413],
+           [-0.011820, 0.042940, 0.968881]],
+}
+
 // ── colour ───────────────────────────────────────────────────────────────────
 
 const lin = c => { c /= 255; return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4 }
@@ -22,6 +38,31 @@ const luminance = hex => {
   const full = h.length === 3 ? [...h].map(c => c + c).join('') : h
   const [r, g, b] = full.match(/../g).map(x => parseInt(x, 16))
   return 0.2126 * lin(r) + 0.7152 * lin(g) + 0.0722 * lin(b)
+}
+
+const linear = hex => {
+  const h = hex.replace('#', '')
+  const full = h.length === 3 ? [...h].map(c => c + c).join('') : h
+  return full.match(/../g).map(x => lin(parseInt(x, 16)))
+}
+
+function oklab([r, g, b]) {
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b)
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b)
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b)
+  return [0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+          1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+          0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s]
+}
+
+const simulate = (rgb, kind) => MACHADO[kind].map(row =>
+  Math.max(0, Math.min(1, row[0] * rgb[0] + row[1] * rgb[1] + row[2] * rgb[2])))
+
+/** Euclidean distance in OKLab x100. Omit `kind` for unsimulated vision. */
+export function deltaE(a, b, kind) {
+  const x = oklab(kind ? simulate(linear(a), kind) : linear(a))
+  const y = oklab(kind ? simulate(linear(b), kind) : linear(b))
+  return 100 * Math.hypot(x[0] - y[0], x[1] - y[1], x[2] - y[2])
 }
 
 /** WCAG 2.1 contrast ratio between two opaque hex colours. */
@@ -109,6 +150,33 @@ export function check(code, threshold) {
   return { findings, skipped }
 }
 
+/**
+ * Adjacent series in the declared order must be distinguishable. Colours are
+ * assigned by entity and never cycled, so adjacent pairs are the ones a reader
+ * actually has to separate.
+ */
+export function checkSeries(code) {
+  const { light, dark } = scopes(code)
+  const out = []
+  for (const [mode, env] of [['light', light], ['dark', dark]]) {
+    if (!env) continue
+    const hexes = [1, 2, 3, 4, 5]
+      .map(n => ({ n, hex: resolve(`--ds-chart-${n}`, env) }))
+      .filter(x => x.hex)
+    for (let i = 1; i < hexes.length; i++) {
+      const a = hexes[i - 1], b = hexes[i]
+      const normal = deltaE(a.hex, b.hex)
+      const cvd = Math.min(deltaE(a.hex, b.hex, 'protan'), deltaE(a.hex, b.hex, 'deutan'))
+      out.push({
+        mode, pair: `--ds-chart-${a.n} / --ds-chart-${b.n}`, normal, cvd,
+        level: normal < NORMAL_FLOOR || cvd < CVD_FLOOR ? 'fail'
+             : cvd < CVD_TARGET ? 'warn' : 'ok',
+      })
+    }
+  }
+  return out
+}
+
 // ── cli ──────────────────────────────────────────────────────────────────────
 
 if (import.meta.url === `file://${process.argv[1]}`) {
@@ -138,6 +206,12 @@ if (import.meta.url === `file://${process.argv[1]}`) {
                   `${f.fgName} on ${f.bgName} (${f.mode})`)
     }
     if (skipped.length) console.log(`  ${skipped.length} pair(s) not comparable (declined or non-hex)`)
+
+    for (const f of checkSeries(block.code)) {
+      failures += f.level === 'fail' ? 1 : 0
+      console.log(`  ${f.level === 'ok' ? 'ok  ' : f.level === 'warn' ? 'warn' : 'FAIL'} ` +
+        `\u0394E ${f.normal.toFixed(1)} normal / ${f.cvd.toFixed(1)} cvd  ${f.pair} (${f.mode})`)
+    }
   }
 
   console.log(`\n${failures} failure(s)`)
