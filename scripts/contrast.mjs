@@ -77,7 +77,7 @@ const HEX = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/
 
 // Two scopes: `:root`, and `:root` overlaid with the dark block. That mirrors
 // how the browser resolves it — see the data-mode note in CLAUDE.md.
-function scopes(code) {
+export function scopes(code) {
   const darkAt = code.search(/\[data-mode\s*=\s*["']?dark["']?\]/)
   const decls = src => Object.fromEntries(
     [...src.matchAll(/(--[A-Za-z0-9-]+)\s*:\s*([^;}]+)/g)]

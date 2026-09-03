@@ -367,6 +367,12 @@ the template's most conservative reading rather than the system's own word.
   `key: [inline, array]`. Do not add a YAML library to support syntax the format does not use.
 - Adding a system writes to `systems/<slug>/` and appends exactly one entry to `index.json`.
   Nothing else. Regenerating `site/data.json` belongs to the build, not to the intake skill.
+- `thumb-light.svg` and `thumb-dark.svg` are generated beside the preview, with every `var()`
+  resolved to hex, and are what the library cards use. They carry **no text**: an `<img>` cannot
+  load the system's typeface, so any text there would render in whatever the viewer happens to
+  have and would misrepresent the one thing a specimen is most careful about. A thumbnail
+  carries colour, radius, density, surface treatment and whether the system charts at all — type
+  identity belongs on the system page, at a size where it is legible.
 - `preview.html` is committed. GitHub Pages serves it with no build step, the repo stays
   self-contained, and a token change shows up as a reviewable diff. `validate.mjs` regenerates
   previews and fails if a committed one is stale.

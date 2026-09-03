@@ -167,11 +167,10 @@ h1 { font: 400 clamp(24px, 5vw, var(--t-2xl))/1.15 var(--serif); margin: var(--s
   display: block; height: 208px; overflow: hidden; position: relative;
   border-bottom: 1px solid var(--line); background: var(--surface-2);
 }
-.card iframe {
-  display: block; width: 200%; height: 416px; border: 0; pointer-events: none;
-  transform: scale(.5); transform-origin: top left;
-  mask-image: linear-gradient(to bottom, #000 78%, transparent);
-}
+.card .thumb img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top }
+.card .t-dark { display: none }
+:root[data-theme="dark"] .card .t-dark { display: block }
+:root[data-theme="dark"] .card .t-light:not(:only-of-type) { display: none }
 .pin {
   position: absolute; right: var(--s2); bottom: var(--s2);
   font: 500 var(--t-xs)/1 var(--mono); letter-spacing: .06em;
@@ -401,6 +400,7 @@ h2.crule {
   text-decoration: none; padding: 3px 0;
 }
 .foot-grid > div > a:hover { color: var(--fg) }
+.foot-grid a.more { color: var(--fg); font-weight: 500; margin-top: var(--s1) }
 .foot-legal {
   display: flex; gap: var(--s3) var(--s5); flex-wrap: wrap;
   padding-top: var(--s4); font-size: var(--t-xs); color: var(--fg-3);

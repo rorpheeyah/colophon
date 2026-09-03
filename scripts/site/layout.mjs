@@ -3,6 +3,9 @@ import { html, raw } from './html.mjs'
 export const YEAR = new Date().getFullYear()
 export const REPO = 'https://github.com/rorpheeyah/colophon'
 
+// Newest first, and the footer stops listing past this many.
+const FOOT_MAX = 6
+
 export const NAV = [
   ['index.html', 'Library', 'library'],
   ['compare.html', 'Compare', 'compare'],
@@ -87,7 +90,11 @@ export const shell = ({ base, title, current, body, systems = [] }) => html`<!do
     </div>
     <div>
       <h2>Library</h2>
-      ${systems.map(s => html`<a href="${base}s/${s.slug}/index.html">${s.system}</a>`)}
+      ${[...systems].sort((a, b) => String(b.added).localeCompare(String(a.added)))
+        .slice(0, FOOT_MAX)
+        .map(s => html`<a href="${base}s/${s.slug}/index.html">${s.system}</a>`)}
+      ${systems.length > FOOT_MAX &&
+        html`<a class="more" href="${base}index.html">All ${systems.length} systems &rarr;</a>`}
     </div>
     <div>
       <h2>Project</h2>
@@ -106,18 +113,10 @@ export const shell = ({ base, title, current, body, systems = [] }) => html`<!do
   (() => {
     const root = document.documentElement;
     const btn = document.getElementById('theme');
-    const frames = () => document.querySelectorAll('iframe[data-follow-theme]');
-
     function set(t) {
       root.dataset.theme = t;
       btn.dataset.state = t;
       btn.title = t === 'dark' ? 'Switch to light' : 'Switch to dark';
-      // card previews show the mode you are actually in
-      for (const f of frames()) {
-        const base = f.dataset.src;
-        const next = base + (t === 'dark' ? '&mode=dark' : '&mode=light');
-        if (f.getAttribute('src') !== next) f.setAttribute('src', next);
-      }
       try { localStorage.setItem('colophon-theme', t); } catch (e) {}
     }
     set(root.dataset.theme === 'dark' ? 'dark' : 'light');

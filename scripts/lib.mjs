@@ -7,6 +7,16 @@ import { fileURLToPath } from 'node:url'
 
 export const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
+// The mark, mask-free so it survives as a favicon: recto / verso, one rule
+// crossing the fold. Shared by the site shell and by a preview opened on its own.
+export const FAVICON = 'data:image/svg+xml,' + encodeURIComponent(
+  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">' +
+  '<rect x="3" y="3" width="58" height="58" rx="15" fill="#F2F0EA"/>' +
+  '<path d="M32 3H18A15 15 0 0 0 3 18v28a15 15 0 0 0 15 15h14z" fill="#B03A2E"/>' +
+  '<rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="#B03A2E" stroke-width="5"/>' +
+  '<rect x="12" y="28" width="18" height="8" rx="4" fill="#F2F0EA"/>' +
+  '<rect x="34" y="28" width="18" height="8" rx="4" fill="#B03A2E"/></svg>')
+
 export const ARRAY_FIELDS = ['scripts', 'best-for', 'avoid-for']
 
 // Matched against the heading with any leading number stripped, so inserting an

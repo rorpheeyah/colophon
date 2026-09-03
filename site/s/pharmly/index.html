@@ -391,6 +391,7 @@ file, so nothing here is transcribed — every value is a reading.</p>
     <div>
       <h2>Library</h2>
       <a href="../../s/lozenge/index.html">Lozenge</a><a href="../../s/newsprint/index.html">Newsprint</a><a href="../../s/pharmly/index.html">Pharmly</a>
+      
     </div>
     <div>
       <h2>Project</h2>
@@ -409,18 +410,10 @@ file, so nothing here is transcribed — every value is a reading.</p>
   (() => {
     const root = document.documentElement;
     const btn = document.getElementById('theme');
-    const frames = () => document.querySelectorAll('iframe[data-follow-theme]');
-
     function set(t) {
       root.dataset.theme = t;
       btn.dataset.state = t;
       btn.title = t === 'dark' ? 'Switch to light' : 'Switch to dark';
-      // card previews show the mode you are actually in
-      for (const f of frames()) {
-        const base = f.dataset.src;
-        const next = base + (t === 'dark' ? '&mode=dark' : '&mode=light');
-        if (f.getAttribute('src') !== next) f.setAttribute('src', next);
-      }
       try { localStorage.setItem('colophon-theme', t); } catch (e) {}
     }
     set(root.dataset.theme === 'dark' ? 'dark' : 'light');

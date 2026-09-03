@@ -9,19 +9,15 @@ const GROUPS = ['register', 'density', 'origin', 'status']
 const chips = (key, values) => values.map(v =>
   html`<button class="chip" data-k="${key}" data-v="${v}" title="${key}: ${v}" aria-pressed="false">${v}</button>`)
 
-// The thumbnail follows the site theme rather than being pinned to light —
-// a system's whole claim is that it works in both, so the card should show
-// the one the reader is actually in. The paired view lives on the system page.
-//
-// A system that published no dark mode is the exception: following the theme
-// would render its "not published" notice, and an empty card reads as broken
-// rather than as a statement. Those stay in light and say so.
+// A static thumbnail per mode, swapped by CSS. It replaces a live iframe,
+// which cost a whole document and its webfonts per visible card. A system that
+// published no dark mode has no dark thumbnail, so its light one stands in both
+// themes and the card says why.
 const card = s => html`
 <article class="card" data-slug="${s.slug}">
   <a class="thumb" href="s/${s.slug}/index.html" aria-label="Open ${s.system}" tabindex="-1">
-    <iframe src="s/${s.slug}/preview.html?chrome=0&amp;mode=light"
-            ${s.hasDark ? html`data-follow-theme data-src="s/${s.slug}/preview.html?chrome=0"` : ''}
-            loading="lazy" title="${s.system} preview" tabindex="-1" scrolling="no"></iframe>
+    <img class="t-light" src="s/${s.slug}/thumb-light.svg" alt="" loading="lazy" width="400" height="240">
+    ${s.hasDark && html`<img class="t-dark" src="s/${s.slug}/thumb-dark.svg" alt="" loading="lazy" width="400" height="240">`}
     ${!s.hasDark && html`<span class="pin">light only</span>`}
   </a>
   <div class="body">
