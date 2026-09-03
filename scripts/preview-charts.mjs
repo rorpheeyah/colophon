@@ -1,15 +1,15 @@
 // SVG chart marks for the preview template.
 //
-// Every fill is a `--ds-chart-N` the system declared, taken in that fixed order
+// Every fill is a `--clp-chart-N` the system declared, taken in that fixed order
 // and never cycled — a system that declares three series gets three, not a
-// generated fourth. All text wears `--ds-text-*`, never a series colour, so
+// generated fourth. All text wears `--clp-text-*`, never a series colour, so
 // identity is carried by the mark beside the label rather than by the label.
-// Grid and axis lines are `--ds-line` and stay recessive.
+// Grid and axis lines are `--clp-line` and stay recessive.
 //
 // Nothing here invents a colour. A chart that needs more series than the
 // system declared is not drawn at all.
 
-const SERIES = 'var(--ds-chart-%N)'
+const SERIES = 'var(--clp-chart-%N)'
 const c = n => SERIES.replace('%N', n)
 
 /** Sample data, fixed so a preview is byte-identical between builds. */
@@ -63,7 +63,7 @@ export function lineChart(n = 1, { area = false } = {}) {
           stroke-linejoin="round" stroke-linecap="round"/>
     <line class="cross" x1="0" y1="${top}" x2="0" y2="${base}" hidden/>
     <circle cx="${lx.toFixed(1)}" cy="${ly.toFixed(1)}" r="4" fill="${c(n)}"
-            stroke="var(--ds-surface)" stroke-width="2"/>
+            stroke="var(--clp-surface)" stroke-width="2"/>
     ${pts.map(([x], i) => `<rect x="${(x - step / 2).toFixed(1)}" y="0" width="${step.toFixed(1)}"
       height="${base}" fill="transparent" data-x="${x.toFixed(1)}"
       data-tip="Point ${i + 1} \u00b7 ${TREND[i]}"/>`).join('')}

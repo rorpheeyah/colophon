@@ -8,7 +8,7 @@ description: Interview the user and write a new original design system into syst
 Adds one original system (`origin: own`) to the library.
 
 Read `CLAUDE.md` first. It holds the format contract, the required frontmatter set, the
-required sections, and the `--ds-*` preview contract. This skill is the process; CLAUDE.md is
+required sections, and the `--clp-*` preview contract. This skill is the process; CLAUDE.md is
 the specification. Where they disagree, CLAUDE.md wins.
 
 **Your job is coherence.** System twelve must have the same shape as system two, or the files
@@ -92,26 +92,26 @@ Minimum five entries. Aim for eight to ten.
 
 ## Step 3 — propose the whole token block in one pass
 
-The `--ds-*` contract is 29 required aliases. **Do not walk the user through 29 questions.**
+The `--clp-*` contract is 29 required aliases. **Do not walk the user through 29 questions.**
 Eighteen lines in a file is a checklist; eighteen questions is a chore, and a chore is what
 stops a library reaching system twelve.
 
 Interview only on the aliases that carry the system's identity, because these are the ones
 where guessing wrong produces a system the user did not ask for:
 
-- `--ds-accent` — and what the accent *means* here
-- `--ds-button-bg` / `--ds-button-text` — **always ask, never infer.** Often not the accent: a
+- `--clp-accent` — and what the accent *means* here
+- `--clp-button-bg` / `--clp-button-text` — **always ask, never infer.** Often not the accent: a
   system whose accent is a semantic state will have a button built from surface, border, and
   shadow instead. Inferring the button from the palette is right about two times in three,
   which is the failure rate that looks reliable and is not.
 
-  When they *are* the same, say so out loud — "so the button is the accent, `--ds-button-bg:
+  When they *are* the same, say so out loud — "so the button is the accent, `--clp-button-bg:
   var(--citron)`" — and have the user confirm it. A system where the two diverge must not be
   distinguished from one where they coincide only by the absence of a question.
-- `--ds-success` / `--ds-warn` / `--ds-alarm` and their washes — including whether the system
+- `--clp-success` / `--clp-warn` / `--clp-alarm` and their washes — including whether the system
   refuses one. A system where colour means "something needs doing" may have no success colour
   at all
-- `--ds-shadow` — the exact value, or `none`
+- `--clp-shadow` — the exact value, or `none`
 
 Ask whether the system should hold itself to a contrast floor. If the palette is being authored
 now rather than transcribed, `contrast: AA` in frontmatter is usually right: it makes
@@ -123,10 +123,10 @@ Infer the rest from answers already given. Then present the complete block once,
 ask the user to confirm or amend it in a single pass.
 
 Every alias is required. Where the system does not have a concept, declare `none` — that is a
-statement the author made, not a gap. `--ds-font-data: none` in a system that forbids
+statement the author made, not a gap. `--clp-font-data: none` in a system that forbids
 monospace restates its own prohibition in machine-checkable form, which is the point.
 
-Only `--ds-shadow`, `--ds-font-data`, `--ds-hatch`, the six state aliases, and the three invert
+Only `--clp-shadow`, `--clp-font-data`, `--clp-hatch`, the six state aliases, and the three invert
 aliases may be declined. The rest carry structure. A state colour and its wash must agree.
 
 ## Step 4 — show the draft before writing
@@ -141,10 +141,10 @@ here than after it is on disk and indexed.
 - `version: "1.0"`, quoted. `status: active`, or `draft` if values are still provisional.
 - One fenced `css` block in the Tokens section, holding every custom property including font
   families, light and dark, copy-pasteable as-is.
-- Declare all 29 `--ds-*` aliases, pointing at the system's own tokens with `var()`
+- Declare all 29 `--clp-*` aliases, pointing at the system's own tokens with `var()`
   references, exactly as confirmed in step 3. `none` where the system declines a concept.
 - No colour literal anywhere outside the tokens block. Components are described by token
-  reference: "`--ds-button-bg` fill, `--ds-radius-control`", never a restated hex.
+  reference: "`--clp-button-bg` fill, `--clp-radius-control`", never a restated hex.
 - Open the body with the install block described in `CLAUDE.md` — copy to
   `.claude/design-system.md`, plus the `@`-import stanza for the project's own `CLAUDE.md`,
   naming this system. Never tell the reader to overwrite a project's `CLAUDE.md`.

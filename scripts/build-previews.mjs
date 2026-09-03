@@ -7,14 +7,14 @@
 //
 // The tokens block is embedded verbatim, so the preview cannot show a value the
 // file does not contain. Everything below it is one shared template driven only
-// by --ds-* aliases. There is no per-system branch except resolving `none`.
+// by --clp-* aliases. There is no per-system branch except resolving `none`.
 //
-// --ds-shadow is a *control* shadow and is applied only to pressables. A system
+// --clp-shadow is a *control* shadow and is applied only to pressables. A system
 // may forbid elevation on containers while requiring it on buttons, and the
 // template must not be able to violate that.
 //
 // One stage per document, with the mode set on the ROOT element. This matters:
-// `--ds-bg: var(--paper)` is substituted where it is declared, so if the dark
+// `--clp-bg: var(--paper)` is substituted where it is declared, so if the dark
 // block is scoped to a descendant the alias keeps the light value and dark mode
 // silently does nothing. The root is the only place the substitution sees the
 // dark tokens.
@@ -24,7 +24,7 @@ import { join } from 'node:path'
 import { ROOT, systemSlugs, readSystem, tokensBlock, declaredAliases, scalar, list } from './lib.mjs'
 import { barChart, lineChart, sparkline, donut, stacked, legend, ranked } from './preview-charts.mjs'
 
-// Spacing for a system that declines --ds-gap/--ds-pad. Chosen by the `density`
+// Spacing for a system that declines --clp-gap/--clp-pad. Chosen by the `density`
 // field, which every system declares, so this is still the file speaking.
 const DENSITY = {
   compact:     { gap: '8px',  pad: '12px 14px' },
@@ -34,7 +34,7 @@ const DENSITY = {
 
 // Letterforms and digits, never a sentence — a specimen cannot mistranslate.
 // A system declares its reach in `scripts`; anything listed here gets a line.
-// One family covers several of these at once, because --ds-font-script takes a
+// One family covers several of these at once, because --clp-font-script takes a
 // stack: "Noto Sans Khmer", "Noto Sans Thai", sans-serif.
 const SPECIMEN = {
   khmer:      { text: 'ក ខ គ ឃ ង ច ឆ ជ ០១២៣៤៥៦៧៨៩', name: 'Khmer' },
@@ -74,17 +74,17 @@ function fontLink(css) {
 // those it owns. A system declaring none of the three gets no tooltip rather
 // than one composed from nothing.
 function tipTreatment(t) {
-  const bw = t.get('--ds-border-width') ?? '0'
-  if (has(t, '--ds-shadow-surface')) {
-    return `background:var(--ds-surface);color:var(--ds-text);` +
-      `box-shadow:var(--ds-shadow-surface);border:0`
+  const bw = t.get('--clp-border-width') ?? '0'
+  if (has(t, '--clp-shadow-surface')) {
+    return `background:var(--clp-surface);color:var(--clp-text);` +
+      `box-shadow:var(--clp-shadow-surface);border:0`
   }
-  if (has(t, '--ds-border-color') && !/^0[a-z]*$/.test(bw)) {
-    return `background:var(--ds-surface);color:var(--ds-text);` +
-      `border:var(--ds-border-width) solid var(--ds-border-color)`
+  if (has(t, '--clp-border-color') && !/^0[a-z]*$/.test(bw)) {
+    return `background:var(--clp-surface);color:var(--clp-text);` +
+      `border:var(--clp-border-width) solid var(--clp-border-color)`
   }
-  if (has(t, '--ds-invert-bg')) {
-    return `background:var(--ds-invert-bg);color:var(--ds-invert-text);border:0`
+  if (has(t, '--clp-invert-bg')) {
+    return `background:var(--clp-invert-bg);color:var(--clp-invert-text);border:0`
   }
   return null
 }
@@ -98,17 +98,17 @@ const rows = body => `<div class="rows">${body}`
 function stage(t, meta) {
   const tipStyle = tipTreatment(t)
   const states = [['success', 'Resolved'], ['warn', 'Attention'], ['alarm', 'Overdue']]
-    .filter(([k]) => has(t, `--ds-${k}`))
-  const series = [1, 2, 3, 4, 5].filter(n => has(t, `--ds-chart-${n}`))
+    .filter(([k]) => has(t, `--clp-${k}`))
+  const series = [1, 2, 3, 4, 5].filter(n => has(t, `--clp-chart-${n}`))
   const scripts = list(meta.scripts).map(x => SPECIMEN[x]).filter(Boolean)
 
   const swatches = ['bg', 'surface', 'accent', 'line', 'text', 'text-2', 'text-3',
                     'success', 'warn', 'alarm', 'invert-bg', ...series.map(n => `chart-${n}`)]
-    .filter(n => has(t, `--ds-${n}`))
-    .map(n => `<div class="sw"><i style="background:var(--ds-${n})"></i><code>${n}</code></div>`)
+    .filter(n => has(t, `--clp-${n}`))
+    .map(n => `<div class="sw"><i style="background:var(--clp-${n})"></i><code>${n}</code></div>`)
     .join('')
 
-  const bar = (w, n) => `<span class="bar"><i style="width:${w}%;background:var(--ds-chart-${n})"></i></span>`
+  const bar = (w, n) => `<span class="bar"><i style="width:${w}%;background:var(--clp-chart-${n})"></i></span>`
 
   return `
 <div class="stage">
@@ -117,7 +117,7 @@ function stage(t, meta) {
       <div class="dash-top">
         <div><b>Website analytics</b><span>21 Aug \u2013 17 Sep</span></div>
         <div class="row">
-          ${has(t, '--ds-button2-bg') ? '<button class="btn b2">Export</button>' : ''}
+          ${has(t, '--clp-button2-bg') ? '<button class="btn b2">Export</button>' : ''}
           <button class="btn">New report</button>
         </div>
       </div>
@@ -128,8 +128,8 @@ function stage(t, meta) {
           .map(([label, value, delta], i) => {
             const up = delta.startsWith('+')
             const key = up ? 'success' : 'alarm'
-            const styled = has(t, `--ds-${key}`)
-            return `<div class="stat${i === 3 && has(t, '--ds-invert-bg') ? ' inv' : ''}">
+            const styled = has(t, `--clp-${key}`)
+            return `<div class="stat${i === 3 && has(t, '--clp-invert-bg') ? ' inv' : ''}">
               <span>${label}</span><b>${value}</b>
               <em class="delta${styled ? ` state s-${key}` : ''}">${delta}</em>
             </div>`
@@ -169,20 +169,20 @@ function stage(t, meta) {
       <p class="spec-b">The rule before the values, so an agent can extrapolate correctly.</p>
       ${scripts.map(x => `<p class="spec-x"${x.rtl ? ' dir="rtl"' : ''}>${esc(x.text)}</p>`).join('')}
       ${scripts.length ? `<p class="spec-mix">Aa Bb Cc ${esc(scripts[0].text.split(' ').slice(0, 4).join(' '))} 128</p>` : ''}
-      ${has(t, '--ds-font-data') ? '<p class="spec-n">1,284.50 · 0912 · 24</p>' : ''}
+      ${has(t, '--clp-font-data') ? '<p class="spec-n">1,284.50 · 0912 · 24</p>' : ''}
     </div>
   </section>
 
   ${group('Base', rows(`
     <div class="row">
       <button class="btn">Primary</button>
-      ${has(t, '--ds-button2-bg') ? '<button class="btn b2">Secondary</button>' : ''}
+      ${has(t, '--clp-button2-bg') ? '<button class="btn b2">Secondary</button>' : ''}
       <button class="btn b3">Ghost</button>
       <button class="btn" disabled>Disabled</button>
     </div>
     <div class="row">
       <span class="badge">Badge</span>
-      ${has(t, '--ds-invert-bg') ? '<span class="avatar">SK</span>' : ''}
+      ${has(t, '--clp-invert-bg') ? '<span class="avatar">SK</span>' : ''}
       <a class="lnk" href="#">A link</a>
       <span class="kbd">⌘K</span>
     </div>
@@ -194,7 +194,7 @@ function stage(t, meta) {
       <input class="input" value="AC-4192" aria-label="Reference">
       <em class="help">Shown on every record.</em>
     </div>
-    ${has(t, '--ds-alarm') ? `<div class="field bad">
+    ${has(t, '--clp-alarm') ? `<div class="field bad">
       <label>Quantity</label>
       <input class="input err" value="0" aria-label="Quantity" aria-invalid="true">
       <em class="help err">Must be at least one.</em>
@@ -215,9 +215,9 @@ function stage(t, meta) {
         <span>Revenue</span><b>1,284.50</b>
         ${states.length ? `<em class="state s-${states[0][0]}">+12%</em>` : ''}
       </div>
-      ${has(t, '--ds-invert-bg') ? `<div class="stat inv">
+      ${has(t, '--clp-invert-bg') ? `<div class="stat inv">
         <span>Active</span><b>48,210</b>
-        ${has(t, '--ds-invert-accent') ? '<em class="chip">+4%</em>' : ''}
+        ${has(t, '--clp-invert-accent') ? '<em class="chip">+4%</em>' : ''}
       </div>` : ''}
     </div>
     <dl class="kv"><dt>Owner</dt><dd>Operations</dd><dt>Updated</dt><dd>12 Aug</dd></dl>
@@ -250,20 +250,20 @@ function stage(t, meta) {
       <button role="tab" aria-selected="false">Reports</button>
       <button role="tab" aria-selected="false">Owners</button></div>
     <div class="bcrumb">Workspace <i>/</i> Records <b>Northwind</b></div>
-    <div class="${has(t, '--ds-invert-bg') ? 'rail' : 'railplain'}">
+    <div class="${has(t, '--clp-invert-bg') ? 'rail' : 'railplain'}">
       <button class="on" aria-current="page">Dashboard</button>
       <button>Records</button><button>Reports</button></div>`))}
 
   ${group('Feedback',
     states.length ? rows(states.map(([k, label]) =>
       `<div class="alert a-${k}"><b>${label}</b> Three items need review before Friday.</div>`).join('')
-      + (has(t, '--ds-shadow-surface')
+      + (has(t, '--clp-shadow-surface')
         ? '<div class="toast">Saved</div>'
         : '<p class="none">No floating surface: this system declares no elevation for one.</p>')
-      + (has(t, '--ds-scrim')
+      + (has(t, '--clp-scrim')
         ? '<div class="scrimbox"><div class="dialog"><b>Discard changes?</b><div class="row">'
           + '<button class="btn">Discard</button>'
-          + (has(t, '--ds-button2-bg') ? '<button class="btn b2">Keep</button>' : '')
+          + (has(t, '--clp-button2-bg') ? '<button class="btn b2">Keep</button>' : '')
           + '</div></div></div>'
         : '<p class="none">No dialog: this system declares no scrim.</p>')) : '')}
 
@@ -277,7 +277,7 @@ function stage(t, meta) {
     ${series.length >= 2
       ? `<div><h5>Composition</h5>${stacked(series)}${legend(series)}</div>`
       : '<p class="none">One series declared, so no stacked or donut chart is shown.</p>'}
-    ${has(t, '--ds-hatch') ? `<div class="bars"><span class="bar"><i class="hatched" style="width:38%"></i></span></div>
+    ${has(t, '--clp-hatch') ? `<div class="bars"><span class="bar"><i class="hatched" style="width:38%"></i></span></div>
       <p class="none">Hatch marks a projection rather than a fact.</p>` : ''}`) : '')}
 
   ${series.length ? '' : '<p class="none">No chart palette declared, so no chart is shown.</p>'}
@@ -294,25 +294,25 @@ function render(sys) {
   const t = declaredAliases(block.code)
   const density = DENSITY[meta.density] ?? DENSITY.comfortable
   const hasDark = /\[data-mode\s*=\s*["']?dark["']?\]/.test(block.code)
-  const spacingFromDensity = !has(t, '--ds-gap') || !has(t, '--ds-pad')
+  const spacingFromDensity = !has(t, '--clp-gap') || !has(t, '--clp-pad')
 
   // The only per-system CSS: resolving the aliases this system declined.
   const tipStyle = tipTreatment(t)
 
 
   const shim = [
-    `--_gap: ${ref(t, '--ds-gap', density.gap)};`,
-    `--_pad: ${ref(t, '--ds-pad', density.pad)};`,
-    `--_data: ${ref(t, '--ds-font-data', 'var(--ds-font-body)')};`,
-    `--_script: ${ref(t, '--ds-font-script', 'var(--ds-font-body)')};`,
-    `--_press: ${ref(t, '--ds-press', 'none')};`,
-    `--_border: ${has(t, '--ds-border-color') ? 'var(--ds-border-width) solid var(--ds-border-color)' : '0'};`,
+    `--_gap: ${ref(t, '--clp-gap', density.gap)};`,
+    `--_pad: ${ref(t, '--clp-pad', density.pad)};`,
+    `--_data: ${ref(t, '--clp-font-data', 'var(--clp-font-body)')};`,
+    `--_script: ${ref(t, '--clp-font-script', 'var(--clp-font-body)')};`,
+    `--_press: ${ref(t, '--clp-press', 'none')};`,
+    `--_border: ${has(t, '--clp-border-color') ? 'var(--clp-border-width) solid var(--clp-border-color)' : '0'};`,
   ].join(' ')
 
   const notes = [
     hasDark ? '' : 'Dark mode was not published for this system, so none is shown.',
     spacingFromDensity ? `Spacing from <code>density: ${esc(meta.density)}</code> — this system declares no spacing step.` : '',
-    has(t, '--ds-success') ? '' : 'This system declares no success colour.',
+    has(t, '--clp-success') ? '' : 'This system declares no success colour.',
   ].filter(Boolean)
 
   return `<!doctype html>
@@ -345,245 +345,245 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .nodark{margin:0;padding:22px;color:#71717a;font-size:13px}
 [data-nodark] .stage{display:none}
 
-/* Everything below reads --ds-* only, plus the four --_ shims above, which
+/* Everything below reads --clp-* only, plus the four --_ shims above, which
    exist solely to resolve aliases this system declined. */
 .stage{${shim}
-  background:var(--ds-bg);color:var(--ds-text);font-family:var(--ds-font-body);
+  background:var(--clp-bg);color:var(--clp-text);font-family:var(--clp-font-body);
   padding:var(--_pad);display:flex;flex-direction:column;gap:calc(var(--_gap) * 2);
   /* no effect inside a preview frame; keeps standalone viewing readable */
   max-width:900px;margin-inline:auto}
 .stage p{margin:0}
 .grp{display:flex;flex-direction:column;gap:var(--_gap)}
 .grp > h4{margin:0;font:600 9.5px/1 var(--_data);letter-spacing:.12em;text-transform:uppercase;
-  color:var(--ds-text-3);padding-bottom:5px;border-bottom:1px solid var(--ds-line)}
+  color:var(--clp-text-3);padding-bottom:5px;border-bottom:1px solid var(--clp-line)}
 .rows{display:flex;flex-direction:column;gap:var(--_gap)}
 .row{display:flex;gap:var(--_gap);align-items:center;flex-wrap:wrap}
-.rule{border:0;border-top:1px solid var(--ds-line);margin:0;width:100%}
-.none{font-size:12px;color:var(--ds-text-3)}
+.rule{border:0;border-top:1px solid var(--clp-line);margin:0;width:100%}
+.none{font-size:12px;color:var(--clp-text-3)}
 
 /* overview */
-.dash{background:var(--ds-bg);border:var(--_border);border-radius:var(--ds-radius-box);
+.dash{background:var(--clp-bg);border:var(--_border);border-radius:var(--clp-radius-box);
   padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap)}
 .dash-top{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
 .dash-top > div:first-child{display:flex;flex-direction:column;gap:2px}
-.dash-top b{font-family:var(--ds-font-display);font-size:17px;font-weight:700}
-.dash-top span{font-size:11.5px;color:var(--ds-text-3)}
+.dash-top b{font-family:var(--clp-font-display);font-size:17px;font-weight:700}
+.dash-top span{font-size:11.5px;color:var(--clp-text-3)}
 .dash-top .row{margin-left:auto}
 .dash .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:var(--_gap)}
 .dash .stat{min-width:0}
 .dash table{margin-top:2px}
 .panels{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--_gap)}
 @media(max-width:560px){.panels{grid-template-columns:minmax(0,1fr)}}
-.panel{border:var(--_border);border-radius:var(--ds-radius-box);padding:var(--_pad);
-  display:flex;flex-direction:column;gap:var(--_gap);min-width:0;background:var(--ds-surface)}
+.panel{border:var(--_border);border-radius:var(--clp-radius-box);padding:var(--_pad);
+  display:flex;flex-direction:column;gap:var(--_gap);min-width:0;background:var(--clp-surface)}
 .panel-h{display:flex;align-items:baseline;gap:8px}
-.panel-h b{font-family:var(--ds-font-display);font-size:14px;font-weight:700}
-.panel-h span{font-size:11px;color:var(--ds-text-3);margin-left:auto}
+.panel-h b{font-family:var(--clp-font-display);font-size:14px;font-weight:700}
+.panel-h span{font-size:11px;color:var(--clp-text-3);margin-left:auto}
 
 /* Press and focus come from the system. A control that moves has to land
    somewhere, so a system declaring both a press transform and a shadow has the
-   shadow flattened while pressed. Declining --ds-focus leaves the platform's
+   shadow flattened while pressed. Declining --clp-focus leaves the platform's
    own ring in place rather than removing the indicator. */
 .btn:active,.pg:active,.tabs button:active,.chip:active{transform:var(--_press)}
-${has(t, '--ds-press') && has(t, '--ds-shadow') ? '.btn:active{box-shadow:none}' : ''}
-${has(t, '--ds-focus') ? `:focus-visible{outline:2px solid var(--ds-focus);outline-offset:2px}` : ''}
+${has(t, '--clp-press') && has(t, '--clp-shadow') ? '.btn:active{box-shadow:none}' : ''}
+${has(t, '--clp-focus') ? `:focus-visible{outline:2px solid var(--clp-focus);outline-offset:2px}` : ''}
 button,select,input,summary{font-family:inherit}
 
 ${tipStyle ? `.tip{position:fixed;z-index:9;pointer-events:none;${tipStyle};
-  border-radius:var(--ds-radius-box);padding:5px 9px;font:500 11.5px/1.5 var(--_data);
+  border-radius:var(--clp-radius-box);padding:5px 9px;font:500 11.5px/1.5 var(--_data);
   transform:translate(-50%,-140%);white-space:nowrap}` : ''}
 [data-tip]{cursor:default}
-.cross{stroke:var(--ds-line);stroke-width:1}
+.cross{stroke:var(--clp-line);stroke-width:1}
 
 /* charts — marks take the declared series colours, text never does */
 .chart{display:block;width:100%;height:auto}
-.ax{font:500 9px var(--_data);fill:var(--ds-text-3);letter-spacing:.04em}
-.gridline{stroke:var(--ds-line);stroke-width:1}
+.ax{font:500 9px var(--_data);fill:var(--clp-text-3);letter-spacing:.04em}
+.gridline{stroke:var(--clp-line);stroke-width:1}
 .donut{display:block;width:100%;max-width:150px;margin:0 auto;height:auto}
-.donut-n{font:800 22px var(--_data);fill:var(--ds-text)}
+.donut-n{font:800 22px var(--_data);fill:var(--clp-text)}
 .spark{display:block;width:110px;height:32px}
 .spark-wrap{display:inline-block}
 .spark-n{font:800 20px/1 var(--_data);font-variant-numeric:tabular-nums}
 .chart-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--_gap)}
 .chart-row h5,.grp h5{margin:0 0 6px;font:600 10px/1 var(--_data);letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ds-text-3)}
+  text-transform:uppercase;color:var(--clp-text-3)}
 .ranked{display:flex;flex-direction:column;gap:7px}
 .rank{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:12px}
 .rank b{font-family:var(--_data);font-variant-numeric:tabular-nums}
-.rbar{grid-column:1/-1;display:block;height:5px;border-radius:var(--ds-radius-control);
-  background:var(--ds-line);overflow:hidden}
+.rbar{grid-column:1/-1;display:block;height:5px;border-radius:var(--clp-radius-control);
+  background:var(--clp-line);overflow:hidden}
 .rbar s{display:block;height:100%;text-decoration:none}
 
 /* colour */
 .sws{display:flex;flex-wrap:wrap;gap:var(--_gap)}
-.sw{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ds-text-3)}
-.sw i{width:20px;height:20px;border-radius:var(--ds-radius-box);
-  outline:1px solid var(--ds-line);outline-offset:-1px}
+.sw{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--clp-text-3)}
+.sw i{width:20px;height:20px;border-radius:var(--clp-radius-box);
+  outline:1px solid var(--clp-line);outline-offset:-1px}
 .sw code{font-family:var(--_data)}
 
 /* type */
 .specimen{display:flex;flex-direction:column;gap:4px}
-.spec-d{font-family:var(--ds-font-display);font-size:26px;font-weight:700;line-height:1.15}
-.spec-b{font-size:15px;color:var(--ds-text-2)}
+.spec-d{font-family:var(--clp-font-display);font-size:26px;font-weight:700;line-height:1.15}
+.spec-b{font-size:15px;color:var(--clp-text-2)}
 .spec-x{font-family:var(--_script);font-size:15px;line-height:2}
-.spec-mix{font-size:15px;line-height:2;color:var(--ds-text-2)}
+.spec-mix{font-size:15px;line-height:2;color:var(--clp-text-2)}
 .spec-n{font-family:var(--_data);font-size:15px;font-variant-numeric:tabular-nums}
 
 /* base */
-.btn{background:var(--ds-button-bg);color:var(--ds-button-text);border:var(--_border);
-  border-radius:var(--ds-radius-control);box-shadow:var(--ds-shadow);
-  font:600 13px/1 var(--ds-font-body);padding:10px 15px;cursor:pointer}
-.btn.b2{background:var(--ds-button2-bg);color:var(--ds-text)}
-.btn.b3{background:transparent;color:var(--ds-text-2);border:0;box-shadow:none}
-.btn[disabled]{background:var(--ds-line);color:var(--ds-text-3);border:0;box-shadow:none;cursor:default}
-.badge{background:var(--ds-line);color:var(--ds-text-2);border-radius:var(--ds-radius-control);
+.btn{background:var(--clp-button-bg);color:var(--clp-button-text);border:var(--_border);
+  border-radius:var(--clp-radius-control);box-shadow:var(--clp-shadow);
+  font:600 13px/1 var(--clp-font-body);padding:10px 15px;cursor:pointer}
+.btn.b2{background:var(--clp-button2-bg);color:var(--clp-text)}
+.btn.b3{background:transparent;color:var(--clp-text-2);border:0;box-shadow:none}
+.btn[disabled]{background:var(--clp-line);color:var(--clp-text-3);border:0;box-shadow:none;cursor:default}
+.badge{background:var(--clp-line);color:var(--clp-text-2);border-radius:var(--clp-radius-control);
   padding:2px 9px;font:600 11px/1.6 var(--_data)}
-.avatar{display:grid;place-items:center;width:26px;height:26px;border-radius:var(--ds-radius-control);
-  background:var(--ds-invert-bg);color:var(--ds-invert-text);font:700 10px/1 var(--_data)}
-.lnk{color:var(--ds-text);text-decoration:underline;text-underline-offset:2px;font-size:13px}
-.kbd{border:1px solid var(--ds-line);border-radius:var(--ds-radius-box);padding:1px 6px;
-  font:11px/1.6 var(--_data);color:var(--ds-text-2)}
+.avatar{display:grid;place-items:center;width:26px;height:26px;border-radius:var(--clp-radius-control);
+  background:var(--clp-invert-bg);color:var(--clp-invert-text);font:700 10px/1 var(--_data)}
+.lnk{color:var(--clp-text);text-decoration:underline;text-underline-offset:2px;font-size:13px}
+.kbd{border:1px solid var(--clp-line);border-radius:var(--clp-radius-box);padding:1px 6px;
+  font:11px/1.6 var(--_data);color:var(--clp-text-2)}
 
 /* forms */
 .field{display:flex;flex-direction:column;gap:4px;max-width:260px}
-.field label{font:600 10px/1.4 var(--_data);letter-spacing:.09em;text-transform:uppercase;color:var(--ds-text-2)}
-.input{background:var(--ds-bg);color:var(--ds-text);border:var(--_border);
-  border-radius:var(--ds-radius-control);padding:9px 13px;font-size:13px}
-.field .input{color:var(--ds-text)}
-.help{font-size:11.5px;color:var(--ds-text-3);font-style:normal}
-.input.err,.help.err{color:var(--ds-alarm)}
-.input.err{outline:1px solid var(--ds-alarm);outline-offset:-1px}
-.input.sel{display:inline-flex;align-items:center;gap:8px;color:var(--ds-text-2)}
-.caret{width:0;height:0;border:4px solid transparent;border-top-color:var(--ds-text-3);margin-top:3px}
+.field label{font:600 10px/1.4 var(--_data);letter-spacing:.09em;text-transform:uppercase;color:var(--clp-text-2)}
+.input{background:var(--clp-bg);color:var(--clp-text);border:var(--_border);
+  border-radius:var(--clp-radius-control);padding:9px 13px;font-size:13px}
+.field .input{color:var(--clp-text)}
+.help{font-size:11.5px;color:var(--clp-text-3);font-style:normal}
+.input.err,.help.err{color:var(--clp-alarm)}
+.input.err{outline:1px solid var(--clp-alarm);outline-offset:-1px}
+.input.sel{display:inline-flex;align-items:center;gap:8px;color:var(--clp-text-2)}
+.caret{width:0;height:0;border:4px solid transparent;border-top-color:var(--clp-text-3);margin-top:3px}
 .check,.radio{display:inline-flex;align-items:center;gap:7px;font-size:13px;
-  color:var(--ds-text-2);cursor:pointer}
+  color:var(--clp-text-2);cursor:pointer}
 .check input,.radio input,.switch input{position:absolute;opacity:0;width:0;height:0}
 .check span,.radio span{width:15px;height:15px;box-sizing:border-box;flex:none;
-  border:1px solid var(--ds-line);background:var(--ds-bg)}
-.check span{border-radius:var(--ds-radius-box)}
+  border:1px solid var(--clp-line);background:var(--clp-bg)}
+.check span{border-radius:var(--clp-radius-box)}
 .radio span{border-radius:999px}
-.check :checked + span,.radio :checked + span{background:var(--ds-text);border-color:var(--ds-text)}
-.check:has(:checked),.radio:has(:checked){color:var(--ds-text)}
+.check :checked + span,.radio :checked + span{background:var(--clp-text);border-color:var(--clp-text)}
+.check:has(:checked),.radio:has(:checked){color:var(--clp-text)}
 .switch{position:relative;display:inline-flex;width:34px;height:19px;cursor:pointer}
-.switch span{position:absolute;inset:0;border-radius:999px;background:var(--ds-line)}
+.switch span{position:absolute;inset:0;border-radius:999px;background:var(--clp-line)}
 .switch span::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;
-  border-radius:999px;background:var(--ds-bg);transition:left .13s}
-.switch :checked + span{background:var(--ds-text)}
+  border-radius:999px;background:var(--clp-bg);transition:left .13s}
+.switch :checked + span{background:var(--clp-text)}
 .switch :checked + span::after{left:17px}
 .sel{display:inline-flex}
-.sel select{background:var(--ds-bg);color:var(--ds-text);border:var(--_border);
-  border-radius:var(--ds-radius-control);padding:9px 13px;font:13px var(--ds-font-body);cursor:pointer}
-input.input{font:13px var(--ds-font-body);width:100%}
+.sel select{background:var(--clp-bg);color:var(--clp-text);border:var(--_border);
+  border-radius:var(--clp-radius-control);padding:9px 13px;font:13px var(--clp-font-body);cursor:pointer}
+input.input{font:13px var(--clp-font-body);width:100%}
 .tabs button,.pg,.rail button,.railplain button{font:inherit;cursor:pointer;border:0;background:none}
 
 /* data */
 .stats{display:flex;gap:var(--_gap);flex-wrap:wrap}
 .stage table{min-width:0}
-.stat{background:var(--ds-surface);border:var(--_border);border-radius:var(--ds-radius-box);
+.stat{background:var(--clp-surface);border:var(--_border);border-radius:var(--clp-radius-box);
   padding:var(--_pad);display:flex;flex-direction:column;gap:3px;min-width:150px}
-.stat span{font-size:11.5px;color:var(--ds-text-3)}
+.stat span{font-size:11.5px;color:var(--clp-text-3)}
 .stat b{font:800 26px/1.1 var(--_data);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .stat em{font-style:normal;align-self:flex-start}
-.delta{font:600 11px/1.6 var(--_data);color:var(--ds-text-2)}
-.stat.inv{background:var(--ds-invert-bg);color:var(--ds-invert-text);border:0}
+.delta{font:600 11px/1.6 var(--_data);color:var(--clp-text-2)}
+.stat.inv{background:var(--clp-invert-bg);color:var(--clp-invert-text);border:0}
 .stat.inv span{color:inherit;opacity:.72}
 .stat.inv .delta{color:inherit;opacity:.8}
-.chip{background:var(--ds-invert-accent);color:var(--ds-invert-bg);
-  border-radius:var(--ds-radius-control);padding:2px 9px;font:700 11px/1.6 var(--_data)}
+.chip{background:var(--clp-invert-accent);color:var(--clp-invert-bg);
+  border-radius:var(--clp-radius-control);padding:2px 9px;font:700 11px/1.6 var(--_data)}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px var(--_gap);margin:0;font-size:13px}
-.kv dt{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--ds-text-3);
+.kv dt{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--clp-text-3);
   font-family:var(--_data);padding-top:3px}
-.kv dd{margin:0;color:var(--ds-text)}
+.kv dd{margin:0;color:var(--clp-text)}
 .meter{display:flex;gap:3px}
-.meter i{width:22px;height:13px;border-radius:var(--ds-radius-control);background:var(--ds-line)}
-.meter i.on{background:var(--ds-chart-1,var(--ds-text))}
-.pg{border-radius:var(--ds-radius-control);padding:4px 10px;font:500 12px/1.5 var(--_data);
-  color:var(--ds-text-2);background:var(--ds-line)}
-.pg.on{background:var(--ds-text);color:var(--ds-bg)}
-.prog{height:8px;border-radius:var(--ds-radius-control);background:var(--ds-line);overflow:hidden;max-width:280px}
-.prog i{display:block;height:100%;background:var(--ds-text);border-radius:var(--ds-radius-control)}
+.meter i{width:22px;height:13px;border-radius:var(--clp-radius-control);background:var(--clp-line)}
+.meter i.on{background:var(--clp-chart-1,var(--clp-text))}
+.pg{border-radius:var(--clp-radius-control);padding:4px 10px;font:500 12px/1.5 var(--_data);
+  color:var(--clp-text-2);background:var(--clp-line)}
+.pg.on{background:var(--clp-text);color:var(--clp-bg)}
+.prog{height:8px;border-radius:var(--clp-radius-control);background:var(--clp-line);overflow:hidden;max-width:280px}
+.prog i{display:block;height:100%;background:var(--clp-text);border-radius:var(--clp-radius-control)}
 .slider{display:flex;align-items:center;max-width:280px;position:relative}
-.slider .track{flex:1;height:5px;border-radius:var(--ds-radius-control);background:var(--ds-line);overflow:hidden}
-.slider .track i{display:block;height:100%;background:var(--ds-text)}
-.slider .knob{width:15px;height:15px;border-radius:999px;background:var(--ds-surface);
-  border:2px solid var(--ds-text);margin-left:-8px}
+.slider .track{flex:1;height:5px;border-radius:var(--clp-radius-control);background:var(--clp-line);overflow:hidden}
+.slider .track i{display:block;height:100%;background:var(--clp-text)}
+.slider .knob{width:15px;height:15px;border-radius:999px;background:var(--clp-surface);
+  border:2px solid var(--clp-text);margin-left:-8px}
 .avatars{display:flex}
 .avatars span{display:grid;place-items:center;width:26px;height:26px;border-radius:999px;
-  background:var(--ds-line);color:var(--ds-text-2);font:700 10px/1 var(--_data);
-  margin-left:-7px;box-shadow:0 0 0 2px var(--ds-bg)}
+  background:var(--clp-line);color:var(--clp-text-2);font:700 10px/1 var(--_data);
+  margin-left:-7px;box-shadow:0 0 0 2px var(--clp-bg)}
 .avatars span:first-child{margin-left:0}
-.avatars .more{background:var(--ds-text);color:var(--ds-bg)}
-.acc{border-bottom:1px solid var(--ds-line);padding:8px 0;max-width:340px}
+.avatars .more{background:var(--clp-text);color:var(--clp-bg)}
+.acc{border-bottom:1px solid var(--clp-line);padding:8px 0;max-width:340px}
 .acc summary{cursor:pointer;font-size:13px;font-weight:600}
-.acc p{margin:6px 0 0;font-size:12.5px;color:var(--ds-text-2)}
+.acc p{margin:6px 0 0;font-size:12.5px;color:var(--clp-text-2)}
 .skel{display:flex;flex-direction:column;gap:6px;max-width:280px}
-.skel i{height:9px;border-radius:var(--ds-radius-control);background:var(--ds-line)}
+.skel i{height:9px;border-radius:var(--clp-radius-control);background:var(--clp-line)}
 .skel i:nth-child(2){width:74%}.skel i:nth-child(3){width:52%}
 
 /* navigation */
-.tabs{display:flex;gap:var(--_gap);border-bottom:1px solid var(--ds-line)}
-.tabs button{font-size:13px;color:var(--ds-text-3);padding:0 0 7px;border-bottom:2px solid transparent}
-.tabs button[aria-selected="true"]{color:var(--ds-text);font-weight:600;border-bottom-color:var(--ds-text)}
-.bcrumb{font-size:12.5px;color:var(--ds-text-3);display:flex;gap:6px;align-items:center}
+.tabs{display:flex;gap:var(--_gap);border-bottom:1px solid var(--clp-line)}
+.tabs button{font-size:13px;color:var(--clp-text-3);padding:0 0 7px;border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--clp-text);font-weight:600;border-bottom-color:var(--clp-text)}
+.bcrumb{font-size:12.5px;color:var(--clp-text-3);display:flex;gap:6px;align-items:center}
 .bcrumb i{font-style:normal}
-.bcrumb b{color:var(--ds-text);font-weight:500}
-.rail{background:var(--ds-invert-bg);color:var(--ds-invert-text);border-radius:var(--ds-radius-box);
+.bcrumb b{color:var(--clp-text);font-weight:500}
+.rail{background:var(--clp-invert-bg);color:var(--clp-invert-text);border-radius:var(--clp-radius-box);
   padding:8px;display:flex;flex-direction:column;gap:3px;max-width:180px}
-.rail button{border-radius:var(--ds-radius-control);padding:7px 11px;font-size:13px;
+.rail button{border-radius:var(--clp-radius-control);padding:7px 11px;font-size:13px;
   opacity:.7;color:inherit;text-align:left}
-.rail button.on{background:var(--ds-invert-accent);color:var(--ds-invert-bg);font-weight:700;opacity:1}
+.rail button.on{background:var(--clp-invert-accent);color:var(--clp-invert-bg);font-weight:700;opacity:1}
 .railplain{display:flex;flex-direction:column;max-width:180px}
-.railplain button{padding:7px 0;font-size:13px;color:var(--ds-text-2);text-align:left;
-  border-bottom:1px solid var(--ds-line)}
-.railplain button.on{color:var(--ds-text);font-weight:600}
+.railplain button{padding:7px 0;font-size:13px;color:var(--clp-text-2);text-align:left;
+  border-bottom:1px solid var(--clp-line)}
+.railplain button.on{color:var(--clp-text);font-weight:600}
 
 /* feedback */
-.state{border-radius:var(--ds-radius-control);padding:3px 10px;
+.state{border-radius:var(--clp-radius-control);padding:3px 10px;
   font:600 11px/1.6 var(--_data);letter-spacing:.04em;display:inline-block}
-.alert{border-radius:var(--ds-radius-box);padding:10px 13px;font-size:12.5px}
+.alert{border-radius:var(--clp-radius-box);padding:10px 13px;font-size:12.5px}
 .alert b{font-weight:700}
-${['success', 'warn', 'alarm'].filter(k => has(t, `--ds-${k}`)).map(k => {
-  const wash = has(t, `--ds-${k}-wash`)
+${['success', 'warn', 'alarm'].filter(k => has(t, `--clp-${k}`)).map(k => {
+  const wash = has(t, `--clp-${k}-wash`)
   // Three treatments, chosen by what the system declared: a fill with
-  // --ds-state-text on it, coloured text on a wash, or coloured text with a
+  // --clp-state-text on it, coloured text on a wash, or coloured text with a
   // border. A pill and a banner can differ — a system may fill the small one
-  // and tint the large one, which is what --ds-state-text plus a wash means.
-  const pill = has(t, '--ds-state-text')
-    ? `background:var(--ds-${k});color:var(--ds-state-text)}`
+  // and tint the large one, which is what --clp-state-text plus a wash means.
+  const pill = has(t, '--clp-state-text')
+    ? `background:var(--clp-${k});color:var(--clp-state-text)}`
     : wash
-      ? `color:var(--ds-${k});background:var(--ds-${k}-wash)}`
-      : `color:var(--ds-${k});border:1px solid var(--ds-${k})}`
+      ? `color:var(--clp-${k});background:var(--clp-${k}-wash)}`
+      : `color:var(--clp-${k});border:1px solid var(--clp-${k})}`
   const banner = wash
-    ? `background:var(--ds-${k}-wash);color:${has(t, '--ds-state-text') ? 'var(--ds-text)' : `var(--ds-${k})`}}`
-    : `color:var(--ds-${k});border:1px solid var(--ds-${k})}`
+    ? `background:var(--clp-${k}-wash);color:${has(t, '--clp-state-text') ? 'var(--clp-text)' : `var(--clp-${k})`}}`
+    : `color:var(--clp-${k});border:1px solid var(--clp-${k})}`
   return `.s-${k}{${pill}\n.a-${k}{${banner}`
 }).join('\n')}
-.toast{background:var(--ds-surface);color:var(--ds-text);border:var(--_border);
-  border-radius:var(--ds-radius-box);box-shadow:var(--ds-shadow-surface);
+.toast{background:var(--clp-surface);color:var(--clp-text);border:var(--_border);
+  border-radius:var(--clp-radius-box);box-shadow:var(--clp-shadow-surface);
   padding:10px 15px;font-size:13px;align-self:flex-start}
-.scrimbox{background:var(--ds-scrim);border-radius:var(--ds-radius-box);padding:22px;
+.scrimbox{background:var(--clp-scrim);border-radius:var(--clp-radius-box);padding:22px;
   display:grid;place-items:center}
-.dialog{background:var(--ds-surface);color:var(--ds-text);border:var(--_border);
-  border-radius:var(--ds-radius-box);box-shadow:var(--ds-shadow-surface);
+.dialog{background:var(--clp-surface);color:var(--clp-text);border:var(--_border);
+  border-radius:var(--clp-radius-box);box-shadow:var(--clp-shadow-surface);
   padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap);min-width:220px}
 
 /* charts */
 .bars{display:flex;flex-direction:column;gap:6px}
-.bar{display:block;height:14px;background:var(--ds-line);border-radius:var(--ds-radius-control);overflow:hidden}
-.bar i{display:block;height:100%;border-radius:var(--ds-radius-control)}
-.bar i.hatched{background:var(--ds-hatch);color:var(--ds-chart-1)}
-.stack{display:flex;gap:2px;height:14px;border-radius:var(--ds-radius-control);overflow:hidden;background:var(--ds-line)}
+.bar{display:block;height:14px;background:var(--clp-line);border-radius:var(--clp-radius-control);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:var(--clp-radius-control)}
+.bar i.hatched{background:var(--clp-hatch);color:var(--clp-chart-1)}
+.stack{display:flex;gap:2px;height:14px;border-radius:var(--clp-radius-control);overflow:hidden;background:var(--clp-line)}
 .stack i{display:block;height:100%}
-.legend{display:flex;gap:var(--_gap);flex-wrap:wrap;font-size:11px;color:var(--ds-text-3)}
+.legend{display:flex;gap:var(--_gap);flex-wrap:wrap;font-size:11px;color:var(--clp-text-3)}
 .legend span{display:flex;align-items:center;gap:5px}
-.legend i{width:9px;height:9px;border-radius:var(--ds-radius-control)}
+.legend i{width:9px;height:9px;border-radius:var(--clp-radius-control)}
 
 /* table */
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 td,th{overflow:hidden;text-overflow:ellipsis}
 th{text-align:left;font:700 10px/1.6 var(--_data);letter-spacing:.07em;text-transform:uppercase;
-   color:var(--ds-text-2);padding:6px 8px;border-bottom:1px solid var(--ds-line)}
-td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
+   color:var(--clp-text-2);padding:6px 8px;border-bottom:1px solid var(--clp-line)}
+td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)}
 .n{text-align:right;font-family:var(--_data);font-variant-numeric:tabular-nums}
 </style>
 </head>
@@ -606,7 +606,7 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
 ${stage(t, meta)}
 <p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>
 <script>
-  // Set before paint. data-mode must live on the root element or the --ds-*
+  // Set before paint. data-mode must live on the root element or the --clp-*
   // aliases keep their light values — see the note at the top of the generator.
   const q = new URLSearchParams(location.search)
   const root = document.documentElement

@@ -96,48 +96,48 @@ The same shape appears at every scale:
   --pad-card:  14px 16px;
   --pad-main:  20px 22px;
 
-  --ds-bg:             var(--paper);
-  --ds-surface:        var(--card);
-  --ds-text:           var(--ink);
-  --ds-text-2:         var(--ink-2);
-  --ds-text-3:         var(--ink-3);
-  --ds-line:           var(--mist);
-  --ds-accent:         var(--citron);
-  --ds-radius-box:     var(--box);
-  --ds-radius-control: var(--lz);
-  --ds-border-width:   0;
-  --ds-border-color:   none;
-  --ds-shadow:         none;
-  --ds-button-bg:      var(--citron);
-  --ds-button-text:    var(--hemlock);
-  --ds-button2-bg:     var(--mist);
-  --ds-font-display:   var(--sans);
-  --ds-font-body:      var(--sans);
-  --ds-font-data:      none;
-  --ds-gap:            var(--gap);
-  --ds-pad:            var(--pad-card);
-  --ds-success:        none;
-  --ds-success-wash:   none;
-  --ds-warn:           var(--amber);
-  --ds-warn-wash:      var(--amber-w);
-  --ds-alarm:          var(--verm);
-  --ds-alarm-wash:     var(--verm-w);
-  --ds-invert-bg:      var(--hemlock);
-  --ds-invert-text:    var(--on-hemlock);
-  --ds-invert-accent:  var(--citron);
-  --ds-state-text:     var(--hemlock);
-  --ds-hatch: repeating-linear-gradient(
+  --clp-bg:             var(--paper);
+  --clp-surface:        var(--card);
+  --clp-text:           var(--ink);
+  --clp-text-2:         var(--ink-2);
+  --clp-text-3:         var(--ink-3);
+  --clp-line:           var(--mist);
+  --clp-accent:         var(--citron);
+  --clp-radius-box:     var(--box);
+  --clp-radius-control: var(--lz);
+  --clp-border-width:   0;
+  --clp-border-color:   none;
+  --clp-shadow:         none;
+  --clp-button-bg:      var(--citron);
+  --clp-button-text:    var(--hemlock);
+  --clp-button2-bg:     var(--mist);
+  --clp-font-display:   var(--sans);
+  --clp-font-body:      var(--sans);
+  --clp-font-data:      none;
+  --clp-gap:            var(--gap);
+  --clp-pad:            var(--pad-card);
+  --clp-success:        none;
+  --clp-success-wash:   none;
+  --clp-warn:           var(--amber);
+  --clp-warn-wash:      var(--amber-w);
+  --clp-alarm:          var(--verm);
+  --clp-alarm-wash:     var(--verm-w);
+  --clp-invert-bg:      var(--hemlock);
+  --clp-invert-text:    var(--on-hemlock);
+  --clp-invert-accent:  var(--citron);
+  --clp-state-text:     var(--hemlock);
+  --clp-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
-  --ds-font-script:    var(--km);
-  --ds-press:          none;
-  --ds-focus:          none;
-  --ds-scrim:          none;
-  --ds-shadow-surface: none;
-  --ds-chart-1:        var(--hemlock);
-  --ds-chart-2:        none;
-  --ds-chart-3:        none;
-  --ds-chart-4:        none;
-  --ds-chart-5:        none;
+  --clp-font-script:    var(--km);
+  --clp-press:          none;
+  --clp-focus:          none;
+  --clp-scrim:          none;
+  --clp-shadow-surface: none;
+  --clp-chart-1:        var(--hemlock);
+  --clp-chart-2:        none;
+  --clp-chart-3:        none;
+  --clp-chart-4:        none;
+  --clp-chart-5:        none;
 }
 
 [data-mode="dark"] {
@@ -157,7 +157,7 @@ The same shape appears at every scale:
 Dark mode is required, not optional. Every screen must work in both.
 
 Set `data-mode="dark"` on the **root element**. Scoped to a wrapper it will not work: a
-`var()` inside a custom property resolves where the property is declared, so the `--ds-*`
+`var()` inside a custom property resolves where the property is declared, so the `--clp-*`
 aliases would keep their light values.
 
 ### Colour rules
