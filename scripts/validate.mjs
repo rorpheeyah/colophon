@@ -36,6 +36,7 @@ const DS_ALIASES = [
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent', 'hatch',
   'font-script', 'scrim', 'shadow-surface', 'button2-bg', 'state-text',
+  'press', 'focus',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
 ].map(n => `--ds-${n}`)
 
@@ -46,6 +47,7 @@ const DS_NONE_PERMITTED = new Set([
   'success', 'success-wash', 'warn', 'warn-wash', 'alarm', 'alarm-wash',
   'invert-bg', 'invert-text', 'invert-accent',
   'font-script', 'scrim', 'shadow-surface', 'button2-bg', 'state-text',
+  'press', 'focus',
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
 ].map(n => `--ds-${n}`))
 

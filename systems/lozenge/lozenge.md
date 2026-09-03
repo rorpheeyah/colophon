@@ -129,6 +129,8 @@ The same shape appears at every scale:
   --ds-hatch: repeating-linear-gradient(
     45deg, currentColor, currentColor 2px, transparent 2px, transparent 4px);
   --ds-font-script:    var(--km);
+  --ds-press:          none;
+  --ds-focus:          none;
   --ds-scrim:          none;
   --ds-shadow-surface: none;
   --ds-chart-1:        var(--hemlock);
