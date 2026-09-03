@@ -425,7 +425,13 @@ misplace a declared one.
 - **Overlapping avatars are separated by a 2px seam cut out of each.** A ring is a shadow and an
   outline is a border, and two of the three systems forbid each outright, so the separation is
   geometric. The cut is straight rather than disc-shaped, so it suits a circle and a square
-  alike and says nothing about curvature.
+  alike and says nothing about curvature. **The overlap is therefore set by what the label
+  needs, not by the stacking effect:** the initials centre in the slice that stays visible, so
+  the tuck stops where two characters still fit clear of the cut. The known cost of a straight
+  cut is that a capsule reads with a flat trailing edge rather than as a disc behind a disc —
+  honouring the neighbour's curvature would mean cutting with its outline dilated by 2px, which
+  the template cannot derive from an arbitrary declared radius. Raise it if it matters; do not
+  reach for a ring.
 - **Line weights** are the template's: 1px for a hairline, 2px for emphasis. No alias describes
   them, which is a known gap rather than a decision made silently.
 - **Sample content and layout** — figures, labels, record names, how many stat tiles, how many
