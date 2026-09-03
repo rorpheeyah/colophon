@@ -123,7 +123,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .none{font-size:12px;color:var(--ds-text-3)}
 
 /* overview */
-.dash{background:var(--ds-surface);border:var(--_border);border-radius:var(--ds-radius-box);
+.dash{background:var(--ds-bg);border:var(--_border);border-radius:var(--ds-radius-box);
   padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap)}
 .dash-top{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
 .dash-top > div:first-child{display:flex;flex-direction:column;gap:2px}
@@ -133,6 +133,32 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .dash .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:var(--_gap)}
 .dash .stat{min-width:0}
 .dash table{margin-top:2px}
+.panels{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--_gap)}
+@media(max-width:560px){.panels{grid-template-columns:minmax(0,1fr)}}
+.panel{border:var(--_border);border-radius:var(--ds-radius-box);padding:var(--_pad);
+  display:flex;flex-direction:column;gap:var(--_gap);min-width:0;background:var(--ds-surface)}
+.panel-h{display:flex;align-items:baseline;gap:8px}
+.panel-h b{font-family:var(--ds-font-display);font-size:14px;font-weight:700}
+.panel-h span{font-size:11px;color:var(--ds-text-3);margin-left:auto}
+
+/* charts — marks take the declared series colours, text never does */
+.chart{display:block;width:100%;height:auto}
+.ax{font:500 9px var(--_data);fill:var(--ds-text-3);letter-spacing:.04em}
+.gridline{stroke:var(--ds-line);stroke-width:1}
+.donut{display:block;width:100%;max-width:150px;margin:0 auto;height:auto}
+.donut-n{font:800 22px var(--_data);fill:var(--ds-text)}
+.spark{display:block;width:110px;height:32px}
+.spark-wrap{display:inline-block}
+.spark-n{font:800 20px/1 var(--_data);font-variant-numeric:tabular-nums}
+.chart-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--_gap)}
+.chart-row h5,.grp h5{margin:0 0 6px;font:600 10px/1 var(--_data);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ds-text-3)}
+.ranked{display:flex;flex-direction:column;gap:7px}
+.rank{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:12px}
+.rank b{font-family:var(--_data);font-variant-numeric:tabular-nums}
+.rbar{grid-column:1/-1;display:block;height:5px;border-radius:var(--ds-radius-control);
+  background:var(--ds-line);overflow:hidden}
+.rbar s{display:block;height:100%;text-decoration:none}
 
 /* colour */
 .sws{display:flex;flex-wrap:wrap;gap:var(--_gap)}
@@ -146,6 +172,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .spec-d{font-family:var(--ds-font-display);font-size:26px;font-weight:700;line-height:1.15}
 .spec-b{font-size:15px;color:var(--ds-text-2)}
 .spec-x{font-family:var(--_script);font-size:15px;line-height:2}
+.spec-mix{font-size:15px;line-height:2;color:var(--ds-text-2)}
 .spec-n{font-family:var(--_data);font-size:15px;font-variant-numeric:tabular-nums}
 
 /* base */
@@ -196,8 +223,10 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .stat span{font-size:11.5px;color:var(--ds-text-3)}
 .stat b{font:800 26px/1.1 var(--_data);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .stat em{font-style:normal;align-self:flex-start}
+.delta{font:600 11px/1.6 var(--_data);color:var(--ds-text-2)}
 .stat.inv{background:var(--ds-invert-bg);color:var(--ds-invert-text);border:0}
 .stat.inv span{color:inherit;opacity:.72}
+.stat.inv .delta{color:inherit;opacity:.8}
 .chip{background:var(--ds-invert-accent);color:var(--ds-invert-bg);
   border-radius:var(--ds-radius-control);padding:2px 9px;font:700 11px/1.6 var(--_data)}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px var(--_gap);margin:0;font-size:13px}
@@ -270,7 +299,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .bar{display:block;height:14px;background:var(--ds-line);border-radius:var(--ds-radius-control);overflow:hidden}
 .bar i{display:block;height:100%;border-radius:var(--ds-radius-control)}
 .bar i.hatched{background:var(--ds-hatch);color:var(--ds-chart-1)}
-.stack{display:flex;height:14px;border-radius:var(--ds-radius-control);overflow:hidden;background:var(--ds-line)}
+.stack{display:flex;gap:2px;height:14px;border-radius:var(--ds-radius-control);overflow:hidden;background:var(--ds-line)}
 .stack i{display:block;height:100%}
 .legend{display:flex;gap:var(--_gap);flex-wrap:wrap;font-size:11px;color:var(--ds-text-3)}
 .legend span{display:flex;align-items:center;gap:5px}
@@ -303,18 +332,41 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
   <section class="grp"><h4>Overview</h4>
     <div class="dash">
       <div class="dash-top">
-        <div><b>Workspace</b><span>Last updated 12 Aug</span></div>
+        <div><b>Website analytics</b><span>21 Aug – 17 Sep</span></div>
         <div class="row">
           <button class="btn b2">Export</button>
-          <button class="btn">New record</button>
+          <button class="btn">New report</button>
         </div>
       </div>
+
       <div class="stats">
-        <div class="stat"><span>Revenue</span><b>1,284.50</b><em class="state s-success">+12%</em></div>
-        <div class="stat"><span>Active</span><b>48,210</b></div>
-        <div class="stat"><span>Open items</span><b>26</b></div>
+        <div class="stat">
+              <span>Daily active</span><b>3,450</b>
+              <em class="delta state s-success">+12.1%</em>
+            </div><div class="stat">
+              <span>Sessions</span><b>1,342</b>
+              <em class="delta state s-alarm">−9.8%</em>
+            </div><div class="stat">
+              <span>Duration</span><b>5.2m</b>
+              <em class="delta state s-success">+7.7%</em>
+            </div><div class="stat">
+              <span>Conversion</span><b>2.8%</b>
+              <em class="delta state s-success">+4.3%</em>
+            </div>
       </div>
-      <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></div>
+
+      <div class="panels">
+        <div class="panel">
+          <div class="panel-h"><b>Sessions</b><span>Last 7 days</span></div>
+          <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></div>
+            <p class="none">No chart palette declared, so this is the meter instead.</p>
+        </div>
+        <div class="panel">
+          <div class="panel-h"><b>By source</b><span>935 total</span></div>
+          <p class="none">No chart palette declared.</p>
+        </div>
+      </div>
+
       <table>
         <thead><tr><th>Name</th><th>Status</th><th class="n">Value</th></tr></thead>
         <tbody>
@@ -333,6 +385,7 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
       <p class="spec-d">Aa Hamburgefonstiv</p>
       <p class="spec-b">The rule before the values, so an agent can extrapolate correctly.</p>
       <p class="spec-x">ក ខ គ ឃ ង ច ឆ ជ ០១២៣៤៥៦៧៨៩</p>
+      <p class="spec-mix">Aa Bb Cc ក ខ គ ឃ 128</p>
       <p class="spec-n">1,284.50 · 0912 · 24</p>
     </div>
   </section>
