@@ -372,6 +372,11 @@ So the list below is closed. **Adding to it is a decision, not a line of CSS.**
 
 ### Enforced mechanically
 
+`build-previews.mjs` also refuses to emit a preview whose containers do not balance. The
+generator emits HTML as strings, and an unclosed wrapper is invisible in the source and obvious
+on screen — a table wrapper that never closed once swallowed the pagination, slider, avatars and
+accordions into the table's own card.
+
 `build-previews.mjs` refuses to emit a preview whose template region contains a colour literal,
 a `border-radius` that is not a `var()`, or a `box-shadow` that is not exactly `none` or a
 single `--clp-*` reference. The template therefore cannot invent an appearance; it can only

@@ -232,7 +232,7 @@ function stage(t, meta) {
         <tr><td>Atlas</td><td>${states[1] ? `<span class="state s-${states[1][0]}">${states[1][1]}</span>` : '—'}</td><td class="n">1,284</td></tr>
         <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
       </tbody>
-    </table>
+    </table></div>
     <div class="row pager">
       <button class="pg" data-step>Prev</button><button class="pg on" aria-current="page">1</button>
       <button class="pg">2</button><button class="pg">3</button><button class="pg" data-step>Next</button>
@@ -682,6 +682,30 @@ ${stage(t, meta)}
 }
 
 /**
+ * An unclosed container is invisible in the source and obvious on screen: a
+ * table wrapper that never closed swallowed the pagination, slider, avatars
+ * and accordions into the table's own card. The generator emits HTML as
+ * strings, so nothing was checking that the containers balance.
+ */
+const PAIRED = ['div', 'section', 'table', 'thead', 'tbody', 'tr', 'svg', 'details', 'label']
+
+export function assertBalancedTags(html, slug) {
+  const bad = PAIRED
+    .map(tag => {
+      const open = (html.match(new RegExp(`<${tag}[\\s>]`, 'g')) ?? []).length
+      const close = (html.match(new RegExp(`</${tag}>`, 'g')) ?? []).length
+      return { tag, open, close }
+    })
+    .filter(x => x.open !== x.close)
+
+  if (bad.length) {
+    throw new Error(`${slug}: unbalanced container(s):\n  - ` +
+      bad.map(x => `<${x.tag}> opened ${x.open}, closed ${x.close}`).join('\n  - '))
+  }
+  return html
+}
+
+/**
  * The template may not assert an appearance. Everything after the marker
  * renders the system, so a colour, a radius or a shadow there has to come from
  * a declaration — otherwise the preview is showing the template's taste in the
@@ -731,7 +755,8 @@ for (const slug of slugs) {
   if (!sys) { console.error(`no such system: ${slug}`); process.exit(2) }
 
   const block = tokensBlock(sys.blocks)[0]
-  const files = [['preview.html', assertNoAppearanceLiterals(render(sys), slug)]]
+  const files = [['preview.html',
+    assertBalancedTags(assertNoAppearanceLiterals(render(sys), slug), slug)]]
   if (block) {
     for (const mode of ['light', 'dark']) {
       const svg = thumbnail(block.code, mode)
