@@ -337,7 +337,6 @@ input.input{font:13px var(--clp-font-body);width:100%}
 /* table */
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 td,th{overflow:hidden;text-overflow:ellipsis}
-
 th,td{border:1px solid var(--clp-line)}
 table{border:1px solid var(--clp-line)}
 th{text-align:left;font:700 10px/1.6 var(--_data);letter-spacing:.07em;text-transform:uppercase;
@@ -421,14 +420,14 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
         </div>
       </div>
 
-      <table>
+      <div class="tblock"><table>
         <thead><tr><th>Name</th><th>Status</th><th class="n">Value</th></tr></thead>
         <tbody>
           <tr><td>Northwind</td><td><span class="state s-success">Resolved</span></td><td class="n">128</td></tr>
           <tr><td>Atlas</td><td><span class="state s-warn">Attention</span></td><td class="n">1,284</td></tr>
           <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </section>
 
@@ -490,7 +489,7 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
     </div>
     <dl class="kv"><dt>Owner</dt><dd>Operations</dd><dt>Updated</dt><dd>12 Aug</dd></dl>
     <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></div>
-    <table>
+    <div class="tblock"><table>
       <thead><tr><th>Item</th><th>Status</th><th class="n">Qty</th></tr></thead>
       <tbody>
         <tr><td>Northwind</td><td><span class="state s-success">Resolved</span></td><td class="n">128</td></tr>

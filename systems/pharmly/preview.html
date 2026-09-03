@@ -320,7 +320,11 @@ input.input{font:13px var(--clp-font-body);width:100%}
 /* table */
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 td,th{overflow:hidden;text-overflow:ellipsis}
-
+.tblock{background:var(--clp-surface);border-radius:var(--clp-radius-box);overflow:hidden}
+.tblock th{padding-top:11px}
+.tblock tr:last-child td{border-bottom:0}
+.tblock th:first-child,.tblock td:first-child{padding-left:14px}
+.tblock th:last-child,.tblock td:last-child{padding-right:14px}
 th{text-align:left;font:700 10px/1.6 var(--_data);letter-spacing:.07em;text-transform:uppercase;
    color:var(--clp-text-2);padding:6px 8px;border-bottom:1px solid var(--clp-line)}
 td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)}
@@ -405,14 +409,14 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
         </div>
       </div>
 
-      <table>
+      <div class="tblock"><table>
         <thead><tr><th>Name</th><th>Status</th><th class="n">Value</th></tr></thead>
         <tbody>
           <tr><td>Northwind</td><td><span class="state s-success">Resolved</span></td><td class="n">128</td></tr>
           <tr><td>Atlas</td><td><span class="state s-warn">Attention</span></td><td class="n">1,284</td></tr>
           <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </section>
 
@@ -477,7 +481,7 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
     </div>
     <dl class="kv"><dt>Owner</dt><dd>Operations</dd><dt>Updated</dt><dd>12 Aug</dd></dl>
     <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></div>
-    <table>
+    <div class="tblock"><table>
       <thead><tr><th>Item</th><th>Status</th><th class="n">Qty</th></tr></thead>
       <tbody>
         <tr><td>Northwind</td><td><span class="state s-success">Resolved</span></td><td class="n">128</td></tr>
