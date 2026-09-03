@@ -360,6 +360,57 @@ the template's most conservative reading rather than the system's own word.
 
 ---
 
+## What the template decides
+
+The preview is a design system too, and everything it renders that a file did not ask for is
+its opinion wearing the system's colours. Four rule violations shipped before this was written
+down — chart bars in an accent the file forbids as a fill, Khmer in the wrong family, filled
+status pills in a system that forbids them, and a square button in a system whose primitive is
+the capsule. Every one used a declared *value* in a place the prose ruled out.
+
+So the list below is closed. **Adding to it is a decision, not a line of CSS.**
+
+### Enforced mechanically
+
+`build-previews.mjs` refuses to emit a preview whose template region contains a colour literal,
+a `border-radius` that is not a `var()`, or a `box-shadow` that is not exactly `none` or a
+single `--clp-*` reference. The template therefore cannot invent an appearance; it can only
+misplace a declared one.
+
+### Resolving a declined alias — four shims
+
+| shim | when the alias is declined |
+|---|---|
+| `--_press` | `none`, so a control does not move |
+| `--_data` | falls back to `--clp-font-body` |
+| `--_script` | falls back to `--clp-font-body` |
+| `--_gap` / `--_pad` | a preset chosen by the `density` field |
+| `--_border` | `0`, so nothing draws an edge |
+
+### Compositions the template owns
+
+- **The specimen is a sheet, not a screen.** Every declared component appears at once, so
+  per-screen limits — one accent per screen, at most three summary cards — are not observed
+  and cannot be.
+- **`--clp-shadow` is a control shadow** and never goes on a container.
+- **A ghost control** is transparent with `--clp-text-2`: the most conservative reading, not
+  the system's word.
+- **A tooltip** takes elevation, then an edge, then a contrasting fill, and is omitted if the
+  system declares none of the three.
+- **A state** is a fill with `--clp-state-text`, else coloured text on a wash, else coloured
+  text with a border of the same colour.
+- **A table** is fully gridded where `--clp-border-width` is non-zero and row-ruled otherwise.
+- **A delta** takes its colour from its direction, and shows unstated where the direction has
+  no declared colour.
+- **Thumbnails carry no typeface** — an `<img>` cannot load one, so text is set in the generic
+  each declared stack ends with.
+- **Line weights** are the template's: 1px for a hairline, 2px for emphasis. No alias describes
+  them, which is a known gap rather than a decision made silently.
+- **Sample content and layout** — figures, labels, record names, how many stat tiles, how many
+  table rows.
+
+---
+
 ## Working on this repo
 
 - Node 22+. No dependencies in `scripts/`. The frontmatter parser is deliberately hand-rolled
