@@ -153,7 +153,15 @@ h1 { font: 400 clamp(24px, 5vw, var(--t-2xl))/1.15 var(--serif); margin: var(--s
 .clear:hover { color: var(--fg); text-decoration: underline }
 
 /* ── library ───────────────────────────────────────────────────────────── */
-.views { display: flex; gap: var(--s1) }
+.viewtoggle {
+  display: grid; place-items: center; width: 28px; height: 28px; padding: 0;
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--fg-2); cursor: pointer;
+}
+.viewtoggle:hover { color: var(--fg); border-color: var(--line-2) }
+.viewtoggle svg { display: none }
+.viewtoggle[data-state="cards"] [data-t="list"],
+.viewtoggle[data-state="list"] [data-t="cards"] { display: block }
 .grid {
   display: grid; gap: var(--s5);
   grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
