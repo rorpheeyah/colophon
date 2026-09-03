@@ -2,7 +2,7 @@ import { html, json } from './html.mjs'
 import { shell, crumbs } from './layout.mjs'
 
 export const comparePage = all => shell({
-  base: '', current: 'compare', title: 'Compare — colophon',
+  base: '', current: 'compare', systems: all, title: 'Compare — colophon',
   body: html`
 <div class="wrap">
   ${crumbs('', ['Compare'])}

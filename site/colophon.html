@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>About — colophon</title>
+<title>Colophon — how this site is made</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Cpath%20d%3D%22M32%203H18A15%2015%200%200%200%203%2018v28a15%2015%200%200%200%2015%2015h14z%22%20fill%3D%22%23B03A2E%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%23B03A2E%22%20stroke-width%3D%225%22%2F%3E%3Crect%20x%3D%2212%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23B03A2E%22%2F%3E%3C%2Fsvg%3E">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -34,7 +34,7 @@
   <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
 </svg><span>colophon</span>
 </a>
-  <nav><a href="index.html">Library</a><a href="compare.html">Compare</a><a href="about.html" aria-current="page">About</a></nav>
+  <nav><a href="index.html">Library</a><a href="compare.html">Compare</a><a href="about.html">About</a></nav>
   <div class="tools">
     <a class="ghost" href="https://github.com/rorpheeyah/colophon" rel="noreferrer">GitHub</a>
     <button class="theme" id="theme" aria-label="Switch theme">
@@ -50,52 +50,66 @@
 
 <div class="wrap narrow prose">
   <nav class="crumbs">
-  <a href="index.html">Library</a> <span>/</span> <b>About</b>
+  <a href="index.html">Library</a> <span>/</span> <b>Colophon</b>
 </nav>
-  <h1>About</h1>
-  <p class="lede">A library of design systems. Each one is a single markdown file, written to be
-  dropped into a project so that AI-assisted development follows that system. The file is the
-  product; this site is a browser for it.</p>
+  <h1>Colophon</h1>
+  <p class="lede">A note on how this site is made, what it collects, and who owns what. Named
+  for the thing it is.</p>
 
-  <h2>The format</h2>
-  <p>Frontmatter for where it fits, then a body written for a coding agent rather than a human
-  reader — <code>--gap: 10px</code> and "two is a bug", not "generous spacing". Eight required
-  sections, in order:</p>
-  <ol>
-    <li><b>How to apply this file</b> — including what to do when a case is not covered</li>
-    <li><b>The primitive</b> — the rule before the values, so an agent can extrapolate</li>
-    <li><b>Tokens</b> — one css block, light and dark, copy-pasteable</li>
-    <li><b>Type</b> — families, scale, and per-script rules where bilingual</li>
-    <li><b>Structure</b> — layout, density, what carries separation</li>
-    <li><b>Components</b> — by token reference, never by restated value</li>
-    <li><b>Motion</b></li>
-    <li><b>Never</b> — an explicit prohibition list</li>
-  </ol>
-  <p>The last matters most. Systems decay not because a stated value is used wrongly, but
-  because something not in the system gets added — an extra radius, a subtle shadow, a fourth
-  colour. So every file forbids explicitly.</p>
+  <h2>What this site collects</h2>
+  <p><strong>Nothing.</strong> There are no accounts, no forms, no analytics, no tracking
+  pixels and no cookies. Nothing you do here is recorded or sent anywhere.</p>
+  <p>Two qualifications, both worth stating plainly rather than burying:</p>
+  <ul>
+    <li>Your light or dark choice is kept in your own browser's <code>localStorage</code>, under
+      the key <code>colophon-theme</code>. It never leaves your machine. Clear your site data and
+      it is gone.</li>
+    <li>Typefaces are served by <strong>Google Fonts</strong>. Loading a page therefore makes a
+      request to <code>fonts.googleapis.com</code> and <code>fonts.gstatic.com</code>, which
+      means Google receives your IP address and user-agent. That is the only third party
+      involved in this site, and the only way it could know you were here.</li>
+  </ul>
 
-  <h2>Own and reference</h2>
-  <p><code>own</code> is original work. <code>reference</code> is a reading of someone else's
-  public work: credited, annotated, tokens approximated by eye. A reference record is never a
-  claim of authorship and is not for direct use — fork it first.</p>
+  <h2>How it is set</h2>
+  <dl class="spec">
+    <dt>Interface</dt><dd>Instrument Sans</dd>
+    <dt>Wordmark</dt><dd>Newsreader, lowercase — a colophon is set in the book's own text face</dd>
+    <dt>Data &amp; labels</dt><dd>IBM Plex Mono</dd>
+    <dt>Specimens</dt><dd>Each system's own declared families, loaded per preview</dd>
+    <dt>Mark</dt><dd>Recto / verso — one rule crossing the fold, flipping polarity</dd>
+    <dt>Accent</dt><dd>A single seal red, used on the mark and nowhere else</dd>
+    <dt>Built with</dt><dd>Node, and <code>marked</code> for rendering markdown. Nothing else.</dd>
+  </dl>
+  <p>The chrome is deliberately neutral. It displays systems that contradict each other in
+  almost every respect, and a chrome with a strong palette would quietly tell you which one to
+  prefer.</p>
 
-  <h2>Why the previews can be trusted</h2>
-  <p>None is hand-written. Each embeds its system's own css block verbatim and renders one
-  shared template driven by that system's declared aliases, so a preview cannot show a value
-  its file does not contain. When a system refuses a concept — no success colour, no filled
-  surfaces, no monospace — the preview renders nothing for it.</p>
+  <h2>Licensing</h2>
+  <h3>The design systems</h3>
+  <p>The markdown files under <code>systems/</code> and their generated previews are
+  <a href="https://github.com/rorpheeyah/colophon/blob/main/LICENSE">MIT licensed</a>. Copy them into any project, commercial
+  or otherwise, change them, ship them. That is what they are for — every one of them opens
+  with instructions to do exactly that.</p>
 
-  <h2>Versioning</h2>
-  <p>A refinement bumps the version in place. A breaking change forks to a new slug and the
-  previous becomes <code>archived</code>. Archived systems are never deleted: projects already
-  shipped against them need them to keep existing.</p>
+  <h3>The site</h3>
+  <p>The site, its source and its written content are &copy; 2026 rorpheeyah, all rights
+  reserved.</p>
 
-  <h2>In the library</h2>
-  <ul><li><a href="s/lozenge/index.html">Lozenge</a> — utility,
-    compact</li><li><a href="s/newsprint/index.html">Newsprint</a> — editorial,
-    comfortable</li><li><a href="s/pharmly/index.html">Pharmly</a> — utility,
-    spacious, reference</li></ul>
+  <h3>Reference records</h3>
+  <p>A system marked <code>reference</code> is a reading of someone else's published work. The
+  annotations, the extracted approximations and the criticism are mine and fall under the
+  licence above. <strong>The design being described does not.</strong> It belongs to its
+  authors, is credited on its page and in its file, and no assets from it are reproduced
+  anywhere in this repository.</p>
+  <p>Currently that means
+  <a href="s/pharmly/index.html">Pharmly</a>.
+  If you are one of its authors and want the record changed or removed,
+  <a href="https://github.com/rorpheeyah/colophon/issues">open an issue</a> and it will be.</p>
+
+  <h2>Terms</h2>
+  <p>There are none. Nothing here is sold, nothing requires an account, and there is nothing to
+  agree to. The files are provided as they are, with no warranty — the MIT licence says so in
+  the usual words.</p>
 </div>
 
 <footer class="foot"><div class="wrap">

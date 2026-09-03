@@ -63,9 +63,11 @@ scripts/
 site/
   assets/style.css               hand-written source
   index.html  compare.html       generated
+  about.html  colophon.html      generated
   s/<slug>/                      generated: page, preview copy, .md copy
   data.json                      generated from frontmatter
 index.json                       append-only ledger
+LICENSE                          MIT on systems/, all rights reserved on the site
 ```
 
 ```
@@ -322,6 +324,18 @@ the template's most conservative reading rather than the system's own word.
 - `preview.html` is committed. GitHub Pages serves it with no build step, the repo stays
   self-contained, and a token change shows up as a reviewable diff. `validate.mjs` regenerates
   previews and fails if a committed one is stale.
+
+## The chrome
+
+The site chrome is deliberately neutral. It displays systems that contradict each other in
+almost every respect, so a chrome with a strong palette would quietly tell a visitor which one
+to prefer. Neutral is not the same as undesigned: the greys carry a warm bias toward the one
+accent, and **the accent — a single seal red — appears on the mark and nowhere else.** Adding it
+to a tag, a button or a focus ring breaks that rule.
+
+Theme is two-state, light and dark, stamped on the root before first paint. A first-time
+visitor's OS preference decides which one they land in; after that the choice is theirs and is
+kept in `localStorage`. There is no "system" option in the UI.
 
 ## Out of scope
 

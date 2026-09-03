@@ -17,6 +17,7 @@ import { libraryPage } from './site/library.mjs'
 import { systemPage } from './site/system.mjs'
 import { comparePage } from './site/compare.mjs'
 import { aboutPage } from './site/about.mjs'
+import { colophonPage } from './site/colophon.mjs'
 
 // The site emits JavaScript as strings, and html`` escapes interpolations —
 // so a bare quoted string interpolated into a <script> silently becomes
@@ -48,6 +49,7 @@ const files = new Map()
 files.set('index.html', assertScriptsParse(String(libraryPage(all)), 'index.html'))
 files.set('compare.html', assertScriptsParse(String(comparePage(all)), 'compare.html'))
 files.set('about.html', assertScriptsParse(String(aboutPage(all)), 'about.html'))
+files.set('colophon.html', assertScriptsParse(String(colophonPage(all)), 'colophon.html'))
 files.set('data.json', JSON.stringify(
   all.map(({ body, aliases, sections, prev, next, ...rest }) => rest), null, 2) + '\n')
 
@@ -59,7 +61,7 @@ all.forEach((s, i) => {
 
 for (const s of all) {
   const dir = join(ROOT, 'systems', s.slug)
-  files.set(`s/${s.slug}/index.html`, assertScriptsParse(String(systemPage(s)), `s/${s.slug}/index.html`))
+  files.set(`s/${s.slug}/index.html`, assertScriptsParse(String(systemPage(s, all)), `s/${s.slug}/index.html`))
   files.set(`s/${s.slug}/${s.slug}.md`, readFileSync(join(dir, `${s.slug}.md`), 'utf8'))
   files.set(`s/${s.slug}/preview.html`, readFileSync(join(dir, 'preview.html'), 'utf8'))
 }
