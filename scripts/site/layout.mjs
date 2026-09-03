@@ -1,4 +1,5 @@
 import { html, raw } from './html.mjs'
+import { FAVICON } from '../lib.mjs'
 
 export const YEAR = new Date().getFullYear()
 export const REPO = 'https://github.com/rorpheeyah/colophon'
@@ -26,15 +27,6 @@ export const MARK = raw(`<svg class="mark" viewBox="0 0 64 64" aria-hidden="true
   <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
 </svg>`)
 
-// Mask-free variant: a favicon has to survive without a mask and without the
-// page's background showing through, so the paper is painted rather than cut.
-const FAVICON = encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">`
-  + `<rect x="3" y="3" width="58" height="58" rx="15" fill="#F2F0EA"/>`
-  + `<path d="M32 3H18A15 15 0 0 0 3 18v28a15 15 0 0 0 15 15h14z" fill="#B03A2E"/>`
-  + `<rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="#B03A2E" stroke-width="5"/>`
-  + `<rect x="12" y="28" width="18" height="8" rx="4" fill="#F2F0EA"/>`
-  + `<rect x="34" y="28" width="18" height="8" rx="4" fill="#B03A2E"/></svg>`)
-
 const THEME_ICONS = raw(`
 <svg data-t="light" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
   <circle cx="8" cy="8" r="3.1" fill="currentColor"/>
@@ -53,7 +45,7 @@ export const shell = ({ base, title, current, body, systems = [] }) => html`<!do
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title}</title>
-<link rel="icon" href="data:image/svg+xml,${raw(FAVICON)}">
+<link rel="icon" href="${FAVICON}">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="${base}assets/style.css">
