@@ -77,7 +77,7 @@ export const shell = ({ base, title, current, body, systems = [] }) => html`<!do
   </div>
 </div></header>
 
-${body}
+<main>${body}</main>
 
 <footer class="foot"><div class="wrap">
   <div class="foot-grid">
@@ -98,7 +98,7 @@ ${body}
   </div>
   <div class="foot-legal">
     <p>&copy; ${YEAR} colophon (rorpheeyah). Site and writing all rights reserved.</p>
-    <p>The design system files are <a href="${REPO}/blob/main/LICENSE">MIT licensed</a>.</p>
+    <p>The design system files are <a href="${base}colophon.html#licensing">MIT licensed</a>.</p>
   </div>
 </div></footer>
 

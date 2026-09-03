@@ -42,7 +42,7 @@ export const colophonPage = all => shell({
   almost every respect, and a chrome with a strong palette would quietly tell you which one to
   prefer.</p>
 
-  <h2>Licensing</h2>
+  <h2 id="licensing">Licensing</h2>
   <h3>The design systems</h3>
   <p>The markdown files under <code>systems/</code> and their generated previews are
   <a href="${REPO}/blob/main/LICENSE">MIT licensed</a>. Copy them into any project, commercial

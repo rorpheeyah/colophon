@@ -19,34 +19,36 @@
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
 
   /* light */
-  --bg:        #FCFCFB;
+  --bg:        #FFFFFF;
   --surface:   #FFFFFF;
-  --surface-2: #F5F4F1;
-  --line:      #E7E4DF;
-  --line-2:    #D6D2CA;
-  --fg:        #14130F;
-  --fg-2:      #6C6960;
-  --fg-3:      #9B968C;
+  --surface-2: #F4F4F5;
+  --line:      #E4E4E7;
+  --line-2:    #D4D4D8;
+  --fg:        #09090B;
+  --fg-2:      #52525B;
+  --fg-3:      #71717A;
   --seal:      #B03A2E;
-  --ring:      #14130F;
-  --shadow:    0 1px 2px rgba(20, 19, 15, .05);
+  --good:      #15803D;
+  --bad:       #B91C1C;
+  --ring:      #09090B;
+  --shadow:    0 1px 2px rgba(9, 9, 11, .06);
 }
 /* No-JS fallback. The inline script normally stamps data-theme before paint. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0D0C0B; --surface: #161513; --surface-2: #1D1C19;
-    --line: #272520; --line-2: #3A3730;
-    --fg: #F4F2EC; --fg-2: #A5A096; --fg-3: #726D63;
-    --seal: #D2634F; --ring: #F4F2EC;
-    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+    --bg: #09090B; --surface: #111113; --surface-2: #18181B;
+    --line: #26262A; --line-2: #3F3F46;
+    --fg: #FAFAFA; --fg-2: #A1A1AA; --fg-3: #8A8A93;
+    --seal: #E0725C; --good: #4ADE80; --bad: #F87171; --ring: #FAFAFA;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .5);
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0D0C0B; --surface: #161513; --surface-2: #1D1C19;
-  --line: #272520; --line-2: #3A3730;
-  --fg: #F4F2EC; --fg-2: #A5A096; --fg-3: #726D63;
-  --seal: #D2634F; --ring: #F4F2EC;
-  --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+  --bg: #09090B; --surface: #111113; --surface-2: #18181B;
+  --line: #26262A; --line-2: #3F3F46;
+  --fg: #FAFAFA; --fg-2: #A1A1AA; --fg-3: #8A8A93;
+  --seal: #E0725C; --good: #4ADE80; --bad: #F87171; --ring: #FAFAFA;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .5);
 }
 
 * { box-sizing: border-box }
@@ -57,7 +59,11 @@ body {
   margin: 0; background: var(--bg); color: var(--fg);
   font: var(--t-md)/1.6 var(--sans);
   -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  /* keeps the footer on the floor when a page is shorter than the viewport */
+  min-height: 100dvh; display: flex; flex-direction: column;
 }
+main { flex: 1 0 auto }
+.foot { flex: none }
 a { color: inherit }
 code, kbd { font-family: var(--mono); font-size: .9em }
 h1, h2, h3 { letter-spacing: -.018em; text-wrap: balance }
@@ -183,9 +189,11 @@ h1 { font: 400 var(--t-2xl)/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
 
 .fit { display: grid; grid-template-columns: auto 1fr; gap: 3px var(--s3); font-size: var(--t-sm); margin: 0 }
 .fit dt {
-  font: 500 var(--t-xs)/1.7 var(--mono); letter-spacing: .07em;
-  text-transform: uppercase; color: var(--fg-3);
+  font: 600 var(--t-xs)/1.7 var(--mono); letter-spacing: .08em;
+  text-transform: uppercase;
 }
+.fit dt.y { color: var(--good) }
+.fit dt.n { color: var(--bad) }
 .fit dd { margin: 0; color: var(--fg-2) }
 
 .actions { display: flex; gap: var(--s2); margin-top: auto; padding-top: var(--s1) }

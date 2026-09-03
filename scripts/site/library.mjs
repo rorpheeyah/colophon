@@ -28,8 +28,8 @@ const card = s => html`
     <h2><a href="s/${s.slug}/index.html">${s.system}</a> <em>${s.version}</em></h2>
     ${tags(s)}
     <dl class="fit">
-      <dt>For</dt><dd>${s.bestFor.slice(0, 3).join(', ')}</dd>
-      <dt>Not</dt><dd>${s.avoidFor.slice(0, 2).join(', ')}</dd>
+      <dt class="y">For</dt><dd>${s.bestFor.slice(0, 3).join(', ')}</dd>
+      <dt class="n">Not</dt><dd>${s.avoidFor.slice(0, 2).join(', ')}</dd>
     </dl>
     <div class="actions">
       <a class="btn primary" href="s/${s.slug}/${s.slug}.md" download>Download .md</a>
