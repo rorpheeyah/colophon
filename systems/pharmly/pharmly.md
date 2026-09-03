@@ -70,6 +70,7 @@ file, so nothing here is transcribed — every value is a reading.
 
   --clp-bg:             var(--paper);
   --clp-surface:        var(--card);
+  --clp-card-fill:      var(--card);
   --clp-text:           var(--ink);
   --clp-text-2:         var(--ink-2);
   --clp-text-3:         var(--ink-3);

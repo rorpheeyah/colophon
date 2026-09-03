@@ -89,6 +89,7 @@ Two consequences that explain most of what follows:
 
   --clp-bg:             var(--paper);
   --clp-surface:        var(--stock);
+  --clp-card-fill:      none;
   --clp-text:           var(--ink);
   --clp-text-2:         var(--ink-2);
   --clp-text-3:         var(--ink-3);

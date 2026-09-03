@@ -98,6 +98,7 @@ The same shape appears at every scale:
 
   --clp-bg:             var(--paper);
   --clp-surface:        var(--card);
+  --clp-card-fill:      none;
   --clp-text:           var(--ink);
   --clp-text-2:         var(--ink-2);
   --clp-text-3:         var(--ink-3);

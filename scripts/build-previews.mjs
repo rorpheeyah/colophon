@@ -379,7 +379,8 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .panels{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--_gap)}
 @media(max-width:560px){.panels{grid-template-columns:minmax(0,1fr)}}
 .panel{border:var(--_border);border-radius:var(--clp-radius-box);padding:var(--_pad);
-  display:flex;flex-direction:column;gap:var(--_gap);min-width:0}
+  display:flex;flex-direction:column;gap:var(--_gap);min-width:0${
+    has(t, '--clp-card-fill') ? ';background:var(--clp-card-fill)' : ''}}
 .panel-h{display:flex;align-items:baseline;gap:8px}
 .panel-h b{font-family:var(--clp-font-display);font-size:14px;font-weight:700}
 .panel-h span{font-size:11px;color:var(--clp-text-3);margin-left:auto}
@@ -486,7 +487,8 @@ input.input{font:13px var(--clp-font-body);width:100%}
 /* data */
 .stats{display:flex;gap:var(--_gap);flex-wrap:wrap}
 .stage table{min-width:0}
-.stat{border:var(--_border);border-radius:var(--clp-radius-box);
+.stat{border:var(--_border);border-radius:var(--clp-radius-box);${
+  has(t, '--clp-card-fill') ? 'background:var(--clp-card-fill);' : ''}
   padding:var(--_pad);display:flex;flex-direction:column;gap:3px;min-width:150px}
 .stat span{font-size:11.5px;color:var(--clp-text-3)}
 .stat b{font:800 26px/1.1 var(--_data);letter-spacing:-.03em;font-variant-numeric:tabular-nums}

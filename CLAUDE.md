@@ -219,7 +219,7 @@ light value: `--paper` goes dark, `--clp-bg` does not, and dark mode silently do
 root is the only place the substitution sees the dark tokens. The preview generator therefore
 renders one mode per document and sets `data-mode` on `<html>`.
 
-**All 41 aliases are required.** A system that does not have a concept declares `none`:
+**All 42 aliases are required.** A system that does not have a concept declares `none`:
 
 ```css
 --clp-success: none;
@@ -234,6 +234,7 @@ it said so.
 |---|---|---|
 | `--clp-bg` | Page background | |
 | `--clp-surface` | Raised or contained surface | |
+| `--clp-card-fill` | Fill for a stat tile or panel; `none` leaves it on the page | yes |
 | `--clp-text` | Primary text | |
 | `--clp-text-2` | Secondary text | |
 | `--clp-text-3` | Tertiary text, captions, placeholders | |
@@ -404,12 +405,10 @@ misplace a declared one.
   system declares none of the three.
 - **A state** is a fill with `--clp-state-text`, else coloured text on a wash, else coloured
   text with a border of the same colour.
-- **Only the table carries a surface fill.** A stat tile and a chart panel sit on the page and
-  take an edge from `--clp-border-*` if the system draws one. Whether a container is *filled* is
-  a rule rather than a value and no alias states it: Lozenge says "the rest sit on `paper`" while
-  Pharmly says "everything in white 16px cards", and both declare the same
-  `--clp-surface`. The template sides with the unfilled reading, which is the more conservative
-  one — a fill is harder to take back than to add.
+- **A stat tile and a chart panel are filled only where `--clp-card-fill` says so**, and take an
+  edge from `--clp-border-*` if the system draws one. The table is separate: it keeps
+  `--clp-surface`, because a system can hold its summary cards unfilled and still put the work
+  itself on a raised surface — which is exactly what Lozenge does.
 - **A table** is enclosed the way the system encloses things: an edge where `--clp-border-width`
   is non-zero, giving a full grid, and a **surface step** where it is `0` — the table sits on
   `--clp-surface` against the page, with `--clp-radius-box`. Lozenge asks for exactly that:
