@@ -318,6 +318,7 @@ input.input{font:13px var(--clp-font-body);width:100%}
 /* table */
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 td,th{overflow:hidden;text-overflow:ellipsis}
+
 th{text-align:left;font:700 10px/1.6 var(--_data);letter-spacing:.07em;text-transform:uppercase;
    color:var(--clp-text-2);padding:6px 8px;border-bottom:1px solid var(--clp-line)}
 td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)}
@@ -388,7 +389,13 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
         </div>
         <div class="panel">
           <div class="panel-h"><b>By source</b><span>935 total</span></div>
-          <div class="ranked"><div class="rank" data-tip="Direct · 432"><span>Direct</span><b>432</b>
+          <svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Completion, 72 percent">
+    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-line)" stroke-width="16"/>
+    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-chart-1)" stroke-width="16"
+      stroke-linecap="butt" stroke-dasharray="235.2 326.7256359733385"
+      transform="rotate(-90 70 70)" data-tip="Completed · 72%"/>
+    <text x="70" y="68" text-anchor="middle" class="donut-n">72%</text>
+    <text x="70" y="86" text-anchor="middle" class="ax">complete</text></svg><div class="ranked"><div class="rank" data-tip="Direct · 432"><span>Direct</span><b>432</b>
       <i class="rbar"><s style="width:100%;background:var(--clp-chart-1)"></s></i></div><div class="rank" data-tip="Organic · 216"><span>Organic</span><b>216</b>
       <i class="rbar"><s style="width:50%;background:var(--clp-chart-1)"></s></i></div><div class="rank" data-tip="Referral · 168"><span>Referral</span><b>168</b>
       <i class="rbar"><s style="width:39%;background:var(--clp-chart-1)"></s></i></div><div class="rank" data-tip="Social · 96"><span>Social</span><b>96</b>
@@ -571,6 +578,13 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
     <text x="0" y="146" text-anchor="start" class="ax">Jan</text>
     <text x="320" y="146" text-anchor="end" class="ax">Oct</text>
   </svg></div>
+      <div><h5>Gauge</h5><svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Completion, 72 percent">
+    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-line)" stroke-width="16"/>
+    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-chart-1)" stroke-width="16"
+      stroke-linecap="butt" stroke-dasharray="235.2 326.7256359733385"
+      transform="rotate(-90 70 70)" data-tip="Completed · 72%"/>
+    <text x="70" y="68" text-anchor="middle" class="donut-n">72%</text>
+    <text x="70" y="86" text-anchor="middle" class="ax">complete</text></svg></div>
     </div>
     <div class="row"><span class="spark-wrap"><svg viewBox="0 0 110 32" class="spark" aria-hidden="true">
     <path d="M0.0 22.7 L12.2 20.1 L24.4 21.3 L36.7 16.4 L48.9 17.9 L61.1 12.4 L73.3 14.1 L85.6 8.7 L97.8 10.4 L110.0 5.0" fill="none" stroke="var(--clp-chart-1)" stroke-width="2" stroke-linecap="round"/></svg></span>

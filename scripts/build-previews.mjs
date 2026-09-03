@@ -22,7 +22,7 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { ROOT, systemSlugs, readSystem, tokensBlock, declaredAliases, scalar, list, FAVICON } from './lib.mjs'
-import { barChart, lineChart, sparkline, donut, stacked, legend, ranked } from './preview-charts.mjs'
+import { barChart, lineChart, sparkline, donut, gauge, stacked, legend, ranked } from './preview-charts.mjs'
 import { thumbnail } from './preview-thumb.mjs'
 
 // Spacing for a system that declines --clp-gap/--clp-pad. Chosen by the `density`
@@ -146,7 +146,8 @@ function stage(t, meta) {
         </div>
         <div class="panel">
           <div class="panel-h"><b>By source</b><span>935 total</span></div>
-          ${series.length >= 3 ? donut(series) + legend(series) : series.length ? ranked(series[0])
+          ${series.length >= 3 ? donut(series) + legend(series)
+            : series.length ? gauge(series[0]) + ranked(series[0])
             : '<p class="none">No chart palette declared.</p>'}
         </div>
       </div>
@@ -272,6 +273,7 @@ function stage(t, meta) {
     <div class="chart-row">
       <div><h5>Trend</h5>${lineChart(series[0])}</div>
       <div><h5>Area</h5>${lineChart(series[0], { area: true })}</div>
+      <div><h5>Gauge</h5>${gauge(series[0])}</div>
     </div>
     <div class="row"><span class="spark-wrap">${sparkline(series[0])}</span>
       <b class="spark-n">84</b><span class="none">sparkline, no axes</span></div>
@@ -583,6 +585,9 @@ ${['success', 'warn', 'alarm'].filter(k => has(t, `--clp-${k}`)).map(k => {
 /* table */
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 td,th{overflow:hidden;text-overflow:ellipsis}
+${/^0[a-z]*$/.test(t.get('--clp-border-width') ?? '0') ? '' : `
+th,td{border:1px solid var(--clp-line)}
+table{border:1px solid var(--clp-line)}`}
 th{text-align:left;font:700 10px/1.6 var(--_data);letter-spacing:.07em;text-transform:uppercase;
    color:var(--clp-text-2);padding:6px 8px;border-bottom:1px solid var(--clp-line)}
 td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)}

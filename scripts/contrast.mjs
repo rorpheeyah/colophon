@@ -88,6 +88,16 @@ export function scopes(code) {
   return { light: root, dark: { ...root, ...decls(code.slice(darkAt)) } }
 }
 
+/** Follow var() references to whatever they end at, hex or otherwise. */
+export function resolveRaw(name, env, seen = new Set()) {
+  if (seen.has(name)) return null
+  seen.add(name)
+  const value = env[name]
+  if (!value || value === 'none') return null
+  const ref = /^var\(\s*(--[A-Za-z0-9-]+)\s*\)$/.exec(value)
+  return ref ? resolveRaw(ref[1], env, seen) : value
+}
+
 /** Follow var() references to an opaque hex, or null if it is not one. */
 export function resolve(name, env, seen = new Set()) {
   if (seen.has(name)) return null

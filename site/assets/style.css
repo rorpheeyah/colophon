@@ -153,9 +153,36 @@ h1 { font: 400 clamp(24px, 5vw, var(--t-2xl))/1.15 var(--serif); margin: var(--s
 .clear:hover { color: var(--fg); text-decoration: underline }
 
 /* ── library ───────────────────────────────────────────────────────────── */
+.views { display: flex; gap: var(--s1) }
 .grid {
   display: grid; gap: var(--s5);
   grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+}
+
+/* List view: the same cards laid on their side, for scanning many systems.
+   One column, thumbnail shrunk to a strip, actions pinned right. */
+.grid[data-view="list"] { grid-template-columns: minmax(0, 1fr); gap: var(--s3) }
+.grid[data-view="list"] .card { flex-direction: row; align-items: stretch }
+.grid[data-view="list"] .thumb {
+  height: auto; width: 176px; flex: none;
+  border-bottom: 0; border-right: 1px solid var(--line);
+  display: grid; place-items: center; padding: var(--s2);
+}
+/* the strip is too small to crop into, so show the whole composition */
+.grid[data-view="list"] .thumb img { object-fit: contain; height: auto }
+.grid[data-view="list"] .card:hover { transform: none; border-color: var(--line-2) }
+.grid[data-view="list"] .body {
+  display: grid; grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center; gap: var(--s2) var(--s5);
+}
+.grid[data-view="list"] .body h2 { grid-column: 1; grid-row: 1 }
+.grid[data-view="list"] .meta { grid-column: 1; grid-row: 2 }
+.grid[data-view="list"] .fit { grid-column: 1; grid-row: 3 }
+.grid[data-view="list"] .actions { grid-column: 2; grid-row: 1 / -1; margin: 0; padding: 0 }
+@media (max-width: 640px) {
+  .grid[data-view="list"] .thumb { display: none }
+  .grid[data-view="list"] .body { grid-template-columns: minmax(0, 1fr) }
+  .grid[data-view="list"] .actions { grid-column: 1; grid-row: auto }
 }
 .card {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
