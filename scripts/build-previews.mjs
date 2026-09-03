@@ -69,8 +69,41 @@ function stage(t, meta) {
     .map(n => `<div class="sw"><i style="background:var(--ds-${n})"></i><code>${n}</code></div>`)
     .join('')
 
+  const bar = (w, n) => `<span class="bar"><i style="width:${w}%;background:var(--ds-chart-${n})"></i></span>`
+
   return `
 <div class="stage">
+  <section class="grp"><h4>Overview</h4>
+    <div class="dash">
+      <div class="dash-top">
+        <div><b>Workspace</b><span>Last updated 12 Aug</span></div>
+        <div class="row">
+          ${has(t, '--ds-button2-bg') ? '<button class="btn b2">Export</button>' : ''}
+          <button class="btn">New record</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>Revenue</span><b>1,284.50</b>${
+          states.length ? `<em class="state s-${states[0][0]}">+12%</em>` : ''}</div>
+        <div class="stat"><span>Active</span><b>48,210</b></div>
+        ${has(t, '--ds-invert-bg') ? `<div class="stat inv"><span>Open items</span><b>26</b>${
+          has(t, '--ds-invert-accent') ? '<em class="chip">+4</em>' : ''}</div>`
+          : '<div class="stat"><span>Open items</span><b>26</b></div>'}
+      </div>
+      ${series.length
+        ? `<div class="bars">${bar(72, series[0])}${bar(48, series[0])}${bar(31, series[0])}</div>`
+        : `<div class="meter">${[1, 1, 1, 1, 1, 0, 0].map(f => `<i class="${f ? 'on' : 'off'}"></i>`).join('')}</div>`}
+      <table>
+        <thead><tr><th>Name</th><th>Status</th><th class="n">Value</th></tr></thead>
+        <tbody>
+          <tr><td>Northwind</td><td>${states[0] ? `<span class="state s-${states[0][0]}">${states[0][1]}</span>` : '—'}</td><td class="n">128</td></tr>
+          <tr><td>Atlas</td><td>${states[1] ? `<span class="state s-${states[1][0]}">${states[1][1]}</span>` : '—'}</td><td class="n">1,284</td></tr>
+          <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section class="grp"><h4>Colour</h4><div class="sws">${swatches}</div></section>
 
   <section class="grp"><h4>Type</h4>
@@ -99,9 +132,9 @@ function stage(t, meta) {
 
   ${group('Forms', rows(`
     <div class="field">
-      <label>Batch number</label>
+      <label>Reference</label>
       <span class="input">AC-4192</span>
-      <em class="help">Printed on the carton.</em>
+      <em class="help">Shown on every record.</em>
     </div>
     ${has(t, '--ds-alarm') ? `<div class="field bad">
       <label>Quantity</label>
@@ -109,54 +142,61 @@ function stage(t, meta) {
       <em class="help err">Must be at least one.</em>
     </div>` : ''}
     <div class="row">
-      <span class="input sel">Supplier<i class="caret"></i></span>
-      <span class="check on"><i></i>Received</span>
-      <span class="check">Damaged</span>
-      <span class="radio on"><i></i>Cash</span>
-      <span class="radio">Card</span>
+      <span class="input sel">Owner<i class="caret"></i></span>
+      <span class="check on"><i></i>Updated</span>
+      <span class="check">Archived</span>
+      <span class="radio on"><i></i>Monthly</span>
+      <span class="radio">Yearly</span>
       <span class="switch on"><i></i></span>
     </div>`))}
 
   ${group('Data', rows(`
     <div class="stats">
       <div class="stat">
-        <span>Revenue today</span><b>1,284.50</b>
+        <span>Revenue</span><b>1,284.50</b>
         ${states.length ? `<em class="state s-${states[0][0]}">+12%</em>` : ''}
       </div>
       ${has(t, '--ds-invert-bg') ? `<div class="stat inv">
-        <span>Stock value</span><b>48,210</b>
+        <span>Active</span><b>48,210</b>
         ${has(t, '--ds-invert-accent') ? '<em class="chip">+4%</em>' : ''}
       </div>` : ''}
     </div>
-    <dl class="kv"><dt>Supplier</dt><dd>Mekong Pharma</dd><dt>Received</dt><dd>12 Aug</dd></dl>
+    <dl class="kv"><dt>Owner</dt><dd>Operations</dd><dt>Updated</dt><dd>12 Aug</dd></dl>
     <div class="meter">${[1, 1, 1, 1, 1, 0, 0].map(f =>
       `<i class="${f ? 'on' : 'off'}"></i>`).join('')}</div>
     <table>
       <thead><tr><th>Item</th><th>Status</th><th class="n">Qty</th></tr></thead>
       <tbody>
-        <tr><td>Paracetamol 500mg</td><td>${states[0] ? `<span class="state s-${states[0][0]}">${states[0][1]}</span>` : '—'}</td><td class="n">128</td></tr>
-        <tr><td>Amoxicillin 250mg</td><td>${states[1] ? `<span class="state s-${states[1][0]}">${states[1][1]}</span>` : '—'}</td><td class="n">1,284</td></tr>
-        <tr><td>Saline 500ml</td><td>—</td><td class="n">6</td></tr>
+        <tr><td>Northwind</td><td>${states[0] ? `<span class="state s-${states[0][0]}">${states[0][1]}</span>` : '—'}</td><td class="n">128</td></tr>
+        <tr><td>Atlas</td><td>${states[1] ? `<span class="state s-${states[1][0]}">${states[1][1]}</span>` : '—'}</td><td class="n">1,284</td></tr>
+        <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
       </tbody>
     </table>
     <div class="row pager">
       <span class="pg">Prev</span><span class="pg on">1</span><span class="pg">2</span>
       <span class="pg">3</span><span class="pg">Next</span>
     </div>
+    <div class="prog"><i style="width:62%"></i></div>
+    <div class="slider"><span class="track"><i style="width:44%"></i></span><span class="knob"></span></div>
+    <div class="avatars"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
     <div class="skel"><i></i><i></i><i></i></div>
+    <details class="acc" open><summary>What this system refuses</summary>
+      <p>Declining an alias is a statement, not a gap.</p></details>
+    <details class="acc"><summary>How spacing is derived</summary>
+      <p>From the declared step, or from the density field.</p></details>
     <p class="none">No records match this filter.</p>`))}
 
   ${group('Navigation', rows(`
-    <div class="tabs"><span class="on">Stock</span><span>Orders</span><span>Suppliers</span></div>
-    <div class="bcrumb">Inventory <i>/</i> Stock <b>Paracetamol</b></div>
+    <div class="tabs"><span class="on">Records</span><span>Reports</span><span>Owners</span></div>
+    <div class="bcrumb">Workspace <i>/</i> Records <b>Northwind</b></div>
     ${has(t, '--ds-invert-bg') ? `<div class="rail">
-      <span class="on">Dashboard</span><span>Stock</span><span>Orders</span></div>`
+      <span class="on">Dashboard</span><span>Records</span><span>Reports</span></div>`
       : `<div class="railplain">
-      <span class="on">Dashboard</span><span>Stock</span><span>Orders</span></div>`}`))}
+      <span class="on">Dashboard</span><span>Records</span><span>Reports</span></div>`}`))}
 
   ${group('Feedback',
     states.length ? rows(states.map(([k, label]) =>
-      `<div class="alert a-${k}"><b>${label}</b> Two batches expire within seven days.</div>`).join('')
+      `<div class="alert a-${k}"><b>${label}</b> Three items need review before Friday.</div>`).join('')
       + (has(t, '--ds-shadow-surface')
         ? '<div class="toast">Saved</div>'
         : '<p class="none">No floating surface: this system declares no elevation for one.</p>')
@@ -256,6 +296,18 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .rule{border:0;border-top:1px solid var(--ds-line);margin:0;width:100%}
 .none{font-size:12px;color:var(--ds-text-3)}
 
+/* overview */
+.dash{background:var(--ds-surface);border:var(--_border);border-radius:var(--ds-radius-box);
+  padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap)}
+.dash-top{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
+.dash-top > div:first-child{display:flex;flex-direction:column;gap:2px}
+.dash-top b{font-family:var(--ds-font-display);font-size:17px;font-weight:700}
+.dash-top span{font-size:11.5px;color:var(--ds-text-3)}
+.dash-top .row{margin-left:auto}
+.dash .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--_gap)}
+.dash .stat{min-width:0}
+.dash table{margin-top:2px}
+
 /* colour */
 .sws{display:flex;flex-wrap:wrap;gap:var(--_gap)}
 .sw{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ds-text-3)}
@@ -331,6 +383,22 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .pg{border-radius:var(--ds-radius-control);padding:4px 10px;font:500 12px/1.5 var(--_data);
   color:var(--ds-text-2);background:var(--ds-line)}
 .pg.on{background:var(--ds-text);color:var(--ds-bg)}
+.prog{height:8px;border-radius:var(--ds-radius-control);background:var(--ds-line);overflow:hidden;max-width:280px}
+.prog i{display:block;height:100%;background:var(--ds-text);border-radius:var(--ds-radius-control)}
+.slider{display:flex;align-items:center;max-width:280px;position:relative}
+.slider .track{flex:1;height:5px;border-radius:var(--ds-radius-control);background:var(--ds-line);overflow:hidden}
+.slider .track i{display:block;height:100%;background:var(--ds-text)}
+.slider .knob{width:15px;height:15px;border-radius:999px;background:var(--ds-surface);
+  border:2px solid var(--ds-text);margin-left:-8px}
+.avatars{display:flex}
+.avatars span{display:grid;place-items:center;width:26px;height:26px;border-radius:999px;
+  background:var(--ds-line);color:var(--ds-text-2);font:700 10px/1 var(--_data);
+  margin-left:-7px;box-shadow:0 0 0 2px var(--ds-bg)}
+.avatars span:first-child{margin-left:0}
+.avatars .more{background:var(--ds-text);color:var(--ds-bg)}
+.acc{border-bottom:1px solid var(--ds-line);padding:8px 0;max-width:340px}
+.acc summary{cursor:pointer;font-size:13px;font-weight:600}
+.acc p{margin:6px 0 0;font-size:12.5px;color:var(--ds-text-2)}
 .skel{display:flex;flex-direction:column;gap:6px;max-width:280px}
 .skel i{height:9px;border-radius:var(--ds-radius-control);background:var(--ds-line)}
 .skel i:nth-child(2){width:74%}.skel i:nth-child(3){width:52%}

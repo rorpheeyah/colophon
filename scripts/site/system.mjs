@@ -62,6 +62,8 @@ export const systemPage = (s, all) => shell({
         <button class="chip" data-pmode="light" aria-pressed="false">Light</button>
         <button class="chip" data-pmode="dark" aria-pressed="false">Dark</button>
       </span>` : html`<span class="fine">Dark mode was not published for this system</span>`}
+      <a class="full" href="preview.html" target="_blank" rel="noreferrer"
+         title="Open the preview with no chrome around it">Full screen &#8599;</a>
     </b>
     <div class="pvpair" id="pvpair">
       <div class="pv-light">${s.hasDark ? html`<b>Light</b>` : ''}

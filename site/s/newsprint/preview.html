@@ -122,6 +122,18 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .rule{border:0;border-top:1px solid var(--ds-line);margin:0;width:100%}
 .none{font-size:12px;color:var(--ds-text-3)}
 
+/* overview */
+.dash{background:var(--ds-surface);border:var(--_border);border-radius:var(--ds-radius-box);
+  padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap)}
+.dash-top{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
+.dash-top > div:first-child{display:flex;flex-direction:column;gap:2px}
+.dash-top b{font-family:var(--ds-font-display);font-size:17px;font-weight:700}
+.dash-top span{font-size:11.5px;color:var(--ds-text-3)}
+.dash-top .row{margin-left:auto}
+.dash .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--_gap)}
+.dash .stat{min-width:0}
+.dash table{margin-top:2px}
+
 /* colour */
 .sws{display:flex;flex-wrap:wrap;gap:var(--_gap)}
 .sw{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--ds-text-3)}
@@ -197,6 +209,22 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .pg{border-radius:var(--ds-radius-control);padding:4px 10px;font:500 12px/1.5 var(--_data);
   color:var(--ds-text-2);background:var(--ds-line)}
 .pg.on{background:var(--ds-text);color:var(--ds-bg)}
+.prog{height:8px;border-radius:var(--ds-radius-control);background:var(--ds-line);overflow:hidden;max-width:280px}
+.prog i{display:block;height:100%;background:var(--ds-text);border-radius:var(--ds-radius-control)}
+.slider{display:flex;align-items:center;max-width:280px;position:relative}
+.slider .track{flex:1;height:5px;border-radius:var(--ds-radius-control);background:var(--ds-line);overflow:hidden}
+.slider .track i{display:block;height:100%;background:var(--ds-text)}
+.slider .knob{width:15px;height:15px;border-radius:999px;background:var(--ds-surface);
+  border:2px solid var(--ds-text);margin-left:-8px}
+.avatars{display:flex}
+.avatars span{display:grid;place-items:center;width:26px;height:26px;border-radius:999px;
+  background:var(--ds-line);color:var(--ds-text-2);font:700 10px/1 var(--_data);
+  margin-left:-7px;box-shadow:0 0 0 2px var(--ds-bg)}
+.avatars span:first-child{margin-left:0}
+.avatars .more{background:var(--ds-text);color:var(--ds-bg)}
+.acc{border-bottom:1px solid var(--ds-line);padding:8px 0;max-width:340px}
+.acc summary{cursor:pointer;font-size:13px;font-weight:600}
+.acc p{margin:6px 0 0;font-size:12.5px;color:var(--ds-text-2)}
 .skel{display:flex;flex-direction:column;gap:6px;max-width:280px}
 .skel i{height:9px;border-radius:var(--ds-radius-control);background:var(--ds-line)}
 .skel i:nth-child(2){width:74%}.skel i:nth-child(3){width:52%}
@@ -270,6 +298,32 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
 </div>
 
 <div class="stage">
+  <section class="grp"><h4>Overview</h4>
+    <div class="dash">
+      <div class="dash-top">
+        <div><b>Workspace</b><span>Last updated 12 Aug</span></div>
+        <div class="row">
+          <button class="btn b2">Export</button>
+          <button class="btn">New record</button>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><span>Revenue</span><b>1,284.50</b><em class="state s-success">+12%</em></div>
+        <div class="stat"><span>Active</span><b>48,210</b></div>
+        <div class="stat"><span>Open items</span><b>26</b></div>
+      </div>
+      <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></div>
+      <table>
+        <thead><tr><th>Name</th><th>Status</th><th class="n">Value</th></tr></thead>
+        <tbody>
+          <tr><td>Northwind</td><td><span class="state s-success">Resolved</span></td><td class="n">128</td></tr>
+          <tr><td>Atlas</td><td><span class="state s-warn">Attention</span></td><td class="n">1,284</td></tr>
+          <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section class="grp"><h4>Colour</h4><div class="sws"><div class="sw"><i style="background:var(--ds-bg)"></i><code>bg</code></div><div class="sw"><i style="background:var(--ds-surface)"></i><code>surface</code></div><div class="sw"><i style="background:var(--ds-accent)"></i><code>accent</code></div><div class="sw"><i style="background:var(--ds-line)"></i><code>line</code></div><div class="sw"><i style="background:var(--ds-text)"></i><code>text</code></div><div class="sw"><i style="background:var(--ds-text-2)"></i><code>text-2</code></div><div class="sw"><i style="background:var(--ds-text-3)"></i><code>text-3</code></div><div class="sw"><i style="background:var(--ds-success)"></i><code>success</code></div><div class="sw"><i style="background:var(--ds-warn)"></i><code>warn</code></div><div class="sw"><i style="background:var(--ds-alarm)"></i><code>alarm</code></div></div></section>
 
   <section class="grp"><h4>Type</h4>
@@ -298,9 +352,9 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
 
   <section class="grp"><h4>Forms</h4><div class="rows">
     <div class="field">
-      <label>Batch number</label>
+      <label>Reference</label>
       <span class="input">AC-4192</span>
-      <em class="help">Printed on the carton.</em>
+      <em class="help">Shown on every record.</em>
     </div>
     <div class="field bad">
       <label>Quantity</label>
@@ -308,46 +362,53 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
       <em class="help err">Must be at least one.</em>
     </div>
     <div class="row">
-      <span class="input sel">Supplier<i class="caret"></i></span>
-      <span class="check on"><i></i>Received</span>
-      <span class="check">Damaged</span>
-      <span class="radio on"><i></i>Cash</span>
-      <span class="radio">Card</span>
+      <span class="input sel">Owner<i class="caret"></i></span>
+      <span class="check on"><i></i>Updated</span>
+      <span class="check">Archived</span>
+      <span class="radio on"><i></i>Monthly</span>
+      <span class="radio">Yearly</span>
       <span class="switch on"><i></i></span>
     </div></div></section>
 
   <section class="grp"><h4>Data</h4><div class="rows">
     <div class="stats">
       <div class="stat">
-        <span>Revenue today</span><b>1,284.50</b>
+        <span>Revenue</span><b>1,284.50</b>
         <em class="state s-success">+12%</em>
       </div>
       
     </div>
-    <dl class="kv"><dt>Supplier</dt><dd>Mekong Pharma</dd><dt>Received</dt><dd>12 Aug</dd></dl>
+    <dl class="kv"><dt>Owner</dt><dd>Operations</dd><dt>Updated</dt><dd>12 Aug</dd></dl>
     <div class="meter"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i class="off"></i><i class="off"></i></div>
     <table>
       <thead><tr><th>Item</th><th>Status</th><th class="n">Qty</th></tr></thead>
       <tbody>
-        <tr><td>Paracetamol 500mg</td><td><span class="state s-success">Resolved</span></td><td class="n">128</td></tr>
-        <tr><td>Amoxicillin 250mg</td><td><span class="state s-warn">Attention</span></td><td class="n">1,284</td></tr>
-        <tr><td>Saline 500ml</td><td>—</td><td class="n">6</td></tr>
+        <tr><td>Northwind</td><td><span class="state s-success">Resolved</span></td><td class="n">128</td></tr>
+        <tr><td>Atlas</td><td><span class="state s-warn">Attention</span></td><td class="n">1,284</td></tr>
+        <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
       </tbody>
     </table>
     <div class="row pager">
       <span class="pg">Prev</span><span class="pg on">1</span><span class="pg">2</span>
       <span class="pg">3</span><span class="pg">Next</span>
     </div>
+    <div class="prog"><i style="width:62%"></i></div>
+    <div class="slider"><span class="track"><i style="width:44%"></i></span><span class="knob"></span></div>
+    <div class="avatars"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
     <div class="skel"><i></i><i></i><i></i></div>
+    <details class="acc" open><summary>What this system refuses</summary>
+      <p>Declining an alias is a statement, not a gap.</p></details>
+    <details class="acc"><summary>How spacing is derived</summary>
+      <p>From the declared step, or from the density field.</p></details>
     <p class="none">No records match this filter.</p></div></section>
 
   <section class="grp"><h4>Navigation</h4><div class="rows">
-    <div class="tabs"><span class="on">Stock</span><span>Orders</span><span>Suppliers</span></div>
-    <div class="bcrumb">Inventory <i>/</i> Stock <b>Paracetamol</b></div>
+    <div class="tabs"><span class="on">Records</span><span>Reports</span><span>Owners</span></div>
+    <div class="bcrumb">Workspace <i>/</i> Records <b>Northwind</b></div>
     <div class="railplain">
-      <span class="on">Dashboard</span><span>Stock</span><span>Orders</span></div></div></section>
+      <span class="on">Dashboard</span><span>Records</span><span>Reports</span></div></div></section>
 
-  <section class="grp"><h4>Feedback</h4><div class="rows"><div class="alert a-success"><b>Resolved</b> Two batches expire within seven days.</div><div class="alert a-warn"><b>Attention</b> Two batches expire within seven days.</div><div class="alert a-alarm"><b>Overdue</b> Two batches expire within seven days.</div><p class="none">No floating surface: this system declares no elevation for one.</p><p class="none">No dialog: this system declares no scrim.</p></div></section>
+  <section class="grp"><h4>Feedback</h4><div class="rows"><div class="alert a-success"><b>Resolved</b> Three items need review before Friday.</div><div class="alert a-warn"><b>Attention</b> Three items need review before Friday.</div><div class="alert a-alarm"><b>Overdue</b> Three items need review before Friday.</div><p class="none">No floating surface: this system declares no elevation for one.</p><p class="none">No dialog: this system declares no scrim.</p></div></section>
 
   
 
