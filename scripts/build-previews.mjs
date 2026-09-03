@@ -462,16 +462,19 @@ ${tipStyle ? `.tip{position:fixed;z-index:9;pointer-events:none;${tipStyle};
 .check,.radio{display:inline-flex;align-items:center;gap:7px;font-size:13px;
   color:var(--clp-text-2);cursor:pointer}
 .check input,.radio input,.switch input{position:absolute;opacity:0;width:0;height:0}
-.check span,.radio span{width:15px;height:15px;box-sizing:border-box;flex:none;
-  border:1px solid var(--clp-line);background:var(--clp-bg)}
+.check span,.radio span{position:relative;width:15px;height:15px;box-sizing:border-box;
+  flex:none;border:1px solid var(--clp-line);background:var(--clp-bg)}
 .check span{border-radius:var(--clp-radius-box)}
-.radio span{border-radius:999px}
-.check :checked + span,.radio :checked + span{background:var(--clp-text);border-color:var(--clp-text)}
+.radio span{border-radius:var(--clp-radius-control)}
+.check :checked + span{background:var(--clp-text);border-color:var(--clp-text)}
+.radio :checked + span{border-color:var(--clp-text)}
+.radio :checked + span::after{content:"";position:absolute;inset:3px;
+  border-radius:var(--clp-radius-control);background:var(--clp-text)}
 .check:has(:checked),.radio:has(:checked){color:var(--clp-text)}
 .switch{position:relative;display:inline-flex;width:34px;height:19px;cursor:pointer}
-.switch span{position:absolute;inset:0;border-radius:999px;background:var(--clp-line)}
+.switch span{position:absolute;inset:0;border-radius:var(--clp-radius-control);background:var(--clp-line)}
 .switch span::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;
-  border-radius:999px;background:var(--clp-bg);transition:left .13s}
+  border-radius:var(--clp-radius-control);background:var(--clp-bg);transition:left .13s}
 .switch :checked + span{background:var(--clp-text)}
 .switch :checked + span::after{left:17px}
 .sel{display:inline-flex}
@@ -509,13 +512,12 @@ input.input{font:13px var(--clp-font-body);width:100%}
 .slider{display:flex;align-items:center;max-width:280px;position:relative}
 .slider .track{flex:1;height:5px;border-radius:var(--clp-radius-control);background:var(--clp-line);overflow:hidden}
 .slider .track i{display:block;height:100%;background:var(--clp-text)}
-.slider .knob{width:15px;height:15px;border-radius:999px;background:var(--clp-surface);
+.slider .knob{width:15px;height:15px;border-radius:var(--clp-radius-control);background:var(--clp-surface);
   border:2px solid var(--clp-text);margin-left:-8px}
-.avatars{display:flex}
-.avatars span{display:grid;place-items:center;width:26px;height:26px;border-radius:999px;
-  background:var(--clp-line);color:var(--clp-text-2);font:700 10px/1 var(--_data);
-  margin-left:-7px;box-shadow:0 0 0 2px var(--clp-bg)}
-.avatars span:first-child{margin-left:0}
+.avatars{display:flex;gap:4px}
+.avatars span{display:grid;place-items:center;width:26px;height:26px;
+  border-radius:var(--clp-radius-control);background:var(--clp-line);
+  color:var(--clp-text-2);font:700 10px/1 var(--_data)}
 .avatars .more{background:var(--clp-text);color:var(--clp-bg)}
 .acc{border-bottom:1px solid var(--clp-line);padding:8px 0;max-width:340px}
 .acc summary{cursor:pointer;font-size:13px;font-weight:600}
@@ -674,6 +676,43 @@ ${stage(t, meta)}
 `
 }
 
+/**
+ * The template may not assert an appearance. Everything after the marker
+ * renders the system, so a colour, a radius or a shadow there has to come from
+ * a declaration — otherwise the preview is showing the template's taste in the
+ * system's clothes, which is the one thing this whole format exists to stop.
+ *
+ * Line *widths* are out of scope and stay a template decision; see the list in
+ * CLAUDE.md. This catches the class that actually went wrong four times.
+ */
+const MARKER = 'Everything below reads --clp-* only'
+
+export function assertNoAppearanceLiterals(html, slug) {
+  const at = html.indexOf(MARKER)
+  if (at === -1) throw new Error(`${slug}: template marker missing; the check cannot scope itself`)
+  const region = html.slice(at, html.indexOf('</style>', at))
+  const bad = []
+
+  for (const m of region.matchAll(/#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\s*\(/g)) {
+    bad.push(`colour literal \`${m[0]}\``)
+  }
+  for (const m of region.matchAll(/border-radius\s*:\s*([^;}]+)/g)) {
+    if (!m[1].includes('var(')) bad.push(`radius not from a declaration: \`${m[1].trim()}\``)
+  }
+  for (const m of region.matchAll(/box-shadow\s*:\s*([^;}]+)/g)) {
+    const v = m[1].trim()
+    if (v !== 'none' && !/^var\(--clp-[a-z-]+\)$/.test(v)) {
+      bad.push(`shadow not from a declaration: \`${v}\``)
+    }
+  }
+
+  if (bad.length) {
+    throw new Error(`${slug}: the template asserts ${bad.length} appearance value(s) ` +
+      `the system did not declare:\n  - ` + [...new Set(bad)].join('\n  - '))
+  }
+  return html
+}
+
 // ── run ──────────────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2)
@@ -687,7 +726,7 @@ for (const slug of slugs) {
   if (!sys) { console.error(`no such system: ${slug}`); process.exit(2) }
 
   const block = tokensBlock(sys.blocks)[0]
-  const files = [['preview.html', render(sys)]]
+  const files = [['preview.html', assertNoAppearanceLiterals(render(sys), slug)]]
   if (block) {
     for (const mode of ['light', 'dark']) {
       const svg = thumbnail(block.code, mode)
