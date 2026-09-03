@@ -399,7 +399,11 @@ misplace a declared one.
   system declares none of the three.
 - **A state** is a fill with `--clp-state-text`, else coloured text on a wash, else coloured
   text with a border of the same colour.
-- **A table** is fully gridded where `--clp-border-width` is non-zero and row-ruled otherwise.
+- **A table** is enclosed the way the system encloses things: an edge where `--clp-border-width`
+  is non-zero, giving a full grid, and a **surface step** where it is `0` — the table sits on
+  `--clp-surface` against the page, with `--clp-radius-box`. Lozenge asks for exactly that:
+  "Separation comes from surface steps... if you reach for a border, you have missed a surface
+  step," and its `Never` list forbids "a border anywhere".
 - **A delta** takes its colour from its direction, and shows unstated where the direction has
   no declared colour.
 - **Thumbnails carry no typeface** — an `<img>` cannot load one, so text is set in the generic

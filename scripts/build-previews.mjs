@@ -152,14 +152,14 @@ function stage(t, meta) {
         </div>
       </div>
 
-      <table>
+      <div class="tblock"><table>
         <thead><tr><th>Name</th><th>Status</th><th class="n">Value</th></tr></thead>
         <tbody>
           <tr><td>Northwind</td><td>${states[0] ? `<span class="state s-${states[0][0]}">${states[0][1]}</span>` : '\u2014'}</td><td class="n">128</td></tr>
           <tr><td>Atlas</td><td>${states[1] ? `<span class="state s-${states[1][0]}">${states[1][1]}</span>` : '\u2014'}</td><td class="n">1,284</td></tr>
           <tr><td>Beacon</td><td>\u2014</td><td class="n">6</td></tr>
         </tbody>
-      </table>
+      </table></div>
     </div>
   </section>
 
@@ -225,7 +225,7 @@ function stage(t, meta) {
     <dl class="kv"><dt>Owner</dt><dd>Operations</dd><dt>Updated</dt><dd>12 Aug</dd></dl>
     <div class="meter">${[1, 1, 1, 1, 1, 0, 0].map(f =>
       `<i class="${f ? 'on' : 'off'}"></i>`).join('')}</div>
-    <table>
+    <div class="tblock"><table>
       <thead><tr><th>Item</th><th>Status</th><th class="n">Qty</th></tr></thead>
       <tbody>
         <tr><td>Northwind</td><td>${states[0] ? `<span class="state s-${states[0][0]}">${states[0][1]}</span>` : '—'}</td><td class="n">128</td></tr>
@@ -587,8 +587,13 @@ ${['success', 'warn', 'alarm'].filter(k => has(t, `--clp-${k}`)).map(k => {
 /* table */
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 td,th{overflow:hidden;text-overflow:ellipsis}
-${/^0[a-z]*$/.test(t.get('--clp-border-width') ?? '0') ? '' : `
-th,td{border:1px solid var(--clp-line)}
+${/^0[a-z]*$/.test(t.get('--clp-border-width') ?? '0')
+  ? `.tblock{background:var(--clp-surface);border-radius:var(--clp-radius-box);overflow:hidden}
+.tblock th{padding-top:11px}
+.tblock tr:last-child td{border-bottom:0}
+.tblock th:first-child,.tblock td:first-child{padding-left:14px}
+.tblock th:last-child,.tblock td:last-child{padding-right:14px}`
+  : `th,td{border:1px solid var(--clp-line)}
 table{border:1px solid var(--clp-line)}`}
 th{text-align:left;font:700 10px/1.6 var(--_data);letter-spacing:.07em;text-transform:uppercase;
    color:var(--clp-text-2);padding:6px 8px;border-bottom:1px solid var(--clp-line)}
