@@ -64,6 +64,10 @@ for (const s of all) {
   files.set(`s/${s.slug}/index.html`, assertScriptsParse(String(systemPage(s, all)), `s/${s.slug}/index.html`))
   files.set(`s/${s.slug}/${s.slug}.md`, readFileSync(join(dir, `${s.slug}.md`), 'utf8'))
   files.set(`s/${s.slug}/preview.html`, readFileSync(join(dir, 'preview.html'), 'utf8'))
+  for (const mode of ['light', 'dark']) {
+    const thumb = join(dir, `thumb-${mode}.svg`)
+    if (existsSync(thumb)) files.set(`s/${s.slug}/thumb-${mode}.svg`, readFileSync(thumb, 'utf8'))
+  }
 }
 
 const builtSlugs = () => existsSync(join(ROOT, 'site', 's')) ? readdirSync(join(ROOT, 'site', 's')) : []
