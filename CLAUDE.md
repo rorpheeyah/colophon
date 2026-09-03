@@ -219,7 +219,7 @@ light value: `--paper` goes dark, `--ds-bg` does not, and dark mode silently doe
 root is the only place the substitution sees the dark tokens. The preview generator therefore
 renders one mode per document and sets `data-mode` on `<html>`.
 
-**All 39 aliases are required.** A system that does not have a concept declares `none`:
+**All 41 aliases are required.** A system that does not have a concept declares `none`:
 
 ```css
 --ds-success: none;
@@ -244,6 +244,8 @@ it said so.
 | `--ds-border-width` | Container edge; `0` if the system forbids borders | |
 | `--ds-border-color` | Container edge colour | yes |
 | `--ds-shadow` | Full `box-shadow` value, applied to controls only | yes |
+| `--ds-press` | `transform` for a control being pressed | yes |
+| `--ds-focus` | Keyboard focus ring colour | yes |
 | `--ds-button-bg` | Primary button fill | |
 | `--ds-button-text` | Primary button text | |
 | `--ds-button2-bg` | Secondary button fill; its text is `--ds-text` | yes |
@@ -320,6 +322,18 @@ no fallback to the accent. Text in a chart wears `--ds-text-*`, never a series c
 identity is carried by the mark beside a label rather than by the label. Grid and axis lines
 are `--ds-line` and stay recessive. A legend appears for two or more series and never for one,
 where the card title already names the series.
+
+### Interaction states
+
+`--ds-press` is the `transform` a control takes while it is being pressed — Newsprint declares
+`translate(var(--offset), var(--offset))`, which is its whole interaction language and which no
+preview showed until it could be declared. **A system that declares both a press transform and a
+shadow has its shadow flattened on press**, because a control that moves has to land somewhere;
+that is the template's reading, stated here so it is not a surprise.
+
+`--ds-focus` is the keyboard focus ring. Declining it does **not** mean no focus ring — it means
+the platform's own ring stands, which is the accessible default. The template never removes a
+focus indicator, only replaces one the system asked for.
 
 The status colours are reserved. They are never reused as a series, and a delta takes its
 colour from its direction — a system with no success colour shows a rise unstated rather than

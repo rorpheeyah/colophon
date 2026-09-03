@@ -170,21 +170,22 @@ function stage(t, meta) {
   ${group('Forms', rows(`
     <div class="field">
       <label>Reference</label>
-      <span class="input">AC-4192</span>
+      <input class="input" value="AC-4192" aria-label="Reference">
       <em class="help">Shown on every record.</em>
     </div>
     ${has(t, '--ds-alarm') ? `<div class="field bad">
       <label>Quantity</label>
-      <span class="input err">0</span>
+      <input class="input err" value="0" aria-label="Quantity" aria-invalid="true">
       <em class="help err">Must be at least one.</em>
     </div>` : ''}
     <div class="row">
-      <span class="input sel">Owner<i class="caret"></i></span>
-      <span class="check on"><i></i>Updated</span>
-      <span class="check">Archived</span>
-      <span class="radio on"><i></i>Monthly</span>
-      <span class="radio">Yearly</span>
-      <span class="switch on"><i></i></span>
+      <label class="sel"><select><option>Owner</option><option>Operations</option>
+        <option>Finance</option></select></label>
+      <label class="check"><input type="checkbox" checked><span></span>Updated</label>
+      <label class="check"><input type="checkbox"><span></span>Archived</label>
+      <label class="radio"><input type="radio" name="plan" checked><span></span>Monthly</label>
+      <label class="radio"><input type="radio" name="plan"><span></span>Yearly</label>
+      <label class="switch"><input type="checkbox" checked><span></span></label>
     </div>`))}
 
   ${group('Data', rows(`
@@ -210,8 +211,8 @@ function stage(t, meta) {
       </tbody>
     </table>
     <div class="row pager">
-      <span class="pg">Prev</span><span class="pg on">1</span><span class="pg">2</span>
-      <span class="pg">3</span><span class="pg">Next</span>
+      <button class="pg" data-step>Prev</button><button class="pg on" aria-current="page">1</button>
+      <button class="pg">2</button><button class="pg">3</button><button class="pg" data-step>Next</button>
     </div>
     <div class="prog"><i style="width:62%"></i></div>
     <div class="slider"><span class="track"><i style="width:44%"></i></span><span class="knob"></span></div>
@@ -224,12 +225,13 @@ function stage(t, meta) {
     <p class="none">No records match this filter.</p>`))}
 
   ${group('Navigation', rows(`
-    <div class="tabs"><span class="on">Records</span><span>Reports</span><span>Owners</span></div>
+    <div class="tabs" role="tablist"><button role="tab" aria-selected="true">Records</button>
+      <button role="tab" aria-selected="false">Reports</button>
+      <button role="tab" aria-selected="false">Owners</button></div>
     <div class="bcrumb">Workspace <i>/</i> Records <b>Northwind</b></div>
-    ${has(t, '--ds-invert-bg') ? `<div class="rail">
-      <span class="on">Dashboard</span><span>Records</span><span>Reports</span></div>`
-      : `<div class="railplain">
-      <span class="on">Dashboard</span><span>Records</span><span>Reports</span></div>`}`))}
+    <div class="${has(t, '--ds-invert-bg') ? 'rail' : 'railplain'}">
+      <button class="on" aria-current="page">Dashboard</button>
+      <button>Records</button><button>Reports</button></div>`))}
 
   ${group('Feedback',
     states.length ? rows(states.map(([k, label]) =>
@@ -278,6 +280,7 @@ function render(sys) {
     `--_pad: ${ref(t, '--ds-pad', density.pad)};`,
     `--_data: ${ref(t, '--ds-font-data', 'var(--ds-font-body)')};`,
     `--_script: ${ref(t, '--ds-font-script', 'var(--ds-font-body)')};`,
+    `--_press: ${ref(t, '--ds-press', 'none')};`,
     `--_border: ${has(t, '--ds-border-color') ? 'var(--ds-border-width) solid var(--ds-border-color)' : '0'};`,
   ].join(' ')
 
@@ -352,6 +355,15 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .panel-h b{font-family:var(--ds-font-display);font-size:14px;font-weight:700}
 .panel-h span{font-size:11px;color:var(--ds-text-3);margin-left:auto}
 
+/* Press and focus come from the system. A control that moves has to land
+   somewhere, so a system declaring both a press transform and a shadow has the
+   shadow flattened while pressed. Declining --ds-focus leaves the platform's
+   own ring in place rather than removing the indicator. */
+.btn:active,.pg:active,.tabs button:active,.chip:active{transform:var(--_press)}
+${has(t, '--ds-press') && has(t, '--ds-shadow') ? '.btn:active{box-shadow:none}' : ''}
+${has(t, '--ds-focus') ? `:focus-visible{outline:2px solid var(--ds-focus);outline-offset:2px}` : ''}
+button,select,input,summary{font-family:inherit}
+
 /* charts — marks take the declared series colours, text never does */
 .chart{display:block;width:100%;height:auto}
 .ax{font:500 9px var(--_data);fill:var(--ds-text-3);letter-spacing:.04em}
@@ -412,19 +424,26 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .input.err{outline:1px solid var(--ds-alarm);outline-offset:-1px}
 .input.sel{display:inline-flex;align-items:center;gap:8px;color:var(--ds-text-2)}
 .caret{width:0;height:0;border:4px solid transparent;border-top-color:var(--ds-text-3);margin-top:3px}
-.check,.radio{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ds-text-2)}
-.check::before,.radio::before{content:"";width:15px;height:15px;box-sizing:border-box;
+.check,.radio{display:inline-flex;align-items:center;gap:7px;font-size:13px;
+  color:var(--ds-text-2);cursor:pointer}
+.check input,.radio input,.switch input{position:absolute;opacity:0;width:0;height:0}
+.check span,.radio span{width:15px;height:15px;box-sizing:border-box;flex:none;
   border:1px solid var(--ds-line);background:var(--ds-bg)}
-.check::before{border-radius:var(--ds-radius-box)}
-.radio::before{border-radius:999px}
-.check.on::before,.radio.on::before{background:var(--ds-text);border-color:var(--ds-text)}
-.check.on,.radio.on{color:var(--ds-text)}
-.check i,.radio i{display:none}
-.switch{width:34px;height:19px;border-radius:999px;background:var(--ds-line);position:relative;display:inline-block}
-.switch.on{background:var(--ds-text)}
-.switch i{position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:999px;
-  background:var(--ds-bg)}
-.switch.on i{left:17px}
+.check span{border-radius:var(--ds-radius-box)}
+.radio span{border-radius:999px}
+.check :checked + span,.radio :checked + span{background:var(--ds-text);border-color:var(--ds-text)}
+.check:has(:checked),.radio:has(:checked){color:var(--ds-text)}
+.switch{position:relative;display:inline-flex;width:34px;height:19px;cursor:pointer}
+.switch span{position:absolute;inset:0;border-radius:999px;background:var(--ds-line)}
+.switch span::after{content:"";position:absolute;top:2px;left:2px;width:15px;height:15px;
+  border-radius:999px;background:var(--ds-bg);transition:left .13s}
+.switch :checked + span{background:var(--ds-text)}
+.switch :checked + span::after{left:17px}
+.sel{display:inline-flex}
+.sel select{background:var(--ds-bg);color:var(--ds-text);border:var(--_border);
+  border-radius:var(--ds-radius-control);padding:9px 13px;font:13px var(--ds-font-body);cursor:pointer}
+input.input{font:13px var(--ds-font-body);width:100%}
+.tabs button,.pg,.rail button,.railplain button{font:inherit;cursor:pointer;border:0;background:none}
 
 /* data */
 .stats{display:flex;gap:var(--_gap);flex-wrap:wrap}
@@ -472,18 +491,20 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 
 /* navigation */
 .tabs{display:flex;gap:var(--_gap);border-bottom:1px solid var(--ds-line)}
-.tabs span{font-size:13px;color:var(--ds-text-3);padding:0 0 7px;border-bottom:2px solid transparent}
-.tabs span.on{color:var(--ds-text);font-weight:600;border-bottom-color:var(--ds-text)}
+.tabs button{font-size:13px;color:var(--ds-text-3);padding:0 0 7px;border-bottom:2px solid transparent}
+.tabs button[aria-selected="true"]{color:var(--ds-text);font-weight:600;border-bottom-color:var(--ds-text)}
 .bcrumb{font-size:12.5px;color:var(--ds-text-3);display:flex;gap:6px;align-items:center}
 .bcrumb i{font-style:normal}
 .bcrumb b{color:var(--ds-text);font-weight:500}
 .rail{background:var(--ds-invert-bg);color:var(--ds-invert-text);border-radius:var(--ds-radius-box);
   padding:8px;display:flex;flex-direction:column;gap:3px;max-width:180px}
-.rail span{border-radius:var(--ds-radius-control);padding:7px 11px;font-size:13px;opacity:.7}
-.rail span.on{background:var(--ds-invert-accent);color:var(--ds-invert-bg);font-weight:700;opacity:1}
+.rail button{border-radius:var(--ds-radius-control);padding:7px 11px;font-size:13px;
+  opacity:.7;color:inherit;text-align:left}
+.rail button.on{background:var(--ds-invert-accent);color:var(--ds-invert-bg);font-weight:700;opacity:1}
 .railplain{display:flex;flex-direction:column;max-width:180px}
-.railplain span{padding:7px 0;font-size:13px;color:var(--ds-text-2);border-bottom:1px solid var(--ds-line)}
-.railplain span.on{color:var(--ds-text);font-weight:600}
+.railplain button{padding:7px 0;font-size:13px;color:var(--ds-text-2);text-align:left;
+  border-bottom:1px solid var(--ds-line)}
+.railplain button.on{color:var(--ds-text);font-weight:600}
 
 /* feedback */
 .state{border-radius:var(--ds-radius-control);padding:3px 10px;
@@ -559,6 +580,24 @@ ${stage(t, meta)}
   const q = new URLSearchParams(location.search)
   const root = document.documentElement
   if (q.get('chrome') === '0') root.dataset.nochrome = ''
+  // Tabs, pagination and the nav rail move between two states the system has
+  // already declared — active and inactive. Nothing here invents a treatment;
+  // it only changes which element wears the one that exists. Card thumbnails
+  // set pointer-events:none, so they stay still.
+  for (const group of document.querySelectorAll('[role="tablist"], .pager, .rail, .railplain')) {
+    group.addEventListener('click', e => {
+      const hit = e.target.closest('button')
+      if (!hit || hit.dataset.step !== undefined) return
+      const tabs = group.getAttribute('role') === 'tablist'
+      for (const b of group.querySelectorAll('button')) {
+        if (b.dataset.step !== undefined) continue
+        const on = b === hit
+        if (tabs) b.setAttribute('aria-selected', String(on))
+        else { b.classList.toggle('on', on); on ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current') }
+      }
+    })
+  }
+
   if (q.get('mode') === 'dark') {
     if (${hasDark}) root.dataset.mode = 'dark'
     else { root.dataset.nodark = ''; document.querySelector('.nodark').hidden = false }

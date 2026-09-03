@@ -119,6 +119,8 @@ Two consequences that explain most of what follows:
   --ds-state-text:     none;
   --ds-hatch:          none;
   --ds-font-script:    var(--body);
+  --ds-press:          translate(var(--offset), var(--offset));
+  --ds-focus:          var(--ink);
   --ds-scrim:          none;
   --ds-shadow-surface: none;
   --ds-chart-1:        none;
