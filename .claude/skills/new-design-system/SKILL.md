@@ -92,8 +92,8 @@ Minimum five entries. Aim for eight to ten.
 
 ## Step 3 — propose the whole token block in one pass
 
-The `--clp-*` contract is 29 required aliases. **Do not walk the user through 29 questions.**
-Eighteen lines in a file is a checklist; eighteen questions is a chore, and a chore is what
+The `--clp-*` contract is **42 required aliases**. **Do not walk the user through 42 questions.**
+Forty-two lines in a file is a checklist; forty-two questions is a chore, and a chore is what
 stops a library reaching system twelve.
 
 Interview only on the aliases that carry the system's identity, because these are the ones
@@ -112,12 +112,35 @@ where guessing wrong produces a system the user did not ask for:
   refuses one. A system where colour means "something needs doing" may have no success colour
   at all
 - `--clp-shadow` — the exact value, or `none`
+- `--clp-state-text` — declared means a state pill is *filled* and this is the text on it;
+  declined means states are coloured text on a wash, or coloured text with a border
+- `--clp-card-fill` — declared means a stat tile or panel carries a fill; declined means it sits
+  on the page. Two systems that declare the same `--clp-surface` can want opposite answers, so
+  this cannot be inferred
+- `--clp-chart-1` … `--clp-chart-5` — the series palette, **in order and never cycled**. One
+  colour gets bars, line, area, sparkline and a gauge; two adds stacked and a legend; three adds
+  the donut. Adjacent series must clear ΔE 15 to a full-colour reader and 6 under simulated
+  colour blindness — run `node scripts/contrast.mjs <slug>` and it will tell you
+- `--clp-press` — the transform a control takes while pressed, or `none`. If the system also
+  declares a shadow, the shadow flattens on press
+- `--clp-focus` — the keyboard focus ring, or `none`, which leaves the platform's own ring
 
 Ask whether the system should hold itself to a contrast floor. If the palette is being authored
 now rather than transcribed, `contrast: AA` in frontmatter is usually right: it makes
-`validate.mjs` fail on any text colour under 4.5:1 in either mode, so a later colour swap cannot
-quietly break legibility. Run `node scripts/contrast.mjs <slug>` while choosing values. Do not
-add the field to a system whose colours are approximations of someone else's work.
+`validate.mjs` fail on any text colour under 4.5:1 in either mode, and it promotes the adjacent
+series check from a warning to an error, so a later colour swap cannot quietly break either.
+Run `node scripts/contrast.mjs <slug>` while choosing values. Do not add the field to a system
+whose colours are approximations of someone else's work.
+
+Ask which non-Latin scripts the system covers, and put them in `scripts`. The preview renders a
+letterform specimen for each one it knows, right-to-left where the script reads that way, plus a
+mixed line for a bilingual system. `--clp-font-script` names one family, but a font stack is not
+limited to one — a trilingual system writes
+`"Noto Sans Khmer", "Noto Sans Thai", sans-serif` and needs nothing else.
+
+**Set `data-mode="dark"` on the root element**, and say so in the file. A `var()` inside a custom
+property is substituted where it is declared, so scoping the dark block to a wrapper leaves every
+alias holding its light value and dark mode silently does nothing.
 
 Infer the rest from answers already given. Then present the complete block once, as CSS, and
 ask the user to confirm or amend it in a single pass.
@@ -141,7 +164,7 @@ here than after it is on disk and indexed.
 - `version: "1.0"`, quoted. `status: active`, or `draft` if values are still provisional.
 - One fenced `css` block in the Tokens section, holding every custom property including font
   families, light and dark, copy-pasteable as-is.
-- Declare all 29 `--clp-*` aliases, pointing at the system's own tokens with `var()`
+- Declare all 42 `--clp-*` aliases, pointing at the system's own tokens with `var()`
   references, exactly as confirmed in step 3. `none` where the system declines a concept.
 - No colour literal anywhere outside the tokens block. Components are described by token
   reference: "`--clp-button-bg` fill, `--clp-radius-control`", never a restated hex.

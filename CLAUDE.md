@@ -49,10 +49,13 @@ CLAUDE.md
 .claude/skills/
   new-design-system/SKILL.md     interview -> write a new own system
   scout-design-system/SKILL.md   interview -> write a new reference record
+  fork-design-system/SKILL.md    a reference record -> an installable own system
 systems/
   <slug>/
     <slug>.md                    the deliverable
     preview.html                 generated, committed
+    thumb-light.svg              generated, committed; the library card image
+    thumb-dark.svg               generated where the system publishes a dark mode
     assets/                      optional, text only
 scripts/
   lib.mjs                        shared parsing, so the two scripts cannot drift
@@ -62,6 +65,7 @@ scripts/
   validate.mjs                   format contract enforcement
 site/
   assets/style.css               hand-written source
+  assets/mark.svg                the mark, as a reusable file
   index.html  compare.html       generated
   about.html  colophon.html      generated
   s/<slug>/                      generated: page, preview copy, .md copy
