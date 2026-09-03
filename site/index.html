@@ -63,10 +63,16 @@
     <div class="chips"><button class="chip" data-k="register" data-v="editorial" title="register: editorial" aria-pressed="false">editorial</button><button class="chip" data-k="register" data-v="utility" title="register: utility" aria-pressed="false">utility</button><i class="sep"></i><button class="chip" data-k="density" data-v="comfortable" title="density: comfortable" aria-pressed="false">comfortable</button><button class="chip" data-k="density" data-v="compact" title="density: compact" aria-pressed="false">compact</button><button class="chip" data-k="density" data-v="spacious" title="density: spacious" aria-pressed="false">spacious</button><i class="sep"></i><button class="chip" data-k="origin" data-v="own" title="origin: own" aria-pressed="false">own</button><button class="chip" data-k="origin" data-v="reference" title="origin: reference" aria-pressed="false">reference</button><i class="sep"></i><button class="chip" data-k="scripts" data-v="khmer" title="scripts: khmer" aria-pressed="false">khmer</button><button class="chip" data-k="scripts" data-v="latin" title="scripts: latin" aria-pressed="false">latin</button></div>
     <span class="count" id="count"></span>
     <button class="clear" id="clear" hidden>Clear</button>
-    <div class="views" role="group" aria-label="Layout">
-      <button class="chip" data-view="cards" aria-pressed="true">Cards</button>
-      <button class="chip" data-view="list" aria-pressed="false">List</button>
-    </div>
+    <button class="viewtoggle" id="viewtoggle" aria-label="Change layout">
+<svg data-t="cards" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <rect x="1.4" y="2.4" width="13.2" height="3" rx="1" fill="currentColor"/>
+  <rect x="1.4" y="7.4" width="13.2" height="1.6" rx=".8" fill="currentColor"/>
+  <rect x="1.4" y="10.8" width="13.2" height="1.6" rx=".8" fill="currentColor"/></svg>
+<svg data-t="list" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <rect x="1.4" y="1.9" width="5.6" height="5.6" rx="1.2" fill="currentColor"/>
+  <rect x="9" y="1.9" width="5.6" height="5.6" rx="1.2" fill="currentColor"/>
+  <rect x="1.4" y="9.5" width="5.6" height="5.6" rx="1.2" fill="currentColor"/>
+  <rect x="9" y="9.5" width="5.6" height="5.6" rx="1.2" fill="currentColor"/></svg></button>
   </div>
 
   <div class="grid" id="grid">
@@ -185,19 +191,20 @@
     document.querySelectorAll('.chip[data-k]').forEach(c => c.setAttribute('aria-pressed', 'false'));
     apply();
   });
-  // Layout is a reading preference, so it is remembered per visitor.
+  // Layout is a reading preference, so it is remembered per visitor. One
+  // button that swaps, like the theme control, rather than two that compete.
   const grid = document.getElementById('grid');
-  function view(v) {
+  const vbtn = document.getElementById('viewtoggle');
+  const show = v => {
     grid.dataset.view = v;
-    for (const b of document.querySelectorAll('[data-view]'))
-      if (b.tagName === 'BUTTON') b.setAttribute('aria-pressed', String(b.dataset.view === v));
+    vbtn.dataset.state = v;
+    vbtn.title = v === 'list' ? 'Switch to cards' : 'Switch to list';
     try { localStorage.setItem('colophon-view', v); } catch (e) {}
-  }
+  };
   let saved = 'cards';
   try { saved = localStorage.getItem('colophon-view') === 'list' ? 'list' : 'cards'; } catch (e) {}
-  for (const b of document.querySelectorAll('button[data-view]'))
-    b.addEventListener('click', () => view(b.dataset.view));
-  view(saved);
+  show(saved);
+  vbtn.addEventListener('click', () => show(grid.dataset.view === 'list' ? 'cards' : 'list'));
 
   apply();
 </script></main>

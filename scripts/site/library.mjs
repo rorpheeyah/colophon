@@ -1,5 +1,5 @@
 import { html, json } from './html.mjs'
-import { shell, tags, SEARCH_ICON } from './layout.mjs'
+import { shell, tags, SEARCH_ICON, VIEW_ICONS } from './layout.mjs'
 
 // Group labels are dropped: the values name themselves, and five uppercase
 // labels for eleven chips was more label than content. `title` carries the
@@ -58,10 +58,7 @@ export const libraryPage = all => {
       html`${i > 0 && html`<i class="sep"></i>`}${chips(key, values)}`)}</div>
     <span class="count" id="count"></span>
     <button class="clear" id="clear" hidden>Clear</button>
-    <div class="views" role="group" aria-label="Layout">
-      <button class="chip" data-view="cards" aria-pressed="true">Cards</button>
-      <button class="chip" data-view="list" aria-pressed="false">List</button>
-    </div>
+    <button class="viewtoggle" id="viewtoggle" aria-label="Change layout">${VIEW_ICONS}</button>
   </div>
 
   <div class="grid" id="grid">${all.map(card)}</div>
@@ -110,19 +107,20 @@ export const libraryPage = all => {
     document.querySelectorAll('.chip[data-k]').forEach(c => c.setAttribute('aria-pressed', 'false'));
     apply();
   });
-  // Layout is a reading preference, so it is remembered per visitor.
+  // Layout is a reading preference, so it is remembered per visitor. One
+  // button that swaps, like the theme control, rather than two that compete.
   const grid = document.getElementById('grid');
-  function view(v) {
+  const vbtn = document.getElementById('viewtoggle');
+  const show = v => {
     grid.dataset.view = v;
-    for (const b of document.querySelectorAll('[data-view]'))
-      if (b.tagName === 'BUTTON') b.setAttribute('aria-pressed', String(b.dataset.view === v));
+    vbtn.dataset.state = v;
+    vbtn.title = v === 'list' ? 'Switch to cards' : 'Switch to list';
     try { localStorage.setItem('colophon-view', v); } catch (e) {}
-  }
+  };
   let saved = 'cards';
   try { saved = localStorage.getItem('colophon-view') === 'list' ? 'list' : 'cards'; } catch (e) {}
-  for (const b of document.querySelectorAll('button[data-view]'))
-    b.addEventListener('click', () => view(b.dataset.view));
-  view(saved);
+  show(saved);
+  vbtn.addEventListener('click', () => show(grid.dataset.view === 'list' ? 'cards' : 'list'));
 
   apply();
 </script>`,

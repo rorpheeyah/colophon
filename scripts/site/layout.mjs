@@ -139,6 +139,19 @@ export const tags = s => html`<div class="meta">
   ${s.status !== 'active' && html`<span class="tag ref">${s.status}</span>`}
 </div>`
 
+// The icon shows the layout you would get by pressing it, matching the theme
+// control: one button that swaps, not two that compete for "pressed".
+export const VIEW_ICONS = raw(`
+<svg data-t="cards" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <rect x="1.4" y="2.4" width="13.2" height="3" rx="1" fill="currentColor"/>
+  <rect x="1.4" y="7.4" width="13.2" height="1.6" rx=".8" fill="currentColor"/>
+  <rect x="1.4" y="10.8" width="13.2" height="1.6" rx=".8" fill="currentColor"/></svg>
+<svg data-t="list" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <rect x="1.4" y="1.9" width="5.6" height="5.6" rx="1.2" fill="currentColor"/>
+  <rect x="9" y="1.9" width="5.6" height="5.6" rx="1.2" fill="currentColor"/>
+  <rect x="1.4" y="9.5" width="5.6" height="5.6" rx="1.2" fill="currentColor"/>
+  <rect x="9" y="9.5" width="5.6" height="5.6" rx="1.2" fill="currentColor"/></svg>`)
+
 export const SEARCH_ICON = raw(`<svg width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
   <circle cx="6.8" cy="6.8" r="4.6" fill="none" stroke="currentColor" stroke-width="1.6"/>
   <path d="M10.4 10.4L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`)

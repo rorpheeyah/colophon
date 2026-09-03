@@ -404,6 +404,12 @@ misplace a declared one.
   system declares none of the three.
 - **A state** is a fill with `--clp-state-text`, else coloured text on a wash, else coloured
   text with a border of the same colour.
+- **Only the table carries a surface fill.** A stat tile and a chart panel sit on the page and
+  take an edge from `--clp-border-*` if the system draws one. Whether a container is *filled* is
+  a rule rather than a value and no alias states it: Lozenge says "the rest sit on `paper`" while
+  Pharmly says "everything in white 16px cards", and both declare the same
+  `--clp-surface`. The template sides with the unfilled reading, which is the more conservative
+  one — a fill is harder to take back than to add.
 - **A table** is enclosed the way the system encloses things: an edge where `--clp-border-width`
   is non-zero, giving a full grid, and a **surface step** where it is `0` — the table sits on
   `--clp-surface` against the page, with `--clp-radius-box`. Lozenge asks for exactly that:
