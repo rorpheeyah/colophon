@@ -22,6 +22,7 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { ROOT, systemSlugs, readSystem, tokensBlock, declaredAliases, scalar, list } from './lib.mjs'
+import { barChart, lineChart, sparkline, donut, stacked, legend, ranked } from './preview-charts.mjs'
 
 // Spacing for a system that declines --ds-gap/--ds-pad. Chosen by the `density`
 // field, which every system declares, so this is still the file speaking.
@@ -31,8 +32,25 @@ const DENSITY = {
   spacious:    { gap: '18px', pad: '22px 24px' },
 }
 
-// Consonant series and digits, not a sentence — a specimen cannot mistranslate.
-const SPECIMEN = { khmer: 'ក ខ គ ឃ ង ច ឆ ជ ០១២៣៤៥៦៧៨៩', arabic: 'ا ب ت ث ج ح خ ٠١٢٣٤٥٦٧٨٩' }
+// Letterforms and digits, never a sentence — a specimen cannot mistranslate.
+// A system declares its reach in `scripts`; anything listed here gets a line.
+// One family covers several of these at once, because --ds-font-script takes a
+// stack: "Noto Sans Khmer", "Noto Sans Thai", sans-serif.
+const SPECIMEN = {
+  khmer:      { text: 'ក ខ គ ឃ ង ច ឆ ជ ០១២៣៤៥៦៧៨៩', name: 'Khmer' },
+  thai:       { text: 'ก ข ค ฆ ง จ ฉ ช ๐๑๒๓๔๕๖๗๘๙', name: 'Thai' },
+  lao:        { text: 'ກ ຂ ຄ ງ ຈ ຊ ຍ ດ ໐໑໒໓໔໕໖໗໘໙', name: 'Lao' },
+  myanmar:    { text: 'က ခ ဂ ဃ င စ ဆ ဇ ၀၁၂၃၄၅၆၇၈၉', name: 'Myanmar' },
+  devanagari: { text: 'क ख ग घ ङ च छ ज ०१२३४५६७८९', name: 'Devanagari' },
+  tamil:      { text: 'க ங ச ஞ ட ண த ந ௦௧௨௩௪௫௬௭௮௯', name: 'Tamil' },
+  cyrillic:   { text: 'А Б В Г Д Е Ж З И К Л М Н О П', name: 'Cyrillic' },
+  greek:      { text: 'Α Β Γ Δ Ε Ζ Η Θ Ι Κ Λ Μ Ν Ξ Ο', name: 'Greek' },
+  arabic:     { text: 'ا ب ت ث ج ح خ ٠١٢٣٤٥٦٧٨٩', name: 'Arabic', rtl: true },
+  hebrew:     { text: 'א ב ג ד ה ו ז ח ט ٠ י כ ל מ נ', name: 'Hebrew', rtl: true },
+  japanese:   { text: 'あ い う え お ア イ ウ エ オ 一二三四五', name: 'Japanese' },
+  korean:     { text: 'ㄱ ㄴ ㄷ ㄹ ㅁ 가 나 다 라 마 一二三四五', name: 'Korean' },
+  han:        { text: '永 東 國 書 語 文 字 體 一二三四五六七八九', name: 'Han' },
+}
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
 const has = (t, name) => { const v = t.get(name); return v !== undefined && v !== 'none' }
@@ -61,7 +79,7 @@ function stage(t, meta) {
   const states = [['success', 'Resolved'], ['warn', 'Attention'], ['alarm', 'Overdue']]
     .filter(([k]) => has(t, `--ds-${k}`))
   const series = [1, 2, 3, 4, 5].filter(n => has(t, `--ds-chart-${n}`))
-  const script = list(meta.scripts).find(x => SPECIMEN[x])
+  const scripts = list(meta.scripts).map(x => SPECIMEN[x]).filter(Boolean)
 
   const swatches = ['bg', 'surface', 'accent', 'line', 'text', 'text-2', 'text-3',
                     'success', 'warn', 'alarm', 'invert-bg', ...series.map(n => `chart-${n}`)]
@@ -76,29 +94,47 @@ function stage(t, meta) {
   <section class="grp"><h4>Overview</h4>
     <div class="dash">
       <div class="dash-top">
-        <div><b>Workspace</b><span>Last updated 12 Aug</span></div>
+        <div><b>Website analytics</b><span>21 Aug \u2013 17 Sep</span></div>
         <div class="row">
           ${has(t, '--ds-button2-bg') ? '<button class="btn b2">Export</button>' : ''}
-          <button class="btn">New record</button>
+          <button class="btn">New report</button>
         </div>
       </div>
+
       <div class="stats">
-        <div class="stat"><span>Revenue</span><b>1,284.50</b>${
-          states.length ? `<em class="state s-${states[0][0]}">+12%</em>` : ''}</div>
-        <div class="stat"><span>Active</span><b>48,210</b></div>
-        ${has(t, '--ds-invert-bg') ? `<div class="stat inv"><span>Open items</span><b>26</b>${
-          has(t, '--ds-invert-accent') ? '<em class="chip">+4</em>' : ''}</div>`
-          : '<div class="stat"><span>Open items</span><b>26</b></div>'}
+        ${[['Daily active', '3,450', '+12.1%'], ['Sessions', '1,342', '\u22129.8%'],
+           ['Duration', '5.2m', '+7.7%'], ['Conversion', '2.8%', '+4.3%']]
+          .map(([label, value, delta], i) => {
+            const up = delta.startsWith('+')
+            const key = up ? 'success' : 'alarm'
+            const styled = has(t, `--ds-${key}`)
+            return `<div class="stat${i === 3 && has(t, '--ds-invert-bg') ? ' inv' : ''}">
+              <span>${label}</span><b>${value}</b>
+              <em class="delta${styled ? ` state s-${key}` : ''}">${delta}</em>
+            </div>`
+          }).join('')}
       </div>
-      ${series.length
-        ? `<div class="bars">${bar(72, series[0])}${bar(48, series[0])}${bar(31, series[0])}</div>`
-        : `<div class="meter">${[1, 1, 1, 1, 1, 0, 0].map(f => `<i class="${f ? 'on' : 'off'}"></i>`).join('')}</div>`}
+
+      <div class="panels">
+        <div class="panel">
+          <div class="panel-h"><b>Sessions</b><span>Last 7 days</span></div>
+          ${series.length ? barChart(series[0]) : `<div class="meter">${
+            [1, 1, 1, 1, 1, 0, 0].map(f => `<i class="${f ? 'on' : 'off'}"></i>`).join('')}</div>
+            <p class="none">No chart palette declared, so this is the meter instead.</p>`}
+        </div>
+        <div class="panel">
+          <div class="panel-h"><b>By source</b><span>935 total</span></div>
+          ${series.length >= 3 ? donut(series) + legend(series) : series.length ? ranked(series[0])
+            : '<p class="none">No chart palette declared.</p>'}
+        </div>
+      </div>
+
       <table>
         <thead><tr><th>Name</th><th>Status</th><th class="n">Value</th></tr></thead>
         <tbody>
-          <tr><td>Northwind</td><td>${states[0] ? `<span class="state s-${states[0][0]}">${states[0][1]}</span>` : '—'}</td><td class="n">128</td></tr>
-          <tr><td>Atlas</td><td>${states[1] ? `<span class="state s-${states[1][0]}">${states[1][1]}</span>` : '—'}</td><td class="n">1,284</td></tr>
-          <tr><td>Beacon</td><td>—</td><td class="n">6</td></tr>
+          <tr><td>Northwind</td><td>${states[0] ? `<span class="state s-${states[0][0]}">${states[0][1]}</span>` : '\u2014'}</td><td class="n">128</td></tr>
+          <tr><td>Atlas</td><td>${states[1] ? `<span class="state s-${states[1][0]}">${states[1][1]}</span>` : '\u2014'}</td><td class="n">1,284</td></tr>
+          <tr><td>Beacon</td><td>\u2014</td><td class="n">6</td></tr>
         </tbody>
       </table>
     </div>
@@ -110,7 +146,8 @@ function stage(t, meta) {
     <div class="specimen">
       <p class="spec-d">Aa Hamburgefonstiv</p>
       <p class="spec-b">The rule before the values, so an agent can extrapolate correctly.</p>
-      ${script ? `<p class="spec-x">${esc(SPECIMEN[script])}</p>` : ''}
+      ${scripts.map(x => `<p class="spec-x"${x.rtl ? ' dir="rtl"' : ''}>${esc(x.text)}</p>`).join('')}
+      ${scripts.length ? `<p class="spec-mix">Aa Bb Cc ${esc(scripts[0].text.split(' ').slice(0, 4).join(' '))} 128</p>` : ''}
       ${has(t, '--ds-font-data') ? '<p class="spec-n">1,284.50 · 0912 · 24</p>' : ''}
     </div>
   </section>
@@ -208,17 +245,17 @@ function stage(t, meta) {
         : '<p class="none">No dialog: this system declares no scrim.</p>')) : '')}
 
   ${group('Charts', series.length ? rows(`
-    <div class="bars">
-      <span class="bar"><i style="width:64%;background:var(--ds-chart-1)"></i></span>
-      <span class="bar"><i style="width:41%;background:var(--ds-chart-1)"></i></span>
-      ${has(t, '--ds-hatch') ? '<span class="bar"><i class="hatched" style="width:28%"></i></span>' : ''}
+    <div class="chart-row">
+      <div><h5>Trend</h5>${lineChart(series[0])}</div>
+      <div><h5>Area</h5>${lineChart(series[0], { area: true })}</div>
     </div>
-    ${series.length > 1 ? `<div class="stack">${series.map((n, i) =>
-      `<i style="width:${[38, 26, 18, 12, 6][i]}%;background:var(--ds-chart-${n})"></i>`).join('')}</div>
-    <div class="legend">${series.map(n =>
-      `<span><i style="background:var(--ds-chart-${n})"></i>Series ${n}</span>`).join('')}</div>`
-      : '<p class="none">One series declared, so no multi-series chart is shown.</p>'}`)
-    : '')}
+    <div class="row"><span class="spark-wrap">${sparkline(series[0])}</span>
+      <b class="spark-n">84</b><span class="none">sparkline, no axes</span></div>
+    ${series.length >= 2
+      ? `<div><h5>Composition</h5>${stacked(series)}${legend(series)}</div>`
+      : '<p class="none">One series declared, so no stacked or donut chart is shown.</p>'}
+    ${has(t, '--ds-hatch') ? `<div class="bars"><span class="bar"><i class="hatched" style="width:38%"></i></span></div>
+      <p class="none">Hatch marks a projection rather than a fact.</p>` : ''}`) : '')}
 
   ${series.length ? '' : '<p class="none">No chart palette declared, so no chart is shown.</p>'}
 </div>`
@@ -297,7 +334,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .none{font-size:12px;color:var(--ds-text-3)}
 
 /* overview */
-.dash{background:var(--ds-surface);border:var(--_border);border-radius:var(--ds-radius-box);
+.dash{background:var(--ds-bg);border:var(--_border);border-radius:var(--ds-radius-box);
   padding:var(--_pad);display:flex;flex-direction:column;gap:var(--_gap)}
 .dash-top{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
 .dash-top > div:first-child{display:flex;flex-direction:column;gap:2px}
@@ -307,6 +344,32 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .dash .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:var(--_gap)}
 .dash .stat{min-width:0}
 .dash table{margin-top:2px}
+.panels{display:grid;grid-template-columns:1.6fr 1fr;gap:var(--_gap)}
+@media(max-width:560px){.panels{grid-template-columns:minmax(0,1fr)}}
+.panel{border:var(--_border);border-radius:var(--ds-radius-box);padding:var(--_pad);
+  display:flex;flex-direction:column;gap:var(--_gap);min-width:0;background:var(--ds-surface)}
+.panel-h{display:flex;align-items:baseline;gap:8px}
+.panel-h b{font-family:var(--ds-font-display);font-size:14px;font-weight:700}
+.panel-h span{font-size:11px;color:var(--ds-text-3);margin-left:auto}
+
+/* charts — marks take the declared series colours, text never does */
+.chart{display:block;width:100%;height:auto}
+.ax{font:500 9px var(--_data);fill:var(--ds-text-3);letter-spacing:.04em}
+.gridline{stroke:var(--ds-line);stroke-width:1}
+.donut{display:block;width:100%;max-width:150px;margin:0 auto;height:auto}
+.donut-n{font:800 22px var(--_data);fill:var(--ds-text)}
+.spark{display:block;width:110px;height:32px}
+.spark-wrap{display:inline-block}
+.spark-n{font:800 20px/1 var(--_data);font-variant-numeric:tabular-nums}
+.chart-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:var(--_gap)}
+.chart-row h5,.grp h5{margin:0 0 6px;font:600 10px/1 var(--_data);letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ds-text-3)}
+.ranked{display:flex;flex-direction:column;gap:7px}
+.rank{display:grid;grid-template-columns:1fr auto;gap:2px 8px;font-size:12px}
+.rank b{font-family:var(--_data);font-variant-numeric:tabular-nums}
+.rbar{grid-column:1/-1;display:block;height:5px;border-radius:var(--ds-radius-control);
+  background:var(--ds-line);overflow:hidden}
+.rbar s{display:block;height:100%;text-decoration:none}
 
 /* colour */
 .sws{display:flex;flex-wrap:wrap;gap:var(--_gap)}
@@ -320,6 +383,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .spec-d{font-family:var(--ds-font-display);font-size:26px;font-weight:700;line-height:1.15}
 .spec-b{font-size:15px;color:var(--ds-text-2)}
 .spec-x{font-family:var(--_script);font-size:15px;line-height:2}
+.spec-mix{font-size:15px;line-height:2;color:var(--ds-text-2)}
 .spec-n{font-family:var(--_data);font-size:15px;font-variant-numeric:tabular-nums}
 
 /* base */
@@ -370,8 +434,10 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .stat span{font-size:11.5px;color:var(--ds-text-3)}
 .stat b{font:800 26px/1.1 var(--_data);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
 .stat em{font-style:normal;align-self:flex-start}
+.delta{font:600 11px/1.6 var(--_data);color:var(--ds-text-2)}
 .stat.inv{background:var(--ds-invert-bg);color:var(--ds-invert-text);border:0}
 .stat.inv span{color:inherit;opacity:.72}
+.stat.inv .delta{color:inherit;opacity:.8}
 .chip{background:var(--ds-invert-accent);color:var(--ds-invert-bg);
   border-radius:var(--ds-radius-control);padding:2px 9px;font:700 11px/1.6 var(--_data)}
 .kv{display:grid;grid-template-columns:auto 1fr;gap:2px var(--_gap);margin:0;font-size:13px}
@@ -454,7 +520,7 @@ ${['success', 'warn', 'alarm'].filter(k => has(t, `--ds-${k}`)).map(k => {
 .bar{display:block;height:14px;background:var(--ds-line);border-radius:var(--ds-radius-control);overflow:hidden}
 .bar i{display:block;height:100%;border-radius:var(--ds-radius-control)}
 .bar i.hatched{background:var(--ds-hatch);color:var(--ds-chart-1)}
-.stack{display:flex;height:14px;border-radius:var(--ds-radius-control);overflow:hidden;background:var(--ds-line)}
+.stack{display:flex;gap:2px;height:14px;border-radius:var(--ds-radius-control);overflow:hidden;background:var(--ds-line)}
 .stack i{display:block;height:100%}
 .legend{display:flex;gap:var(--_gap);flex-wrap:wrap;font-size:11px;color:var(--ds-text-3)}
 .legend span{display:flex;align-items:center;gap:5px}

@@ -304,6 +304,27 @@ Two coherence rules, both there to stop a system inventing a value it does not h
 A system with no `[data-mode="dark"]` block renders as "no dark mode published" rather than
 having one invented for it.
 
+### Scripts and charts in the preview
+
+The `scripts` field declares reach and the preview renders one specimen line per script it
+knows — letterforms and digits, never a sentence, so a specimen cannot mistranslate. Scripts
+read right-to-left are rendered that way. A bilingual system also gets a mixed line, because
+both bilingual systems in the library state that scripts share a row.
+
+`--ds-font-script` names one family, but a font stack is not limited to one: a trilingual
+system writes `"Noto Sans Khmer", "Noto Sans Thai", sans-serif` and needs no extra alias.
+
+Charts take `--ds-chart-1` … `--ds-chart-5` **in the order declared, never cycled.** A chart
+needing more series than the system declared is not drawn — there is no generated sixth hue and
+no fallback to the accent. Text in a chart wears `--ds-text-*`, never a series colour, so
+identity is carried by the mark beside a label rather than by the label. Grid and axis lines
+are `--ds-line` and stay recessive. A legend appears for two or more series and never for one,
+where the card title already names the series.
+
+The status colours are reserved. They are never reused as a series, and a delta takes its
+colour from its direction — a system with no success colour shows a rise unstated rather than
+borrowing the attention colour for it.
+
 The preview is a **specimen sheet, not a screen.** It shows every component the system declares
 support for, side by side, so per-screen limits — "one accent per screen", "at most three
 summary cards" — are not observed there and cannot be.
