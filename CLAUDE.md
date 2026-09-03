@@ -335,6 +335,17 @@ that is the template's reading, stated here so it is not a surprise.
 the platform's own ring stands, which is the accessible default. The template never removes a
 focus indicator, only replaces one the system asked for.
 
+A chart's hover readout wears whichever separation the system declared, in this order:
+elevation (`--ds-shadow-surface`), then an edge (`--ds-border-*` with a non-zero width), then a
+contrasting fill (`--ds-invert-bg`). A system declaring none of the three gets no tooltip rather
+than one composed from nothing — the same ladder the states and the buttons use.
+
+**Adjacent series must be tellable apart.** `scripts/contrast.mjs` measures every neighbouring
+pair in the declared order as OKLab ΔE×100, unsimulated and under simulated protanopia and
+deuteranopia. Below 15 to a full-colour reader, or below 6 under simulation, is a failure; 6–8
+under simulation is a warning. Like the text floor it is an error only for a system that
+declared `contrast`, and a warning otherwise — a floor a system never agreed to is not its rule.
+
 The status colours are reserved. They are never reused as a series, and a delta takes its
 colour from its direction — a system with no success colour shows a rise unstated rather than
 borrowing the attention colour for it.

@@ -152,6 +152,12 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 :focus-visible{outline:2px solid var(--ds-focus);outline-offset:2px}
 button,select,input,summary{font-family:inherit}
 
+.tip{position:fixed;z-index:9;pointer-events:none;background:var(--ds-surface);color:var(--ds-text);border:var(--ds-border-width) solid var(--ds-border-color);
+  border-radius:var(--ds-radius-box);padding:5px 9px;font:500 11.5px/1.5 var(--_data);
+  transform:translate(-50%,-140%);white-space:nowrap}
+[data-tip]{cursor:default}
+.cross{stroke:var(--ds-line);stroke-width:1}
+
 /* charts — marks take the declared series colours, text never does */
 .chart{display:block;width:100%;height:auto}
 .ax{font:500 9px var(--_data);fill:var(--ds-text-3);letter-spacing:.04em}
@@ -492,6 +498,7 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
   
 
   <p class="none">No chart palette declared, so no chart is shown.</p>
+  <div class="tip" role="status" hidden></div>
 </div>
 <p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>
 <script>
@@ -515,6 +522,34 @@ td{padding:9px 8px;border-bottom:1px solid var(--ds-line);color:var(--ds-text)}
         if (tabs) b.setAttribute('aria-selected', String(on))
         else { b.classList.toggle('on', on); on ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current') }
       }
+    })
+  }
+
+  // Hover readout. The surface it wears is whichever separation the system
+  // declared — elevation, an edge, or a contrasting fill. A system declaring
+  // none of the three gets no tooltip rather than one drawn from nothing.
+  const tip = document.querySelector('.tip')
+  if (tip) {
+    const cross = c => document.querySelectorAll('.cross').forEach(l => {
+      if (c === null) return l.setAttribute('hidden', '')
+      l.removeAttribute('hidden'); l.setAttribute('x1', c); l.setAttribute('x2', c)
+    })
+    addEventListener('pointerover', e => {
+      const m = e.target.closest('[data-tip]')
+      if (!m) return
+      tip.textContent = m.dataset.tip
+      tip.hidden = false
+      cross(m.dataset.x ?? null)
+    })
+    addEventListener('pointermove', e => {
+      if (tip.hidden) return
+      tip.style.left = e.clientX + 'px'
+      tip.style.top = e.clientY + 'px'
+    })
+    addEventListener('pointerout', e => {
+      if (!e.target.closest('[data-tip]')) return
+      tip.hidden = true
+      cross(null)
     })
   }
 

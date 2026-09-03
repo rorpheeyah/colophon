@@ -12,7 +12,7 @@ import {
   ROOT, ARRAY_FIELDS, SECTIONS, TOKENS_SECTION,
   parseFrontmatter, scanBody, scalar, tokensBlock, declaredAliases, systemSlugs,
 } from './lib.mjs'
-import { THRESHOLDS, check as checkContrast } from './contrast.mjs'
+import { THRESHOLDS, check as checkContrast, checkSeries } from './contrast.mjs'
 
 // ── format contract ──────────────────────────────────────────────────────────
 
@@ -239,6 +239,18 @@ function validateSystem(slug) {
     } else if (skipped.length) {
       warn(`${skipped.length} text pair(s) not checked: a declined alias, or a value that is ` +
            `not an opaque hex`)
+    }
+  }
+
+  // adjacent chart series must be tellable apart ------------------------------
+  if (canonical) {
+    for (const f of checkSeries(canonical.code)) {
+      if (f.level === 'ok') continue
+      const detail = `${f.pair} (${f.mode}) differ by \u0394E ${f.normal.toFixed(1)} to a ` +
+        `full-colour reader and ${f.cvd.toFixed(1)} under simulated colour blindness`
+      // A system that declared a contrast floor asked to be held to one.
+      if (f.level === 'fail' && declaredContrast) err(`adjacent series: ${detail}`)
+      else warn(`adjacent series: ${detail}`)
     }
   }
 

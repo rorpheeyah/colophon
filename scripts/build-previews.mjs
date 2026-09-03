@@ -69,6 +69,26 @@ function fontLink(css) {
 
 // Each group renders only what the system declared. A group whose aliases are
 // all `none` disappears rather than being approximated.
+// A tooltip has to separate from whatever sits behind it. The three ways are
+// elevation, an edge, or a contrasting fill — and the system says which of
+// those it owns. A system declaring none of the three gets no tooltip rather
+// than one composed from nothing.
+function tipTreatment(t) {
+  const bw = t.get('--ds-border-width') ?? '0'
+  if (has(t, '--ds-shadow-surface')) {
+    return `background:var(--ds-surface);color:var(--ds-text);` +
+      `box-shadow:var(--ds-shadow-surface);border:0`
+  }
+  if (has(t, '--ds-border-color') && !/^0[a-z]*$/.test(bw)) {
+    return `background:var(--ds-surface);color:var(--ds-text);` +
+      `border:var(--ds-border-width) solid var(--ds-border-color)`
+  }
+  if (has(t, '--ds-invert-bg')) {
+    return `background:var(--ds-invert-bg);color:var(--ds-invert-text);border:0`
+  }
+  return null
+}
+
 const group = (title, ...parts) => {
   const body = parts.filter(Boolean).join('\n')
   return body ? `<section class="grp"><h4>${title}</h4>${body}</div></section>` : ''
@@ -76,6 +96,7 @@ const group = (title, ...parts) => {
 const rows = body => `<div class="rows">${body}`
 
 function stage(t, meta) {
+  const tipStyle = tipTreatment(t)
   const states = [['success', 'Resolved'], ['warn', 'Attention'], ['alarm', 'Overdue']]
     .filter(([k]) => has(t, `--ds-${k}`))
   const series = [1, 2, 3, 4, 5].filter(n => has(t, `--ds-chart-${n}`))
@@ -260,6 +281,7 @@ function stage(t, meta) {
       <p class="none">Hatch marks a projection rather than a fact.</p>` : ''}`) : '')}
 
   ${series.length ? '' : '<p class="none">No chart palette declared, so no chart is shown.</p>'}
+  ${tipStyle ? '<div class="tip" role="status" hidden></div>' : ''}
 </div>`
 }
 
@@ -275,6 +297,9 @@ function render(sys) {
   const spacingFromDensity = !has(t, '--ds-gap') || !has(t, '--ds-pad')
 
   // The only per-system CSS: resolving the aliases this system declined.
+  const tipStyle = tipTreatment(t)
+
+
   const shim = [
     `--_gap: ${ref(t, '--ds-gap', density.gap)};`,
     `--_pad: ${ref(t, '--ds-pad', density.pad)};`,
@@ -363,6 +388,12 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 ${has(t, '--ds-press') && has(t, '--ds-shadow') ? '.btn:active{box-shadow:none}' : ''}
 ${has(t, '--ds-focus') ? `:focus-visible{outline:2px solid var(--ds-focus);outline-offset:2px}` : ''}
 button,select,input,summary{font-family:inherit}
+
+${tipStyle ? `.tip{position:fixed;z-index:9;pointer-events:none;${tipStyle};
+  border-radius:var(--ds-radius-box);padding:5px 9px;font:500 11.5px/1.5 var(--_data);
+  transform:translate(-50%,-140%);white-space:nowrap}` : ''}
+[data-tip]{cursor:default}
+.cross{stroke:var(--ds-line);stroke-width:1}
 
 /* charts — marks take the declared series colours, text never does */
 .chart{display:block;width:100%;height:auto}
@@ -595,6 +626,34 @@ ${stage(t, meta)}
         if (tabs) b.setAttribute('aria-selected', String(on))
         else { b.classList.toggle('on', on); on ? b.setAttribute('aria-current', 'page') : b.removeAttribute('aria-current') }
       }
+    })
+  }
+
+  // Hover readout. The surface it wears is whichever separation the system
+  // declared — elevation, an edge, or a contrasting fill. A system declaring
+  // none of the three gets no tooltip rather than one drawn from nothing.
+  const tip = document.querySelector('.tip')
+  if (tip) {
+    const cross = c => document.querySelectorAll('.cross').forEach(l => {
+      if (c === null) return l.setAttribute('hidden', '')
+      l.removeAttribute('hidden'); l.setAttribute('x1', c); l.setAttribute('x2', c)
+    })
+    addEventListener('pointerover', e => {
+      const m = e.target.closest('[data-tip]')
+      if (!m) return
+      tip.textContent = m.dataset.tip
+      tip.hidden = false
+      cross(m.dataset.x ?? null)
+    })
+    addEventListener('pointermove', e => {
+      if (tip.hidden) return
+      tip.style.left = e.clientX + 'px'
+      tip.style.top = e.clientY + 'px'
+    })
+    addEventListener('pointerout', e => {
+      if (!e.target.closest('[data-tip]')) return
+      tip.hidden = true
+      cross(null)
     })
   }
 
