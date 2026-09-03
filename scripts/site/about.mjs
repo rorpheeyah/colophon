@@ -2,9 +2,9 @@ import { html } from './html.mjs'
 import { shell, crumbs } from './layout.mjs'
 
 export const aboutPage = all => shell({
-  base: '', current: 'about', title: 'About — colophon',
+  base: '', current: 'about', systems: all, title: 'About — colophon',
   body: html`
-<div class="wrap narrow about">
+<div class="wrap narrow prose">
   ${crumbs('', ['About'])}
   <h1>About</h1>
   <p class="lede">A library of design systems. Each one is a single markdown file, written to be

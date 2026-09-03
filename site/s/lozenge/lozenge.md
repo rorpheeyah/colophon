@@ -1,6 +1,6 @@
 ---
 system: Lozenge
-version: "1.1"
+version: "1.0"
 status: active
 origin: own
 register: utility

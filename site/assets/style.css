@@ -1,46 +1,54 @@
 /* colophon — browse UI. Hand-written source; the HTML around it is generated.
-   Deliberately quiet: the systems supply the design, this supplies the frame.
-   Quiet is not the same as careless — everything here sits on one scale. */
+
+   The chrome stays neutral on purpose: it displays systems that contradict
+   each other, so a chrome with a strong palette would tell a visitor which
+   one to prefer. Neutral is not the same as undesigned — the greys are warm
+   biased toward the one accent, and the accent appears on the mark alone. */
 
 :root {
   --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
-  --s5: 24px; --s6: 36px; --s7: 56px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 72px;
 
-  --t-xs: 11px; --t-sm: 12.5px; --t-md: 14px; --t-lg: 15.5px; --t-xl: 21px;
+  --t-xs: 11px; --t-sm: 13px; --t-md: 14.5px; --t-lg: 16px;
+  --t-xl: 22px; --t-2xl: 30px;
 
-  --bg:      #fbfbfa;
-  --panel:   #ffffff;
-  --panel-2: #f4f4f3;
-  --edge:    #e7e7e4;
-  --edge-2:  #d2d2ce;
-  --fg:      #1a1a18;
-  --fg-2:    #55554f;
-  --fg-3:    #8d8d85;
-  --link:    #1d4ed8;
-  --good:    #1c6b4d;
-  --bad:     #9a4218;
-  --flag:    #8a5a12;
-  --flag-bg: #fdf8ec;
-  --r:       7px;
-  --mono:    ui-monospace, "SF Mono", Menlo, monospace;
+  --r-sm: 6px; --r: 8px; --r-lg: 11px;
+
+  --sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --serif: "Newsreader", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+
+  /* light */
+  --bg:        #FFFFFF;
+  --surface:   #FFFFFF;
+  --surface-2: #F4F4F5;
+  --line:      #E4E4E7;
+  --line-2:    #D4D4D8;
+  --fg:        #09090B;
+  --fg-2:      #52525B;
+  --fg-3:      #71717A;
+  --seal:      #B03A2E;
+  --good:      #15803D;
+  --bad:       #B91C1C;
+  --ring:      #09090B;
+  --shadow:    0 1px 2px rgba(9, 9, 11, .06);
 }
-/* Dark values in one place, applied twice: by preference when no choice has
-   been made, and by [data-theme] when one has. */
+/* No-JS fallback. The inline script normally stamps data-theme before paint. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #121214; --panel: #191919; --panel-2: #212122;
-    --edge: #292929; --edge-2: #3b3b3b;
-    --fg: #eeeeec; --fg-2: #a3a39c; --fg-3: #73736c;
-    --link: #97b6fd; --good: #5cc496; --bad: #e39365;
-    --flag: #d9ab52; --flag-bg: #241d0e;
+    --bg: #09090B; --surface: #111113; --surface-2: #18181B;
+    --line: #26262A; --line-2: #3F3F46;
+    --fg: #FAFAFA; --fg-2: #A1A1AA; --fg-3: #8A8A93;
+    --seal: #E0725C; --good: #4ADE80; --bad: #F87171; --ring: #FAFAFA;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .5);
   }
 }
 :root[data-theme="dark"] {
-  --bg: #121214; --panel: #191919; --panel-2: #212122;
-  --edge: #292929; --edge-2: #3b3b3b;
-  --fg: #eeeeec; --fg-2: #a3a39c; --fg-3: #73736c;
-  --link: #97b6fd; --good: #5cc496; --bad: #e39365;
-  --flag: #d9ab52; --flag-bg: #241d0e;
+  --bg: #09090B; --surface: #111113; --surface-2: #18181B;
+  --line: #26262A; --line-2: #3F3F46;
+  --fg: #FAFAFA; --fg-2: #A1A1AA; --fg-3: #8A8A93;
+  --seal: #E0725C; --good: #4ADE80; --bad: #F87171; --ring: #FAFAFA;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .5);
 }
 
 * { box-sizing: border-box }
@@ -49,256 +57,339 @@
 
 body {
   margin: 0; background: var(--bg); color: var(--fg);
-  font: var(--t-md)/1.55 ui-sans-serif, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
+  font: var(--t-md)/1.6 var(--sans);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  /* keeps the footer on the floor when a page is shorter than the viewport */
+  min-height: 100dvh; display: flex; flex-direction: column;
 }
-a { color: var(--link) }
-code, kbd { font-family: var(--mono); font-size: .92em }
-h1, h2, h3 { letter-spacing: -.015em }
+main { flex: 1 0 auto }
+.foot { flex: none }
+a { color: inherit }
+code, kbd { font-family: var(--mono); font-size: .9em }
+h1, h2, h3 { letter-spacing: -.018em; text-wrap: balance }
+:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 3px }
 
-.wrap { max-width: 1160px; margin: 0 auto; padding: 0 var(--s5) }
-.wrap.narrow { max-width: 720px }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--s5) }
+.wrap.narrow { max-width: 760px }
 .eyebrow {
-  font: 600 var(--t-xs)/1 ui-sans-serif, system-ui; letter-spacing: .1em;
+  font: 500 var(--t-xs)/1 var(--mono); letter-spacing: .12em;
   text-transform: uppercase; color: var(--fg-3);
 }
 
-/* ── masthead ─────────────────────────────────────────────────────────── */
-.top {
-  position: sticky; top: 0; z-index: 5;
-  border-bottom: 1px solid var(--edge); background: color-mix(in srgb, var(--bg) 88%, transparent);
-  backdrop-filter: blur(8px);
+/* ── mark + lockup ─────────────────────────────────────────────────────── */
+.mark { width: 26px; height: 26px; display: block; color: var(--seal); flex: none }
+.lockup {
+  display: inline-flex; align-items: center; gap: var(--s2);
+  text-decoration: none; color: var(--fg);
 }
-.top .wrap { display: flex; align-items: center; gap: var(--s5); height: 46px }
-.top b { font-size: var(--t-lg); letter-spacing: -.02em }
-.top nav { display: flex; gap: var(--s4); font-size: var(--t-sm); margin-left: auto }
-.top nav a { color: var(--fg-2); text-decoration: none }
+.lockup span { font: 400 21px/1 var(--serif); letter-spacing: -.02em }
+.lockup.sm .mark { width: 21px; height: 21px }
+.lockup.sm span { font-size: 17px }
+
+/* ── masthead ──────────────────────────────────────────────────────────── */
+.top {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(1.4) blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; gap: var(--s6); height: 56px }
+.top nav { display: flex; gap: var(--s5); font-size: var(--t-sm) }
+.top nav a { color: var(--fg-2); text-decoration: none; transition: color .12s }
 .top nav a:hover { color: var(--fg) }
 .top nav a[aria-current] { color: var(--fg); font-weight: 600 }
-
+.tools { display: flex; align-items: center; gap: var(--s3); margin-left: auto }
+.ghost { font-size: var(--t-sm); color: var(--fg-2); text-decoration: none }
+.ghost:hover { color: var(--fg) }
 .theme {
-  display: grid; place-items: center; width: 28px; height: 28px; padding: 0;
-  border: 1px solid transparent; border-radius: 999px; background: none;
-  color: var(--fg-3); cursor: pointer;
+  display: grid; place-items: center; width: 30px; height: 30px; padding: 0;
+  border: 1px solid var(--line); border-radius: var(--r-sm);
+  background: var(--surface); color: var(--fg-2); cursor: pointer;
 }
-.theme:hover { color: var(--fg); background: var(--panel-2) }
+.theme:hover { color: var(--fg); border-color: var(--line-2) }
 .theme svg { display: none }
-.theme[data-state="system"] [data-t="system"],
 .theme[data-state="light"] [data-t="light"],
 .theme[data-state="dark"] [data-t="dark"] { display: block }
 
-/* ── page heads ───────────────────────────────────────────────────────── */
+/* ── page heads ────────────────────────────────────────────────────────── */
 .crumbs {
   display: flex; align-items: center; gap: var(--s2);
-  font-size: var(--t-sm); color: var(--fg-3); padding-top: var(--s5);
+  font-size: var(--t-sm); color: var(--fg-3); padding-top: var(--s6);
 }
 .crumbs a { color: var(--fg-2); text-decoration: none }
-.crumbs a:hover { color: var(--fg); text-decoration: underline }
+.crumbs a:hover { color: var(--fg) }
 .crumbs b { color: var(--fg); font-weight: 500 }
 
-h1 { font-size: var(--t-xl); margin: var(--s4) 0 var(--s4) }
-.crumbs + h1 { margin-top: var(--s2) }
+h1 { font: 400 var(--t-2xl)/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
+.crumbs + h1 { margin-top: var(--s3) }
+.lede { color: var(--fg-2); margin: 0; max-width: 64ch }
 
-/* ── filter bar ───────────────────────────────────────────────────────── */
+/* ── filter bar ────────────────────────────────────────────────────────── */
 .bar {
   display: flex; align-items: center; flex-wrap: wrap; gap: var(--s2) var(--s3);
-  padding: var(--s3) 0 var(--s4); border-bottom: 1px solid var(--edge);
-  margin-bottom: var(--s5);
+  padding: var(--s4) 0 var(--s5); margin-bottom: var(--s5);
+  border-bottom: 1px solid var(--line);
 }
 .searchwrap { position: relative; display: flex; align-items: center }
-.searchwrap svg { position: absolute; left: 9px; color: var(--fg-3); pointer-events: none }
+.searchwrap svg { position: absolute; left: 11px; color: var(--fg-3); pointer-events: none }
 .searchwrap input {
-  font: var(--t-md) inherit; padding: 6px 10px 6px 29px; border-radius: 999px;
-  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); width: 230px;
+  font: var(--t-sm) var(--sans); padding: 8px 12px 8px 32px; border-radius: var(--r);
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+  width: 250px; box-shadow: var(--shadow);
 }
 .searchwrap input::placeholder { color: var(--fg-3) }
-.searchwrap input:focus-visible { outline: 2px solid var(--link); outline-offset: 1px }
-
 .chips { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s1) }
-.sep { width: 1px; height: 15px; background: var(--edge-2); margin: 0 var(--s2) }
+.sep { width: 1px; height: 16px; background: var(--line-2); margin: 0 var(--s2) }
 .chip {
-  border: 1px solid transparent; background: var(--panel-2); color: var(--fg-2);
-  border-radius: 999px; padding: 3px 10px; font: var(--t-sm)/1.5 inherit; cursor: pointer;
+  border: 1px solid transparent; background: var(--surface-2); color: var(--fg-2);
+  border-radius: 999px; padding: 4px 11px; font: var(--t-sm)/1.5 var(--sans); cursor: pointer;
+  transition: color .12s, border-color .12s;
 }
-.chip:hover { color: var(--fg); border-color: var(--edge-2) }
+.chip:hover { color: var(--fg); border-color: var(--line-2) }
 .chip[aria-pressed="true"] { background: var(--fg); border-color: var(--fg); color: var(--bg) }
-.count { margin-left: auto; font-size: var(--t-sm); color: var(--fg-3) }
-.clear {
-  border: 0; background: none; color: var(--fg-3); font: var(--t-sm) inherit;
-  cursor: pointer; text-decoration: underline;
-}
-.clear:hover { color: var(--fg) }
+.count { margin-left: auto; font: var(--t-sm) var(--mono); color: var(--fg-3) }
+.clear { border: 0; background: none; color: var(--fg-3); font: var(--t-sm) var(--sans); cursor: pointer }
+.clear:hover { color: var(--fg); text-decoration: underline }
 
-/* ── library grid ─────────────────────────────────────────────────────── */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--s4) }
+/* ── library ───────────────────────────────────────────────────────────── */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: var(--s5) }
 .card {
-  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
-  display: flex; flex-direction: column; overflow: hidden;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow);
+  transition: border-color .14s, transform .14s;
 }
-.card > a.thumb {
-  display: block; height: 150px; overflow: hidden;
-  border-bottom: 1px solid var(--edge); background: var(--bg);
+.card:hover { border-color: var(--line-2); transform: translateY(-2px) }
+.card > .thumb {
+  display: block; height: 208px; overflow: hidden; position: relative;
+  border-bottom: 1px solid var(--line); background: var(--surface-2);
 }
 .card iframe {
-  display: block; width: 182%; height: 273px; border: 0; pointer-events: none;
-  transform: scale(.55); transform-origin: top left;
-  /* the thumbnail is a crop; fade the cut so it reads as deliberate */
-  mask-image: linear-gradient(to bottom, #000 76%, transparent);
+  display: block; width: 200%; height: 416px; border: 0; pointer-events: none;
+  transform: scale(.5); transform-origin: top left;
+  mask-image: linear-gradient(to bottom, #000 78%, transparent);
 }
-.card .body { padding: var(--s3) var(--s4) var(--s4); display: flex; flex-direction: column; gap: var(--s3); flex: 1 }
-.card h2 { margin: 0; font-size: var(--t-lg) }
-.card h2 a { color: inherit; text-decoration: none }
-.card h2 a:hover { text-decoration: underline }
+.pin {
+  position: absolute; right: var(--s2); bottom: var(--s2);
+  font: 500 var(--t-xs)/1 var(--mono); letter-spacing: .06em;
+  color: var(--fg-3); background: var(--bg); border: 1px solid var(--line);
+  border-radius: var(--r-sm); padding: 4px 7px;
+}
+.card .body { padding: var(--s4); display: flex; flex-direction: column; gap: var(--s3); flex: 1 }
+.card h2 { margin: 0; font: 500 var(--t-lg)/1.3 var(--sans); letter-spacing: -.01em }
+.card h2 a { text-decoration: none }
+.card h2 a:hover { text-decoration: underline; text-underline-offset: 3px }
 .card h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: var(--t-sm) }
 
-.meta { display: flex; flex-wrap: wrap; gap: var(--s1) }
+.meta { display: flex; flex-wrap: wrap; gap: 5px }
 .tag {
-  font: 500 var(--t-xs)/1.6 inherit; color: var(--fg-2);
-  background: var(--panel-2); border-radius: 4px; padding: 1px 7px;
+  font: 500 var(--t-xs)/1.7 var(--mono); color: var(--fg-2);
+  background: var(--surface-2); border-radius: var(--r-sm); padding: 1px 7px;
 }
-.tag.ref { color: var(--flag); background: var(--flag-bg); box-shadow: inset 0 0 0 1px currentColor }
+.tag.ref { color: var(--fg); box-shadow: inset 0 0 0 1px var(--line-2); background: transparent }
 
-.fit { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--s2); font-size: var(--t-sm) }
-.fit dt { font-weight: 600; font-size: var(--t-xs); letter-spacing: .04em; text-transform: uppercase; padding-top: 2px }
+.fit { display: grid; grid-template-columns: auto 1fr; gap: 3px var(--s3); font-size: var(--t-sm); margin: 0 }
+.fit dt {
+  font: 600 var(--t-xs)/1.7 var(--mono); letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.fit dt.y { color: var(--good) }
+.fit dt.n { color: var(--bad) }
 .fit dd { margin: 0; color: var(--fg-2) }
-.fit .yes { color: var(--good) }
-.fit .no  { color: var(--bad) }
 
 .actions { display: flex; gap: var(--s2); margin-top: auto; padding-top: var(--s1) }
 .btn {
-  display: inline-block; border: 1px solid var(--edge-2); background: var(--panel);
-  color: var(--fg); border-radius: var(--r); padding: 6px 12px; font: 500 var(--t-sm) inherit;
-  text-decoration: none; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--line-2); background: var(--surface); color: var(--fg);
+  border-radius: var(--r); padding: 7px 13px; font: 500 var(--t-sm) var(--sans);
+  text-decoration: none; cursor: pointer; transition: background .12s, border-color .12s;
 }
-.btn:hover { border-color: var(--fg-3) }
+.btn:hover { background: var(--surface-2) }
 .btn.primary { background: var(--fg); border-color: var(--fg); color: var(--bg) }
-.btn.primary:hover { opacity: .87 }
-.empty { color: var(--fg-3); padding: var(--s7) 0; text-align: center }
+.btn.primary:hover { opacity: .88; background: var(--fg) }
+.empty { color: var(--fg-3); padding: var(--s8) 0; text-align: center }
 
-/* ── system page ──────────────────────────────────────────────────────── */
-.head { display: flex; align-items: flex-start; gap: var(--s4); flex-wrap: wrap; margin-bottom: var(--s4) }
+/* ── system page ───────────────────────────────────────────────────────── */
+.head { display: flex; align-items: flex-start; gap: var(--s5); flex-wrap: wrap; margin-bottom: var(--s5) }
 .head > div:first-child { min-width: 0 }
 .head h1 { margin: 0 0 var(--s2) }
-.head h1 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: var(--t-lg) }
+.head h1 em { font-style: normal; color: var(--fg-3); font-size: var(--t-lg); font-family: var(--mono) }
 .head .actions { margin: 0 0 0 auto; padding: 0 }
-.lede { color: var(--fg-2); margin: var(--s2) 0 0; max-width: 66ch }
+.head .lede { margin-top: var(--s3); font-size: var(--t-sm) }
 
 .prov {
-  background: var(--flag-bg); color: var(--flag); box-shadow: inset 0 0 0 1px currentColor;
-  border-radius: var(--r); padding: var(--s3); font-size: var(--t-sm); margin: 0 0 var(--s5);
+  background: var(--surface-2); color: var(--fg-2); border: 1px solid var(--line);
+  border-left: 3px solid var(--fg-3); border-radius: var(--r);
+  padding: var(--s3) var(--s4); font-size: var(--t-sm); margin: 0 0 var(--s6);
 }
-.prov a { color: inherit }
+.prov strong { color: var(--fg) }
 
-.frame { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; margin-bottom: var(--s5) }
+.frame {
+  border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden;
+  margin-bottom: var(--s6); background: var(--surface); box-shadow: var(--shadow);
+}
 .frame > b {
   display: flex; align-items: center; gap: var(--s3); padding: var(--s2) var(--s3);
-  border-bottom: 1px solid var(--edge); background: var(--panel);
-  font: 600 var(--t-xs)/1 inherit; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3);
+  border-bottom: 1px solid var(--line); background: var(--surface-2);
+  font: 500 var(--t-xs)/1.8 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3);
 }
 .frame .modes { display: flex; gap: var(--s1); margin-left: auto }
 .frame .fine { margin-left: auto; font-size: var(--t-xs); text-transform: none; letter-spacing: 0 }
-.pvpair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--edge) }
+.pvpair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line) }
 .pvpair > div { background: var(--bg); min-width: 0 }
 .pvpair > div > b {
-  display: block; padding: var(--s1) var(--s3); border-bottom: 1px solid var(--edge);
-  font: 600 var(--t-xs)/1.8 inherit; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3);
+  display: block; padding: var(--s1) var(--s3); border-bottom: 1px solid var(--line);
+  font: 500 var(--t-xs)/1.9 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3);
 }
 .pvpair iframe { display: block; width: 100%; height: 620px; border: 0 }
 .pvpair[data-show="light"], .pvpair[data-show="dark"] { grid-template-columns: 1fr }
 .pvpair[data-show="light"] .pv-dark, .pvpair[data-show="dark"] .pv-light,
 .pvpair[data-show="light"] > div > b, .pvpair[data-show="dark"] > div > b { display: none }
-@media (max-width: 900px) { .pvpair { grid-template-columns: 1fr } }
+@media (max-width: 940px) { .pvpair { grid-template-columns: 1fr } }
 
 .install {
-  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
-  padding: var(--s4); margin: 0 0 var(--s5);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
+  padding: var(--s5); margin: 0 0 var(--s6); box-shadow: var(--shadow);
 }
-.install h2 { margin: 0 0 var(--s3); font-size: var(--t-lg) }
-.install ol { margin: 0 0 var(--s3); padding-left: var(--s5); color: var(--fg-2); font-size: var(--t-sm) }
+.install h2 { margin: 0 0 var(--s3); font: 500 var(--t-lg) var(--sans) }
+.install ol { margin: 0 0 var(--s4); padding-left: var(--s5); color: var(--fg-2); font-size: var(--t-sm) }
 .install pre {
-  background: var(--panel-2); border-radius: var(--r); padding: var(--s3);
-  overflow-x: auto; font-size: var(--t-sm); margin: 0 0 var(--s3);
+  background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r);
+  padding: var(--s4); overflow-x: auto; font-size: var(--t-sm); margin: 0 0 var(--s4);
 }
 .install .actions { padding: 0 }
-details.alt { margin-top: var(--s3); font-size: var(--t-sm); color: var(--fg-2) }
+details.alt { margin-top: var(--s4); font-size: var(--t-sm); color: var(--fg-2) }
 details.alt summary { cursor: pointer; color: var(--fg-3) }
 details.alt p { margin: var(--s2) 0 0; max-width: 66ch }
 
-/* ── sections nav + rendered markdown ─────────────────────────────────── */
-.cols { display: grid; grid-template-columns: 186px minmax(0, 1fr); gap: var(--s6); align-items: start }
-@media (max-width: 900px) { .cols { grid-template-columns: 1fr } .toc { position: static !important } }
-.toc { position: sticky; top: 62px; display: flex; flex-direction: column; gap: 1px; font-size: var(--t-sm) }
+/* ── sections nav + rendered markdown ──────────────────────────────────── */
+.cols { display: grid; grid-template-columns: 196px minmax(0, 1fr); gap: var(--s8); align-items: start }
+@media (max-width: 940px) { .cols { grid-template-columns: 1fr } .toc { position: static !important } }
+.toc { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 1px; font-size: var(--t-sm) }
 .toc a {
-  color: var(--fg-2); text-decoration: none; padding: 3px 0 3px var(--s3);
-  border-left: 2px solid var(--edge);
+  color: var(--fg-2); text-decoration: none; padding: 4px 0 4px var(--s3);
+  border-left: 2px solid var(--line);
 }
 .toc a:hover { color: var(--fg); border-color: var(--fg-3) }
 
-.doc { max-width: 72ch }
-.doc h2, .doc h3 { scroll-margin-top: 62px }
-.doc h1 { font-size: var(--t-xl); margin: var(--s6) 0 var(--s2) }
-.doc h2 { font-size: var(--t-lg); margin: var(--s6) 0 var(--s3); padding-bottom: var(--s2); border-bottom: 1px solid var(--edge) }
-.doc h3 { font-size: var(--t-md); margin: var(--s5) 0 var(--s1) }
+.doc { max-width: 74ch }
+.doc h2, .doc h3 { scroll-margin-top: 76px }
+.doc h1 { font: 400 var(--t-2xl)/1.2 var(--serif); margin: var(--s8) 0 var(--s3) }
+.doc h2 {
+  font: 500 var(--t-xl)/1.3 var(--serif); margin: var(--s8) 0 var(--s4);
+  padding-bottom: var(--s2); border-bottom: 1px solid var(--line);
+}
+.doc h3 { font: 600 var(--t-md) var(--sans); margin: var(--s6) 0 var(--s2) }
 .doc p, .doc li { color: var(--fg-2) }
 .doc strong { color: var(--fg); font-weight: 600 }
-.doc hr { border: 0; border-top: 1px solid var(--edge); margin: var(--s5) 0 }
+.doc hr { border: 0; border-top: 1px solid var(--line); margin: var(--s6) 0 }
 .doc blockquote {
-  margin: var(--s4) 0; padding: var(--s3); background: var(--flag-bg); color: var(--flag);
-  box-shadow: inset 0 0 0 1px currentColor; border-radius: var(--r);
+  margin: var(--s5) 0; padding: var(--s3) var(--s4); background: var(--surface-2);
+  border-left: 3px solid var(--line-2); border-radius: 0 var(--r) var(--r) 0;
 }
-.doc blockquote p { color: inherit; margin: 0 }
+.doc blockquote p { margin: 0 }
 .doc pre {
-  background: var(--panel); border: 1px solid var(--edge); border-radius: var(--r);
-  padding: var(--s3) var(--s4); overflow-x: auto; font-size: var(--t-sm); line-height: 1.5;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--r);
+  padding: var(--s4); overflow-x: auto; font-size: var(--t-sm); line-height: 1.6;
 }
-.doc :not(pre) > code { background: var(--panel-2); border-radius: 3px; padding: 1px 4px }
-.doc table { border-collapse: collapse; width: 100%; margin: var(--s4) 0; font-size: var(--t-sm); display: block; overflow-x: auto }
-.doc th, .doc td { border: 1px solid var(--edge); padding: var(--s1) var(--s3); text-align: left; vertical-align: top }
-.doc th { background: var(--panel); font-weight: 600; white-space: nowrap }
+.doc :not(pre) > code { background: var(--surface-2); border-radius: 4px; padding: 1.5px 5px }
+.doc table {
+  border-collapse: collapse; width: 100%; margin: var(--s5) 0;
+  font-size: var(--t-sm); display: block; overflow-x: auto;
+}
+.doc th, .doc td { border: 1px solid var(--line); padding: var(--s2) var(--s3); text-align: left; vertical-align: top }
+.doc th { background: var(--surface-2); font-weight: 600; white-space: nowrap }
 .doc td { color: var(--fg-2) }
 
 table.aliases { font-size: var(--t-sm); display: table; width: 100% }
-table.aliases td, table.aliases th { padding: 3px var(--s3); white-space: nowrap }
+table.aliases td, table.aliases th { padding: 4px var(--s3); white-space: nowrap }
 table.aliases td:last-child { white-space: normal }
 .declined, table.aliases tr.declined td { color: var(--fg-3) }
 
-.pager { display: flex; gap: var(--s4); justify-content: space-between; margin: var(--s6) 0 0; font-size: var(--t-sm) }
+.pager { display: flex; gap: var(--s5); justify-content: space-between; margin-top: var(--s8); font-size: var(--t-sm) }
 .pager a { color: var(--fg-2); text-decoration: none }
-.pager a:hover { color: var(--fg); text-decoration: underline }
+.pager a:hover { color: var(--fg) }
 
-/* ── compare ──────────────────────────────────────────────────────────── */
-.cbar { display: flex; gap: var(--s3); flex-wrap: wrap; align-items: center; margin-bottom: var(--s4) }
+/* ── compare ───────────────────────────────────────────────────────────── */
+.cbar { display: flex; gap: var(--s3); flex-wrap: wrap; align-items: center; margin-bottom: var(--s5) }
 .cbar select {
-  font: var(--t-md) inherit; padding: 6px 9px; border-radius: var(--r);
-  border: 1px solid var(--edge-2); background: var(--panel); color: var(--fg); min-width: 170px;
+  font: var(--t-sm) var(--sans); padding: 8px 11px; border-radius: var(--r);
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg); min-width: 180px;
+  box-shadow: var(--shadow);
 }
 .cbar .modes { display: flex; gap: var(--s1); margin-left: auto }
-.cpair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-bottom: var(--s6) }
-.cpair > div { border: 1px solid var(--edge); border-radius: var(--r); overflow: hidden; min-width: 0 }
-.cpair h2 {
-  margin: 0; padding: var(--s2) var(--s3); border-bottom: 1px solid var(--edge);
-  background: var(--panel); font-size: var(--t-md);
+.cpair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); margin-bottom: var(--s8) }
+.cpair > div {
+  border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden;
+  min-width: 0; background: var(--surface); box-shadow: var(--shadow);
 }
-.cpair h2 a { color: inherit; text-decoration: none }
-.cpair h2 em { font-style: normal; font-weight: 400; color: var(--fg-3); font-size: var(--t-sm) }
+.cpair h2 {
+  margin: 0; padding: var(--s3) var(--s4); border-bottom: 1px solid var(--line);
+  background: var(--surface-2); font: 500 var(--t-md) var(--sans);
+}
+.cpair h2 a { text-decoration: none }
+.cpair h2 em { font-style: normal; color: var(--fg-3); font-size: var(--t-sm); font-family: var(--mono) }
 .cpair iframe { display: block; width: 100%; height: 620px; border: 0 }
-.crow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); margin-bottom: var(--s6) }
-.crow section { border: 1px solid var(--edge); border-radius: var(--r); background: var(--panel); padding: var(--s3) var(--s4) }
-.crow h3 { margin: 0 0 var(--s2); font-size: var(--t-md) }
-.crow dl { display: grid; grid-template-columns: auto 1fr; gap: 2px var(--s3); margin: 0; font-size: var(--t-sm) }
-.crow dt { font-size: var(--t-xs); letter-spacing: .04em; text-transform: uppercase; color: var(--fg-3); padding-top: 2px }
+.crow { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); margin-bottom: var(--s8) }
+.crow section {
+  border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+  padding: var(--s4) var(--s5); box-shadow: var(--shadow);
+}
+.crow h3 { margin: 0 0 var(--s3); font: 500 var(--t-md) var(--sans) }
+.crow dl { display: grid; grid-template-columns: auto 1fr; gap: 3px var(--s4); margin: 0; font-size: var(--t-sm) }
+.crow dt {
+  font: 500 var(--t-xs)/1.8 var(--mono); letter-spacing: .07em;
+  text-transform: uppercase; color: var(--fg-3);
+}
 .crow dd { margin: 0; color: var(--fg-2) }
-h2.crule { font-size: var(--t-lg); margin: 0 0 var(--s3); padding-bottom: var(--s2); border-bottom: 1px solid var(--edge) }
-.cdiff { overflow-x: auto; margin-bottom: var(--s6) }
+h2.crule {
+  font: 500 var(--t-xl) var(--serif); margin: 0 0 var(--s4);
+  padding-bottom: var(--s2); border-bottom: 1px solid var(--line);
+}
+.cdiff { overflow-x: auto; margin-bottom: var(--s8) }
 .cdiff table.aliases { border-collapse: collapse }
-.cdiff th, .cdiff td { border: 1px solid var(--edge); text-align: left }
-.cdiff th { background: var(--panel); font-weight: 600 }
-@media (max-width: 900px) { .cpair, .crow { grid-template-columns: 1fr } }
+.cdiff th, .cdiff td { border: 1px solid var(--line); text-align: left }
+.cdiff th { background: var(--surface-2); font-weight: 600 }
+@media (max-width: 940px) { .cpair, .crow { grid-template-columns: 1fr } }
 
-/* ── about ────────────────────────────────────────────────────────────── */
-.about h2 { font-size: var(--t-lg); margin: var(--s6) 0 var(--s2) }
-.about p, .about li { color: var(--fg-2) }
-.about ol, .about ul { padding-left: var(--s5) }
-.about li { margin: 2px 0 }
+/* ── prose pages ───────────────────────────────────────────────────────── */
+.prose h2 { font: 500 var(--t-xl) var(--serif); margin: var(--s8) 0 var(--s3) }
+.prose h3 { font: 600 var(--t-md) var(--sans); margin: var(--s6) 0 var(--s2) }
+.prose p, .prose li { color: var(--fg-2) }
+.prose ol, .prose ul { padding-left: var(--s5) }
+.prose li { margin: 3px 0 }
+.prose dl.spec { display: grid; grid-template-columns: auto 1fr; gap: var(--s2) var(--s5); margin: var(--s4) 0 }
+.prose dl.spec dt {
+  font: 500 var(--t-xs)/1.9 var(--mono); letter-spacing: .07em;
+  text-transform: uppercase; color: var(--fg-3);
+}
+.prose dl.spec dd { margin: 0; color: var(--fg-2); font-size: var(--t-sm) }
 
-footer { border-top: 1px solid var(--edge); margin-top: var(--s7); padding: var(--s4) 0 var(--s6) }
+/* ── footer ────────────────────────────────────────────────────────────── */
+.foot { border-top: 1px solid var(--line); margin-top: var(--s8); background: var(--surface-2) }
+.foot .wrap { padding-top: var(--s7); padding-bottom: var(--s6) }
+.foot-grid {
+  display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--s6);
+  padding-bottom: var(--s6); border-bottom: 1px solid var(--line);
+}
+@media (max-width: 720px) { .foot-grid { grid-template-columns: 1fr 1fr } .foot-brand { grid-column: 1 / -1 } }
+.foot-brand { display: flex; flex-direction: column; gap: var(--s3); max-width: 40ch }
+.foot-brand p { margin: 0; font-size: var(--t-sm); color: var(--fg-2) }
+.foot-grid h2 {
+  font: 500 var(--t-xs)/1 var(--mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--fg-3); margin: 0 0 var(--s3);
+}
+.foot-grid > div > a {
+  display: block; font-size: var(--t-sm); color: var(--fg-2);
+  text-decoration: none; padding: 3px 0;
+}
+.foot-grid > div > a:hover { color: var(--fg) }
+.foot-legal {
+  display: flex; gap: var(--s3) var(--s5); flex-wrap: wrap;
+  padding-top: var(--s4); font-size: var(--t-xs); color: var(--fg-3);
+}
+.foot-legal p { margin: 0 }
+.foot-legal a { color: var(--fg-2) }
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important }
+}

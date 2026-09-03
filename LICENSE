@@ -1,0 +1,64 @@
+# Licensing
+
+This repository is licensed in two parts, because it holds two different kinds
+of thing.
+
+## The design systems — MIT
+
+The markdown files under `systems/<slug>/<slug>.md`, their generated
+`preview.html`, and anything under a system's `assets/` directory.
+
+Copy them into any project, commercial or otherwise, adapt them, ship them.
+That is what they are for: every system file opens with instructions to install
+it into another project.
+
+MIT License
+
+Copyright (c) 2026 rorpheeyah
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## The site — all rights reserved
+
+Copyright (c) 2026 rorpheeyah. All rights reserved.
+
+Covers the browse UI and everything that builds it: `scripts/`,
+`site/assets/`, `CLAUDE.md`, `README.md`, the skills under `.claude/`, and the
+written content of the site's own pages.
+
+## Reference records — not mine to license
+
+A system whose frontmatter says `origin: reference` is a reading of someone
+else's published work.
+
+The annotations, the approximated tokens and the criticism in such a file are
+mine and fall under the MIT licence above. **The design being described does
+not.** It belongs to its authors, who are credited in the file's `credit`
+field and on its page. No assets from the original are reproduced here — the
+token values are approximations made by eye from published screenshots, not
+transcriptions of anyone's source.
+
+At the time of writing that applies to:
+
+- `systems/pharmly/` — *Pharmacy Management Admin Dashboard UI Design* by
+  Opedia Studio, Samsun Nahar and M A Monim, published on Behance,
+  13 December 2024.
+
+If you are one of the credited authors and would like a record amended or
+removed, open an issue and it will be.

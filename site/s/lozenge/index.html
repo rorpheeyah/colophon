@@ -4,38 +4,57 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Lozenge — colophon</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Cpath%20d%3D%22M32%203H18A15%2015%200%200%200%203%2018v28a15%2015%200%200%200%2015%2015h14z%22%20fill%3D%22%23B03A2E%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%23B03A2E%22%20stroke-width%3D%225%22%2F%3E%3Crect%20x%3D%2212%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23B03A2E%22%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <link rel="stylesheet" href="../../assets/style.css">
 <script>
-  // Before paint, so a chosen theme never flashes the other one.
+  // Resolved before first paint. Two states in the UI; the OS decides only
+  // which one a first-time visitor lands in.
   try {
-    const t = localStorage.getItem('colophon-theme');
-    if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
-  } catch {}
+    var t = localStorage.getItem('colophon-theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.dataset.theme = t;
+  } catch (e) { document.documentElement.dataset.theme = 'light'; }
 </script>
 </head>
 <body>
-<div class="top"><div class="wrap">
-  <b>colophon</b>
+<header class="top"><div class="wrap">
+  <a class="lockup " href="../../index.html">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+  <mask id="mk-cph">
+    <rect width="64" height="64" fill="#fff"/>
+    <rect x="32" width="32" height="64" fill="#000"/>
+    <rect x="34" y="28" width="18" height="8" rx="4" fill="#fff"/>
+    <rect x="12" y="28" width="18" height="8" rx="4" fill="#000"/>
+  </mask>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="currentColor" mask="url(#mk-cph)"/>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
+</svg><span>colophon</span>
+</a>
   <nav><a href="../../index.html">Library</a><a href="../../compare.html">Compare</a><a href="../../about.html">About</a></nav>
-  <button class="theme" id="theme" aria-label="Change theme">
-<svg data-t="system" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
-  <circle cx="8" cy="8" r="5.9" fill="none" stroke="currentColor" stroke-width="1.4"/>
-  <path d="M8 2.1a5.9 5.9 0 000 11.8z" fill="currentColor"/></svg>
-<svg data-t="light" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
+  <div class="tools">
+    <a class="ghost" href="https://github.com/rorpheeyah/colophon" rel="noreferrer">GitHub</a>
+    <button class="theme" id="theme" aria-label="Switch theme">
+<svg data-t="light" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
   <circle cx="8" cy="8" r="3.1" fill="currentColor"/>
   <path d="M8 .9v2.1M8 13v2.1M.9 8h2.1M13 8h2.1M3 3l1.5 1.5M11.5 11.5L13 13M13 3l-1.5 1.5M4.5 11.5L3 13"
-    stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
-<svg data-t="dark" width="15" height="15" viewBox="0 0 16 16" aria-hidden="true">
-  <path d="M13.4 10.3A6.2 6.2 0 015.7 2.6a6.2 6.2 0 107.7 7.7z" fill="currentColor"/></svg></button>
-</div></div>
+    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+<svg data-t="dark" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+  <path d="M13.4 10.3A6.2 6.2 0 0 1 5.7 2.6a6.2 6.2 0 1 0 7.7 7.7z" fill="currentColor"/></svg></button>
+  </div>
+</div></header>
 
+<main>
 <div class="wrap">
   <nav class="crumbs">
   <a href="../../index.html">Library</a> <span>/</span> <b>Lozenge</b>
 </nav>
   <div class="head">
     <div>
-      <h1>Lozenge <em>1.1</em></h1>
+      <h1>Lozenge <em>1.0</em></h1>
       <div class="meta">
   <span class="tag">utility</span>
   <span class="tag">compact</span>
@@ -483,26 +502,62 @@ aliases would keep their light values.</p>
     }
   }
   fitAll(pair.querySelectorAll('iframe'));
-</script>
-<footer><div class="wrap eyebrow">Generated from the repo</div></footer>
+</script></main>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="lockup sm" href="../../index.html">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+  <mask id="mk-cph">
+    <rect width="64" height="64" fill="#fff"/>
+    <rect x="32" width="32" height="64" fill="#000"/>
+    <rect x="34" y="28" width="18" height="8" rx="4" fill="#fff"/>
+    <rect x="12" y="28" width="18" height="8" rx="4" fill="#000"/>
+  </mask>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="currentColor" mask="url(#mk-cph)"/>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
+</svg><span>colophon</span>
+</a>
+      <p>Design systems as drop-in markdown. Each one is a single file; the site is a browser for it.</p>
+    </div>
+    <div>
+      <h2>Library</h2>
+      <a href="../../s/lozenge/index.html">Lozenge</a><a href="../../s/newsprint/index.html">Newsprint</a><a href="../../s/pharmly/index.html">Pharmly</a>
+    </div>
+    <div>
+      <h2>Project</h2>
+      <a href="../../about.html">About</a>
+      <a href="../../colophon.html">Colophon</a>
+      <a href="https://github.com/rorpheeyah/colophon" rel="noreferrer">Source</a>
+    </div>
+  </div>
+  <div class="foot-legal">
+    <p>&copy; 2026 colophon (rorpheeyah). Site and writing all rights reserved.</p>
+    <p>The design system files are <a href="../../colophon.html#licensing">MIT licensed</a>.</p>
+  </div>
+</div></footer>
+
 <script>
-  // Site chrome only. A preview's light and dark come from its tokens block.
   (() => {
-    const order = ['system', 'light', 'dark'];
+    const root = document.documentElement;
     const btn = document.getElementById('theme');
-    const read = () => { try { return localStorage.getItem('colophon-theme') || 'system'; } catch { return 'system'; } };
-    const show = t => {
-      if (t === 'system') delete document.documentElement.dataset.theme;
-      else document.documentElement.dataset.theme = t;
+    const frames = () => document.querySelectorAll('iframe[data-follow-theme]');
+
+    function set(t) {
+      root.dataset.theme = t;
       btn.dataset.state = t;
-      btn.title = 'Theme: ' + t;
-    };
-    show(read());
-    btn.addEventListener('click', () => {
-      const next = order[(order.indexOf(read()) + 1) % order.length];
-      try { localStorage.setItem('colophon-theme', next); } catch {}
-      show(next);
-    });
+      btn.title = t === 'dark' ? 'Switch to light' : 'Switch to dark';
+      // card previews show the mode you are actually in
+      for (const f of frames()) {
+        const base = f.dataset.src;
+        const next = base + (t === 'dark' ? '&mode=dark' : '&mode=light');
+        if (f.getAttribute('src') !== next) f.setAttribute('src', next);
+      }
+      try { localStorage.setItem('colophon-theme', t); } catch (e) {}
+    }
+    set(root.dataset.theme === 'dark' ? 'dark' : 'light');
+    btn.addEventListener('click', () => set(root.dataset.theme === 'dark' ? 'light' : 'dark'));
   })();
 </script>
 </body>

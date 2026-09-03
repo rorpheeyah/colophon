@@ -32,8 +32,9 @@ binding for all UI work. Where a rule and your instinct disagree, the rule wins.
   </details>
 </section>`
 
-export const systemPage = s => shell({
-  base: '../../', current: null, title: `${s.system} — colophon`,
+export const systemPage = (s, all) => shell({
+  base: '../../', current: null, systems: all,
+  title: `${s.system} — colophon`,
   body: html`
 <div class="wrap">
   ${crumbs('../../', [s.system])}

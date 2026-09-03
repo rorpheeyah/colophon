@@ -9,18 +9,27 @@ const GROUPS = ['register', 'density', 'origin', 'status']
 const chips = (key, values) => values.map(v =>
   html`<button class="chip" data-k="${key}" data-v="${v}" title="${key}: ${v}" aria-pressed="false">${v}</button>`)
 
+// The thumbnail follows the site theme rather than being pinned to light —
+// a system's whole claim is that it works in both, so the card should show
+// the one the reader is actually in. The paired view lives on the system page.
+//
+// A system that published no dark mode is the exception: following the theme
+// would render its "not published" notice, and an empty card reads as broken
+// rather than as a statement. Those stay in light and say so.
 const card = s => html`
 <article class="card" data-slug="${s.slug}">
-  <a class="thumb" href="s/${s.slug}/index.html" aria-label="Open ${s.system}">
-    <iframe src="s/${s.slug}/preview.html?mode=light&amp;chrome=0" loading="lazy"
-            title="${s.system} preview" tabindex="-1" scrolling="no"></iframe>
+  <a class="thumb" href="s/${s.slug}/index.html" aria-label="Open ${s.system}" tabindex="-1">
+    <iframe src="s/${s.slug}/preview.html?chrome=0&amp;mode=light"
+            ${s.hasDark ? html`data-follow-theme data-src="s/${s.slug}/preview.html?chrome=0"` : ''}
+            loading="lazy" title="${s.system} preview" tabindex="-1" scrolling="no"></iframe>
+    ${!s.hasDark && html`<span class="pin">light only</span>`}
   </a>
   <div class="body">
     <h2><a href="s/${s.slug}/index.html">${s.system}</a> <em>${s.version}</em></h2>
     ${tags(s)}
     <dl class="fit">
-      <dt class="yes">For</dt><dd>${s.bestFor.slice(0, 3).join(', ')}</dd>
-      <dt class="no">Not</dt><dd>${s.avoidFor.slice(0, 2).join(', ')}</dd>
+      <dt class="y">For</dt><dd>${s.bestFor.slice(0, 3).join(', ')}</dd>
+      <dt class="n">Not</dt><dd>${s.avoidFor.slice(0, 2).join(', ')}</dd>
     </dl>
     <div class="actions">
       <a class="btn primary" href="s/${s.slug}/${s.slug}.md" download>Download .md</a>
@@ -36,10 +45,14 @@ export const libraryPage = all => {
     .filter(([, values]) => values.length > 1)
 
   return shell({
-    base: '', current: 'library', title: 'colophon — design system library',
+    base: '', current: 'library', systems: all,
+    title: 'colophon — design system library',
     body: html`
 <div class="wrap">
   <h1>Library</h1>
+  <p class="lede">One markdown file per system. Drop it into a project and
+  AI-assisted development follows it.</p>
+
   <div class="bar">
     <label class="searchwrap">
       ${SEARCH_ICON}
