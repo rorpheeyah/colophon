@@ -418,6 +418,10 @@ misplace a declared one.
   no declared colour.
 - **Thumbnails carry no typeface** — an `<img>` cannot load one, so text is set in the generic
   each declared stack ends with.
+- **Overlapping avatars are separated by a 2px seam cut out of each.** A ring is a shadow and an
+  outline is a border, and two of the three systems forbid each outright, so the separation is
+  geometric. The cut is straight rather than disc-shaped, so it suits a circle and a square
+  alike and says nothing about curvature.
 - **Line weights** are the template's: 1px for a hairline, 2px for emphasis. No alias describes
   them, which is a known gap rather than a decision made silently.
 - **Sample content and layout** — figures, labels, record names, how many stat tiles, how many

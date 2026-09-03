@@ -285,6 +285,15 @@ input.input{font:13px var(--clp-font-body);width:100%}
 .slider input::-moz-range-thumb{width:15px;height:15px;box-sizing:border-box;
   border-radius:var(--clp-radius-control);background:var(--clp-surface);border:2px solid var(--clp-text)}
 .avatars{display:flex;gap:4px}
+.avatars.lap{gap:0;
+  --_seam:linear-gradient(90deg,currentColor 15px,transparent 15px 17px,currentColor 17px)}
+.avatars.lap span{margin-left:-9px}
+.avatars.lap span:first-child{margin-left:0}
+.avatars.lap span:not(:last-child){
+  /* the label moves into the part that stays visible; a stacked avatar
+     normally carries a photo, where the crop does not matter */
+  justify-items:start;padding-left:4px;
+  mask-image:var(--_seam);-webkit-mask-image:var(--_seam)}
 .avatars span{display:grid;place-items:center;width:26px;height:26px;
   border-radius:var(--clp-radius-control);background:var(--clp-line);
   color:var(--clp-text-2);font:700 10px/1 var(--_data)}
@@ -513,7 +522,10 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
     </div>
     <div class="prog"><i style="width:62%"></i></div>
     <label class="slider"><input type="range" min="0" max="100" value="44" aria-label="Threshold"></label>
-    <div class="avatars"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
+    <div class="row">
+      <div class="avatars"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
+      <div class="avatars lap"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
+    </div>
     <div class="skel"><i></i><i></i><i></i></div>
     <details class="acc" open><summary>What this system refuses</summary>
       <p>Declining an alias is a statement, not a gap.</p></details>
