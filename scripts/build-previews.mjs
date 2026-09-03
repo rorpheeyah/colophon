@@ -90,6 +90,54 @@ function tipTreatment(t) {
   return null
 }
 
+// Overlapping avatars, drawn as SVG so the seam can follow the neighbour's own
+// corner radius instead of cutting straight across it. A straight cut left a
+// capsule with a flat trailing edge, which read as a sliced slab rather than as
+// a disc behind a disc.
+//
+// The cutter is the neighbour's outline offset outward by the seam width, and
+// for a rounded rect that offset is the same shape at radius + seam. So the
+// curvature is the system's own --clp-radius-control and the template only
+// supplies the 2px, which it already owns.
+//
+// rx is set in CSS and never as an attribute, so it stays a var() reference.
+// SVG clamps rx to half the side, and that clamp is what turns Lozenge's 999px
+// into a true circle and its cutter into a true crescent — no min() needed. A
+// system declaring a unitless 0 makes the calc invalid, rx falls back to 0, and
+// the cut is straight, which is the right answer for a square anyway.
+//
+// The mask's white and black are its 1 and 0 — the alpha channel of a luminance
+// mask, not an appearance. They are the only two literals in here.
+const AV = 26, SEAM = 2, TUCK = 6
+function avatarStack(labels, { lap = false } = {}) {
+  const pitch = lap ? AV - TUCK : AV + 4
+  const slice = pitch - SEAM              // what stays visible of a tucked avatar
+  const W = AV + pitch * (labels.length - 1)
+  const named = labels.filter(l => !l.startsWith('+'))
+  const more = labels.find(l => l.startsWith('+'))
+
+  const items = labels.map((label, i) => {
+    const cut = lap && i < labels.length - 1
+    return `<g transform="translate(${i * pitch} 0)">` +
+      `<g class="av${label.startsWith('+') ? ' more' : ''}"${cut ? ' mask="url(#av-seam)"' : ''}>` +
+      `<rect width="${AV}" height="${AV}"/>` +
+      // the label centres in the slice that stays visible, not in the whole avatar
+      `<text x="${cut ? slice / 2 : AV / 2}" y="${AV / 2}">${esc(label)}</text>` +
+      `</g></g>`
+  }).join('')
+
+  const mask = lap ? `<mask id="av-seam" maskUnits="userSpaceOnUse"
+      x="0" y="0" width="${AV}" height="${AV}">
+      <rect width="${AV}" height="${AV}" fill="white"/>
+      <rect class="av-cut" x="${pitch - SEAM}" y="${-SEAM}"
+            width="${AV + SEAM * 2}" height="${AV + SEAM * 2}" fill="black"/>
+    </mask>` : ''
+
+  return `<svg class="avstack" viewBox="0 0 ${W} ${AV}" width="${W}" height="${AV}" role="img"
+    aria-label="${esc(`Assigned to ${named.join(', ')}${more ? `, and ${more.slice(1)} more` : ''}`)}"
+    >${mask}${items}</svg>`
+}
+
 const group = (title, ...parts) => {
   const body = parts.filter(Boolean).join('\n')
   return body ? `<section class="grp"><h4>${title}</h4>${body}</div></section>` : ''
@@ -240,8 +288,8 @@ function stage(t, meta) {
     <div class="prog"><i style="width:62%"></i></div>
     <label class="slider"><input type="range" min="0" max="100" value="44" aria-label="Threshold"></label>
     <div class="row">
-      <div class="avatars"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
-      <div class="avatars lap"><span>SK</span><span>MR</span><span>AL</span><span class="more">+3</span></div>
+      ${avatarStack(['SK', 'MR', 'AL', '+3'])}
+      ${avatarStack(['SK', 'MR', 'AL', '+3'], { lap: true })}
     </div>
     <div class="skel"><i></i><i></i><i></i></div>
     <details class="acc" open><summary>What this system refuses</summary>
@@ -528,27 +576,15 @@ input.input{font:13px var(--clp-font-body);width:100%}
   border:2px solid var(--clp-text)}
 .slider input::-moz-range-thumb{width:15px;height:15px;box-sizing:border-box;
   border-radius:var(--clp-radius-control);background:var(--clp-surface);border:2px solid var(--clp-text)}
-.avatars{display:flex;gap:4px;--_av:26px}
-/* Overlap is 6px of 26, and the seam is cut 2px before the next avatar's
-   leading edge, so the 2px gap falls between the two shapes rather than under
-   one of them. That leaves 18px of each avatar showing, which is what the
-   modest overlap buys: two initials fit centred in the visible slice instead
-   of being pushed against the cut and clipped mid-letter. */
-.avatars.lap{gap:0;--_ov:6px;--_edge:calc(var(--_av) - var(--_ov));
-  --_seam:linear-gradient(90deg,currentColor calc(var(--_edge) - 2px),
-    transparent calc(var(--_edge) - 2px) var(--_edge),currentColor var(--_edge))}
-.avatars.lap span{margin-left:calc(var(--_ov) * -1)}
-.avatars.lap span:first-child{margin-left:0}
-.avatars.lap span:not(:last-child){
-  /* the content box is the slice that stays visible, so place-items centres
-     the initials in what can be seen and not in the whole avatar */
-  padding-right:calc(var(--_ov) + 2px);
-  mask-image:var(--_seam);-webkit-mask-image:var(--_seam)}
-.avatars span{box-sizing:border-box;display:grid;place-items:center;
-  width:var(--_av);height:var(--_av);
-  border-radius:var(--clp-radius-control);background:var(--clp-line);
-  color:var(--clp-text-2);font:700 10px/1 var(--_data)}
-.avatars .more{background:var(--clp-text);color:var(--clp-bg)}
+.avstack{display:block;flex:none}
+.avstack .av rect{rx:var(--clp-radius-control);fill:var(--clp-line)}
+.avstack .av text{font:700 10px/1 var(--_data);fill:var(--clp-text-2);
+  text-anchor:middle;dominant-baseline:central}
+.avstack .more rect{fill:var(--clp-text)}
+.avstack .more text{fill:var(--clp-bg)}
+/* the cutter is the neighbour's shape grown by the seam width, so the gap
+   follows the curve the system declared rather than cutting across it */
+.av-cut{rx:calc(var(--clp-radius-control) + 2px)}
 .acc{border-bottom:1px solid var(--clp-line);padding:8px 0;max-width:340px}
 .acc summary{cursor:pointer;font-size:13px;font-weight:600}
 .acc p{margin:6px 0 0;font-size:12.5px;color:var(--clp-text-2)}
