@@ -69,7 +69,7 @@ code, kbd { font-family: var(--mono); font-size: .9em }
 h1, h2, h3 { letter-spacing: -.018em; text-wrap: balance }
 :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: 3px }
 
-.wrap { max-width: 1200px; margin: 0 auto; padding: 0 var(--s5) }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 clamp(var(--s4), 4vw, var(--s5)) }
 .wrap.narrow { max-width: 760px }
 .eyebrow {
   font: 500 var(--t-xs)/1 var(--mono); letter-spacing: .12em;
@@ -120,7 +120,7 @@ h1, h2, h3 { letter-spacing: -.018em; text-wrap: balance }
 .crumbs a:hover { color: var(--fg) }
 .crumbs b { color: var(--fg); font-weight: 500 }
 
-h1 { font: 400 var(--t-2xl)/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
+h1 { font: 400 clamp(24px, 5vw, var(--t-2xl))/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
 .crumbs + h1 { margin-top: var(--s3) }
 .lede { color: var(--fg-2); margin: 0; max-width: 64ch }
 
@@ -132,10 +132,11 @@ h1 { font: 400 var(--t-2xl)/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
 }
 .searchwrap { position: relative; display: flex; align-items: center }
 .searchwrap svg { position: absolute; left: 11px; color: var(--fg-3); pointer-events: none }
+.searchwrap { flex: 1 1 220px; max-width: 280px }
 .searchwrap input {
   font: var(--t-sm) var(--sans); padding: 8px 12px 8px 32px; border-radius: var(--r);
   border: 1px solid var(--line); background: var(--surface); color: var(--fg);
-  width: 250px; box-shadow: var(--shadow);
+  width: 100%; box-shadow: var(--shadow);
 }
 .searchwrap input::placeholder { color: var(--fg-3) }
 .chips { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s1) }
@@ -152,7 +153,10 @@ h1 { font: 400 var(--t-2xl)/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
 .clear:hover { color: var(--fg); text-decoration: underline }
 
 /* ── library ───────────────────────────────────────────────────────────── */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: var(--s5) }
+.grid {
+  display: grid; gap: var(--s5);
+  grid-template-columns: repeat(auto-fill, minmax(min(340px, 100%), 1fr));
+}
 .card {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
   display: flex; flex-direction: column; overflow: hidden; box-shadow: var(--shadow);
@@ -187,7 +191,7 @@ h1 { font: 400 var(--t-2xl)/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
 }
 .tag.ref { color: var(--fg); box-shadow: inset 0 0 0 1px var(--line-2); background: transparent }
 
-.fit { display: grid; grid-template-columns: auto 1fr; gap: 3px var(--s3); font-size: var(--t-sm); margin: 0 }
+.fit { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px var(--s3); font-size: var(--t-sm); margin: 0 }
 .fit dt {
   font: 600 var(--t-xs)/1.7 var(--mono); letter-spacing: .08em;
   text-transform: uppercase;
@@ -251,7 +255,7 @@ h1 { font: 400 var(--t-2xl)/1.15 var(--serif); margin: var(--s6) 0 var(--s3) }
 .pvpair[data-show="light"], .pvpair[data-show="dark"] { grid-template-columns: 1fr }
 .pvpair[data-show="light"] .pv-dark, .pvpair[data-show="dark"] .pv-light,
 .pvpair[data-show="light"] > div > b, .pvpair[data-show="dark"] > div > b { display: none }
-@media (max-width: 940px) { .pvpair { grid-template-columns: 1fr } }
+@media (max-width: 940px) { .pvpair { grid-template-columns: minmax(0, 1fr) } }
 
 .install {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
@@ -270,7 +274,11 @@ details.alt p { margin: var(--s2) 0 0; max-width: 66ch }
 
 /* ── sections nav + rendered markdown ──────────────────────────────────── */
 .cols { display: grid; grid-template-columns: 196px minmax(0, 1fr); gap: var(--s8); align-items: start }
-@media (max-width: 940px) { .cols { grid-template-columns: 1fr } .toc { position: static !important } }
+@media (max-width: 940px) {
+  .cols { grid-template-columns: minmax(0, 1fr) }
+  .toc { position: static !important; flex-direction: row; flex-wrap: wrap; gap: var(--s2) }
+  .toc a { border-left: 0; border-bottom: 2px solid var(--line); padding: 2px 0 }
+}
 .toc { position: sticky; top: 76px; display: flex; flex-direction: column; gap: 1px; font-size: var(--t-sm) }
 .toc a {
   color: var(--fg-2); text-decoration: none; padding: 4px 0 4px var(--s3);
@@ -320,8 +328,8 @@ table.aliases td:last-child { white-space: normal }
 .cbar { display: flex; gap: var(--s3); flex-wrap: wrap; align-items: center; margin-bottom: var(--s5) }
 .cbar select {
   font: var(--t-sm) var(--sans); padding: 8px 11px; border-radius: var(--r);
-  border: 1px solid var(--line); background: var(--surface); color: var(--fg); min-width: 180px;
-  box-shadow: var(--shadow);
+  border: 1px solid var(--line); background: var(--surface); color: var(--fg);
+  flex: 1 1 150px; min-width: 0; max-width: 220px; box-shadow: var(--shadow);
 }
 .cbar .modes { display: flex; gap: var(--s1); margin-left: auto }
 .cpair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); margin-bottom: var(--s8) }
@@ -342,7 +350,7 @@ table.aliases td:last-child { white-space: normal }
   padding: var(--s4) var(--s5); box-shadow: var(--shadow);
 }
 .crow h3 { margin: 0 0 var(--s3); font: 500 var(--t-md) var(--sans) }
-.crow dl { display: grid; grid-template-columns: auto 1fr; gap: 3px var(--s4); margin: 0; font-size: var(--t-sm) }
+.crow dl { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 3px var(--s4); margin: 0; font-size: var(--t-sm) }
 .crow dt {
   font: 500 var(--t-xs)/1.8 var(--mono); letter-spacing: .07em;
   text-transform: uppercase; color: var(--fg-3);
@@ -356,7 +364,7 @@ h2.crule {
 .cdiff table.aliases { border-collapse: collapse }
 .cdiff th, .cdiff td { border: 1px solid var(--line); text-align: left }
 .cdiff th { background: var(--surface-2); font-weight: 600 }
-@media (max-width: 940px) { .cpair, .crow { grid-template-columns: 1fr } }
+@media (max-width: 940px) { .cpair, .crow { grid-template-columns: minmax(0, 1fr) } }
 
 /* ── prose pages ───────────────────────────────────────────────────────── */
 .prose h2 { font: 500 var(--t-xl) var(--serif); margin: var(--s8) 0 var(--s3) }
@@ -364,7 +372,7 @@ h2.crule {
 .prose p, .prose li { color: var(--fg-2) }
 .prose ol, .prose ul { padding-left: var(--s5) }
 .prose li { margin: 3px 0 }
-.prose dl.spec { display: grid; grid-template-columns: auto 1fr; gap: var(--s2) var(--s5); margin: var(--s4) 0 }
+.prose dl.spec { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--s2) var(--s5); margin: var(--s4) 0 }
 .prose dl.spec dt {
   font: 500 var(--t-xs)/1.9 var(--mono); letter-spacing: .07em;
   text-transform: uppercase; color: var(--fg-3);
@@ -378,7 +386,10 @@ h2.crule {
   display: grid; grid-template-columns: 2fr 1fr 1fr; gap: var(--s6);
   padding-bottom: var(--s6); border-bottom: 1px solid var(--line);
 }
-@media (max-width: 720px) { .foot-grid { grid-template-columns: 1fr 1fr } .foot-brand { grid-column: 1 / -1 } }
+@media (max-width: 720px) {
+  .foot-grid { grid-template-columns: 1fr 1fr }
+  .foot-brand { grid-column: 1 / -1 }
+}
 .foot-brand { display: flex; flex-direction: column; gap: var(--s3); max-width: 40ch }
 .foot-brand p { margin: 0; font-size: var(--t-sm); color: var(--fg-2) }
 .foot-grid h2 {
@@ -399,4 +410,51 @@ h2.crule {
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important }
+}
+
+
+/* ── small screens ─────────────────────────────────────────────────────────
+   The masthead sheds its least important element first (the GitHub link),
+   then tightens. Nav and the theme toggle survive to the narrowest width,
+   because losing navigation behind a menu for three links is a worse trade
+   than a slightly crowded bar. */
+@media (max-width: 860px) {
+  .top .wrap { gap: var(--s4) }
+  .top nav { gap: var(--s4) }
+  .cols { gap: var(--s6) }
+}
+@media (max-width: 640px) {
+  .ghost { display: none }
+  .top .wrap { height: 52px; gap: var(--s3) }
+  .lockup span { font-size: 19px }
+  .lockup.sm span { font-size: 16px }
+  .top nav { gap: var(--s3); font-size: var(--t-xs) }
+
+  .bar { gap: var(--s3) }
+  .searchwrap { flex: 1 1 100%; max-width: none }
+  .count { margin-left: 0 }
+  .chips { gap: 5px }
+  .sep { display: none }
+
+  .head { gap: var(--s3) }
+  .head .actions { margin-left: 0; width: 100% }
+  .head .actions .btn { flex: 1 }
+  .install { padding: var(--s4) }
+  .install pre { font-size: 12px }
+
+  .pvpair iframe, .cpair iframe { height: 460px }
+  .frame > b { flex-wrap: wrap; gap: var(--s2) }
+  .frame .modes, .frame .full { margin-left: 0 }
+
+  .cbar select { max-width: none }
+  .cbar .modes { margin-left: 0; width: 100% }
+
+  .doc { max-width: none }
+  .pager { gap: var(--s3) }
+  .foot-legal { gap: var(--s2) }
+}
+@media (max-width: 420px) {
+  .foot-grid { grid-template-columns: minmax(0, 1fr) }
+  .actions { flex-wrap: wrap }
+  .actions .btn { flex: 1 1 auto }
 }
