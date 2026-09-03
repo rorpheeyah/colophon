@@ -267,17 +267,24 @@ input.input{font:13px var(--clp-font-body);width:100%}
   border:2px solid var(--clp-text)}
 .slider input::-moz-range-thumb{width:15px;height:15px;box-sizing:border-box;
   border-radius:var(--clp-radius-control);background:var(--clp-surface);border:2px solid var(--clp-text)}
-.avatars{display:flex;gap:4px}
-.avatars.lap{gap:0;
-  --_seam:linear-gradient(90deg,currentColor 15px,transparent 15px 17px,currentColor 17px)}
-.avatars.lap span{margin-left:-9px}
+.avatars{display:flex;gap:4px;--_av:26px}
+/* Overlap is 6px of 26, and the seam is cut 2px before the next avatar's
+   leading edge, so the 2px gap falls between the two shapes rather than under
+   one of them. That leaves 18px of each avatar showing, which is what the
+   modest overlap buys: two initials fit centred in the visible slice instead
+   of being pushed against the cut and clipped mid-letter. */
+.avatars.lap{gap:0;--_ov:6px;--_edge:calc(var(--_av) - var(--_ov));
+  --_seam:linear-gradient(90deg,currentColor calc(var(--_edge) - 2px),
+    transparent calc(var(--_edge) - 2px) var(--_edge),currentColor var(--_edge))}
+.avatars.lap span{margin-left:calc(var(--_ov) * -1)}
 .avatars.lap span:first-child{margin-left:0}
 .avatars.lap span:not(:last-child){
-  /* the label moves into the part that stays visible; a stacked avatar
-     normally carries a photo, where the crop does not matter */
-  justify-items:start;padding-left:4px;
+  /* the content box is the slice that stays visible, so place-items centres
+     the initials in what can be seen and not in the whole avatar */
+  padding-right:calc(var(--_ov) + 2px);
   mask-image:var(--_seam);-webkit-mask-image:var(--_seam)}
-.avatars span{display:grid;place-items:center;width:26px;height:26px;
+.avatars span{box-sizing:border-box;display:grid;place-items:center;
+  width:var(--_av);height:var(--_av);
   border-radius:var(--clp-radius-control);background:var(--clp-line);
   color:var(--clp-text-2);font:700 10px/1 var(--_data)}
 .avatars .more{background:var(--clp-text);color:var(--clp-bg)}
