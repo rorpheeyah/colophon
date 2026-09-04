@@ -22,16 +22,13 @@
 import { writeFileSync, readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { ROOT, systemSlugs, readSystem, tokensBlock, declaredAliases, scalar, list, FAVICON } from './lib.mjs'
+import {
+  esc, has, ref, densityFor, shimBlock, borderless, fontLink, tipTreatment,
+} from './preview-shared.mjs'
 import { barChart, lineChart, sparkline, donut, gauge, stacked, legend, ranked } from './preview-charts.mjs'
 import { thumbnail } from './preview-thumb.mjs'
-
-// Spacing for a system that declines --clp-gap/--clp-pad. Chosen by the `density`
-// field, which every system declares, so this is still the file speaking.
-const DENSITY = {
-  compact:     { gap: '8px',  pad: '12px 14px' },
-  comfortable: { gap: '14px', pad: '18px 20px' },
-  spacious:    { gap: '18px', pad: '22px 24px' },
-}
+import { screenDocument } from './screen-frame.mjs'
+import { archetypeFor } from './screens/index.mjs'
 
 // Letterforms and digits, never a sentence — a specimen cannot mistranslate.
 // A system declares its reach in `scripts`; anything listed here gets a line.
@@ -53,42 +50,8 @@ const SPECIMEN = {
   han:        { text: '永 東 國 書 語 文 字 體 一二三四五六七八九', name: 'Han' },
 }
 
-const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
-const has = (t, name) => { const v = t.get(name); return v !== undefined && v !== 'none' }
-const ref = (t, name, fallback) => (has(t, name) ? `var(${name})` : fallback)
-
-// Every quoted family named in the tokens block, so the preview sets in the
-// system's own type rather than in a fallback that flattens every system alike.
-function fontLink(css) {
-  const families = [...new Set([...css.matchAll(/"([A-Z][A-Za-z0-9 ]+)"/g)].map(m => m[1]))]
-    .filter(f => !/^(system-ui|ui-monospace|sans-serif|serif|monospace)$/i.test(f))
-  if (!families.length) return ''
-  const q = families.map(f => `family=${f.replace(/ /g, '+')}:wght@400;500;600;700`).join('&')
-  return `<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n` +
-         `<link rel="stylesheet" href="https://fonts.googleapis.com/css2?${q}&display=swap">`
-}
-
 // Each group renders only what the system declared. A group whose aliases are
 // all `none` disappears rather than being approximated.
-// A tooltip has to separate from whatever sits behind it. The three ways are
-// elevation, an edge, or a contrasting fill — and the system says which of
-// those it owns. A system declaring none of the three gets no tooltip rather
-// than one composed from nothing.
-function tipTreatment(t) {
-  const bw = t.get('--clp-border-width') ?? '0'
-  if (has(t, '--clp-shadow-surface')) {
-    return `background:var(--clp-surface);color:var(--clp-text);` +
-      `box-shadow:var(--clp-shadow-surface);border:0`
-  }
-  if (has(t, '--clp-border-color') && !/^0[a-z]*$/.test(bw)) {
-    return `background:var(--clp-surface);color:var(--clp-text);` +
-      `border:var(--clp-border-width) solid var(--clp-border-color)`
-  }
-  if (has(t, '--clp-invert-bg')) {
-    return `background:var(--clp-invert-bg);color:var(--clp-invert-text);border:0`
-  }
-  return null
-}
 
 // Overlapping avatars, drawn as SVG so the seam can follow the neighbour's own
 // corner radius instead of cutting straight across it. A straight cut left a
@@ -346,7 +309,7 @@ function render(sys) {
   if (!block) throw new Error(`${sys.slug}: no tokens block`)
 
   const t = declaredAliases(block.code)
-  const density = DENSITY[meta.density] ?? DENSITY.comfortable
+  const density = densityFor(meta)
   const hasDark = /\[data-mode\s*=\s*["']?dark["']?\]/.test(block.code)
   const spacingFromDensity = !has(t, '--clp-gap') || !has(t, '--clp-pad')
 
@@ -354,14 +317,7 @@ function render(sys) {
   const tipStyle = tipTreatment(t)
 
 
-  const shim = [
-    `--_gap: ${ref(t, '--clp-gap', density.gap)};`,
-    `--_pad: ${ref(t, '--clp-pad', density.pad)};`,
-    `--_data: ${ref(t, '--clp-font-data', 'var(--clp-font-body)')};`,
-    `--_script: ${ref(t, '--clp-font-script', 'var(--clp-font-body)')};`,
-    `--_press: ${ref(t, '--clp-press', 'none')};`,
-    `--_border: ${has(t, '--clp-border-color') ? 'var(--clp-border-width) solid var(--clp-border-color)' : '0'};`,
-  ].join(' ')
+  const shim = shimBlock(t, meta)
 
   const notes = [
     hasDark ? '' : 'Dark mode was not published for this system, so none is shown.',
@@ -653,7 +609,7 @@ ${['success', 'warn', 'alarm'].filter(k => has(t, `--clp-${k}`)).map(k => {
 /* table */
 table{width:100%;border-collapse:collapse;font-size:13px;table-layout:fixed}
 td,th{overflow:hidden;text-overflow:ellipsis}
-${/^0[a-z]*$/.test(t.get('--clp-border-width') ?? '0')
+${borderless(t)
   ? `.tblock{background:var(--clp-surface);border-radius:var(--clp-radius-box);overflow:hidden}
 .tblock th{padding-top:11px}
 .tblock tr:last-child td{border-bottom:0}
@@ -757,6 +713,24 @@ ${SPECIMEN_CLOSE}
 </body>
 </html>
 `
+}
+
+/**
+ * systems/<slug>/screen.html — the same file, composed as one screen instead of
+ * as a sheet of every component at once.
+ */
+function renderScreen(sys) {
+  const meta = Object.fromEntries(Object.entries(sys.data)
+    .map(([k, v]) => [k, Array.isArray(v) ? v : v.value]))
+  const block = tokensBlock(sys.blocks)[0]
+  if (!block) throw new Error(`${sys.slug}: no tokens block`)
+
+  return screenDocument({
+    meta,
+    block,
+    t: declaredAliases(block.code),
+    archetype: archetypeFor(meta),
+  })
 }
 
 /**
@@ -873,6 +847,35 @@ export function assertNoAppearanceLiterals(html, slug) {
   return html
 }
 
+/**
+ * A screen observes the per-screen limits the specimen sheet cannot. The
+ * strictest of those in the library is Lozenge's — "Citron on more than one
+ * element per screen" — and unlike the composition rules beside it, this one is
+ * countable, so it is counted rather than left to discipline.
+ *
+ * The specimen is exempt by construction: it is a sheet, it shows the accent in
+ * its swatch row and wherever else the system declares it, and CLAUDE.md already
+ * says per-screen limits are not observed there.
+ */
+export function assertAccentBudget(html, slug) {
+  const at = html.indexOf(MARKER)
+  const from = html.indexOf(SPECIMEN_OPEN), to = html.indexOf(SPECIMEN_CLOSE)
+  if (at === -1 || from === -1 || to === -1) {
+    throw new Error(`${slug}: markers missing; the accent budget cannot scope itself`)
+  }
+  const regions = [
+    html.slice(at, html.indexOf('</style>', at)),
+    html.slice(from + SPECIMEN_OPEN.length, to),
+  ].join('\n')
+
+  const uses = (regions.match(/var\(--clp-accent\)/g) ?? []).length
+  if (uses > 1) {
+    throw new Error(`${slug}: the screen uses --clp-accent ${uses} times. ` +
+      `A screen observes per-screen limits, and the strictest in the library allows one.`)
+  }
+  return html
+}
+
 // ── run ──────────────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2)
@@ -886,8 +889,13 @@ for (const slug of slugs) {
   if (!sys) { console.error(`no such system: ${slug}`); process.exit(2) }
 
   const block = tokensBlock(sys.blocks)[0]
-  const files = [['preview.html',
-    assertBalancedTags(assertNoAppearanceLiterals(render(sys), slug), slug)]]
+  const files = [
+    ['preview.html',
+      assertBalancedTags(assertNoAppearanceLiterals(render(sys), slug), slug)],
+    ['screen.html',
+      assertAccentBudget(
+        assertBalancedTags(assertNoAppearanceLiterals(renderScreen(sys), slug), slug), slug)],
+  ]
   if (block) {
     for (const mode of ['light', 'dark']) {
       const svg = thumbnail(block.code, mode)

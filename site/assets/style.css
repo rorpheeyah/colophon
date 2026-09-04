@@ -291,6 +291,32 @@ h1 { font: 400 clamp(24px, 5vw, var(--t-2xl))/1.15 var(--serif); margin: var(--s
 .pvpair[data-show="light"] > div > b, .pvpair[data-show="dark"] > div > b { display: none }
 @media (max-width: 940px) { .pvpair { grid-template-columns: minmax(0, 1fr) } }
 
+/* Screen and specimen are two renderings of the same file. Both stay loaded so
+   switching does not reload, and whichever is visible is re-measured on switch. */
+.frame .views { display: flex; gap: var(--s1) }
+.frame[data-view="screen"] .pvpair,
+.frame[data-view="specimen"] .scpair { display: none }
+.scpair { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line) }
+.scpair > div { background: var(--bg); min-width: 0 }
+.scpair > div > b {
+  display: block; padding: var(--s1) var(--s3); border-bottom: 1px solid var(--line);
+  font: 500 var(--t-xs)/1.9 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--fg-3);
+}
+.scpair[data-show="light"], .scpair[data-show="dark"] { grid-template-columns: 1fr }
+.scpair[data-show="light"] .pv-dark, .scpair[data-show="dark"] .pv-light,
+.scpair[data-show="light"] > div > b, .scpair[data-show="dark"] > div > b { display: none }
+/* The screen renders at a fixed desktop viewport and is scaled to fit, so the
+   composition shown is the desktop one rather than whatever the column width
+   would trigger. Height is set from the scale factor in script. */
+.scviewport { position: relative; overflow: hidden; width: 100%; height: 620px }
+.scviewport iframe { display: block; border: 0; transform-origin: 0 0 }
+.frame .fnote {
+  margin: 0; padding: var(--s2) var(--s3); border-top: 1px solid var(--line);
+  background: var(--surface-2); font-size: var(--t-xs); color: var(--fg-3); line-height: 1.7;
+}
+.frame .fnote b { color: var(--fg-2); font-weight: 600 }
+@media (max-width: 940px) { .scpair { grid-template-columns: minmax(0, 1fr) } }
+
 .install {
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg);
   padding: var(--s5); margin: 0 0 var(--s6); box-shadow: var(--shadow);

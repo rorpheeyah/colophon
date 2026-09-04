@@ -55,22 +55,43 @@ export const systemPage = (s, all) => shell({
     claim of authorship. Tokens are approximated by eye. ${s.credit}
     ${s.sourceUrl && html`<a href="${s.sourceUrl}">Source</a>.`}</p>`}
 
-  <div class="frame">
-    <b>Generated preview
+  <div class="frame" id="frame" data-view="${s.hasScreen ? 'screen' : 'specimen'}">
+    <b>
+      ${s.hasScreen && html`<span class="views">
+        <button class="chip" data-view="screen" aria-pressed="true">Screen</button>
+        <button class="chip" data-view="specimen" aria-pressed="false">Specimen</button>
+      </span>`}
+      ${!s.hasScreen && html`<span>Generated preview</span>`}
       ${s.hasDark ? html`<span class="modes">
-        <button class="chip" data-pmode="both" aria-pressed="true">Both</button>
-        <button class="chip" data-pmode="light" aria-pressed="false">Light</button>
+        <button class="chip" data-pmode="both" aria-pressed="${!s.hasScreen}">Both</button>
+        <button class="chip" data-pmode="light" aria-pressed="${s.hasScreen}">Light</button>
         <button class="chip" data-pmode="dark" aria-pressed="false">Dark</button>
       </span>` : html`<span class="fine">Dark mode was not published for this system</span>`}
-      <a class="full" href="preview.html" target="_blank" rel="noreferrer"
-         title="Open the preview with no chrome around it">Full screen &#8599;</a>
+      <a class="full" id="fulllink" href="${s.hasScreen ? 'screen.html' : 'preview.html'}"
+         target="_blank" rel="noreferrer"
+         title="Open it with no chrome around it">Full screen &#8599;</a>
     </b>
+
+    ${s.hasScreen && html`<div class="scpair" id="scpair">
+      <div class="pv-light">${s.hasDark ? html`<b>Light</b>` : ''}
+        <div class="scviewport">
+          <iframe src="screen.html?chrome=0" title="${s.system} screen, light"></iframe></div></div>
+      ${s.hasDark && html`<div class="pv-dark"><b>Dark</b>
+        <div class="scviewport">
+          <iframe src="screen.html?chrome=0&amp;mode=dark" title="${s.system} screen, dark"></iframe></div></div>`}
+    </div>`}
+
     <div class="pvpair" id="pvpair">
       <div class="pv-light">${s.hasDark ? html`<b>Light</b>` : ''}
         <iframe src="preview.html?chrome=0" title="${s.system} preview, light"></iframe></div>
       ${s.hasDark && html`<div class="pv-dark"><b>Dark</b>
         <iframe src="preview.html?chrome=0&amp;mode=dark" title="${s.system} preview, dark"></iframe></div>`}
     </div>
+
+    ${s.hasScreen && html`<p class="fnote">The <b>screen</b> is one ${s.archetype} composition,
+      chosen by <code>register: ${s.register}</code>, and observes this system's per-screen
+      limits. The <b>specimen</b> shows every component it declares at once, which is why those
+      limits are not observed there.</p>`}
   </div>
 
   ${s.origin === 'own' ? installBlock(s) : html`
@@ -124,13 +145,73 @@ export const systemPage = (s, all) => shell({
   const pair = document.getElementById('pvpair');
   for (const btn of document.querySelectorAll('[data-pmode]')) {
     btn.addEventListener('click', () => {
-      const m = btn.dataset.pmode;
-      pair.dataset.show = m;
-      document.querySelectorAll('[data-pmode]').forEach(x =>
-        x.setAttribute('aria-pressed', x.dataset.pmode === m));
+      setMode(btn.dataset.pmode);
+      scaleScreens();
+      fitAll(pair.querySelectorAll('iframe'));
     });
   }
-  pair.dataset.show = ${json(s.hasDark ? 'both' : 'light')};
+  const scpair = document.getElementById('scpair');
+  // A screen is scaled to fit its pane, so two-up leaves it too small to read.
+  // It opens on one mode; the sheet, which is a reference, opens on both.
+  const initialMode = ${json(!s.hasDark ? 'light' : s.hasScreen ? 'light' : 'both')};
+  function setMode(m) {
+    pair.dataset.show = m;
+    if (scpair) scpair.dataset.show = m;
+    document.querySelectorAll('[data-pmode]').forEach(x =>
+      x.setAttribute('aria-pressed', x.dataset.pmode === m));
+  }
+  setMode(initialMode);
+
+  // The screen is fluid and full-bleed, so it cannot be measured and fitted the
+  // way the sheet is — its own min-height would be the frame's height and the
+  // two would chase each other. It is rendered at a fixed desktop viewport and
+  // scaled down instead, so what is shown is the desktop composition rather
+  // than the narrow one the column width would otherwise trigger.
+  const SCREEN_W = 1280, SCREEN_MIN_H = 720;
+  function scaleScreens() {
+    for (const vp of document.querySelectorAll('.scviewport')) {
+      const f = vp.querySelector('iframe');
+      if (!f || !vp.clientWidth) continue;
+      f.style.width = SCREEN_W + 'px';
+      // .scr carries min-height:100vh, so measuring at the frame's current
+      // height just returns that height. Shrink it first and the content is
+      // what pushes the document back out.
+      f.style.height = '200px';
+      const doc = f.contentDocument;
+      const h = doc
+        ? Math.max(Math.ceil(doc.documentElement.scrollHeight), SCREEN_MIN_H)
+        : SCREEN_MIN_H;
+      f.style.height = h + 'px';
+      // Measuring against a 200px frame can leave the document scrolled, which
+      // would crop the top bar once the frame is restored.
+      if (f.contentWindow) f.contentWindow.scrollTo(0, 0);
+      const k = vp.clientWidth / SCREEN_W;
+      f.style.transform = 'scale(' + k + ')';
+      vp.style.height = Math.round(h * k) + 'px';
+    }
+  }
+  for (const f of document.querySelectorAll('.scviewport iframe')) {
+    f.addEventListener('load', scaleScreens);
+  }
+  addEventListener('resize', scaleScreens);
+  scaleScreens();
+
+  const frame = document.getElementById('frame');
+  const fullLink = document.getElementById('fulllink');
+  for (const btn of document.querySelectorAll('[data-view]')) {
+    if (btn.tagName !== 'BUTTON') continue;
+    btn.addEventListener('click', () => {
+      const v = btn.dataset.view;
+      frame.dataset.view = v;
+      fullLink.href = v === 'screen' ? 'screen.html' : 'preview.html';
+      document.querySelectorAll('button[data-view]').forEach(x =>
+        x.setAttribute('aria-pressed', x.dataset.view === v));
+      // Both views stay loaded; whichever just became visible has to be
+      // re-measured, because it had no width while it was hidden.
+      if (v === 'screen') scaleScreens();
+      else fitAll(pair.querySelectorAll('iframe'));
+    });
+  }
 
   // Fit each frame to the preview inside it: no dead space, nothing clipped,
   // whatever a given system's content adds up to. Measured from the parent
