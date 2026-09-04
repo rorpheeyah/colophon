@@ -45,9 +45,6 @@ export const systemPage = (s, all) => shell({
       ${s.summary && html`<p class="lede">${s.summary}</p>`}
     </div>
     <div class="actions">
-      ${s.demos.length && html`<a class="btn inuse" id="inuse" href="${s.defaultDemo}"
-         target="_blank" rel="noreferrer"
-         title="A whole page built in this system, at full size">In use &#8599;</a>`}
       <button class="btn primary" id="copy">Copy file</button>
       <a class="btn" href="${s.slug}.md" download>Download .md</a>
     </div>
@@ -65,6 +62,9 @@ export const systemPage = (s, all) => shell({
         <button class="chip" data-pmode="light" aria-pressed="false">Light</button>
         <button class="chip" data-pmode="dark" aria-pressed="false">Dark</button>
       </span>` : html`<span class="fine">Dark mode was not published for this system</span>`}
+      ${s.demos.length && html`<a class="inuse" id="inuse" href="${s.defaultDemo}"
+         target="_blank" rel="noreferrer"
+         title="A whole page built in this system, at full size">In use &#8599;</a>`}
     </b>
     <div class="pvpair" id="pvpair">
       <div class="pv-light">${s.hasDark ? html`<b>Light</b>` : ''}

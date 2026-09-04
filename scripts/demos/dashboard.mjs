@@ -47,6 +47,11 @@ const NAV = [
 ]
 const ENVIRONMENTS = ['Production', 'Staging']
 const RANGES = ['24h', '7d', '30d']
+const FILTERS = [
+  { key: 'all', label: 'All' },
+  { key: 'degraded', label: 'Degraded' },
+  { key: 'owner:Platform', label: 'Platform' },
+]
 
 // ── derived, so nothing on the page can disagree with anything else ──────────
 const TOTAL_REQ = SERVICES.reduce((n, s) => n + s.req, 0)
@@ -191,7 +196,7 @@ export function body(t, meta) {
       <span class="delta"${key && states.has(key) ? ` style="color:var(--clp-${key})"` : ''}>${esc(note)}</span>
     </div>`).join('')
 
-  const rows = SERVICES.map(s => `<tr>
+  const rows = SERVICES.map(s => `<tr data-state="${s.state}" data-owner="${esc(s.owner)}" data-req="${s.req}">
       <td>${esc(s.name)}</td>
       <td class="muted">${esc(s.owner)}</td>
       <td class="muted">${esc(s.region)}</td>
@@ -291,11 +296,9 @@ export function body(t, meta) {
 
       <div class="toolbar">
         <div class="search">Filter by name or owner</div>
-        <div class="chips">
-          <button class="filter on">All</button>
-          <button class="filter">Degraded</button>
-          <button class="filter">Platform</button>
-        </div>
+        <div class="chips">${FILTERS.map((f, i) =>
+          `<button class="filter${i === 0 ? ' on' : ''}" data-filter="${esc(f.key)}"${
+            i === 0 ? ' aria-current="true"' : ''}>${esc(f.label)}</button>`).join('')}</div>
         <div class="range">${RANGES.map((r, i) =>
           `<button class="${i === 1 ? 'on' : ''}">${esc(r)}</button>`).join('')}</div>
       </div>
@@ -315,7 +318,7 @@ export function body(t, meta) {
           </table>
         </div>
         <div class="tfoot">
-          <span>${SERVICES.length} services &middot; ${TOTAL_REQ}k requests</span>
+          <span id="tally" data-unit="k requests">${SERVICES.length} services &middot; ${TOTAL_REQ}k requests</span>
           <s>Grouped by owner</s>
         </div>
       </section>
