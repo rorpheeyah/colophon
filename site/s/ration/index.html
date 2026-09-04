@@ -744,7 +744,7 @@ file does not define.</strong></li>
   // back button.
   const inuse = document.getElementById('inuse');
   if (inuse) {
-    const available = ["demo-dashboard.html","demo-landing.html"];
+    const available = ["demo-dashboard.html","demo-landing.html","demo-editorial.html"];
     let last = null;
     try { last = localStorage.getItem('colophon:demo'); } catch {}
     if (last && available.includes(last)) inuse.href = last;

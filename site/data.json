@@ -28,7 +28,8 @@
     "hasDark": true,
     "demos": [
       "demo-dashboard.html",
-      "demo-landing.html"
+      "demo-landing.html",
+      "demo-editorial.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   },
@@ -60,7 +61,8 @@
     "hasDark": true,
     "demos": [
       "demo-dashboard.html",
-      "demo-landing.html"
+      "demo-landing.html",
+      "demo-editorial.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   },
@@ -93,7 +95,8 @@
     "hasDark": true,
     "demos": [
       "demo-dashboard.html",
-      "demo-landing.html"
+      "demo-landing.html",
+      "demo-editorial.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   },
@@ -157,7 +160,8 @@
     "hasDark": true,
     "demos": [
       "demo-dashboard.html",
-      "demo-landing.html"
+      "demo-landing.html",
+      "demo-editorial.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   }

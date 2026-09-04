@@ -16,6 +16,7 @@
 
 import * as dashboard from './dashboard.mjs'
 import * as landing from './landing.mjs'
+import * as editorial from './editorial.mjs'
 
 /**
  * In order. The first is the default — what `In use` opens when a viewer has no
@@ -26,6 +27,8 @@ export const DEMOS = [
     blurb: 'A service reliability console: dense figures, a data table, live state.' },
   { name: 'landing', title: 'Landing', module: landing,
     blurb: 'A product and pricing page: one hero, one payoff, plans in a table.' },
+  { name: 'editorial', title: 'Editorial', module: editorial,
+    blurb: 'A long-form report: one measure, a ruled table, figures on one spine.' },
 ]
 
 export const DEFAULT_DEMO = DEMOS[0].name
