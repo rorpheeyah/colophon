@@ -32,7 +32,7 @@
 // Latin only.
 
 import { esc, has, accentSpentOnButton, borderless, fixture, glassBar } from '../preview-shared.mjs'
-import { lineChart } from '../preview-charts.mjs'
+import { priceChart, legend } from '../preview-charts.mjs'
 
 const FX = fixture('market')
 const FEATURED = FX.featured
@@ -57,6 +57,9 @@ const depthTotal = side => BOOK[side].reduce((n, [, sz]) => n + sz, 0)
 const OPEN_PNL = POSITIONS.reduce((n, p) => n + pnl(p), 0)
 const HOLDINGS = POSITIONS.reduce((n, p) => n + p.size * p.now, 0)
 const GRID_VOL = GRID.reduce((n, m) => n + m.vol, 0)
+/** First and last labelled points in the history — the series has unlabelled mids. */
+const LABELLED = FEATURED.history.filter(([l]) => l).map(([l]) => l)
+const SPAN = [LABELLED[0], LABELLED[LABELLED.length - 1]]
 
 export function css(t, meta) {
   const enclose = borderless(t)
@@ -79,9 +82,10 @@ export function css(t, meta) {
   padding:11px clamp(14px,2vw,26px);${glassBar(t)}}
 .venue{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);font-size:15px;
   letter-spacing:-.01em;white-space:nowrap}
-.search{flex:1;max-width:380px;border:var(--_border);border-radius:var(--clp-radius-control);
-  padding:8px 13px;background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.search{flex:1;min-width:0;max-width:380px;border:var(--_border);
+  border-radius:var(--clp-radius-control);padding:8px 13px;background:var(--clp-surface);
+  color:var(--clp-text);font-size:12.5px;font-family:inherit}
+.search::placeholder{color:var(--clp-text-3);opacity:1}
 .topbar-end{margin-left:auto;display:flex;align-items:center;gap:9px;flex:none}
 
 .wrap{width:100%;max-width:1240px;margin-inline:auto;padding:0 clamp(14px,2vw,26px);
@@ -104,6 +108,7 @@ export function css(t, meta) {
 .bigquote span{font:600 12px/1.6 var(--_data)}
 .up{color:${dir('success')}}
 .down{color:${dir('alarm')}}
+.pchart{display:block;width:100%;height:auto;max-height:340px}
 .feat-meta{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--clp-text-3)}
 
 /* an outcome row: label, percentage, paired control */
@@ -297,7 +302,8 @@ export function body(t, meta) {
   return `<div class="scr">
   <header class="topbar">
     <div class="venue">Northsel Markets</div>
-    <div class="search">Search markets, outcomes and categories</div>
+    <input class="search" type="search" aria-label="Search markets"
+      placeholder="Search markets, outcomes and categories">
     <div class="topbar-end">
       ${has(t, '--clp-button2-bg') ? '<button class="btn b2">Portfolio</button>' : ''}
       <button class="btn b3">How it works</button>
@@ -320,9 +326,10 @@ export function body(t, meta) {
         </div>
         ${outcomes([{ label: 'Yes', pct: FEATURED.yes }, { label: 'No', pct: NO }],
           { pair: false })}
-        ${series.length ? lineChart(series[0], { area: true }) : ''}
+        ${series.length ? priceChart(series, FEATURED.history) : ''}
+        ${series.length >= 2 ? legend(series, ['Yes', 'No']) : ''}
         <div class="feat-meta">
-          <span>${esc(FEATURED.series)} &middot; daily mid</span>
+          <span>${SPAN[0]} &ndash; ${SPAN[1]} &middot; daily mid</span>
           <span>${vol(FEATURED.vol)} volume</span>
           <span>Resolves ${esc(FX.resolution)}</span>
         </div>

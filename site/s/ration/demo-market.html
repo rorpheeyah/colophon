@@ -249,9 +249,10 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   padding:11px clamp(14px,2vw,26px);flex:none;position:sticky;top:0;z-index:5;background:var(--clp-bg);border-bottom:1px solid var(--clp-line)}
 .venue{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);font-size:15px;
   letter-spacing:-.01em;white-space:nowrap}
-.search{flex:1;max-width:380px;border:var(--_border);border-radius:var(--clp-radius-control);
-  padding:8px 13px;background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.search{flex:1;min-width:0;max-width:380px;border:var(--_border);
+  border-radius:var(--clp-radius-control);padding:8px 13px;background:var(--clp-surface);
+  color:var(--clp-text);font-size:12.5px;font-family:inherit}
+.search::placeholder{color:var(--clp-text-3);opacity:1}
 .topbar-end{margin-left:auto;display:flex;align-items:center;gap:9px;flex:none}
 
 .wrap{width:100%;max-width:1240px;margin-inline:auto;padding:0 clamp(14px,2vw,26px);
@@ -274,6 +275,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .bigquote span{font:600 12px/1.6 var(--_data)}
 .up{color:var(--clp-text-2)}
 .down{color:var(--clp-text-2)}
+.pchart{display:block;width:100%;height:auto;max-height:340px}
 .feat-meta{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--clp-text-3)}
 
 /* an outcome row: label, percentage, paired control */
@@ -409,7 +411,8 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 <div class="scr">
   <header class="topbar">
     <div class="venue">Northsel Markets</div>
-    <div class="search">Search markets, outcomes and categories</div>
+    <input class="search" type="search" aria-label="Search markets"
+      placeholder="Search markets, outcomes and categories">
     <div class="topbar-end">
       <button class="btn b2">Portfolio</button>
       <button class="btn b3">How it works</button>
@@ -438,42 +441,63 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       <span class="pct">16%</span>
       
     </div></div>
-        <svg viewBox="0 0 320 150" class="chart" role="img" aria-label="Sessions over time">
-    <line x1="0" y1="116" x2="320" y2="116" class="gridline"/>
-    <line x1="0" y1="63" x2="320" y2="63" class="gridline"/>
-    <path d="M0.0 88.2 L35.6 76.9 L71.1 81.9 L106.7 60.5 L142.2 66.8 L177.8 42.8 L213.3 50.4 L248.9 26.4 L284.4 34.0 L320.0 10.0 L320 116 L0 116 Z" fill="var(--clp-chart-1)" fill-opacity=".14"/>
-    <path d="M0.0 88.2 L35.6 76.9 L71.1 81.9 L106.7 60.5 L142.2 66.8 L177.8 42.8 L213.3 50.4 L248.9 26.4 L284.4 34.0 L320.0 10.0" fill="none" stroke="var(--clp-chart-1)" stroke-width="2"
-          stroke-linejoin="round" stroke-linecap="round"/>
-    <line class="cross" x1="0" y1="10" x2="0" y2="116" hidden/>
-    <circle cx="320.0" cy="10.0" r="4" fill="var(--clp-chart-1)"
-            stroke="var(--clp-surface)" stroke-width="2"/>
-    <rect x="-17.8" y="0" width="35.6"
-      height="116" fill="transparent" data-x="0.0"
-      data-tip="Point 1 · 22"/><rect x="17.8" y="0" width="35.6"
-      height="116" fill="transparent" data-x="35.6"
-      data-tip="Point 2 · 31"/><rect x="53.3" y="0" width="35.6"
-      height="116" fill="transparent" data-x="71.1"
-      data-tip="Point 3 · 27"/><rect x="88.9" y="0" width="35.6"
-      height="116" fill="transparent" data-x="106.7"
-      data-tip="Point 4 · 44"/><rect x="124.4" y="0" width="35.6"
-      height="116" fill="transparent" data-x="142.2"
-      data-tip="Point 5 · 39"/><rect x="160.0" y="0" width="35.6"
-      height="116" fill="transparent" data-x="177.8"
-      data-tip="Point 6 · 58"/><rect x="195.6" y="0" width="35.6"
-      height="116" fill="transparent" data-x="213.3"
-      data-tip="Point 7 · 52"/><rect x="231.1" y="0" width="35.6"
-      height="116" fill="transparent" data-x="248.9"
-      data-tip="Point 8 · 71"/><rect x="266.7" y="0" width="35.6"
-      height="116" fill="transparent" data-x="284.4"
-      data-tip="Point 9 · 65"/><rect x="302.2" y="0" width="35.6"
-      height="116" fill="transparent" data-x="320.0"
-      data-tip="Point 10 · 84"/>
-    <text x="0" y="8" text-anchor="start" class="ax">84</text>
-    <text x="0" y="146" text-anchor="start" class="ax">Jan</text>
-    <text x="320" y="146" text-anchor="end" class="ax">Oct</text>
+        <svg viewBox="0 0 720 300" class="pchart" role="img"
+    aria-label="Price history, currently 84 percent">
+    <line x1="0" y1="250" x2="656" y2="250" class="gridline"/><text x="720" y="254" text-anchor="end" class="ax">0%</text><line x1="0" y1="191.5" x2="656" y2="191.5" class="gridline"/><text x="720" y="195.5" text-anchor="end" class="ax">25%</text><line x1="0" y1="133" x2="656" y2="133" class="gridline"/><text x="720" y="137" text-anchor="end" class="ax">50%</text><line x1="0" y1="74.5" x2="656" y2="74.5" class="gridline"/><text x="720" y="78.5" text-anchor="end" class="ax">75%</text><line x1="0" y1="16" x2="656" y2="16" class="gridline"/><text x="720" y="20" text-anchor="end" class="ax">100%</text>
+    <path d="M0.0 177.5 L34.5 184.5 L69.1 170.4 L103.6 154.1 L138.1 161.1 L172.6 147.0 L207.2 128.3 L241.7 140.0 L276.2 121.3 L310.7 107.3 L345.3 114.3 L379.8 100.2 L414.3 88.5 L448.8 97.9 L483.4 81.5 L517.9 67.5 L552.4 76.8 L586.9 62.8 L621.5 60.5 L656.0 53.4 L656 250 L0 250 Z" fill="var(--clp-chart-1)" fill-opacity=".12"/>
+    
+    <path d="M0.0 177.5 L34.5 184.5 L69.1 170.4 L103.6 154.1 L138.1 161.1 L172.6 147.0 L207.2 128.3 L241.7 140.0 L276.2 121.3 L310.7 107.3 L345.3 114.3 L379.8 100.2 L414.3 88.5 L448.8 97.9 L483.4 81.5 L517.9 67.5 L552.4 76.8 L586.9 62.8 L621.5 60.5 L656.0 53.4" fill="none" stroke="var(--clp-chart-1)" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round"/>
+    <line class="cross" x1="0" y1="16" x2="0" y2="250" hidden/>
+    <circle cx="656" cy="53.44" r="4.5" fill="var(--clp-chart-1)"
+      stroke="var(--clp-bg)" stroke-width="2"/>
+    
+    <text x="0.0" y="294" text-anchor="start" class="ax">Jan</text><text x="69.1" y="294" text-anchor="middle" class="ax">Feb</text><text x="138.1" y="294" text-anchor="middle" class="ax">Mar</text><text x="207.2" y="294" text-anchor="middle" class="ax">Apr</text><text x="276.2" y="294" text-anchor="middle" class="ax">May</text><text x="345.3" y="294" text-anchor="middle" class="ax">Jun</text><text x="414.3" y="294" text-anchor="middle" class="ax">Jul</text><text x="483.4" y="294" text-anchor="middle" class="ax">Aug</text><text x="552.4" y="294" text-anchor="middle" class="ax">Sep</text><text x="621.5" y="294" text-anchor="middle" class="ax">Oct</text>
+    <rect x="-17.3" y="16" width="34.5"
+      height="234" fill="transparent" data-x="0.0"
+      data-tip="Jan · Yes 31% · No 69%"/><rect x="17.3" y="16" width="34.5"
+      height="234" fill="transparent" data-x="34.5"
+      data-tip="Mid · Yes 28% · No 72%"/><rect x="51.8" y="16" width="34.5"
+      height="234" fill="transparent" data-x="69.1"
+      data-tip="Feb · Yes 34% · No 66%"/><rect x="86.3" y="16" width="34.5"
+      height="234" fill="transparent" data-x="103.6"
+      data-tip="Mid · Yes 41% · No 59%"/><rect x="120.8" y="16" width="34.5"
+      height="234" fill="transparent" data-x="138.1"
+      data-tip="Mar · Yes 38% · No 62%"/><rect x="155.4" y="16" width="34.5"
+      height="234" fill="transparent" data-x="172.6"
+      data-tip="Mid · Yes 44% · No 56%"/><rect x="189.9" y="16" width="34.5"
+      height="234" fill="transparent" data-x="207.2"
+      data-tip="Apr · Yes 52% · No 48%"/><rect x="224.4" y="16" width="34.5"
+      height="234" fill="transparent" data-x="241.7"
+      data-tip="Mid · Yes 47% · No 53%"/><rect x="258.9" y="16" width="34.5"
+      height="234" fill="transparent" data-x="276.2"
+      data-tip="May · Yes 55% · No 45%"/><rect x="293.5" y="16" width="34.5"
+      height="234" fill="transparent" data-x="310.7"
+      data-tip="Mid · Yes 61% · No 39%"/><rect x="328.0" y="16" width="34.5"
+      height="234" fill="transparent" data-x="345.3"
+      data-tip="Jun · Yes 58% · No 42%"/><rect x="362.5" y="16" width="34.5"
+      height="234" fill="transparent" data-x="379.8"
+      data-tip="Mid · Yes 64% · No 36%"/><rect x="397.1" y="16" width="34.5"
+      height="234" fill="transparent" data-x="414.3"
+      data-tip="Jul · Yes 69% · No 31%"/><rect x="431.6" y="16" width="34.5"
+      height="234" fill="transparent" data-x="448.8"
+      data-tip="Mid · Yes 65% · No 35%"/><rect x="466.1" y="16" width="34.5"
+      height="234" fill="transparent" data-x="483.4"
+      data-tip="Aug · Yes 72% · No 28%"/><rect x="500.6" y="16" width="34.5"
+      height="234" fill="transparent" data-x="517.9"
+      data-tip="Mid · Yes 78% · No 22%"/><rect x="535.2" y="16" width="34.5"
+      height="234" fill="transparent" data-x="552.4"
+      data-tip="Sep · Yes 74% · No 26%"/><rect x="569.7" y="16" width="34.5"
+      height="234" fill="transparent" data-x="586.9"
+      data-tip="Mid · Yes 80% · No 20%"/><rect x="604.2" y="16" width="34.5"
+      height="234" fill="transparent" data-x="621.5"
+      data-tip="Oct · Yes 81% · No 19%"/><rect x="638.7" y="16" width="34.5"
+      height="234" fill="transparent" data-x="656.0"
+      data-tip="Mid · Yes 84% · No 16%"/>
   </svg>
+        
         <div class="feat-meta">
-          <span>Jan – Oct &middot; daily mid</span>
+          <span>Jan &ndash; Oct &middot; daily mid</span>
           <span>128.4k volume</span>
           <span>Resolves 31 December</span>
         </div>

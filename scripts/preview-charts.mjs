@@ -147,3 +147,68 @@ export function ranked(n = 1) {
     `<div class="rank" data-tip="${name} \u00b7 ${v}"><span>${name}</span><b>${v}</b>
       <i class="rbar"><s style="width:${pct}%;background:${c(n)}"></s></i></div>`).join('')}</div>`
 }
+
+/**
+ * A price chart with axes, for a market that quotes a percentage.
+ *
+ * Bigger than the panel charts above on purpose: axis text is sized in viewBox
+ * units, so a 320-wide box rendered across a full-bleed page magnifies its own
+ * labels. At 720 it renders near 1:1 and the type comes out the size it says.
+ *
+ * `data` is [label, yes] pairs. **The second line is never stored** — it is
+ * 100 minus the first at every point, so the two are exact mirrors and cannot
+ * drift. A system declaring one series gets one line; there is no generated
+ * second hue, and the legend appears only when there are two.
+ */
+export function priceChart(series, data) {
+  const W = 720, H = 300, R = 656, TOP = 16, BASE = 250
+  const y = v => BASE - (v / 100) * (BASE - TOP)
+  const x = i => (i / (data.length - 1)) * R
+  const path = pick => data
+    .map(([, v], i) => `${i ? 'L' : 'M'}${x(i).toFixed(1)} ${y(pick(v)).toFixed(1)}`)
+    .join(' ')
+
+  const yes = path(v => v)
+  const inverse = path(v => 100 - v)
+  const last = data[data.length - 1][1]
+  const two = series.length >= 2
+
+  const grid = [0, 25, 50, 75, 100].map(v =>
+    `<line x1="0" y1="${y(v)}" x2="${R}" y2="${y(v)}" class="gridline"/>` +
+    `<text x="${W}" y="${y(v) + 4}" text-anchor="end" class="ax">${v}%</text>`).join('')
+
+  // The first and last ticks sit on the plot's edges, so a centred anchor puts
+  // half the label outside the viewBox — which clipped "Jan" to "an".
+  const ticks = data.map(([label], i) => {
+    if (!label) return ''
+    const anchor = i === 0 ? 'start' : i === data.length - 1 ? 'end' : 'middle'
+    return `<text x="${x(i).toFixed(1)}" y="${H - 6}" text-anchor="${anchor}" class="ax">${
+      label}</text>`
+  }).join('')
+
+  // One hover target per point, carrying both readings — the tooltip and the
+  // crosshair are the frame's, and this only supplies what they display.
+  const hits = data.map(([label], i) => {
+    const step = R / (data.length - 1)
+    return `<rect x="${(x(i) - step / 2).toFixed(1)}" y="${TOP}" width="${step.toFixed(1)}"
+      height="${BASE - TOP}" fill="transparent" data-x="${x(i).toFixed(1)}"
+      data-tip="${label || 'Mid'} · Yes ${data[i][1]}% · No ${100 - data[i][1]}%"/>`
+  }).join('')
+
+  return `<svg viewBox="0 0 ${W} ${H}" class="pchart" role="img"
+    aria-label="Price history, currently ${last} percent">
+    ${grid}
+    <path d="${yes} L${R} ${BASE} L0 ${BASE} Z" fill="${c(series[0])}" fill-opacity=".12"/>
+    ${two ? `<path d="${inverse}" fill="none" stroke="${c(series[1])}" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 4"/>` : ''}
+    <path d="${yes}" fill="none" stroke="${c(series[0])}" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round"/>
+    <line class="cross" x1="0" y1="${TOP}" x2="0" y2="${BASE}" hidden/>
+    <circle cx="${R}" cy="${y(last)}" r="4.5" fill="${c(series[0])}"
+      stroke="var(--clp-bg)" stroke-width="2"/>
+    ${two ? `<circle cx="${R}" cy="${y(100 - last)}" r="4.5" fill="${c(series[1])}"
+      stroke="var(--clp-bg)" stroke-width="2"/>` : ''}
+    ${ticks}
+    ${hits}
+  </svg>`
+}
