@@ -115,7 +115,7 @@
     "added": "2026-09-02",
     "summary": "A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.",
     "hasDark": false,
-    "hasScreen": true,
+    "hasScreen": false,
     "archetype": "console"
   },
   {

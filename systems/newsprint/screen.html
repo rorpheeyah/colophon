@@ -168,8 +168,11 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .state{border-radius:var(--clp-radius-control);padding:3px 10px;white-space:nowrap;
   font:600 11px/1.6 var(--_data);letter-spacing:.04em;display:inline-block}
 .s-success{color:var(--clp-success);border:1px solid var(--clp-success)}
+.a-success{color:var(--clp-success);border:1px solid var(--clp-success)}
 .s-warn{color:var(--clp-warn);border:1px solid var(--clp-warn)}
+.a-warn{color:var(--clp-warn);border:1px solid var(--clp-warn)}
 .s-alarm{color:var(--clp-alarm);border:1px solid var(--clp-alarm)}
+.a-alarm{color:var(--clp-alarm);border:1px solid var(--clp-alarm)}
 
 /* charts — marks take the declared series colours, text never does */
 .chart{display:block;width:100%;height:auto}
@@ -196,48 +199,96 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 
 
 /* ── console ──────────────────────────────────────────────────────────── */
-.topbar{display:flex;align-items:center;gap:var(--_gap);padding:12px clamp(16px,3vw,28px);
-  border-bottom:1px solid var(--clp-line);flex-wrap:wrap;flex:none}
-.brand{font-family:var(--clp-font-display);font-weight:700;font-size:15px;letter-spacing:-.01em}
-.topbar-nav{display:flex;gap:clamp(12px,2vw,22px);margin-left:clamp(8px,3vw,30px);flex-wrap:wrap}
-.topbar-nav a{font-size:13px;color:var(--clp-text-3);text-decoration:none;padding:4px 0}
-.topbar-nav a.on{color:var(--clp-text);font-weight:600}
-.topbar-end{margin-left:auto;display:flex;align-items:center;gap:10px}
+.topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);
+  border-bottom:1px solid var(--clp-line);flex:none}
+.brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
+  font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
+.brand i{font-style:normal;font-weight:500;font-size:12.5px;color:var(--clp-text-3)}
+.topsearch{margin-left:clamp(10px,3vw,34px);flex:1;max-width:340px;
+  border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
+  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.topbar-end{margin-left:auto;display:flex;align-items:center;gap:11px;flex:none}
 
-.shell{display:grid;grid-template-columns:216px minmax(0,1fr);flex:1 0 auto;align-items:start}
-.side{padding:clamp(16px,2.4vw,26px) 0 26px clamp(16px,3vw,28px);
-  display:flex;flex-direction:column;gap:10px;position:sticky;top:0}
-.side-nav{display:flex;flex-direction:column;gap:1px}
-.env{display:flex;align-items:center;gap:9px;padding:8px 11px;font-size:13px;
+.shell{display:grid;grid-template-columns:214px minmax(0,1fr);flex:1 0 auto;align-items:stretch}
+.side{padding:clamp(14px,2vw,22px) 0 22px clamp(16px,2.5vw,26px);
+  display:flex;flex-direction:column;gap:16px;border-right:1px solid var(--clp-line)}
+.navgroup{display:flex;flex-direction:column;gap:5px}
+.navgroup a{font-size:13.5px;text-decoration:none;padding:6px 10px;
+  border-radius:var(--clp-radius-control);color:var(--clp-text-2)}
+.navgroup a.on{color:var(--clp-text);font-weight:600;background:var(--clp-line)}
+.envbox{margin-top:auto;display:flex;flex-direction:column;gap:5px;padding-right:clamp(16px,2.5vw,26px)}
+.envlist{display:flex;flex-direction:column;gap:2px}
+.env{display:flex;align-items:center;gap:9px;padding:7px 10px;font-size:13px;
   border-radius:var(--clp-radius-control);cursor:pointer;border:0;background:none;
   text-align:left;color:var(--clp-text-2)}
 .env.on{font-weight:600;color:var(--clp-text)}
 .env:active{transform:var(--_press)}
-/* The one accent on this screen: which environment you are looking at. */
+/* The one accent on this screen: which environment you are looking at. Every
+   other current-state marker on the page is carried by weight or by a rule. */
 .env-dot{width:7px;height:7px;flex:none;border-radius:var(--clp-radius-control);
   background:var(--clp-line)}
 .env.on .env-dot{background:var(--clp-accent)}
 
-.main{padding:clamp(16px,2.4vw,26px) clamp(16px,3vw,28px) 44px;
-  display:flex;flex-direction:column;gap:calc(var(--_gap) * 1.6);min-width:0}
+.main{padding:clamp(14px,2vw,22px) clamp(16px,2.5vw,26px) 40px;
+  display:flex;flex-direction:column;gap:calc(var(--_gap) * 1.5);min-width:0}
+.banner{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
+  border-radius:var(--clp-radius-box);padding:11px 15px;font-size:13px}
+.banner b{font-weight:700}
+.banner s{margin-left:auto;text-decoration:none;font:600 12px/1.6 var(--_data)}
+
 .page-h{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
-.page-h > div:first-child{display:flex;flex-direction:column;gap:5px;min-width:0}
-.page-act{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
+.page-h > div:first-child{display:flex;flex-direction:column;gap:6px;min-width:0}
+.page-act{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap;align-items:flex-start}
 .crumb{font-size:12.5px;color:var(--clp-text-3)}
+.meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--clp-text-2)}
+.meta b{font-family:var(--_data);font-weight:600;color:var(--clp-text)}
+
+.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.search{border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
+  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;min-width:180px}
+.chips{display:flex;gap:7px;flex-wrap:wrap}
+.filter{border:1px solid var(--clp-line);border-radius:var(--clp-radius-control);
+  padding:5px 11px;font:500 12px/1.5 var(--clp-font-body);color:var(--clp-text-2);
+  background:none;cursor:pointer}
+.filter.on{background:var(--clp-text);color:var(--clp-bg);border-color:var(--clp-text);font-weight:600}
+.filter:active{transform:var(--_press)}
+.range{margin-left:auto;display:flex;gap:2px;padding:2px;background:var(--clp-line);
+  border-radius:var(--clp-radius-control)}
+.range button{border:0;background:none;cursor:pointer;padding:5px 12px;
+  border-radius:var(--clp-radius-control);font:500 12px/1.5 var(--_data);color:var(--clp-text-2)}
+.range button.on{background:var(--clp-bg);color:var(--clp-text);font-weight:700}
 
 .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--_gap)}
-.split{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);
+.split{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
   gap:var(--_gap);align-items:start}
+.tfoot{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--clp-text-3);
+  padding:10px 16px;border-top:1px solid var(--clp-line)}
+.tfoot s{margin-left:auto;text-decoration:none}
 
-@media(max-width:940px){
+.feed{display:flex;flex-direction:column}
+.feed-row{display:flex;align-items:baseline;gap:11px;padding:10px 0;
+  border-bottom:1px solid var(--clp-line);font-size:13px;flex-wrap:wrap}
+.feed-row:last-child{border-bottom:0}
+.feed-row b{font-weight:600;min-width:118px}
+.feed-row span{color:var(--clp-text-2);flex:1;min-width:150px}
+.feed-row time{font-family:var(--_data);font-size:11.5px;color:var(--clp-text-3);margin-left:auto}
+.foot{padding:16px clamp(16px,2.5vw,26px);border-top:1px solid var(--clp-line);
+  font-size:12px;color:var(--clp-text-3);display:flex;gap:16px;flex-wrap:wrap;flex:none}
+
+@media(max-width:1000px){
   .shell{grid-template-columns:minmax(0,1fr)}
-  .side{position:static;padding:14px clamp(16px,3vw,28px) 0;border-bottom:1px solid var(--clp-line)}
-  .side-nav{flex-direction:row;flex-wrap:wrap;gap:6px}
+  .side{border-right:0;border-bottom:1px solid var(--clp-line);
+    padding:14px clamp(16px,2.5vw,26px);flex-direction:row;flex-wrap:wrap;gap:20px}
+  .navgroup{flex-direction:row;flex-wrap:wrap}
+  .envbox{margin-top:0;padding-right:0}
+  .envlist{flex-direction:row}
   .split{grid-template-columns:minmax(0,1fr)}
 }
-@media(max-width:620px){
+@media(max-width:660px){
   .tiles{grid-template-columns:minmax(0,1fr)}
-  .topbar-nav{width:100%;margin-left:0;order:3}
+  .topsearch{display:none}
+  .range{margin-left:0}
   .page-act{margin-left:0;width:100%}
 }
 
@@ -259,8 +310,8 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 <!-- specimen start -->
 <div class="scr">
   <header class="topbar">
-    <div class="brand">Northsel</div>
-    <nav class="topbar-nav"><a href="#" class="on" aria-current="page">Overview</a><a href="#" >Services</a><a href="#" >Activity</a></nav>
+    <div class="brand">Northsel <i>/ Reliability</i></div>
+    <div class="topsearch">Search services, deploys and incidents</div>
     <div class="topbar-end">
       <button class="btn b2">Invite</button>
       <span class="avatar">RM</span>
@@ -269,56 +320,105 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 
   <div class="shell">
     <aside class="side">
-      <p class="eyebrow">Environment</p>
-      <nav class="side-nav"><button class="env on" aria-current="true"><i class="env-dot"></i>Production</button><button class="env"><i class="env-dot"></i>Staging</button><button class="env"><i class="env-dot"></i>Preview</button></nav>
+      <div class="navgroup">
+      <p class="eyebrow">Monitor</p>
+      <a href="#">Overview</a><a href="#" class="on" aria-current="page">Services</a><a href="#">Incidents</a>
+    </div><div class="navgroup">
+      <p class="eyebrow">Deliver</p>
+      <a href="#">Releases</a><a href="#">Pipelines</a>
+    </div>
+      <div class="envbox">
+        <p class="eyebrow">Environment</p>
+        <nav class="envlist"><button class="env on" aria-current="true"><i class="env-dot"></i>Production</button><button class="env"><i class="env-dot"></i>Staging</button></nav>
+      </div>
     </aside>
 
     <main class="main">
+      <div class="banner a-alarm" role="status">
+        <b>Failing:</b>
+        <span>billing-sync is at 97.40% availability with p95 at
+          883ms. Last deployed 9d ago.</span>
+        <s>Open incident</s>
+      </div>
+
       <div class="page-h">
         <div>
-          <p class="crumb">Services / api-gateway</p>
-          <h1>api-gateway</h1>
-          <p class="sub">Routes and authenticates every public request before it reaches an
-            internal service.</p>
+          <p class="crumb">Production / Services</p>
+          <h1>Services</h1>
+          <div class="meta">
+            <span>Owned by <b>6</b> teams</span>
+            <span>Window <b>7d</b></span>
+            <span>Last deploy <b>2h ago</b></span>
+          </div>
         </div>
         <div class="page-act">
-          <button class="btn b3">View logs</button>
-          <button class="btn">Deploy</button>
+          <button class="btn b3">Export</button>
+          <button class="btn">New deploy</button>
         </div>
       </div>
 
+      <div class="toolbar">
+        <div class="search">Filter by name or owner</div>
+        <div class="chips">
+          <button class="filter on">All</button>
+          <button class="filter">Degraded</button>
+          <button class="filter">Platform</button>
+        </div>
+        <div class="range"><button class="">24h</button><button class="on">7d</button><button class="">30d</button></div>
+      </div>
+
       <section class="tiles"><div class="tile">
-      <span>Requests, 24h</span>
-      <b>1.84M</b>
+      <span>Requests, 7d</span>
+      <b>409k</b>
       <span class="delta" style="color:var(--clp-success)">+6.2%</span>
     </div><div class="tile">
-      <span>Uptime, 30d</span>
-      <b>99.94%</b>
-      <span class="delta" style="color:var(--clp-success)">+0.03pt</span>
+      <span>Availability</span>
+      <b>99.73%</b>
+      <span class="delta">target 99.90%</span>
     </div><div class="tile">
-      <span>Failing checks</span>
-      <b>3</b>
-      <span class="delta" style="color:var(--clp-success)">+2</span>
+      <span>Degraded services</span>
+      <b>2</b>
+      <span class="delta" style="color:var(--clp-alarm)">media-encoder, billing-sync</span>
     </div></section>
 
       <section class="split"><div class="panel">
-        <div class="panel-h"><h3>Request volume</h3><span>Last 7 days</span></div>
-        <svg viewBox="0 0 320 150" class="chart" role="img" aria-label="Sessions by day">
+        <div class="panel-h"><h3>Request volume</h3><span>7 days &middot; 409k total</span></div>
+        <svg viewBox="0 0 320 150" class="chart" role="img" aria-label="Sessions over time">
     <line x1="0" y1="116" x2="320" y2="116" class="gridline"/>
-    <line x1="0" y1="10" x2="320" y2="10" class="gridline"/>
-    <path d="M0 116 V68 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Mo · 42"/><path d="M46.857142857142854 116 V49 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Tu · 58"/><path d="M93.71428571428571 116 V77 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="We · 35"/><path d="M140.57142857142856 116 V33 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Th · 71"/><path d="M187.42857142857142 116 V60 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Fr · 49"/><path d="M234.28571428571428 116 V39 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Sa · 66"/><path d="M281.1428571428571 116 V13 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Su · 88"/>
-    <text x="0" y="8" text-anchor="start" class="ax">88</text>
-    <text x="19.428571428571427" y="146" text-anchor="middle" class="ax">Mo</text><text x="66.28571428571428" y="146" text-anchor="middle" class="ax">Tu</text><text x="113.14285714285714" y="146" text-anchor="middle" class="ax">We</text><text x="159.99999999999997" y="146" text-anchor="middle" class="ax">Th</text><text x="206.85714285714283" y="146" text-anchor="middle" class="ax">Fr</text><text x="253.7142857142857" y="146" text-anchor="middle" class="ax">Sa</text><text x="300.57142857142856" y="146" text-anchor="middle" class="ax">Su</text>
+    <line x1="0" y1="63" x2="320" y2="63" class="gridline"/>
+    <path d="M0.0 88.2 L35.6 76.9 L71.1 81.9 L106.7 60.5 L142.2 66.8 L177.8 42.8 L213.3 50.4 L248.9 26.4 L284.4 34.0 L320.0 10.0 L320 116 L0 116 Z" fill="var(--clp-chart-1)" fill-opacity=".14"/>
+    <path d="M0.0 88.2 L35.6 76.9 L71.1 81.9 L106.7 60.5 L142.2 66.8 L177.8 42.8 L213.3 50.4 L248.9 26.4 L284.4 34.0 L320.0 10.0" fill="none" stroke="var(--clp-chart-1)" stroke-width="2"
+          stroke-linejoin="round" stroke-linecap="round"/>
+    <line class="cross" x1="0" y1="10" x2="0" y2="116" hidden/>
+    <circle cx="320.0" cy="10.0" r="4" fill="var(--clp-chart-1)"
+            stroke="var(--clp-surface)" stroke-width="2"/>
+    <rect x="-17.8" y="0" width="35.6"
+      height="116" fill="transparent" data-x="0.0"
+      data-tip="Point 1 · 22"/><rect x="17.8" y="0" width="35.6"
+      height="116" fill="transparent" data-x="35.6"
+      data-tip="Point 2 · 31"/><rect x="53.3" y="0" width="35.6"
+      height="116" fill="transparent" data-x="71.1"
+      data-tip="Point 3 · 27"/><rect x="88.9" y="0" width="35.6"
+      height="116" fill="transparent" data-x="106.7"
+      data-tip="Point 4 · 44"/><rect x="124.4" y="0" width="35.6"
+      height="116" fill="transparent" data-x="142.2"
+      data-tip="Point 5 · 39"/><rect x="160.0" y="0" width="35.6"
+      height="116" fill="transparent" data-x="177.8"
+      data-tip="Point 6 · 58"/><rect x="195.6" y="0" width="35.6"
+      height="116" fill="transparent" data-x="213.3"
+      data-tip="Point 7 · 52"/><rect x="231.1" y="0" width="35.6"
+      height="116" fill="transparent" data-x="248.9"
+      data-tip="Point 8 · 71"/><rect x="266.7" y="0" width="35.6"
+      height="116" fill="transparent" data-x="284.4"
+      data-tip="Point 9 · 65"/><rect x="302.2" y="0" width="35.6"
+      height="116" fill="transparent" data-x="320.0"
+      data-tip="Point 10 · 84"/>
+    <text x="0" y="8" text-anchor="start" class="ax">84</text>
+    <text x="0" y="146" text-anchor="start" class="ax">Jan</text>
+    <text x="320" y="146" text-anchor="end" class="ax">Oct</text>
   </svg>
       </div><div class="panel">
-          <div class="panel-h"><h3>Capacity</h3></div>
+          <div class="panel-h"><h3>Error budget</h3></div>
           <svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Completion, 72 percent">
     <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-line)" stroke-width="16"/>
     <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-chart-1)" stroke-width="16"
@@ -332,50 +432,98 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
         <div class="tscroll">
           <table>
             <thead><tr>
-              <th>Service</th><th>Region</th><th class="n">Instances</th>
-              <th class="n">Uptime</th><th class="n">p95</th><th>State</th>
+              <th>Service</th><th>Owner</th><th>Region</th><th class="n">Requests</th>
+              <th class="n">Availability</th><th class="n">p95</th><th>State</th>
             </tr></thead>
             <tbody><tr>
       <td>api-gateway</td>
+      <td class="muted">Platform</td>
       <td class="muted">eu-west-1</td>
-      <td class="n">4</td>
+      <td class="n">152k</td>
       <td class="n">99.98%</td>
       <td class="n">128ms</td>
       <td><span class="state s-success">Healthy</span></td>
     </tr><tr>
       <td>auth-worker</td>
+      <td class="muted">Identity</td>
       <td class="muted">eu-west-1</td>
-      <td class="n">2</td>
+      <td class="n">96k</td>
       <td class="n">99.94%</td>
       <td class="n">96ms</td>
       <td><span class="state s-success">Healthy</span></td>
     </tr><tr>
       <td>media-encoder</td>
+      <td class="muted">Media</td>
       <td class="muted">us-east-1</td>
-      <td class="n">6</td>
+      <td class="n">71k</td>
       <td class="n">99.21%</td>
       <td class="n">412ms</td>
       <td><span class="state s-warn">Degraded</span></td>
     </tr><tr>
-      <td>billing-sync</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">1</td>
-      <td class="n">97.40%</td>
-      <td class="n">883ms</td>
-      <td><span class="state s-alarm">Failing</span></td>
-    </tr><tr>
       <td>search-index</td>
+      <td class="muted">Discovery</td>
       <td class="muted">ap-south-1</td>
-      <td class="n">3</td>
+      <td class="n">62k</td>
       <td class="n">99.87%</td>
       <td class="n">204ms</td>
       <td><span class="state s-success">Healthy</span></td>
+    </tr><tr>
+      <td>webhook-relay</td>
+      <td class="muted">Platform</td>
+      <td class="muted">eu-west-1</td>
+      <td class="n">16k</td>
+      <td class="n">99.55%</td>
+      <td class="n">88ms</td>
+      <td><span class="state s-success">Healthy</span></td>
+    </tr><tr>
+      <td>billing-sync</td>
+      <td class="muted">Payments</td>
+      <td class="muted">eu-west-1</td>
+      <td class="n">12k</td>
+      <td class="n">97.40%</td>
+      <td class="n">883ms</td>
+      <td><span class="state s-alarm">Failing</span></td>
     </tr></tbody>
           </table>
         </div>
+        <div class="tfoot">
+          <span>6 services &middot; 409k requests</span>
+          <s>Grouped by owner</s>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-h"><h3>Recent deploys</h3><span>Across all environments</span></div>
+        <div class="feed"><div class="feed-row">
+      <b>api-gateway</b>
+      <span>rate limits per key &middot; Platform</span>
+      <span class="state s-success">Shipped</span>
+      <time>2h ago</time>
+    </div><div class="feed-row">
+      <b>auth-worker</b>
+      <span>rotate signing keys &middot; Identity</span>
+      <span class="state s-success">Shipped</span>
+      <time>6h ago</time>
+    </div><div class="feed-row">
+      <b>search-index</b>
+      <span>reindex on schema change &middot; Discovery</span>
+      <span class="state s-success">Shipped</span>
+      <time>1d ago</time>
+    </div><div class="feed-row">
+      <b>media-encoder</b>
+      <span>retry on transcode timeout &middot; Media</span>
+      <span class="state s-warn">Rolled back</span>
+      <time>3d ago</time>
+    </div></div>
       </section>
     </main>
   </div>
+
+  <footer class="foot">
+    <span>Northsel Reliability</span>
+    <span>Region eu-west-1</span>
+    <span>Data through 17 Sep</span>
+  </footer>
 </div>
 <!-- specimen end -->
 <p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>

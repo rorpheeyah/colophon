@@ -76,6 +76,15 @@ for (const s of all) {
 const builtSlugs = () => existsSync(join(ROOT, 'site', 's')) ? readdirSync(join(ROOT, 'site', 's')) : []
 const orphans = () => builtSlugs().filter(slug => !all.some(s => s.slug === slug))
 
+// A slug can stop producing an artifact without disappearing — a system turning
+// `origin: reference` no longer gets a screen. Pruning whole slug directories
+// would leave that file behind, and a stale product page is worse than none.
+const staleFiles = () => builtSlugs()
+  .filter(slug => all.some(s => s.slug === slug))
+  .flatMap(slug => readdirSync(join(ROOT, 'site', 's', slug))
+    .map(name => `s/${slug}/${name}`)
+    .filter(rel => !files.has(rel)))
+
 if (process.argv.includes('--check')) {
   const stale = [...files]
     .filter(([rel, content]) => {
@@ -84,12 +93,14 @@ if (process.argv.includes('--check')) {
     })
     .map(([rel]) => rel)
     .concat(orphans().map(s => `s/${s} (system no longer in the repo)`))
+    .concat(staleFiles().map(rel => `${rel} (no longer generated)`))
 
   for (const f of stale) console.log(`stale: site/${f}`)
   process.exit(stale.length ? 1 : 0)
 }
 
 for (const slug of orphans()) rmSync(join(ROOT, 'site', 's', slug), { recursive: true })
+for (const rel of staleFiles()) rmSync(join(ROOT, 'site', rel))
 for (const [rel, content] of files) {
   const abs = join(ROOT, 'site', rel)
   mkdirSync(join(abs, '..'), { recursive: true })
