@@ -30,7 +30,8 @@
       "demo-dashboard.html",
       "demo-landing.html",
       "demo-editorial.html",
-      "demo-pos.html"
+      "demo-pos.html",
+      "demo-market.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   },
@@ -64,7 +65,8 @@
       "demo-dashboard.html",
       "demo-landing.html",
       "demo-editorial.html",
-      "demo-pos.html"
+      "demo-pos.html",
+      "demo-market.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   },
@@ -99,7 +101,8 @@
       "demo-dashboard.html",
       "demo-landing.html",
       "demo-editorial.html",
-      "demo-pos.html"
+      "demo-pos.html",
+      "demo-market.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   },
@@ -165,7 +168,8 @@
       "demo-dashboard.html",
       "demo-landing.html",
       "demo-editorial.html",
-      "demo-pos.html"
+      "demo-pos.html",
+      "demo-market.html"
     ],
     "defaultDemo": "demo-dashboard.html"
   }

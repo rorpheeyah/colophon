@@ -1,0 +1,117 @@
+{
+  "resolution": "31 December",
+  "sides": [
+    {
+      "key": "yes",
+      "label": "Yes"
+    },
+    {
+      "key": "no",
+      "label": "No"
+    }
+  ],
+  "sizePresets": [
+    100,
+    250,
+    500
+  ],
+  "markets": [
+    {
+      "id": "ridge-95",
+      "q": "Ridge reports 95% punctuality in Q4",
+      "yes": 84,
+      "vol": 128400,
+      "chg": 6,
+      "active": true
+    },
+    {
+      "id": "audit-export",
+      "q": "Audit export ships before December",
+      "yes": 61,
+      "vol": 74200,
+      "chg": -3
+    },
+    {
+      "id": "coast-resurface",
+      "q": "Coast depot resurfacing finishes on schedule",
+      "yes": 37,
+      "vol": 51900,
+      "chg": 2
+    },
+    {
+      "id": "vale-fourth",
+      "q": "Vale adds a fourth daily service",
+      "yes": 23,
+      "vol": 29750,
+      "chg": -1
+    },
+    {
+      "id": "kiln-closure",
+      "q": "Kiln closure extends past November",
+      "yes": 12,
+      "vol": 18300,
+      "chg": 4
+    }
+  ],
+  "book": {
+    "bids": [
+      [
+        83,
+        1200
+      ],
+      [
+        82,
+        3400
+      ],
+      [
+        81,
+        2150
+      ],
+      [
+        80,
+        5600
+      ]
+    ],
+    "asks": [
+      [
+        85,
+        900
+      ],
+      [
+        86,
+        2600
+      ],
+      [
+        87,
+        1750
+      ],
+      [
+        88,
+        4300
+      ]
+    ]
+  },
+  "positions": [
+    {
+      "market": "Ridge reports 95% punctuality in Q4",
+      "side": "Yes",
+      "size": 250,
+      "entry": 71,
+      "now": 84
+    },
+    {
+      "market": "Audit export ships before December",
+      "side": "Yes",
+      "size": 400,
+      "entry": 68,
+      "now": 61
+    },
+    {
+      "market": "Kiln closure extends past November",
+      "side": "No",
+      "size": 300,
+      "entry": 92,
+      "now": 88
+    }
+  ]
+}
