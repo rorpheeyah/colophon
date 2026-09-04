@@ -27,7 +27,8 @@ Everything below is binding.
 
 A design system for software that is doing something while you watch it. One primitive — an
 edge that moves when the thing it encloses is live — carried from a button to a service row to
-the navigation itself. Built on a single purple ramp, spacious, bilingual.
+the navigation itself. One purple ramp, one achromatic metal, one colour for broken. Spacious,
+bilingual.
 
 ---
 
@@ -57,21 +58,23 @@ given edit, which is how a system quietly stops being followed.
 
 That is the whole system. Every other rule below is a consequence.
 
-"Live" means one of exactly three things, and never anything else:
+"Live" means one of exactly two things, and the **colour of the moving edge says which**:
 
-| Live | Meaning |
-|---|---|
-| Work is happening now | A deploy is building, a job is running, a stream is open |
-| Transition is in flight | The element is mid-request and the outcome is not yet known |
-| This is the one way forward | The single primary action on the view |
+| Moving edge | Means | Where |
+|---|---|---|
+| `steel` | **This is the way forward.** An invitation | The single primary action, and nothing else |
+| `live` | **Work is happening.** A report | A deploy building, a job running, a request in flight |
 
-The same rule appears at three scales, and an agent should extrapolate to a fourth the same way:
+Steel invites; purple reports. Both are motion, and motion always means live, so the primitive
+holds without exception. Nothing else in this system moves.
+
+The rule appears at three scales, and an agent should extrapolate to a fourth the same way:
 
 | Scale | Live | Still |
 |---|---|---|
-| Button | The one primary action | Every secondary and ghost control |
-| Row or card | This service is deploying | This service is deployed |
-| Navigation | A background task is running | Nothing is running |
+| Button | The one primary action, in `steel` | Every secondary and ghost control |
+| Row or card | This service is deploying, in `live` | This service is deployed |
+| Navigation | A background task is running, in `live` | Nothing is running |
 
 Because the edge carries the signal, **the edge is never decorative.** A border in this system
 is a load-bearing statement about state. That is the opposite of Lozenge, which forbids borders
@@ -86,20 +89,28 @@ Two edges, two weights: `--hair` at rest, `--edge` when live. There is no third 
 
 ```css
 :root {
-  --wash:        #F4F2F8;
+  --wash:        #F7EEF7;
   --panel:       #FFFFFF;
-  --ink:         #17131F;
-  --ink-2:       #524B66;
-  --ink-3:       #6A6382;
-  --rule:        #E3DFEC;
-  --dusk:        #4A4166;
-  --on-dusk:     #EFECF6;
-  --live:        #6B3BE8;
-  --live-pale:   #B79AF2;
-  --obsidian:    #131019;
+  --ink:         #1E121D;
+  --ink-2:       #5C4A5B;
+  --ink-3:       #736173;
+  --rule:        #E9DAE8;
+  --dusk:        #8B4188;
+  --on-dusk:     #FBF2FA;
+  --live:        #A6289F;
+  --live-pale:   #E0A9DD;
+  --obsidian:    #141014;
   --on-obsidian: #FFFFFF;
   --ember:       #A8231C;
-  --scrim-c:     rgba(19, 16, 25, .62);
+
+  --steel-deep: #262626;
+  --steel-mid:  #8C8C8C;
+  --steel-hi:   #F5F5F5;
+
+  --glass:      rgba(255, 255, 255, .72);
+  --glass-edge: rgba(255, 255, 255, .58);
+  --glass-blur: 18px;
+  --scrim-c:    rgba(30, 18, 29, .62);
 
   --sans: "Onest", system-ui, sans-serif;
   --mono: "JetBrains Mono", ui-monospace, monospace;
@@ -116,8 +127,9 @@ Two edges, two weights: `--hair` at rest, `--edge` when live. There is no third 
   --gap-loose: 28px;
   --pad:       20px 24px;
 
-  --edge-run: 2.4s;
-  --settle:   180ms;
+  --edge-run:  2.4s;
+  --steel-run: 3.6s;
+  --settle:    180ms;
 
   --clp-bg:             var(--wash);
   --clp-surface:        var(--panel);
@@ -164,17 +176,19 @@ Two edges, two weights: `--hair` at rest, `--edge` when live. There is no third 
 }
 
 [data-mode="dark"] {
-  --wash:        #131019;
-  --panel:       #1C1828;
-  --ink:         #EFECF6;
-  --ink-2:       #A79EC0;
-  --ink-3:       #958CB4;
-  --rule:        #2E2842;
-  --dusk:        #3A3252;
-  --live:        #9A73FF;
-  --live-pale:   #D3C0FF;
-  --obsidian:    #0A0710;
+  --wash:        #180B18;
+  --panel:       #251126;
+  --ink:         #FBF2FA;
+  --ink-2:       #C69CC4;
+  --ink-3:       #AE87AC;
+  --rule:        #3D203C;
+  --live:        #D963D4;
+  --live-pale:   #F2C4F0;
+  --obsidian:    #0B050B;
   --ember:       #F08078;
+
+  --glass:      rgba(37, 17, 38, .62);
+  --glass-edge: rgba(255, 255, 255, .10);
 }
 ```
 
@@ -184,24 +198,33 @@ Set `data-mode="dark"` on the **root element**. Scoped to a wrapper it will not 
 `var()` inside a custom property resolves where the property is declared, so the `--clp-*`
 aliases would keep their light values.
 
+**`dusk` is the same value in both modes.** The brand ground does not change when the lights go
+out. It is the one token that is mode-independent, and that is deliberate.
+
 **In dark mode the primary button goes darker than the page, not lighter.** `obsidian` sits
-below `wash`, so the button is a hole rather than a block, and its edge is what makes it a
+below `wash`, so the button is a hole rather than a block, and its steel edge is what makes it a
 control. This follows from the primitive: the edge does the work, so the fill does not have to.
+
+**The metal ramp is not in the tokens' purple family and does not need to be.** It is strictly
+achromatic — every step has equal red, green and blue channels. That is what keeps it a
+*material* rather than a second brand colour, and it is a rule an agent can check by reading the
+hex. See section 8.
 
 ### Colour rules
 
 | Token | Means |
 |---|---|
-| `dusk` | The ground — nav, inverted panels, the deep end of the ramp |
-| `live` | **Live.** The moving edge, the focus ring, the first data series |
+| `dusk` | The ground — nav rail, inverted panels, the brand surface in both modes |
+| `live` | **Work is happening.** The reporting edge, the focus ring, the first data series |
 | `live-pale` | The second data series, and the accent on an inverted surface |
+| `steel-*` | **The way forward.** The primary action's edge, and nothing else |
 | `ink-3` | Resolved, idle, nothing to do here |
 | `ember` | **Broken.** A failed deploy, an unrecoverable error |
 
-**One purple ramp, one exception.** Everything in this system is a step of the purple ramp
-except `ember`. That is the point of the palette: colour outside the ramp appears only when
-something has failed, so a reader who sees any non-purple hue already knows what it means before
-reading the label.
+**One purple ramp, one metal, one exception.** Every hue in this system is a step of the purple
+ramp except `ember`. The metal ramp is permitted because it carries no hue at all. A reader who
+sees any non-purple *hue* already knows what it means before reading the label: something has
+failed.
 
 **There is no success colour and no warning colour.** A resolved state recedes to `ink-3` and
 carries no colour at all. A state that needs attention soon does not exist — either work is
@@ -250,11 +273,26 @@ name may be Khmer; a service ID never is.
 
 ## 4. Structure
 
-**Two grounds.** The page is `wash`; the work sits on `panel`. Nothing is ever a third,
-intermediate tint. A region either is the page or is a surface on it.
+**Three grounds, and the third is reserved.** The page is `wash`. The work sits on `panel`.
+Chrome that **floats over content** sits on `glass`.
 
-**Every surface has an edge.** A `--hair` border in `rule`, radius `box`. A surface is defined
-by its edge, never by a shadow and never by a fill alone — which is why `card-fill` and
+Glass is not a decorative finish and is not available as one. The test is a single question:
+**does page content scroll underneath this element?** If yes, it is glass. If no, it is `panel`,
+whatever it looks like. A card, a table, a form panel and a sidebar are never glass, because
+nothing passes beneath them.
+
+| Ground | Used by |
+|---|---|
+| `wash` | The page itself |
+| `panel` | Cards, tables, forms, sidebars, modals — anything the page contains |
+| `glass` | The condensed nav, popovers, dropdowns, a command palette — anything the page passes under |
+
+A glass surface is `--glass` fill, `backdrop-filter: blur(var(--glass-blur))`, and a `--hair`
+inner edge in `--glass-edge`. It takes no shadow, like everything else here. There is no
+intermediate tint between these three: a surface is one of the grounds, never a blend of two.
+
+**Every opaque surface has an edge.** A `--hair` border in `rule`, radius `box`. A surface is
+defined by its edge, never by a shadow and never by a fill alone — which is why `card-fill` and
 `surface` are the same value: the fill is not what separates them, the edge is.
 
 **Controls are capsules, containers are boxes.** `capsule` for anything pressable, `box` for
@@ -266,9 +304,10 @@ through, which is the geometry the primitive needs.
 `pad` for container padding. Four steps, no fifth, and no arbitrary margin between them.
 
 **Chrome contracts as you descend.** Persistent navigation begins flush and full-width against
-the page. Once the view is scrolled past its first section, it detaches into a floating capsule
-on `panel`, inset from the edges, narrower than the bar it replaced. It does not lift — there is
-no shadow. It separates by changing ground and by contracting. See section 7 for the timing.
+the page, on `panel`. Once the view is scrolled past its first section, it detaches into a
+floating `capsule` on `glass`, inset from the edges, narrower than the bar it replaced. It does
+not lift — there is no shadow. It separates by contracting and by changing ground, and the blur
+is what proves it is above the page rather than part of it. See section 7 for the timing.
 
 **Density is spacious and that is a commitment.** This system trades rows-on-screen for legible
 state. If a screen needs forty rows visible at once, it is the wrong system — Lozenge is the
@@ -282,7 +321,7 @@ Every value below is a token reference. Nothing here restates a colour.
 
 | Component | Rule |
 |---|---|
-| Primary button | `--clp-button-bg` fill, `--clp-button-text`, `capsule`, `pad`. Carries a live edge when it is the one way forward |
+| Primary button | `--clp-button-bg` fill, `--clp-button-text`, `capsule`, `pad`. Carries the travelling `steel` edge |
 | Secondary button | `--clp-button2-bg` fill, `--clp-text`, `capsule`, `--hair` edge in `rule` |
 | Ghost button | Transparent, `--clp-text-2`, no edge until hover |
 | Input, search | `panel` fill, `--hair` edge in `rule`, `capsule`. Edge becomes `live` at `--edge` on focus |
@@ -290,14 +329,20 @@ Every value below is a token reference. Nothing here restates a colour.
 | Table | On `panel` inside a `box` container with a `--hair` edge; `rule` hairlines between rows |
 | Service row | Idle: `--hair` edge in `rule`. Deploying: travelling `--edge` in `live`. Failed: still `--edge` in `ember` |
 | State label | Coloured text inside a border of the same colour, `capsule`. Never a fill |
-| Nav, rail | `dusk` ground, `--clp-invert-text`, active item marked by `--clp-invert-accent` |
+| Nav, flush | `panel` ground, `--hair` bottom edge in `rule` |
+| Nav, condensed | `glass` ground, `capsule`, `--hair` edge in `--glass-edge`, inset from the page edges |
+| Nav rail | `dusk` ground, `--clp-invert-text`, active item marked by `--clp-invert-accent` |
+| Popover, dropdown | `glass` ground, `box`, `--hair` edge in `--glass-edge` |
 | Chart | `--clp-chart-1` then `--clp-chart-2`, in that order, never cycled. Axes and grid in `--clp-line` |
-| Modal, drawer | `panel` on `--clp-scrim`, `box`, `--hair` edge. No shadow |
+| Modal, drawer | `panel` on `--clp-scrim`, `box`, `--hair` edge. Not glass — a modal blocks the page rather than floating over it |
 | Focus ring | `--clp-focus` at `--edge`. Never removed |
 
-**At most one live edge per view.** Two elements claiming to be the live one is a bug, not a
-busy screen. If a deploy is running and a primary action is also present, the deploy wins and
-the button reverts to a still edge.
+**One steel edge per view, never two.** There is only ever one way forward. If a screen appears
+to need two primary actions, one of them is secondary and has not been demoted yet.
+
+**Purple edges may appear on as many elements as are genuinely processing.** Each reports its
+own work rather than competing for primacy, so three deploying rows carry three moving edges and
+that is correct. Steel and purple may coexist: they are answering different questions.
 
 **Charts stop at two series.** The ramp is monochrome, and a third purple would not be tellable
 apart from its neighbours. A view needing a third series needs a different chart, not a third
@@ -323,8 +368,9 @@ Written for infrastructure interfaces; carry these forward wherever they apply.
 Motion in this system means exactly one thing: **this is live.** There is no motion that
 signifies anything else, and there is no decorative animation.
 
-**The travelling edge.** A conic gradient rotated through a registered custom property, masked
-to the border box so only the edge shows:
+Both travelling edges are the same mechanism — a conic gradient rotated through a registered
+custom property, masked to the border box so only the edge shows. They differ in what fills the
+gradient and how fast it turns.
 
 ```css
 @property --edge-angle {
@@ -333,27 +379,49 @@ to the border box so only the edge shows:
   initial-value: 0deg;
 }
 
-.is-live {
+.is-live,
+.is-forward {
   position: relative;
   border-radius: var(--capsule);
 }
 
-.is-live::before {
+.is-live::before,
+.is-forward::before {
   content: "";
   position: absolute;
   inset: 0;
   padding: var(--edge);
   border-radius: inherit;
+  mask: linear-gradient(currentColor 0 0) content-box,
+        linear-gradient(currentColor 0 0);
+  mask-composite: exclude;
+}
+
+/* Work is happening. One spark, one revolution. */
+.is-live::before {
   background: conic-gradient(
     from var(--edge-angle),
     transparent 0turn,
     var(--live) 0.08turn,
     transparent 0.18turn,
     transparent 1turn);
-  mask: linear-gradient(currentColor 0 0) content-box,
-        linear-gradient(currentColor 0 0);
-  mask-composite: exclude;
   animation: edge-run var(--edge-run) linear infinite;
+}
+
+/* This is the way forward. Liquid metal — two highlight passes per turn. */
+.is-forward::before {
+  background: conic-gradient(
+    from var(--edge-angle),
+    var(--steel-deep) 0turn,
+    var(--steel-hi)   0.12turn,
+    var(--steel-mid)  0.25turn,
+    var(--steel-deep) 0.37turn,
+    var(--steel-mid)  0.50turn,
+    var(--steel-hi)   0.62turn,
+    var(--steel-mid)  0.75turn,
+    var(--steel-deep) 0.87turn,
+    var(--steel-deep) 1turn);
+  animation: edge-run var(--steel-run) linear infinite;
 }
 
 @keyframes edge-run {
@@ -361,22 +429,30 @@ to the border box so only the edge shows:
 }
 ```
 
-One revolution per `--edge-run`, linear, never eased — an eased revolution reads as a thing
-speeding up and slowing down, which claims something about the work that is not true.
+**Two highlight passes per revolution is what makes it read as metal** rather than as a single
+spark going round. One pass reads as a signal; two read as a surface catching light. Steel turns
+at `--steel-run` and purple at `--edge-run` — steel is the slower of the two, because a heavy
+material does not flick.
 
-**Chrome contraction.** The navigation transitions width, inset and ground over `--settle`, and
-nothing else. It does not fade, scale, or lift.
+Both are linear, never eased. An eased revolution reads as a thing speeding up and slowing down,
+which claims something about the work that is not true.
+
+**Chrome contraction.** The navigation transitions width, inset, ground and `backdrop-filter`
+over `--settle`, and nothing else. It does not fade, scale, or lift.
 
 **Press.** `--clp-press` on every control. There is no shadow to flatten, because there is no
 shadow.
 
-**Reduced motion is not a downgrade.** Under `prefers-reduced-motion: reduce` the edge stops
-travelling and becomes a solid `--edge` in `live`. The state is still carried — only the motion
-goes. Motion must never be the only channel a state is available on.
+**Reduced motion is not a downgrade.** Under `prefers-reduced-motion: reduce` both edges stop
+travelling and become solid `--edge` borders — `live` for work in flight, `--steel-mid` for the
+primary action. The state is still carried; only the motion goes. Motion must never be the only
+channel a state is available on.
 
-**A note on the specimen.** The generated preview renders one static frame per mode, so it shows
-this system's edges but can never show them moving. The primitive is not visible in its own
-specimen sheet. That is a known limitation of the preview contract, not a softening of the rule.
+**A note on the specimen.** The generated preview renders one static frame per mode, and the 42
+`--clp-*` aliases have no way to express translucency, backdrop blur, or a metal gradient. So
+the specimen shows this system's edges but never shows them moving, and renders glass as an
+opaque surface. **Two of this system's three signatures are invisible in its own specimen
+sheet.** That is a known limitation of the preview contract, not a softening of the rules.
 
 ---
 
@@ -384,23 +460,29 @@ specimen sheet. That is a known limitation of the preview contract, not a soften
 
 - **Never add a third radius.** Containers are `box`, controls are `capsule`. There is no third.
 - **Never put a shadow on anything.** Not on a control, a card, a nav, a popover, a modal or a
-  tooltip, however subtle. Separation is the edge and the two grounds.
+  tooltip, however subtle. Separation is the edges and the three grounds.
 - **Never animate the edge of something that is not live.** A travelling edge is a claim that
   work is happening. On an idle element it is a lie, and it destroys the one signal this system
   has.
-- **Never show two live edges in one view.** Two things claiming to be the live one means one of
-  them is a bug.
-- **Never introduce a colour outside the purple ramp except `ember`.** Colour outside the ramp
-  means broken, and nothing else may borrow that meaning.
+- **Never show two steel edges in one view.** There is only ever one way forward.
+- **Never put a steel edge on anything but the single primary action.** Not on a card, not on a
+  secondary button, not on an input, not on the nav.
+- **Never introduce a *hue* outside the purple ramp except `ember`.** The metal ramp is
+  permitted only because it is strictly achromatic — every step has equal red, green and blue
+  channels. A tinted metal is a new hue and is forbidden.
 - **Never add a success or a warning colour.** A resolved state recedes to `ink-3`. There is no
   attention-soon state.
 - **Never fill a state.** No filled status pills, no washes behind state labels. A state is
   coloured text inside a border of the same colour.
 - **Never use `live` as a fill for a region, a button, or a page.** It is an edge, a focus ring
   and a data mark.
+- **Never put glass on anything that content does not pass beneath.** A card, a table, a form
+  panel, a sidebar and a modal are all `panel`, however much a frosted one would look good.
+- **Never blend two grounds.** A surface is `wash`, `panel` or `glass`. There is no intermediate
+  tint and no partially translucent `panel`.
 - **Never add a third series to a chart.** Two is the ceiling a monochrome ramp supports.
-- **Never let motion be the only carrier of state.** Under reduced motion the live edge must
-  still read as an edge.
+- **Never let motion be the only carrier of state.** Under reduced motion both edges must still
+  read as edges.
 - **Never add a third Latin family.** `sans` and `mono` only; `km` covers Khmer.
 - **Never set `data-mode="dark"` on anything but the root element.**
 - **Never introduce a colour, radius, spacing step, border width, duration or type family this
