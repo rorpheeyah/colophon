@@ -104,14 +104,16 @@ export function css(t, meta) {
   border-radius:var(--clp-radius-control);cursor:pointer;border:0;background:none;
   text-align:left;color:${railInverted ? 'inherit;opacity:.7' : 'var(--clp-text-2)'}}
 .env.on{font-weight:600;${railInverted
-  ? 'background:var(--clp-invert-accent);color:var(--clp-invert-bg);opacity:1'
-  : 'color:var(--clp-text)'}}
+  ? 'opacity:1'
+  : 'color:var(--clp-text);background:var(--clp-line)'}}
 .env:active{transform:var(--_press)}
-/* The one accent on this page: which environment you are looking at. Every
-   other current-state marker on the page is carried by weight or by a rule. */
+/* Current location is carried by weight and by a neutral fill, never by colour.
+   Ration forbids colouring "a nav item" and "an icon" in the same breath, and
+   an accent dot on the active environment was both at once. A dashboard has no
+   payoff for an accent to land on, so this page uses none — the budget is a
+   ceiling, and zero is under it. */
 .env-dot{width:7px;height:7px;flex:none;border-radius:var(--clp-radius-control);
-  background:var(--clp-line)}
-.env.on .env-dot{background:var(--clp-accent)}
+  background:currentColor;opacity:.55}
 
 .main{padding:clamp(14px,2vw,22px) clamp(16px,2.5vw,26px) 40px;
   display:flex;flex-direction:column;gap:calc(var(--_gap) * 1.5);min-width:0}
