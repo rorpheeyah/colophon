@@ -50,6 +50,7 @@ CLAUDE.md
   new-design-system/SKILL.md     interview -> write a new own system
   scout-design-system/SKILL.md   interview -> write a new reference record
   fork-design-system/SKILL.md    a reference record -> an installable own system
+  pirate-design-system/SKILL.md  a live source -> an installable own system, in one pass
 systems/
   <slug>/
     <slug>.md                    the deliverable
