@@ -210,7 +210,7 @@ function validateSystem(slug) {
     // screen falls back to the default composition. It is worth saying out loud
     // that the default was taken rather than chosen.
     const arch = archetypeFor({ register: scalar(data.register) })
-    if (!arch.mapped) {
+    if (!arch.mapped && scalar(data.origin) === 'own') {
       warn(`no screen archetype is mapped to \`register: ${scalar(data.register)}\` — ` +
            `screen.html uses the \`${arch.name}\` default`)
     }

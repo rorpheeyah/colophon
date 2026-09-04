@@ -892,10 +892,18 @@ for (const slug of slugs) {
   const files = [
     ['preview.html',
       assertBalancedTags(assertNoAppearanceLiterals(render(sys), slug), slug)],
-    ['screen.html',
-      assertAccentBudget(
-        assertBalancedTags(assertNoAppearanceLiterals(renderScreen(sys), slug), slug), slug)],
   ]
+
+  // A reference record gets no screen. Its tokens are approximations of someone
+  // else's work, and a specimen sheet in approximated colours reads as the
+  // reading it is, where a fully realised product in them would read as a claim
+  // about work that is not ours. A reference is never installed either — it is
+  // forked into an `origin: own` system first, and that system gets the screen.
+  if (scalar(sys.data.origin) === 'own') {
+    files.push(['screen.html',
+      assertAccentBudget(
+        assertBalancedTags(assertNoAppearanceLiterals(renderScreen(sys), slug), slug), slug)])
+  }
   if (block) {
     for (const mode of ['light', 'dark']) {
       const svg = thumbnail(block.code, mode)

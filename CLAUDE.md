@@ -56,6 +56,7 @@ systems/
     <slug>.md                    the deliverable
     preview.html                 generated, committed: the specimen sheet
     screen.html                  generated, committed: one composition, by register
+                                 `origin: own` only — see *The screen*
     thumb-light.svg              generated, committed; the library card image
     thumb-dark.svg               generated where the system publishes a dark mode
     assets/                      optional, text only
@@ -467,6 +468,16 @@ component at once. It exists because a specimen cannot show what a system is *fo
 `register: promotional` system was being represented by a dashboard, and per-screen limits — the
 rules an agent most needs to follow — had nowhere to be demonstrated.
 
+**It opens at full size in its own tab, and is not embedded in the system page.** A screen is
+fluid and full-bleed, so fitting one into a column meant rendering it at a fixed desktop width
+and scaling it to roughly a third — neither legible nor honest. The system page shows the
+specimen, and links to the screen as *In use*.
+
+**A reference record gets no screen.** Its tokens are approximations of someone else's work. A
+specimen sheet in approximated colours reads as the reading it is; a fully realised product in
+them would read as a claim about work that is not ours. A reference is never installed either —
+it is forked into an `origin: own` system first, and that system gets the screen.
+
 **The screen branches; the specimen does not.** That is the one addition to the closed list
 above, and the line it draws is:
 
@@ -491,9 +502,12 @@ an archetype is a composition decision and belongs in `scripts/screens/`.
 
 ### What a screen observes that a sheet cannot
 
-- **`--clp-accent` appears exactly once.** The strictest per-screen limit in the library is
-  Lozenge's "Citron on more than one element per screen", and unlike the rules beside it this
-  one is countable, so `build-previews.mjs` counts it and fails the build on a second use.
+- **`--clp-accent` appears exactly once, and it marks where you currently are.** The strictest
+  per-screen limit in the library is Lozenge's "Citron on more than one element per screen", and
+  unlike the rules beside it this one is countable, so `build-previews.mjs` counts it and fails
+  the build on a second use. The single owner is the current-location marker rather than the
+  primary action, because the primary action already carries `--clp-button-bg` and painting it
+  twice would say nothing.
 - **Three summary tiles, never four.** Lozenge forbids more than three.
 - **One surface step.** Containment comes from the system's own edge where it draws one and from
   `--clp-surface` where it does not. Nothing is doubled.
@@ -501,6 +515,15 @@ an archetype is a composition decision and belongs in `scripts/screens/`.
 
 These are the template's reading of the strictest system in the library, so a screen under-uses
 a permissive system rather than violating a strict one. That is the acceptable failure direction.
+
+### Every figure is derived
+
+Placeholder content reads as placeholder mostly because its numbers do not agree with each
+other. So a screen computes them: the summary tiles sum the table beneath them, a chart's
+caption sums that chart's own bars, a status banner names the record that is actually failing,
+and a row count is the number of rows. An archetype declares its sample data once and derives
+everything else from it. **A hand-typed total that happens to match is not the same thing** —
+it stops matching the moment the sample data changes, and then the screen is quietly lying.
 
 ### Latin copy only
 

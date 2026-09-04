@@ -97,12 +97,21 @@ ${borderless(t)
    text on a wash, else coloured text with a border of the same colour. */
 .state{border-radius:var(--clp-radius-control);padding:3px 10px;white-space:nowrap;
   font:600 11px/1.6 var(--_data);letter-spacing:.04em;display:inline-block}
-${['success', 'warn', 'alarm'].filter(k => has(t, `--clp-${k}`)).map(k =>
-  has(t, '--clp-state-text')
+${['success', 'warn', 'alarm'].filter(k => has(t, `--clp-${k}`)).map(k => {
+  const wash = has(t, `--clp-${k}-wash`)
+  // A pill and a banner can differ: a system may fill the small one and tint the
+  // large one, which is what --clp-state-text plus a wash means.
+  const pill = has(t, '--clp-state-text')
     ? `.s-${k}{background:var(--clp-${k});color:var(--clp-state-text)}`
-    : has(t, `--clp-${k}-wash`)
+    : wash
       ? `.s-${k}{color:var(--clp-${k});background:var(--clp-${k}-wash)}`
-      : `.s-${k}{color:var(--clp-${k});border:1px solid var(--clp-${k})}`).join('\n')}
+      : `.s-${k}{color:var(--clp-${k});border:1px solid var(--clp-${k})}`
+  const banner = wash
+    ? `.a-${k}{background:var(--clp-${k}-wash);color:${
+        has(t, '--clp-state-text') ? 'var(--clp-text)' : `var(--clp-${k})`}}`
+    : `.a-${k}{color:var(--clp-${k});border:1px solid var(--clp-${k})}`
+  return `${pill}\n${banner}`
+}).join('\n')}
 
 /* charts — marks take the declared series colours, text never does */
 .chart{display:block;width:100%;height:auto}
