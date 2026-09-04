@@ -103,4 +103,13 @@ would impose to fix what section "What is broken" records. Same minimum of five.
 { "slug": "<slug>", "path": "systems/<slug>/<slug>.md", "origin": "reference", "added": "YYYY-MM-DD" }
 ```
 
-Then validate, and open a PR. Never commit to `main`.
+Then build and validate — `pnpm build` before `pnpm check`, since `validate.mjs` checks the
+site's freshness and a new slug has no library card until the site is rebuilt:
+
+```
+pnpm build
+node scripts/validate.mjs <slug>
+pnpm check
+```
+
+Then open a PR. Never commit to `main`.

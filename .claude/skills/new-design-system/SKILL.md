@@ -21,7 +21,8 @@ stop being reliably drop-in. That matters more than capturing every nuance of th
 You may write:
 
 - `systems/<slug>/<slug>.md`
-- `systems/<slug>/preview.html` — only by running `scripts/build-previews.mjs`
+- `systems/<slug>/preview.html`, `thumb-light.svg`, `thumb-dark.svg` — only by running
+  `scripts/build-previews.mjs`
 - `systems/<slug>/assets/` — text only, optional
 - exactly one appended entry at the end of `index.json`
 
@@ -149,8 +150,20 @@ Every alias is required. Where the system does not have a concept, declare `none
 statement the author made, not a gap. `--clp-font-data: none` in a system that forbids
 monospace restates its own prohibition in machine-checkable form, which is the point.
 
-Only `--clp-shadow`, `--clp-font-data`, `--clp-hatch`, the six state aliases, and the three invert
-aliases may be declined. The rest carry structure. A state colour and its wash must agree.
+Twenty-eight of the 42 may be declined; `CLAUDE.md` marks each one in the contract table and
+`CLP_NONE_PERMITTED` in `validate.mjs` is the enforced list. The **fourteen that may not** are
+the ones carrying structure, and they are the shorter list to remember:
+
+```
+--clp-bg  --clp-surface  --clp-text  --clp-text-2  --clp-text-3  --clp-line  --clp-accent
+--clp-radius-box  --clp-radius-control  --clp-border-width
+--clp-button-bg  --clp-button-text  --clp-font-display  --clp-font-body
+```
+
+`--clp-bg: none` is not a design decision. Everything else — including `--clp-card-fill`,
+`--clp-press`, `--clp-focus`, `--clp-button2-bg`, `--clp-state-text`, the spacing step and all
+five chart series — is a concept a system is entitled to refuse. A state colour and its wash
+must agree.
 
 ## Step 4 — show the draft before writing
 
@@ -186,12 +199,17 @@ do not rewrite the file wholesale:
 ## Step 7 — validate
 
 ```
-node scripts/build-previews.mjs
+pnpm build                      previews and thumbnails, then the site
 node scripts/validate.mjs <slug>
-node scripts/validate.mjs
+pnpm check                      the whole library
 ```
 
-Do not report done if either fails. Fix the new system's file — never the validator, never
+**Build the site, not just the previews.** `validate.mjs` runs `build-site.mjs --check` and
+fails a new system as `site out of date`, because the library card and the system page do not
+exist yet. `pnpm build` does both halves. Regenerating `site/` is the build's job, never
+something to write by hand.
+
+Do not report done if any of them fails. Fix the new system's file — never the validator, never
 another system, never the format.
 
 Then open a PR. Never commit to `main`.
