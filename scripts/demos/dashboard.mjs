@@ -22,7 +22,7 @@
 // why a demo does not exercise --clp-font-script.
 
 import { esc, has } from '../preview-shared.mjs'
-import { barChart, lineChart, donut, gauge, legend, WEEK } from '../preview-charts.mjs'
+import { barChart, donut, gauge, legend, WEEK } from '../preview-charts.mjs'
 
 /** requests are thousands over the trailing 7 days, and they sum to the chart. */
 const SERVICES = [
@@ -60,8 +60,20 @@ export function css(t, meta) {
   const railInverted = has(t, '--clp-invert-bg')
   return `
 /* ── dashboard ────────────────────────────────────────────────────────── */
+/* The top bar is the one element on this page that content scrolls beneath, so
+   it is the one element glass may go on. Filament states the test as a question —
+   "does page content scroll underneath this element?" — and answers it for cards,
+   tables, sidebars and modals with a flat no. A demo that put glass on a panel
+   would be misplacing a declared value, the same class of error as putting
+   --clp-shadow on a container. Where a system declares no glass the bar stays
+   opaque on the page ground, and it is still sticky: content scrolling under an
+   opaque bar is ordinary. */
 .topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);
-  border-bottom:1px solid var(--clp-line);flex:none}
+  flex:none;position:sticky;top:0;z-index:5;${has(t, '--clp-glass')
+    ? `background:var(--clp-glass);border-bottom:1px solid ${
+        has(t, '--clp-glass-edge') ? 'var(--clp-glass-edge)' : 'var(--clp-line)'}${
+        has(t, '--clp-blur') ? `;backdrop-filter:blur(var(--clp-blur))` : ''}`
+    : 'background:var(--clp-bg);border-bottom:1px solid var(--clp-line)'}}
 .brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
   font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
 .brand i{font-style:normal;font-weight:500;font-size:12.5px;color:var(--clp-text-3)}
@@ -78,7 +90,7 @@ export function css(t, meta) {
 .navgroup a{font-size:13.5px;text-decoration:none;padding:6px 10px;
   border-radius:var(--clp-radius-control);color:var(--clp-text-2)}
 .navgroup a.on{color:var(--clp-text);font-weight:600;background:var(--clp-line)}
-.envbox{margin-top:auto;display:flex;flex-direction:column;gap:5px;padding-right:clamp(16px,2.5vw,26px)}
+.envbox{display:flex;flex-direction:column;gap:5px;padding-right:clamp(16px,2.5vw,26px)}
 .envlist{display:flex;flex-direction:column;${railInverted
   ? `background:var(--clp-invert-bg);color:var(--clp-invert-text);
   border-radius:var(--clp-radius-box);padding:7px;gap:2px`
@@ -147,7 +159,7 @@ export function css(t, meta) {
   .side{border-right:0;border-bottom:1px solid var(--clp-line);
     padding:14px clamp(16px,2.5vw,26px);flex-direction:row;flex-wrap:wrap;gap:20px}
   .navgroup{flex-direction:row;flex-wrap:wrap}
-  .envbox{margin-top:0;padding-right:0}
+  .envbox{padding-right:0}
   .envlist{flex-direction:row}
   .split{grid-template-columns:minmax(0,1fr)}
 }
@@ -205,7 +217,7 @@ export function body(t, meta) {
   const panel = series.length
     ? `<div class="panel">
         <div class="panel-h"><h3>Request volume</h3><span>7 days &middot; ${CHART_TOTAL}k total</span></div>
-        ${series.length >= 2 ? lineChart(series[0], { area: true }) : barChart(series[0])}
+        ${barChart(series[0])}
       </div>`
     : ''
 

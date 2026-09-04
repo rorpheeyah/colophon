@@ -318,6 +318,51 @@ Two coherence rules, both there to stop a system inventing a value it does not h
 A system with no `[data-mode="dark"]` block renders as "no dark mode published" rather than
 having one invented for it.
 
+### Motion and atmosphere — four optional aliases
+
+Added after the required set was closed, and **the required set stays at 42.**
+
+| Token | Role | `none` |
+|---|---|---|
+| `--clp-duration` | Base transition duration for a state change | yes |
+| `--clp-glass` | Translucent fill for chrome the page scrolls beneath | yes |
+| `--clp-glass-edge` | That surface's hairline | yes |
+| `--clp-blur` | Its `backdrop-filter` blur radius | yes |
+
+**These four are optional, and absent is a warning rather than an error.** Making them required
+would mean editing every existing system file to add `--clp-duration: none`, which is the
+migration rule 4 exists to prevent and which rule 2 makes expensive on purpose. So an author
+sees the gap, and writes the refusal down when that file is next open for its own reasons.
+Absence and `none` render identically — no motion, no glass. The only difference is whether the
+refusal was written down.
+
+`--clp-glass-edge` and `--clp-blur` both require `--clp-glass`: a hairline and a blur have
+nothing to sit on without a translucent fill. That is an error, the same shape as a wash
+requiring a colour.
+
+**Glass goes only on chrome that page content scrolls beneath.** Filament states the test as a
+question — *does page content scroll underneath this element?* — and answers no for cards,
+tables, sidebars, forms and modals. A demo that put glass on a panel would be misplacing a
+declared value, which is the same class of error as putting `--clp-shadow` on a container. In
+practice that means the top bar and nothing else. Where a system declares no glass the bar is
+opaque on the page ground and still sticky, because content scrolling under an opaque bar is
+ordinary.
+
+**`--clp-duration` is for state changes, not choreography.** The template transitions colour and
+opacity on controls — a chip becoming active, a nav item hovered — and nothing more. Entrances,
+scroll reveals and a contracting nav are per-screen choreography, which the file may specify in
+prose and the template does not own. Declining a duration gives `0s`, so nothing moves.
+
+**Every transition is wrapped in `@media (prefers-reduced-motion: no-preference)`.** Two systems
+in the library require that wrapper by name, and no system in it carries meaning through motion
+alone, so nothing is lost when it is honoured.
+
+**The specimen does not transition.** It renders one static frame per mode, so the motion shim
+lives in the demo frame rather than in `preview-shared.mjs` — adding it left every
+`preview.html` byte-identical, which is the check that this stayed true. A system that then
+declares the new aliases does change its own preview, by exactly the lines it added: the
+specimen embeds the tokens block verbatim and reads nothing from these four.
+
 ### Scripts and charts in the preview
 
 The `scripts` field declares reach and the preview renders one specimen line per script it
@@ -538,10 +583,17 @@ specimen's job, and the demo says so in its own notes.
 
 ### What demos still cannot show
 
-The 42 aliases carry one press transform and nothing else that moves, no gradient, no
-translucency and no backdrop blur. Demos fix the *shape* of the misrepresentation, not that gap:
-Ration's gradient hero and Filament's travelling edge remain invisible in every artifact. That
-is a contract question, and the next one to answer — not something a demo may work around.
+Translucency, backdrop blur and a state-change duration are expressible now — see *Motion and
+atmosphere* above. Two things still are not, and neither may be worked around:
+
+- **A gradient.** Ration's `promise` sets its hero's payoff phrase and appears nowhere else, by
+  its own rule. An alias for it belongs with a demo that has a hero, not with one that does not,
+  so it waits for the Landing demo rather than being declared with nowhere to render.
+- **Choreography, and anything a token cannot hold.** Filament's travelling edge is a conic
+  gradient rotated through a registered `@property` — no token can express it, and inventing
+  `--clp-live-edge` for one system would be the shared template growing a special case. That CSS
+  is already written in Filament's own markdown, which is why the open question is whether a
+  designated block in a system file should be *executed* rather than merely illustrative.
 
 ---
 

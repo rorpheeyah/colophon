@@ -17,7 +17,7 @@
 
 import { FAVICON, list } from './lib.mjs'
 import { DEMOS, demoFile } from './demos/index.mjs'
-import { esc, has, shimBlock, borderless, fontLink, tipTreatment } from './preview-shared.mjs'
+import { esc, has, ref, shimBlock, borderless, fontLink, tipTreatment } from './preview-shared.mjs'
 
 export const MARKER = 'Everything below reads --clp-* only'
 export const SPECIMEN_OPEN = '<!-- specimen start -->'
@@ -33,8 +33,22 @@ function baseCss(t, meta) {
   return `
 /* ${MARKER}, plus the shims that resolve aliases this system declined. */
 .scr{${shimBlock(t, meta)}
+  /* A fifth shim, and it belongs to the demos rather than to preview-shared:
+     the specimen is a static sheet and renders one frame per mode, so it has no
+     business transitioning. Declining a duration gives 0s — no motion at all,
+     which is the conservative reading rather than a guessed default. */
+  --_dur: ${ref(t, '--clp-duration', '0s')};
   background:var(--clp-bg);color:var(--clp-text);font-family:var(--clp-font-body);
   min-height:100vh;display:flex;flex-direction:column;font-size:14px;line-height:1.55}
+
+/* Motion is opt-in twice over: the system has to declare a duration, and the
+   reader has to not have asked for less of it. Two systems in the library
+   require this wrapper by name, and none of them loses meaning without motion. */
+@media (prefers-reduced-motion: no-preference){
+  .btn,.filter,.env,.navgroup a,.range button,.feed-row{
+    transition:background-color var(--_dur),color var(--_dur),
+      border-color var(--_dur),opacity var(--_dur)}
+}
 .scr *{box-sizing:border-box}
 .scr p{margin:0}
 .scr h1,.scr h2,.scr h3{margin:0;font-family:var(--clp-font-display);line-height:1.15}
