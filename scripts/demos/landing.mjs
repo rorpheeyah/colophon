@@ -22,15 +22,7 @@
 // and an annual price is ten months of a monthly one — which is what "two months
 // free" means, rather than a second number to keep in step by hand.
 
-import { esc, has } from '../preview-shared.mjs'
-
-/**
- * True where the system points --clp-accent and --clp-button-bg at the same
- * token. Aliases are `var()` references by contract, so comparing the declared
- * values is enough — no need to resolve the ramp underneath.
- */
-const accentSpentOnButton = t =>
-  has(t, '--clp-accent') && t.get('--clp-accent') === t.get('--clp-button-bg')
+import { esc, has, accentSpentOnButton } from '../preview-shared.mjs'
 
 const PLANS = [
   { name: 'Starter', monthly: 12, seats: 3,  storage: '10 GB', support: 'Community' },

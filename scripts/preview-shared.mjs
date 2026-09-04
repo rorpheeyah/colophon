@@ -42,6 +42,19 @@ export function shimBlock(t, meta) {
   ].join(' ')
 }
 
+/**
+ * True where the system points --clp-accent and --clp-button-bg at the same
+ * token, so a primary button already spends the accent and a payoff must not
+ * spend it again. Lozenge aliases both to citron and caps citron at one element
+ * per screen, which a count of alias references reads as satisfied while the
+ * reader sees two.
+ *
+ * Aliases are `var()` references by contract, so comparing the declared values
+ * is enough — the ramp underneath does not need resolving.
+ */
+export const accentSpentOnButton = t =>
+  has(t, '--clp-accent') && t.get('--clp-accent') === t.get('--clp-button-bg')
+
 /** True where the system draws no container edge, so containment is a surface step. */
 export const borderless = t => /^0[a-z]*$/.test(t.get('--clp-border-width') ?? '0')
 

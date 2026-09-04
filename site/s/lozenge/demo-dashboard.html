@@ -101,6 +101,12 @@
 
 /* ── neutral chrome ───────────────────────────────────────────────────── */
 *{box-sizing:border-box}
+/* Hiding is done with the hidden attribute, and a demo's own display rule beats
+   the UA stylesheet's [hidden]{display:none}. Without this the DOM says a row is
+   hidden, every derived figure agrees with the DOM, and the reader sees the row
+   anyway — which is how a filtered product grid and a zeroed ticket line both
+   stayed on screen. */
+[hidden]{display:none!important}
 body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-serif}
 .chrome{padding:14px 20px;border-bottom:1px solid #d4d4d8;background:#fafafa}
 .crow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
@@ -347,7 +353,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   <div class="crow">
     <h1>Lozenge <span class="ver">1.0</span></h1>
     <label class="pick">Demo
-        <select id="demo"><option value="demo-dashboard.html" selected>Dashboard</option><option value="demo-landing.html">Landing</option><option value="demo-editorial.html">Editorial</option></select>
+        <select id="demo"><option value="demo-dashboard.html" selected>Dashboard</option><option value="demo-landing.html">Landing</option><option value="demo-editorial.html">Editorial</option><option value="demo-pos.html">Point of sale</option></select>
       </label>
     <span class="modes" id="modes" hidden>
       <button data-mode="light">Light</button><button data-mode="dark">Dark</button>

@@ -228,6 +228,12 @@ ${block.code}
 
 /* ── neutral chrome ───────────────────────────────────────────────────── */
 *{box-sizing:border-box}
+/* Hiding is done with the hidden attribute, and a demo's own display rule beats
+   the UA stylesheet's [hidden]{display:none}. Without this the DOM says a row is
+   hidden, every derived figure agrees with the DOM, and the reader sees the row
+   anyway — which is how a filtered product grid and a zeroed ticket line both
+   stayed on screen. */
+[hidden]{display:none!important}
 body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-serif}
 .chrome{padding:14px 20px;border-bottom:1px solid #d4d4d8;background:#fafafa}
 .crow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
