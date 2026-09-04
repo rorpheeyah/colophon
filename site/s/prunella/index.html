@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prunella — colophon</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Cpath%20d%3D%22M32%203H18A15%2015%200%200%200%203%2018v28a15%2015%200%200%200%2015%2015h14z%22%20fill%3D%22%23B03A2E%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%23B03A2E%22%20stroke-width%3D%224.5%22%2F%3E%3Crect%20x%3D%2212%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23B03A2E%22%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../assets/style.css">
+<script>
+  // Resolved before first paint. Two states in the UI; the OS decides only
+  // which one a first-time visitor lands in.
+  try {
+    var t = localStorage.getItem('colophon-theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.dataset.theme = t;
+  } catch (e) { document.documentElement.dataset.theme = 'light'; }
+</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="lockup " href="../../index.html">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+  <mask id="mk-cph">
+    <rect width="64" height="64" fill="#fff"/>
+    <rect x="32" width="32" height="64" fill="#000"/>
+    <rect x="34" y="28" width="18" height="8" rx="4" fill="#fff"/>
+    <rect x="12" y="28" width="18" height="8" rx="4" fill="#000"/>
+  </mask>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="currentColor" mask="url(#mk-cph)"/>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
+</svg><span>colophon</span>
+</a>
+  <nav><a href="../../index.html">Library</a><a href="../../compare.html">Compare</a><a href="../../about.html">About</a></nav>
+  <div class="tools">
+    <a class="ghost" href="https://github.com/rorpheeyah/colophon" rel="noreferrer">GitHub</a>
+    <button class="theme" id="theme" aria-label="Switch theme">
+<svg data-t="light" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+  <circle cx="8" cy="8" r="3.1" fill="currentColor"/>
+  <path d="M8 .9v2.1M8 13v2.1M.9 8h2.1M13 8h2.1M3 3l1.5 1.5M11.5 11.5L13 13M13 3l-1.5 1.5M4.5 11.5L3 13"
+    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+<svg data-t="dark" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+  <path d="M13.4 10.3A6.2 6.2 0 0 1 5.7 2.6a6.2 6.2 0 1 0 7.7 7.7z" fill="currentColor"/></svg></button>
+  </div>
+</div></header>
+
+<main>
+<div class="wrap">
+  <nav class="crumbs">
+  <a href="../../index.html">Library</a> <span>/</span> <b>Prunella</b>
+</nav>
+  <div class="head">
+    <div>
+      <h1>Prunella <em>1.0</em></h1>
+      <div class="meta">
+  <span class="tag">technical</span>
+  <span class="tag">spacious</span>
+  <span class="tag">latin</span><span class="tag">khmer</span>
+  
+  
+</div>
+      <p class="lede">A design system for software that is doing something while you watch it. One primitive — an edge that moves when the thing it encloses is live — carried from a button to a service row to the navigation itself. Built on a single purple ramp, spacious, bilingual.</p>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy">Copy file</button>
+      <a class="btn" href="prunella.md" download>Download .md</a>
+    </div>
+  </div>
+
+  
+
+  <div class="frame">
+    <b>Generated preview
+      <span class="modes">
+        <button class="chip" data-pmode="both" aria-pressed="true">Both</button>
+        <button class="chip" data-pmode="light" aria-pressed="false">Light</button>
+        <button class="chip" data-pmode="dark" aria-pressed="false">Dark</button>
+      </span>
+      <a class="full" href="preview.html" target="_blank" rel="noreferrer"
+         title="Open the preview with no chrome around it">Full screen &#8599;</a>
+    </b>
+    <div class="pvpair" id="pvpair">
+      <div class="pv-light"><b>Light</b>
+        <iframe src="preview.html?chrome=0" title="Prunella preview, light"></iframe></div>
+      <div class="pv-dark"><b>Dark</b>
+        <iframe src="preview.html?chrome=0&amp;mode=dark" title="Prunella preview, dark"></iframe></div>
+    </div>
+  </div>
+
+  
+<section class="install" id="install">
+  <h2>Install</h2>
+  <ol>
+    <li>Save <code>prunella.md</code> as <code>.claude/design-system.md</code>.</li>
+    <li>Add to the project's <code>CLAUDE.md</code>:</li>
+  </ol>
+  <pre id="snippet">## Design system
+
+This project follows Prunella. The rules in @.claude/design-system.md are
+binding for all UI work. Where a rule and your instinct disagree, the rule wins.</pre>
+  <div class="actions">
+    <button class="btn" id="copysnip">Copy snippet</button>
+    <a class="btn" href="prunella.md" download>Download .md</a>
+  </div>
+  <details class="alt">
+    <summary>Install as a skill instead</summary>
+    <p>Save as <code>.claude/skills/design-system/SKILL.md</code> with a frontmatter
+    <code>name</code> and <code>description</code>. Costs less context, but is not guaranteed to
+    load on a given edit — which is how a system quietly stops being followed.</p>
+  </details>
+</section>
+
+  <div class="cols">
+    <nav class="toc" aria-label="Sections">
+      <a href="#how-to-apply-this-file">How to apply this file</a><a href="#1-the-primitive">1. The primitive</a><a href="#2-tokens">2. Tokens</a><a href="#3-type">3. Type</a><a href="#4-structure">4. Structure</a><a href="#5-components">5. Components</a><a href="#6-figures-and-identifiers">6. Figures and identifiers</a><a href="#7-motion">7. Motion</a><a href="#8-never">8. Never</a>
+      <a href="#tokens-table">Declared aliases</a>
+    </nav>
+
+    <div class="doc">
+      <p><strong>Install:</strong> copy this file into the target project as <code>.claude/design-system.md</code>, then add
+this to that project&#39;s own <code>CLAUDE.md</code>:</p>
+<pre><code class="language-md">## Design system
+
+This project follows Prunella. The rules in @.claude/design-system.md are
+binding for all UI work. Where a rule and your instinct disagree, the rule wins.
+</code></pre>
+<p>Everything below is binding.</p>
+<p>A design system for software that is doing something while you watch it. One primitive — an
+edge that moves when the thing it encloses is live — carried from a button to a service row to
+the navigation itself. Built on a single purple ramp, spacious, bilingual.</p>
+<hr>
+<h2 id="how-to-apply-this-file">How to apply this file</h2>
+<p>Follow the rules literally. Where a rule and your instinct disagree, the rule wins.</p>
+<p>When something isn&#39;t covered here, choose the option most consistent with the rules that are —
+and prefer removing the element over inventing a new token for it. Do not introduce colours,
+radii, shadows, borders, or type families that this file does not define. That is the most
+common way a system decays.</p>
+<p>Before adding motion to anything, answer one question: <strong>is this element live?</strong> If the answer
+is no, the motion is decoration and this system does not permit it. See section 7.</p>
+<p><strong>On installing this file.</strong> Prefer the <code>@</code>-import above over pasting these rules into a
+project&#39;s <code>CLAUDE.md</code>: the import keeps the system in context for every turn without displacing
+the project&#39;s own rules, and updating the system later is a one-file copy. Installing instead as
+<code>.claude/skills/design-system/SKILL.md</code> costs less context but is not guaranteed to load on any
+given edit, which is how a system quietly stops being followed.</p>
+<hr>
+<h2 id="1-the-primitive">1. The primitive</h2>
+<p><strong>An edge that moves means the thing inside it is live.</strong> A still edge means it is not.</p>
+<p>That is the whole system. Every other rule below is a consequence.</p>
+<p>&quot;Live&quot; means one of exactly three things, and never anything else:</p>
+<table>
+<thead>
+<tr>
+<th>Live</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Work is happening now</td>
+<td>A deploy is building, a job is running, a stream is open</td>
+</tr>
+<tr>
+<td>Transition is in flight</td>
+<td>The element is mid-request and the outcome is not yet known</td>
+</tr>
+<tr>
+<td>This is the one way forward</td>
+<td>The single primary action on the view</td>
+</tr>
+</tbody></table>
+<p>The same rule appears at three scales, and an agent should extrapolate to a fourth the same way:</p>
+<table>
+<thead>
+<tr>
+<th>Scale</th>
+<th>Live</th>
+<th>Still</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Button</td>
+<td>The one primary action</td>
+<td>Every secondary and ghost control</td>
+</tr>
+<tr>
+<td>Row or card</td>
+<td>This service is deploying</td>
+<td>This service is deployed</td>
+</tr>
+<tr>
+<td>Navigation</td>
+<td>A background task is running</td>
+<td>Nothing is running</td>
+</tr>
+</tbody></table>
+<p>Because the edge carries the signal, <strong>the edge is never decorative.</strong> A border in this system
+is a load-bearing statement about state. That is the opposite of Lozenge, which forbids borders
+entirely and separates by surface step; the two systems disagree on structure deliberately and
+should not be mixed.</p>
+<p>Two edges, two weights: <code>--hair</code> at rest, <code>--edge</code> when live. There is no third weight.</p>
+<hr>
+<h2 id="2-tokens">2. Tokens</h2>
+<pre><code class="language-css">:root {
+  --wash:        #F4F2F8;
+  --panel:       #FFFFFF;
+  --ink:         #17131F;
+  --ink-2:       #524B66;
+  --ink-3:       #6A6382;
+  --rule:        #E3DFEC;
+  --dusk:        #4A4166;
+  --on-dusk:     #EFECF6;
+  --live:        #6B3BE8;
+  --live-pale:   #B79AF2;
+  --obsidian:    #131019;
+  --on-obsidian: #FFFFFF;
+  --ember:       #A8231C;
+  --scrim-c:     rgba(19, 16, 25, .62);
+
+  --sans: &quot;Onest&quot;, system-ui, sans-serif;
+  --mono: &quot;JetBrains Mono&quot;, ui-monospace, monospace;
+  --km:   &quot;Noto Sans Khmer&quot;, &quot;Onest&quot;, sans-serif;
+
+  --capsule: 999px;
+  --box:     16px;
+
+  --hair: 1px;
+  --edge: 2px;
+
+  --gap-tight: 8px;
+  --gap:       16px;
+  --gap-loose: 28px;
+  --pad:       20px 24px;
+
+  --edge-run: 2.4s;
+  --settle:   180ms;
+
+  --clp-bg:             var(--wash);
+  --clp-surface:        var(--panel);
+  --clp-card-fill:      var(--panel);
+  --clp-text:           var(--ink);
+  --clp-text-2:         var(--ink-2);
+  --clp-text-3:         var(--ink-3);
+  --clp-line:           var(--rule);
+  --clp-accent:         var(--live);
+  --clp-radius-box:     var(--box);
+  --clp-radius-control: var(--capsule);
+  --clp-border-width:   var(--hair);
+  --clp-border-color:   var(--rule);
+  --clp-shadow:         none;
+  --clp-press:          scale(0.97);
+  --clp-focus:          var(--live);
+  --clp-button-bg:      var(--obsidian);
+  --clp-button-text:    var(--on-obsidian);
+  --clp-button2-bg:     var(--panel);
+  --clp-state-text:     none;
+  --clp-font-display:   var(--sans);
+  --clp-font-body:      var(--sans);
+  --clp-font-data:      var(--mono);
+  --clp-gap:            var(--gap);
+  --clp-pad:            var(--pad);
+  --clp-success:        none;
+  --clp-success-wash:   none;
+  --clp-warn:           none;
+  --clp-warn-wash:      none;
+  --clp-alarm:          var(--ember);
+  --clp-alarm-wash:     none;
+  --clp-invert-bg:      var(--dusk);
+  --clp-invert-text:    var(--on-dusk);
+  --clp-invert-accent:  var(--live-pale);
+  --clp-hatch:          none;
+  --clp-font-script:    var(--km);
+  --clp-scrim:          var(--scrim-c);
+  --clp-shadow-surface: none;
+  --clp-chart-1:        var(--live);
+  --clp-chart-2:        var(--live-pale);
+  --clp-chart-3:        none;
+  --clp-chart-4:        none;
+  --clp-chart-5:        none;
+}
+
+[data-mode=&quot;dark&quot;] {
+  --wash:        #131019;
+  --panel:       #1C1828;
+  --ink:         #EFECF6;
+  --ink-2:       #A79EC0;
+  --ink-3:       #958CB4;
+  --rule:        #2E2842;
+  --dusk:        #3A3252;
+  --live:        #9A73FF;
+  --live-pale:   #D3C0FF;
+  --obsidian:    #0A0710;
+  --ember:       #F08078;
+}
+</code></pre>
+<p>Dark mode is required, not optional. Every screen must work in both.</p>
+<p>Set <code>data-mode=&quot;dark&quot;</code> on the <strong>root element</strong>. Scoped to a wrapper it will not work: a
+<code>var()</code> inside a custom property resolves where the property is declared, so the <code>--clp-*</code>
+aliases would keep their light values.</p>
+<p><strong>In dark mode the primary button goes darker than the page, not lighter.</strong> <code>obsidian</code> sits
+below <code>wash</code>, so the button is a hole rather than a block, and its edge is what makes it a
+control. This follows from the primitive: the edge does the work, so the fill does not have to.</p>
+<h3 id="colour-rules">Colour rules</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>dusk</code></td>
+<td>The ground — nav, inverted panels, the deep end of the ramp</td>
+</tr>
+<tr>
+<td><code>live</code></td>
+<td><strong>Live.</strong> The moving edge, the focus ring, the first data series</td>
+</tr>
+<tr>
+<td><code>live-pale</code></td>
+<td>The second data series, and the accent on an inverted surface</td>
+</tr>
+<tr>
+<td><code>ink-3</code></td>
+<td>Resolved, idle, nothing to do here</td>
+</tr>
+<tr>
+<td><code>ember</code></td>
+<td><strong>Broken.</strong> A failed deploy, an unrecoverable error</td>
+</tr>
+</tbody></table>
+<p><strong>One purple ramp, one exception.</strong> Everything in this system is a step of the purple ramp
+except <code>ember</code>. That is the point of the palette: colour outside the ramp appears only when
+something has failed, so a reader who sees any non-purple hue already knows what it means before
+reading the label.</p>
+<p><strong>There is no success colour and no warning colour.</strong> A resolved state recedes to <code>ink-3</code> and
+carries no colour at all. A state that needs attention soon does not exist — either work is
+happening, or it is finished, or it is broken.</p>
+<p><strong>A state is an edge, not a fill.</strong> <code>--clp-state-text</code> and <code>--clp-alarm-wash</code> are both declined,
+which means a state renders as coloured text inside a border of the same colour. Nothing in this
+system is a filled pill.</p>
+<p><code>live</code> is an edge, a focus ring and a data mark. It is never a page background, never a filled
+region, never button fill, and never body text.</p>
+<hr>
+<h2 id="3-type">3. Type</h2>
+<p>Two Latin families, no third: <code>sans</code> for everything Latin, <code>mono</code> for figures and identifiers.
+<code>km</code> covers Khmer.</p>
+<p>Mono is not decoration here and is not optional. Service IDs, commit SHAs, log lines, byte
+counts, durations and IP addresses all set in <code>mono</code>, because they are scanned character by
+character and compared down a column rather than read.</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Tracking</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Page title</td>
+<td>24px</td>
+<td>600</td>
+<td>−0.02em</td>
+</tr>
+<tr>
+<td>Section title</td>
+<td>18px</td>
+<td>600</td>
+<td>−0.01em</td>
+</tr>
+<tr>
+<td>Body, table cell</td>
+<td>15px</td>
+<td>400</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Secondary</td>
+<td>13px</td>
+<td>400</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Label, column head</td>
+<td>12px</td>
+<td>600</td>
+<td>+0.06em, uppercase</td>
+</tr>
+<tr>
+<td>Data, identifier</td>
+<td>13px</td>
+<td>400</td>
+<td>0, <code>mono</code></td>
+</tr>
+</tbody></table>
+<p>Uppercase is permitted <strong>only</strong> on column headers and small labels. Never on headings, buttons,
+or body text.</p>
+<h3 id="bilingual-conventions">Bilingual conventions</h3>
+<p>Khmer sets in <code>km</code> at the same weight as its Latin sibling, with line-height raised roughly 0.15
+above the Latin value so bilingual rows keep an even rhythm. Khmer and Latin frequently share a
+line — never assume a row is one script.</p>
+<p>Identifiers, log output and figures stay in <code>mono</code> and stay Latin, in both interfaces. A service
+name may be Khmer; a service ID never is.</p>
+<hr>
+<h2 id="4-structure">4. Structure</h2>
+<p><strong>Two grounds.</strong> The page is <code>wash</code>; the work sits on <code>panel</code>. Nothing is ever a third,
+intermediate tint. A region either is the page or is a surface on it.</p>
+<p><strong>Every surface has an edge.</strong> A <code>--hair</code> border in <code>rule</code>, radius <code>box</code>. A surface is defined
+by its edge, never by a shadow and never by a fill alone — which is why <code>card-fill</code> and
+<code>surface</code> are the same value: the fill is not what separates them, the edge is.</p>
+<p><strong>Controls are capsules, containers are boxes.</strong> <code>capsule</code> for anything pressable, <code>box</code> for
+anything that only contains other things. There is no third radius. The capsule is not
+arbitrary: a travelling edge on a capsule is a continuous loop with no corners to accelerate
+through, which is the geometry the primitive needs.</p>
+<p><strong>Spacing.</strong> <code>gap-tight</code> inside a group, <code>gap</code> between groups, <code>gap-loose</code> between sections,
+<code>pad</code> for container padding. Four steps, no fifth, and no arbitrary margin between them.</p>
+<p><strong>Chrome contracts as you descend.</strong> Persistent navigation begins flush and full-width against
+the page. Once the view is scrolled past its first section, it detaches into a floating capsule
+on <code>panel</code>, inset from the edges, narrower than the bar it replaced. It does not lift — there is
+no shadow. It separates by changing ground and by contracting. See section 7 for the timing.</p>
+<p><strong>Density is spacious and that is a commitment.</strong> This system trades rows-on-screen for legible
+state. If a screen needs forty rows visible at once, it is the wrong system — Lozenge is the
+right one.</p>
+<hr>
+<h2 id="5-components">5. Components</h2>
+<p>Every value below is a token reference. Nothing here restates a colour.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Primary button</td>
+<td><code>--clp-button-bg</code> fill, <code>--clp-button-text</code>, <code>capsule</code>, <code>pad</code>. Carries a live edge when it is the one way forward</td>
+</tr>
+<tr>
+<td>Secondary button</td>
+<td><code>--clp-button2-bg</code> fill, <code>--clp-text</code>, <code>capsule</code>, <code>--hair</code> edge in <code>rule</code></td>
+</tr>
+<tr>
+<td>Ghost button</td>
+<td>Transparent, <code>--clp-text-2</code>, no edge until hover</td>
+</tr>
+<tr>
+<td>Input, search</td>
+<td><code>panel</code> fill, <code>--hair</code> edge in <code>rule</code>, <code>capsule</code>. Edge becomes <code>live</code> at <code>--edge</code> on focus</td>
+</tr>
+<tr>
+<td>Card, panel</td>
+<td><code>--clp-card-fill</code>, <code>--hair</code> edge in <code>rule</code>, <code>box</code>, <code>pad</code></td>
+</tr>
+<tr>
+<td>Table</td>
+<td>On <code>panel</code> inside a <code>box</code> container with a <code>--hair</code> edge; <code>rule</code> hairlines between rows</td>
+</tr>
+<tr>
+<td>Service row</td>
+<td>Idle: <code>--hair</code> edge in <code>rule</code>. Deploying: travelling <code>--edge</code> in <code>live</code>. Failed: still <code>--edge</code> in <code>ember</code></td>
+</tr>
+<tr>
+<td>State label</td>
+<td>Coloured text inside a border of the same colour, <code>capsule</code>. Never a fill</td>
+</tr>
+<tr>
+<td>Nav, rail</td>
+<td><code>dusk</code> ground, <code>--clp-invert-text</code>, active item marked by <code>--clp-invert-accent</code></td>
+</tr>
+<tr>
+<td>Chart</td>
+<td><code>--clp-chart-1</code> then <code>--clp-chart-2</code>, in that order, never cycled. Axes and grid in <code>--clp-line</code></td>
+</tr>
+<tr>
+<td>Modal, drawer</td>
+<td><code>panel</code> on <code>--clp-scrim</code>, <code>box</code>, <code>--hair</code> edge. No shadow</td>
+</tr>
+<tr>
+<td>Focus ring</td>
+<td><code>--clp-focus</code> at <code>--edge</code>. Never removed</td>
+</tr>
+</tbody></table>
+<p><strong>At most one live edge per view.</strong> Two elements claiming to be the live one is a bug, not a
+busy screen. If a deploy is running and a primary action is also present, the deploy wins and
+the button reverts to a still edge.</p>
+<p><strong>Charts stop at two series.</strong> The ramp is monochrome, and a third purple would not be tellable
+apart from its neighbours. A view needing a third series needs a different chart, not a third
+colour.</p>
+<hr>
+<h2 id="6-figures-and-identifiers">6. Figures and identifiers</h2>
+<p>Written for infrastructure interfaces; carry these forward wherever they apply.</p>
+<ul>
+<li>Durations are absolute and unrounded under a minute: <code>47s</code>, never <code>&lt;1m</code>.</li>
+<li>Byte counts carry their unit at every scale, in <code>mono</code>, right-aligned down a column.</li>
+<li>A service ID is shown in full or not at all. Never truncate with an ellipsis in the middle —
+the tail is the part that distinguishes two IDs.</li>
+<li>Derived and estimated numbers carry a tilde: <code>~4m remaining</code>, never <code>4m remaining</code>.</li>
+<li>A timestamp shows relative time with the absolute value available on hover, never the reverse.</li>
+</ul>
+<hr>
+<h2 id="7-motion">7. Motion</h2>
+<p>Motion in this system means exactly one thing: <strong>this is live.</strong> There is no motion that
+signifies anything else, and there is no decorative animation.</p>
+<p><strong>The travelling edge.</strong> A conic gradient rotated through a registered custom property, masked
+to the border box so only the edge shows:</p>
+<pre><code class="language-css">@property --edge-angle {
+  syntax: &quot;&lt;angle&gt;&quot;;
+  inherits: false;
+  initial-value: 0deg;
+}
+
+.is-live {
+  position: relative;
+  border-radius: var(--capsule);
+}
+
+.is-live::before {
+  content: &quot;&quot;;
+  position: absolute;
+  inset: 0;
+  padding: var(--edge);
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--edge-angle),
+    transparent 0turn,
+    var(--live) 0.08turn,
+    transparent 0.18turn,
+    transparent 1turn);
+  mask: linear-gradient(currentColor 0 0) content-box,
+        linear-gradient(currentColor 0 0);
+  mask-composite: exclude;
+  animation: edge-run var(--edge-run) linear infinite;
+}
+
+@keyframes edge-run {
+  to { --edge-angle: 1turn; }
+}
+</code></pre>
+<p>One revolution per <code>--edge-run</code>, linear, never eased — an eased revolution reads as a thing
+speeding up and slowing down, which claims something about the work that is not true.</p>
+<p><strong>Chrome contraction.</strong> The navigation transitions width, inset and ground over <code>--settle</code>, and
+nothing else. It does not fade, scale, or lift.</p>
+<p><strong>Press.</strong> <code>--clp-press</code> on every control. There is no shadow to flatten, because there is no
+shadow.</p>
+<p><strong>Reduced motion is not a downgrade.</strong> Under <code>prefers-reduced-motion: reduce</code> the edge stops
+travelling and becomes a solid <code>--edge</code> in <code>live</code>. The state is still carried — only the motion
+goes. Motion must never be the only channel a state is available on.</p>
+<p><strong>A note on the specimen.</strong> The generated preview renders one static frame per mode, so it shows
+this system&#39;s edges but can never show them moving. The primitive is not visible in its own
+specimen sheet. That is a known limitation of the preview contract, not a softening of the rule.</p>
+<hr>
+<h2 id="8-never">8. Never</h2>
+<ul>
+<li><strong>Never add a third radius.</strong> Containers are <code>box</code>, controls are <code>capsule</code>. There is no third.</li>
+<li><strong>Never put a shadow on anything.</strong> Not on a control, a card, a nav, a popover, a modal or a
+tooltip, however subtle. Separation is the edge and the two grounds.</li>
+<li><strong>Never animate the edge of something that is not live.</strong> A travelling edge is a claim that
+work is happening. On an idle element it is a lie, and it destroys the one signal this system
+has.</li>
+<li><strong>Never show two live edges in one view.</strong> Two things claiming to be the live one means one of
+them is a bug.</li>
+<li><strong>Never introduce a colour outside the purple ramp except <code>ember</code>.</strong> Colour outside the ramp
+means broken, and nothing else may borrow that meaning.</li>
+<li><strong>Never add a success or a warning colour.</strong> A resolved state recedes to <code>ink-3</code>. There is no
+attention-soon state.</li>
+<li><strong>Never fill a state.</strong> No filled status pills, no washes behind state labels. A state is
+coloured text inside a border of the same colour.</li>
+<li><strong>Never use <code>live</code> as a fill for a region, a button, or a page.</strong> It is an edge, a focus ring
+and a data mark.</li>
+<li><strong>Never add a third series to a chart.</strong> Two is the ceiling a monochrome ramp supports.</li>
+<li><strong>Never let motion be the only carrier of state.</strong> Under reduced motion the live edge must
+still read as an edge.</li>
+<li><strong>Never add a third Latin family.</strong> <code>sans</code> and <code>mono</code> only; <code>km</code> covers Khmer.</li>
+<li><strong>Never set <code>data-mode=&quot;dark&quot;</code> on anything but the root element.</strong></li>
+<li><strong>Never introduce a colour, radius, spacing step, border width, duration or type family this
+file does not define.</strong></li>
+</ul>
+
+
+      <h2 id="tokens-table">Declared aliases</h2>
+      <p><code>none</code> is a refusal the author wrote down. The preview renders nothing for it.</p>
+      <table class="aliases">
+        <thead><tr><th>Alias</th><th>Value</th></tr></thead>
+        <tbody><tr>
+          <td><code>--clp-bg</code></td><td><code>var(--wash)</code></td></tr><tr>
+          <td><code>--clp-surface</code></td><td><code>var(--panel)</code></td></tr><tr>
+          <td><code>--clp-card-fill</code></td><td><code>var(--panel)</code></td></tr><tr>
+          <td><code>--clp-text</code></td><td><code>var(--ink)</code></td></tr><tr>
+          <td><code>--clp-text-2</code></td><td><code>var(--ink-2)</code></td></tr><tr>
+          <td><code>--clp-text-3</code></td><td><code>var(--ink-3)</code></td></tr><tr>
+          <td><code>--clp-line</code></td><td><code>var(--rule)</code></td></tr><tr>
+          <td><code>--clp-accent</code></td><td><code>var(--live)</code></td></tr><tr>
+          <td><code>--clp-radius-box</code></td><td><code>var(--box)</code></td></tr><tr>
+          <td><code>--clp-radius-control</code></td><td><code>var(--capsule)</code></td></tr><tr>
+          <td><code>--clp-border-width</code></td><td><code>var(--hair)</code></td></tr><tr>
+          <td><code>--clp-border-color</code></td><td><code>var(--rule)</code></td></tr><tr class="declined">
+          <td><code>--clp-shadow</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-press</code></td><td><code>scale(0.97)</code></td></tr><tr>
+          <td><code>--clp-focus</code></td><td><code>var(--live)</code></td></tr><tr>
+          <td><code>--clp-button-bg</code></td><td><code>var(--obsidian)</code></td></tr><tr>
+          <td><code>--clp-button-text</code></td><td><code>var(--on-obsidian)</code></td></tr><tr>
+          <td><code>--clp-button2-bg</code></td><td><code>var(--panel)</code></td></tr><tr class="declined">
+          <td><code>--clp-state-text</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-font-display</code></td><td><code>var(--sans)</code></td></tr><tr>
+          <td><code>--clp-font-body</code></td><td><code>var(--sans)</code></td></tr><tr>
+          <td><code>--clp-font-data</code></td><td><code>var(--mono)</code></td></tr><tr>
+          <td><code>--clp-gap</code></td><td><code>var(--gap)</code></td></tr><tr>
+          <td><code>--clp-pad</code></td><td><code>var(--pad)</code></td></tr><tr class="declined">
+          <td><code>--clp-success</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-success-wash</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-warn</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-warn-wash</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-alarm</code></td><td><code>var(--ember)</code></td></tr><tr class="declined">
+          <td><code>--clp-alarm-wash</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-invert-bg</code></td><td><code>var(--dusk)</code></td></tr><tr>
+          <td><code>--clp-invert-text</code></td><td><code>var(--on-dusk)</code></td></tr><tr>
+          <td><code>--clp-invert-accent</code></td><td><code>var(--live-pale)</code></td></tr><tr class="declined">
+          <td><code>--clp-hatch</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-font-script</code></td><td><code>var(--km)</code></td></tr><tr>
+          <td><code>--clp-scrim</code></td><td><code>var(--scrim-c)</code></td></tr><tr class="declined">
+          <td><code>--clp-shadow-surface</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-chart-1</code></td><td><code>var(--live)</code></td></tr><tr>
+          <td><code>--clp-chart-2</code></td><td><code>var(--live-pale)</code></td></tr><tr class="declined">
+          <td><code>--clp-chart-3</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-chart-4</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-chart-5</code></td><td><code>none</code></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <nav class="pager">
+    <a href="../pharmly/index.html">← Pharmly</a>
+    <span></span>
+  </nav>
+</div>
+<script id="src" type="application/json">"\n**Install:** copy this file into the target project as `.claude/design-system.md`, then add\nthis to that project's own `CLAUDE.md`:\n\n```md\n## Design system\n\nThis project follows Prunella. The rules in @.claude/design-system.md are\nbinding for all UI work. Where a rule and your instinct disagree, the rule wins.\n```\n\nEverything below is binding.\n\nA design system for software that is doing something while you watch it. One primitive — an\nedge that moves when the thing it encloses is live — carried from a button to a service row to\nthe navigation itself. Built on a single purple ramp, spacious, bilingual.\n\n---\n\n## How to apply this file\n\nFollow the rules literally. Where a rule and your instinct disagree, the rule wins.\n\nWhen something isn't covered here, choose the option most consistent with the rules that are —\nand prefer removing the element over inventing a new token for it. Do not introduce colours,\nradii, shadows, borders, or type families that this file does not define. That is the most\ncommon way a system decays.\n\nBefore adding motion to anything, answer one question: **is this element live?** If the answer\nis no, the motion is decoration and this system does not permit it. See section 7.\n\n**On installing this file.** Prefer the `@`-import above over pasting these rules into a\nproject's `CLAUDE.md`: the import keeps the system in context for every turn without displacing\nthe project's own rules, and updating the system later is a one-file copy. Installing instead as\n`.claude/skills/design-system/SKILL.md` costs less context but is not guaranteed to load on any\ngiven edit, which is how a system quietly stops being followed.\n\n---\n\n## 1. The primitive\n\n**An edge that moves means the thing inside it is live.** A still edge means it is not.\n\nThat is the whole system. Every other rule below is a consequence.\n\n\"Live\" means one of exactly three things, and never anything else:\n\n| Live | Meaning |\n|---|---|\n| Work is happening now | A deploy is building, a job is running, a stream is open |\n| Transition is in flight | The element is mid-request and the outcome is not yet known |\n| This is the one way forward | The single primary action on the view |\n\nThe same rule appears at three scales, and an agent should extrapolate to a fourth the same way:\n\n| Scale | Live | Still |\n|---|---|---|\n| Button | The one primary action | Every secondary and ghost control |\n| Row or card | This service is deploying | This service is deployed |\n| Navigation | A background task is running | Nothing is running |\n\nBecause the edge carries the signal, **the edge is never decorative.** A border in this system\nis a load-bearing statement about state. That is the opposite of Lozenge, which forbids borders\nentirely and separates by surface step; the two systems disagree on structure deliberately and\nshould not be mixed.\n\nTwo edges, two weights: `--hair` at rest, `--edge` when live. There is no third weight.\n\n---\n\n## 2. Tokens\n\n```css\n:root {\n  --wash:        #F4F2F8;\n  --panel:       #FFFFFF;\n  --ink:         #17131F;\n  --ink-2:       #524B66;\n  --ink-3:       #6A6382;\n  --rule:        #E3DFEC;\n  --dusk:        #4A4166;\n  --on-dusk:     #EFECF6;\n  --live:        #6B3BE8;\n  --live-pale:   #B79AF2;\n  --obsidian:    #131019;\n  --on-obsidian: #FFFFFF;\n  --ember:       #A8231C;\n  --scrim-c:     rgba(19, 16, 25, .62);\n\n  --sans: \"Onest\", system-ui, sans-serif;\n  --mono: \"JetBrains Mono\", ui-monospace, monospace;\n  --km:   \"Noto Sans Khmer\", \"Onest\", sans-serif;\n\n  --capsule: 999px;\n  --box:     16px;\n\n  --hair: 1px;\n  --edge: 2px;\n\n  --gap-tight: 8px;\n  --gap:       16px;\n  --gap-loose: 28px;\n  --pad:       20px 24px;\n\n  --edge-run: 2.4s;\n  --settle:   180ms;\n\n  --clp-bg:             var(--wash);\n  --clp-surface:        var(--panel);\n  --clp-card-fill:      var(--panel);\n  --clp-text:           var(--ink);\n  --clp-text-2:         var(--ink-2);\n  --clp-text-3:         var(--ink-3);\n  --clp-line:           var(--rule);\n  --clp-accent:         var(--live);\n  --clp-radius-box:     var(--box);\n  --clp-radius-control: var(--capsule);\n  --clp-border-width:   var(--hair);\n  --clp-border-color:   var(--rule);\n  --clp-shadow:         none;\n  --clp-press:          scale(0.97);\n  --clp-focus:          var(--live);\n  --clp-button-bg:      var(--obsidian);\n  --clp-button-text:    var(--on-obsidian);\n  --clp-button2-bg:     var(--panel);\n  --clp-state-text:     none;\n  --clp-font-display:   var(--sans);\n  --clp-font-body:      var(--sans);\n  --clp-font-data:      var(--mono);\n  --clp-gap:            var(--gap);\n  --clp-pad:            var(--pad);\n  --clp-success:        none;\n  --clp-success-wash:   none;\n  --clp-warn:           none;\n  --clp-warn-wash:      none;\n  --clp-alarm:          var(--ember);\n  --clp-alarm-wash:     none;\n  --clp-invert-bg:      var(--dusk);\n  --clp-invert-text:    var(--on-dusk);\n  --clp-invert-accent:  var(--live-pale);\n  --clp-hatch:          none;\n  --clp-font-script:    var(--km);\n  --clp-scrim:          var(--scrim-c);\n  --clp-shadow-surface: none;\n  --clp-chart-1:        var(--live);\n  --clp-chart-2:        var(--live-pale);\n  --clp-chart-3:        none;\n  --clp-chart-4:        none;\n  --clp-chart-5:        none;\n}\n\n[data-mode=\"dark\"] {\n  --wash:        #131019;\n  --panel:       #1C1828;\n  --ink:         #EFECF6;\n  --ink-2:       #A79EC0;\n  --ink-3:       #958CB4;\n  --rule:        #2E2842;\n  --dusk:        #3A3252;\n  --live:        #9A73FF;\n  --live-pale:   #D3C0FF;\n  --obsidian:    #0A0710;\n  --ember:       #F08078;\n}\n```\n\nDark mode is required, not optional. Every screen must work in both.\n\nSet `data-mode=\"dark\"` on the **root element**. Scoped to a wrapper it will not work: a\n`var()` inside a custom property resolves where the property is declared, so the `--clp-*`\naliases would keep their light values.\n\n**In dark mode the primary button goes darker than the page, not lighter.** `obsidian` sits\nbelow `wash`, so the button is a hole rather than a block, and its edge is what makes it a\ncontrol. This follows from the primitive: the edge does the work, so the fill does not have to.\n\n### Colour rules\n\n| Token | Means |\n|---|---|\n| `dusk` | The ground — nav, inverted panels, the deep end of the ramp |\n| `live` | **Live.** The moving edge, the focus ring, the first data series |\n| `live-pale` | The second data series, and the accent on an inverted surface |\n| `ink-3` | Resolved, idle, nothing to do here |\n| `ember` | **Broken.** A failed deploy, an unrecoverable error |\n\n**One purple ramp, one exception.** Everything in this system is a step of the purple ramp\nexcept `ember`. That is the point of the palette: colour outside the ramp appears only when\nsomething has failed, so a reader who sees any non-purple hue already knows what it means before\nreading the label.\n\n**There is no success colour and no warning colour.** A resolved state recedes to `ink-3` and\ncarries no colour at all. A state that needs attention soon does not exist — either work is\nhappening, or it is finished, or it is broken.\n\n**A state is an edge, not a fill.** `--clp-state-text` and `--clp-alarm-wash` are both declined,\nwhich means a state renders as coloured text inside a border of the same colour. Nothing in this\nsystem is a filled pill.\n\n`live` is an edge, a focus ring and a data mark. It is never a page background, never a filled\nregion, never button fill, and never body text.\n\n---\n\n## 3. Type\n\nTwo Latin families, no third: `sans` for everything Latin, `mono` for figures and identifiers.\n`km` covers Khmer.\n\nMono is not decoration here and is not optional. Service IDs, commit SHAs, log lines, byte\ncounts, durations and IP addresses all set in `mono`, because they are scanned character by\ncharacter and compared down a column rather than read.\n\n| Role | Size | Weight | Tracking |\n|---|---|---|---|\n| Page title | 24px | 600 | −0.02em |\n| Section title | 18px | 600 | −0.01em |\n| Body, table cell | 15px | 400 | 0 |\n| Secondary | 13px | 400 | 0 |\n| Label, column head | 12px | 600 | +0.06em, uppercase |\n| Data, identifier | 13px | 400 | 0, `mono` |\n\nUppercase is permitted **only** on column headers and small labels. Never on headings, buttons,\nor body text.\n\n### Bilingual conventions\n\nKhmer sets in `km` at the same weight as its Latin sibling, with line-height raised roughly 0.15\nabove the Latin value so bilingual rows keep an even rhythm. Khmer and Latin frequently share a\nline — never assume a row is one script.\n\nIdentifiers, log output and figures stay in `mono` and stay Latin, in both interfaces. A service\nname may be Khmer; a service ID never is.\n\n---\n\n## 4. Structure\n\n**Two grounds.** The page is `wash`; the work sits on `panel`. Nothing is ever a third,\nintermediate tint. A region either is the page or is a surface on it.\n\n**Every surface has an edge.** A `--hair` border in `rule`, radius `box`. A surface is defined\nby its edge, never by a shadow and never by a fill alone — which is why `card-fill` and\n`surface` are the same value: the fill is not what separates them, the edge is.\n\n**Controls are capsules, containers are boxes.** `capsule` for anything pressable, `box` for\nanything that only contains other things. There is no third radius. The capsule is not\narbitrary: a travelling edge on a capsule is a continuous loop with no corners to accelerate\nthrough, which is the geometry the primitive needs.\n\n**Spacing.** `gap-tight` inside a group, `gap` between groups, `gap-loose` between sections,\n`pad` for container padding. Four steps, no fifth, and no arbitrary margin between them.\n\n**Chrome contracts as you descend.** Persistent navigation begins flush and full-width against\nthe page. Once the view is scrolled past its first section, it detaches into a floating capsule\non `panel`, inset from the edges, narrower than the bar it replaced. It does not lift — there is\nno shadow. It separates by changing ground and by contracting. See section 7 for the timing.\n\n**Density is spacious and that is a commitment.** This system trades rows-on-screen for legible\nstate. If a screen needs forty rows visible at once, it is the wrong system — Lozenge is the\nright one.\n\n---\n\n## 5. Components\n\nEvery value below is a token reference. Nothing here restates a colour.\n\n| Component | Rule |\n|---|---|\n| Primary button | `--clp-button-bg` fill, `--clp-button-text`, `capsule`, `pad`. Carries a live edge when it is the one way forward |\n| Secondary button | `--clp-button2-bg` fill, `--clp-text`, `capsule`, `--hair` edge in `rule` |\n| Ghost button | Transparent, `--clp-text-2`, no edge until hover |\n| Input, search | `panel` fill, `--hair` edge in `rule`, `capsule`. Edge becomes `live` at `--edge` on focus |\n| Card, panel | `--clp-card-fill`, `--hair` edge in `rule`, `box`, `pad` |\n| Table | On `panel` inside a `box` container with a `--hair` edge; `rule` hairlines between rows |\n| Service row | Idle: `--hair` edge in `rule`. Deploying: travelling `--edge` in `live`. Failed: still `--edge` in `ember` |\n| State label | Coloured text inside a border of the same colour, `capsule`. Never a fill |\n| Nav, rail | `dusk` ground, `--clp-invert-text`, active item marked by `--clp-invert-accent` |\n| Chart | `--clp-chart-1` then `--clp-chart-2`, in that order, never cycled. Axes and grid in `--clp-line` |\n| Modal, drawer | `panel` on `--clp-scrim`, `box`, `--hair` edge. No shadow |\n| Focus ring | `--clp-focus` at `--edge`. Never removed |\n\n**At most one live edge per view.** Two elements claiming to be the live one is a bug, not a\nbusy screen. If a deploy is running and a primary action is also present, the deploy wins and\nthe button reverts to a still edge.\n\n**Charts stop at two series.** The ramp is monochrome, and a third purple would not be tellable\napart from its neighbours. A view needing a third series needs a different chart, not a third\ncolour.\n\n---\n\n## 6. Figures and identifiers\n\nWritten for infrastructure interfaces; carry these forward wherever they apply.\n\n- Durations are absolute and unrounded under a minute: `47s`, never `\u003c1m`.\n- Byte counts carry their unit at every scale, in `mono`, right-aligned down a column.\n- A service ID is shown in full or not at all. Never truncate with an ellipsis in the middle —\n  the tail is the part that distinguishes two IDs.\n- Derived and estimated numbers carry a tilde: `~4m remaining`, never `4m remaining`.\n- A timestamp shows relative time with the absolute value available on hover, never the reverse.\n\n---\n\n## 7. Motion\n\nMotion in this system means exactly one thing: **this is live.** There is no motion that\nsignifies anything else, and there is no decorative animation.\n\n**The travelling edge.** A conic gradient rotated through a registered custom property, masked\nto the border box so only the edge shows:\n\n```css\n@property --edge-angle {\n  syntax: \"\u003cangle>\";\n  inherits: false;\n  initial-value: 0deg;\n}\n\n.is-live {\n  position: relative;\n  border-radius: var(--capsule);\n}\n\n.is-live::before {\n  content: \"\";\n  position: absolute;\n  inset: 0;\n  padding: var(--edge);\n  border-radius: inherit;\n  background: conic-gradient(\n    from var(--edge-angle),\n    transparent 0turn,\n    var(--live) 0.08turn,\n    transparent 0.18turn,\n    transparent 1turn);\n  mask: linear-gradient(currentColor 0 0) content-box,\n        linear-gradient(currentColor 0 0);\n  mask-composite: exclude;\n  animation: edge-run var(--edge-run) linear infinite;\n}\n\n@keyframes edge-run {\n  to { --edge-angle: 1turn; }\n}\n```\n\nOne revolution per `--edge-run`, linear, never eased — an eased revolution reads as a thing\nspeeding up and slowing down, which claims something about the work that is not true.\n\n**Chrome contraction.** The navigation transitions width, inset and ground over `--settle`, and\nnothing else. It does not fade, scale, or lift.\n\n**Press.** `--clp-press` on every control. There is no shadow to flatten, because there is no\nshadow.\n\n**Reduced motion is not a downgrade.** Under `prefers-reduced-motion: reduce` the edge stops\ntravelling and becomes a solid `--edge` in `live`. The state is still carried — only the motion\ngoes. Motion must never be the only channel a state is available on.\n\n**A note on the specimen.** The generated preview renders one static frame per mode, so it shows\nthis system's edges but can never show them moving. The primitive is not visible in its own\nspecimen sheet. That is a known limitation of the preview contract, not a softening of the rule.\n\n---\n\n## 8. Never\n\n- **Never add a third radius.** Containers are `box`, controls are `capsule`. There is no third.\n- **Never put a shadow on anything.** Not on a control, a card, a nav, a popover, a modal or a\n  tooltip, however subtle. Separation is the edge and the two grounds.\n- **Never animate the edge of something that is not live.** A travelling edge is a claim that\n  work is happening. On an idle element it is a lie, and it destroys the one signal this system\n  has.\n- **Never show two live edges in one view.** Two things claiming to be the live one means one of\n  them is a bug.\n- **Never introduce a colour outside the purple ramp except `ember`.** Colour outside the ramp\n  means broken, and nothing else may borrow that meaning.\n- **Never add a success or a warning colour.** A resolved state recedes to `ink-3`. There is no\n  attention-soon state.\n- **Never fill a state.** No filled status pills, no washes behind state labels. A state is\n  coloured text inside a border of the same colour.\n- **Never use `live` as a fill for a region, a button, or a page.** It is an edge, a focus ring\n  and a data mark.\n- **Never add a third series to a chart.** Two is the ceiling a monochrome ramp supports.\n- **Never let motion be the only carrier of state.** Under reduced motion the live edge must\n  still read as an edge.\n- **Never add a third Latin family.** `sans` and `mono` only; `km` covers Khmer.\n- **Never set `data-mode=\"dark\"` on anything but the root element.**\n- **Never introduce a colour, radius, spacing step, border width, duration or type family this\n  file does not define.**\n"</script>
+<script>
+  const copyTo = async (btn, text, label) => {
+    try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied'; }
+    catch { btn.textContent = 'Copy failed'; }
+    setTimeout(() => { btn.textContent = label; }, 2200);
+  };
+  const raw = JSON.parse(document.getElementById('src').textContent);
+  const copy = document.getElementById('copy');
+  copy.addEventListener('click', () => copyTo(copy, raw, 'Copy file'));
+
+  const snip = document.getElementById('copysnip');
+  if (snip) snip.addEventListener('click', () =>
+    copyTo(snip, document.getElementById('snippet').textContent, 'Copy snippet'));
+
+  // Both iframes stay loaded; the switch only changes which is visible, so
+  // there is no reload flicker when flipping between modes.
+  const pair = document.getElementById('pvpair');
+  for (const btn of document.querySelectorAll('[data-pmode]')) {
+    btn.addEventListener('click', () => {
+      const m = btn.dataset.pmode;
+      pair.dataset.show = m;
+      document.querySelectorAll('[data-pmode]').forEach(x =>
+        x.setAttribute('aria-pressed', x.dataset.pmode === m));
+    });
+  }
+  pair.dataset.show = "both";
+
+  // Fit each frame to the preview inside it: no dead space, nothing clipped,
+  // whatever a given system's content adds up to. Measured from the parent
+  // because both documents are same-origin — messaging from the frame would
+  // race the parent's listener and usually lose.
+  function fit(f) {
+    const doc = f.contentDocument;
+    if (!doc) return;
+    const set = () => {
+      const h = Math.ceil(doc.body.getBoundingClientRect().height) + 2;
+      if (Math.abs(h - parseFloat(f.style.height || 0)) > 1) f.style.height = h + 'px';
+    };
+    set();
+    if (doc.fonts) doc.fonts.ready.then(set);
+    new ResizeObserver(set).observe(doc.body);
+  }
+  function fitAll(frames) {
+    for (const f of frames) {
+      f.addEventListener('load', () => fit(f));
+      if (f.contentDocument && f.contentDocument.readyState === 'complete') fit(f);
+    }
+  }
+  fitAll(pair.querySelectorAll('iframe'));
+</script></main>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="lockup sm" href="../../index.html">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+  <mask id="mk-cph">
+    <rect width="64" height="64" fill="#fff"/>
+    <rect x="32" width="32" height="64" fill="#000"/>
+    <rect x="34" y="28" width="18" height="8" rx="4" fill="#fff"/>
+    <rect x="12" y="28" width="18" height="8" rx="4" fill="#000"/>
+  </mask>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="currentColor" mask="url(#mk-cph)"/>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
+</svg><span>colophon</span>
+</a>
+      <p>Design systems as drop-in markdown. Each one is a single file; the site is a browser for it.</p>
+    </div>
+    <div>
+      <h2>Library</h2>
+      <a href="../../s/prunella/index.html">Prunella</a><a href="../../s/lozenge/index.html">Lozenge</a><a href="../../s/newsprint/index.html">Newsprint</a><a href="../../s/pharmly/index.html">Pharmly</a>
+      
+    </div>
+    <div>
+      <h2>Project</h2>
+      <a href="../../about.html">About</a>
+      <a href="../../colophon.html">Colophon</a>
+      <a href="https://github.com/rorpheeyah/colophon" rel="noreferrer">Source</a>
+    </div>
+  </div>
+  <div class="foot-legal">
+    <p>&copy; 2026 colophon (rorpheeyah). Site and writing all rights reserved.</p>
+    <p>The design system files are <a href="../../colophon.html#licensing">MIT licensed</a>.</p>
+  </div>
+</div></footer>
+
+<script>
+  (() => {
+    const root = document.documentElement;
+    const btn = document.getElementById('theme');
+    function set(t) {
+      root.dataset.theme = t;
+      btn.dataset.state = t;
+      btn.title = t === 'dark' ? 'Switch to light' : 'Switch to dark';
+      try { localStorage.setItem('colophon-theme', t); } catch (e) {}
+    }
+    set(root.dataset.theme === 'dark' ? 'dark' : 'light');
+    btn.addEventListener('click', () => set(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+  })();
+</script>
+</body>
+</html>

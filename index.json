@@ -1,5 +1,6 @@
 [
   { "slug": "lozenge",   "path": "systems/lozenge/lozenge.md",     "origin": "own",       "added": "2026-09-02" },
   { "slug": "newsprint", "path": "systems/newsprint/newsprint.md", "origin": "own",       "added": "2026-09-02" },
-  { "slug": "pharmly",   "path": "systems/pharmly/pharmly.md",     "origin": "reference", "added": "2026-09-02" }
+  { "slug": "pharmly",   "path": "systems/pharmly/pharmly.md",     "origin": "reference", "added": "2026-09-02" },
+  { "slug": "prunella",  "path": "systems/prunella/prunella.md",   "origin": "own",       "added": "2026-09-04" }
 ]

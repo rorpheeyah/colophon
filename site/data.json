@@ -81,5 +81,33 @@
     "added": "2026-09-02",
     "summary": "A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.",
     "hasDark": false
+  },
+  {
+    "slug": "prunella",
+    "system": "Prunella",
+    "version": "1.0",
+    "status": "active",
+    "origin": "own",
+    "register": "technical",
+    "density": "spacious",
+    "scripts": [
+      "latin",
+      "khmer"
+    ],
+    "bestFor": [
+      "deployment and infrastructure consoles",
+      "developer tooling",
+      "service status and monitoring screens",
+      "bilingual technical products"
+    ],
+    "avoidFor": [
+      "print output",
+      "long-form reading",
+      "static marketing sites",
+      "screens with no live or transitional state"
+    ],
+    "added": "2026-09-04",
+    "summary": "A design system for software that is doing something while you watch it. One primitive — an edge that moves when the thing it encloses is live — carried from a button to a service row to the navigation itself. Built on a single purple ramp, spacious, bilingual.",
+    "hasDark": true
   }
 ]
