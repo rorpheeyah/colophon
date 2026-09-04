@@ -22,44 +22,25 @@
 // and an annual price is ten months of a monthly one — which is what "two months
 // free" means, rather than a second number to keep in step by hand.
 
-import { esc, has, accentSpentOnButton } from '../preview-shared.mjs'
+import { esc, has, accentSpentOnButton, fixture, glassBar } from '../preview-shared.mjs'
 
-const PLANS = [
-  { name: 'Starter', monthly: 12, seats: 3,  storage: '10 GB', support: 'Community' },
-  { name: 'Team',    monthly: 32, seats: 15, storage: '250 GB', support: 'Priority email', pick: true },
-  { name: 'Scale',   monthly: 78, seats: 50, storage: '2 TB',  support: 'Dedicated' },
-]
-
-const FEATURES = [
-  ['Everything in one ledger', 'Invoices, expenses and payouts settle against the same records, so a month closes without reconciliation.'],
-  ['Rules you can read', 'Approval routes are written as plain sentences rather than nested conditions, and they say who is waiting.'],
-  ['Built to be handed over', 'Every figure traces to the entry that produced it, so an audit is a query rather than a project.'],
-]
-
-const FAQ = [
-  ['Can we change plan mid-term?', 'Yes. A change takes effect on the next invoice and the difference is prorated to the day.'],
-  ['Do you charge per seat?', 'Seats are included up to each plan’s limit. Beyond it, the next plan is cheaper than the overage.'],
-  ['What happens to our data if we leave?', 'It exports in full, in the format it went in, for as long as the account exists.'],
-]
-
-const NAV = ['Product', 'Pricing', 'Docs']
-const BILLING = [{ key: 'monthly', label: 'Monthly' }, { key: 'annual', label: 'Annual' }]
+const FX = fixture('landing')
+const PLANS = FX.plans
+const FEATURES = FX.features
+const FAQ = FX.faq
+const NAV = FX.nav
+const BILLING = FX.billing
 
 // ── derived, so nothing on the page can disagree with anything else ───────────
 const FROM = Math.min(...PLANS.map(p => p.monthly))
 const MAX_SEATS = Math.max(...PLANS.map(p => p.seats))
-const MONTHS_FREE = 2
+const MONTHS_FREE = FX.monthsFree
 const annual = monthly => monthly * (12 - MONTHS_FREE)
 
 export function css(t, meta) {
   return `
 /* ── landing ──────────────────────────────────────────────────────────── */
-.topbar{display:flex;align-items:center;gap:var(--_gap);padding:13px clamp(16px,4vw,40px);
-  flex:none;position:sticky;top:0;z-index:5;${has(t, '--clp-glass')
-    ? `background:var(--clp-glass);border-bottom:1px solid ${
-        has(t, '--clp-glass-edge') ? 'var(--clp-glass-edge)' : 'var(--clp-line)'}${
-        has(t, '--clp-blur') ? ';backdrop-filter:blur(var(--clp-blur))' : ''}`
-    : 'background:var(--clp-bg);border-bottom:1px solid var(--clp-line)'}}
+.topbar{display:flex;align-items:center;gap:var(--_gap);padding:13px clamp(16px,4vw,40px);${glassBar(t)}}
 .brand{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);font-size:16px;
   letter-spacing:-.01em;white-space:nowrap}
 .topnav{display:flex;gap:clamp(14px,2vw,26px);margin-left:clamp(12px,4vw,44px);flex-wrap:wrap}

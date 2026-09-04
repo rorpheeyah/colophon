@@ -1,0 +1,53 @@
+{
+  "sections": [
+    "Transport",
+    "Housing",
+    "Energy",
+    "Method"
+  ],
+  "lines": [
+    {
+      "name": "Coast",
+      "run": 1840,
+      "on": 1712,
+      "halts": 22
+    },
+    {
+      "name": "Vale",
+      "run": 1290,
+      "on": 1104,
+      "halts": 17
+    },
+    {
+      "name": "Ridge",
+      "run": 960,
+      "on": 903,
+      "halts": 12
+    },
+    {
+      "name": "Kiln",
+      "run": 640,
+      "on": 471,
+      "halts": 9
+    }
+  ],
+  "notes": [
+    [
+      "Window",
+      "A service counts as on time if it arrives within four minutes of the published time at its final halt."
+    ],
+    [
+      "Source",
+      "Operator returns for the twelve months to September, as filed with the regulator."
+    ],
+    [
+      "Excluded",
+      "Services cancelled before departure, and the eleven days of engineering closure on Kiln."
+    ]
+  ],
+  "further": [
+    "How four minutes became the number",
+    "The halt that costs Vale its margin",
+    "What a punctuality figure cannot tell you"
+  ]
+}

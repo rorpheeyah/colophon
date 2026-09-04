@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs'
 // The parts of the preview template that `preview.html` and `screen.html` must
 // resolve identically.
 //
@@ -8,6 +9,19 @@
 // density presets and the tooltip ladder live here and are imported by both,
 // for the same reason lib.mjs holds the parsing: two renderers cannot drift if
 // there is only one of each rule.
+
+/**
+ * A demo's record data, read from scripts/demos/fixtures/<name>.json.
+ *
+ * **The fixture holds records, not pages.** Which records a demo shows is data;
+ * how it composes them is not. Markup, derivations and any sentence with a
+ * computed figure in the middle of it stay in the module, because moving those
+ * to JSON means inventing a template language to put them back together, and
+ * JSON is a poor one. See CLAUDE.md, *Fixtures*.
+ */
+export function fixture(name) {
+  return JSON.parse(readFileSync(new URL(`./demos/fixtures/${name}.json`, import.meta.url), 'utf8'))
+}
 
 export const esc = s =>
   String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
@@ -54,6 +68,22 @@ export function shimBlock(t, meta) {
  */
 export const accentSpentOnButton = t =>
   has(t, '--clp-accent') && t.get('--clp-accent') === t.get('--clp-button-bg')
+
+/**
+ * The ground for a bar the page scrolls beneath: sticky, and glass where the
+ * system declares glass. Two demos had their own copy of this ladder, which is
+ * two places for it to drift — and glass placement is the one rule the template
+ * is least allowed to get wrong, because a system may permit it on chrome and
+ * forbid it on everything else.
+ *
+ * A demo supplies its own padding and layout; this is only the ground.
+ */
+export const glassBar = t =>
+  'flex:none;position:sticky;top:0;z-index:5;' + (has(t, '--clp-glass')
+    ? `background:var(--clp-glass);border-bottom:1px solid ${
+        has(t, '--clp-glass-edge') ? 'var(--clp-glass-edge)' : 'var(--clp-line)'}${
+        has(t, '--clp-blur') ? ';backdrop-filter:blur(var(--clp-blur))' : ''}`
+    : 'background:var(--clp-bg);border-bottom:1px solid var(--clp-line)')
 
 /** True where the system draws no container edge, so containment is a surface step. */
 export const borderless = t => /^0[a-z]*$/.test(t.get('--clp-border-width') ?? '0')

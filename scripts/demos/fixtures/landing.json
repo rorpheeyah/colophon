@@ -1,0 +1,70 @@
+{
+  "nav": [
+    "Product",
+    "Pricing",
+    "Docs"
+  ],
+  "billing": [
+    {
+      "key": "monthly",
+      "label": "Monthly"
+    },
+    {
+      "key": "annual",
+      "label": "Annual"
+    }
+  ],
+  "monthsFree": 2,
+  "plans": [
+    {
+      "name": "Starter",
+      "monthly": 12,
+      "seats": 3,
+      "storage": "10 GB",
+      "support": "Community"
+    },
+    {
+      "name": "Team",
+      "monthly": 32,
+      "seats": 15,
+      "storage": "250 GB",
+      "support": "Priority email",
+      "pick": true
+    },
+    {
+      "name": "Scale",
+      "monthly": 78,
+      "seats": 50,
+      "storage": "2 TB",
+      "support": "Dedicated"
+    }
+  ],
+  "features": [
+    [
+      "Everything in one ledger",
+      "Invoices, expenses and payouts settle against the same records, so a month closes without reconciliation."
+    ],
+    [
+      "Rules you can read",
+      "Approval routes are written as plain sentences rather than nested conditions, and they say who is waiting."
+    ],
+    [
+      "Built to be handed over",
+      "Every figure traces to the entry that produced it, so an audit is a query rather than a project."
+    ]
+  ],
+  "faq": [
+    [
+      "Can we change plan mid-term?",
+      "Yes. A change takes effect on the next invoice and the difference is prorated to the day."
+    ],
+    [
+      "Do you charge per seat?",
+      "Seats are included up to each plan’s limit. Beyond it, the next plan is cheaper than the overage."
+    ],
+    [
+      "What happens to our data if we leave?",
+      "It exports in full, in the format it went in, for as long as the account exists."
+    ]
+  ]
+}

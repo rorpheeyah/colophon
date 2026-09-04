@@ -1,0 +1,88 @@
+{
+  "taxBp": 825,
+  "categories": [
+    "All",
+    "Coffee",
+    "Bakery",
+    "Retail"
+  ],
+  "tenders": [
+    {
+      "key": "card",
+      "label": "Card"
+    },
+    {
+      "key": "cash",
+      "label": "Cash"
+    }
+  ],
+  "products": [
+    {
+      "name": "Filter, 12oz",
+      "cents": 320,
+      "cat": "Coffee"
+    },
+    {
+      "name": "Flat white",
+      "cents": 395,
+      "cat": "Coffee"
+    },
+    {
+      "name": "Cold brew",
+      "cents": 450,
+      "cat": "Coffee"
+    },
+    {
+      "name": "Cortado",
+      "cents": 350,
+      "cat": "Coffee"
+    },
+    {
+      "name": "Almond croissant",
+      "cents": 480,
+      "cat": "Bakery"
+    },
+    {
+      "name": "Sourdough slice",
+      "cents": 260,
+      "cat": "Bakery"
+    },
+    {
+      "name": "Banana bread",
+      "cents": 340,
+      "cat": "Bakery"
+    },
+    {
+      "name": "Beans, 250g",
+      "cents": 1450,
+      "cat": "Retail"
+    },
+    {
+      "name": "Enamel mug",
+      "cents": 1800,
+      "cat": "Retail"
+    }
+  ],
+  "ticket": [
+    {
+      "name": "Flat white",
+      "cents": 395,
+      "qty": 2
+    },
+    {
+      "name": "Almond croissant",
+      "cents": 480,
+      "qty": 1
+    },
+    {
+      "name": "Beans, 250g",
+      "cents": 1450,
+      "qty": 1
+    },
+    {
+      "name": "Filter, 12oz",
+      "cents": 320,
+      "qty": 3
+    }
+  ]
+}

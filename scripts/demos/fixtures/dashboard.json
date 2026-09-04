@@ -1,0 +1,134 @@
+{
+  "nav": [
+    [
+      "Monitor",
+      [
+        "Overview",
+        "Services",
+        "Incidents"
+      ]
+    ],
+    [
+      "Deliver",
+      [
+        "Releases",
+        "Pipelines"
+      ]
+    ]
+  ],
+  "environments": [
+    "Production",
+    "Staging"
+  ],
+  "ranges": [
+    "24h",
+    "7d",
+    "30d"
+  ],
+  "filters": [
+    {
+      "key": "all",
+      "label": "All"
+    },
+    {
+      "key": "degraded",
+      "label": "Degraded"
+    },
+    {
+      "key": "owner:Platform",
+      "label": "Platform"
+    }
+  ],
+  "services": [
+    {
+      "name": "api-gateway",
+      "owner": "Platform",
+      "region": "eu-west-1",
+      "req": 152,
+      "avail": 99.98,
+      "p95": 128,
+      "state": "ok",
+      "deploy": "2h ago"
+    },
+    {
+      "name": "auth-worker",
+      "owner": "Identity",
+      "region": "eu-west-1",
+      "req": 96,
+      "avail": 99.94,
+      "p95": 96,
+      "state": "ok",
+      "deploy": "6h ago"
+    },
+    {
+      "name": "media-encoder",
+      "owner": "Media",
+      "region": "us-east-1",
+      "req": 71,
+      "avail": 99.21,
+      "p95": 412,
+      "state": "warn",
+      "deploy": "3d ago"
+    },
+    {
+      "name": "search-index",
+      "owner": "Discovery",
+      "region": "ap-south-1",
+      "req": 62,
+      "avail": 99.87,
+      "p95": 204,
+      "state": "ok",
+      "deploy": "1d ago"
+    },
+    {
+      "name": "webhook-relay",
+      "owner": "Platform",
+      "region": "eu-west-1",
+      "req": 16,
+      "avail": 99.55,
+      "p95": 88,
+      "state": "ok",
+      "deploy": "5d ago"
+    },
+    {
+      "name": "billing-sync",
+      "owner": "Payments",
+      "region": "eu-west-1",
+      "req": 12,
+      "avail": 97.4,
+      "p95": 883,
+      "state": "alarm",
+      "deploy": "9d ago"
+    }
+  ],
+  "deploys": [
+    [
+      "api-gateway",
+      "Platform",
+      "rate limits per key",
+      "2h ago",
+      "ok"
+    ],
+    [
+      "auth-worker",
+      "Identity",
+      "rotate signing keys",
+      "6h ago",
+      "ok"
+    ],
+    [
+      "search-index",
+      "Discovery",
+      "reindex on schema change",
+      "1d ago",
+      "ok"
+    ],
+    [
+      "media-encoder",
+      "Media",
+      "retry on transcode timeout",
+      "3d ago",
+      "warn"
+    ]
+  ]
+}
