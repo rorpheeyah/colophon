@@ -393,11 +393,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 
       <div class="toolbar">
         <div class="search">Filter by name or owner</div>
-        <div class="chips">
-          <button class="filter on">All</button>
-          <button class="filter">Degraded</button>
-          <button class="filter">Platform</button>
-        </div>
+        <div class="chips"><button class="filter on" data-filter="all" aria-current="true">All</button><button class="filter" data-filter="degraded">Degraded</button><button class="filter" data-filter="owner:Platform">Platform</button></div>
         <div class="range"><button class="">24h</button><button class="on">7d</button><button class="">30d</button></div>
       </div>
 
@@ -449,7 +445,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
               <th>Service</th><th>Owner</th><th>Region</th><th class="n">Requests</th>
               <th class="n">Availability</th><th class="n">p95</th><th>State</th>
             </tr></thead>
-            <tbody><tr>
+            <tbody><tr data-state="ok" data-owner="Platform" data-req="152">
       <td>api-gateway</td>
       <td class="muted">Platform</td>
       <td class="muted">eu-west-1</td>
@@ -457,7 +453,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       <td class="n">99.98%</td>
       <td class="n">128ms</td>
       <td><span class="state s-success">Healthy</span></td>
-    </tr><tr>
+    </tr><tr data-state="ok" data-owner="Identity" data-req="96">
       <td>auth-worker</td>
       <td class="muted">Identity</td>
       <td class="muted">eu-west-1</td>
@@ -465,7 +461,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       <td class="n">99.94%</td>
       <td class="n">96ms</td>
       <td><span class="state s-success">Healthy</span></td>
-    </tr><tr>
+    </tr><tr data-state="warn" data-owner="Media" data-req="71">
       <td>media-encoder</td>
       <td class="muted">Media</td>
       <td class="muted">us-east-1</td>
@@ -473,7 +469,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       <td class="n">99.21%</td>
       <td class="n">412ms</td>
       <td><span class="state s-warn">Degraded</span></td>
-    </tr><tr>
+    </tr><tr data-state="ok" data-owner="Discovery" data-req="62">
       <td>search-index</td>
       <td class="muted">Discovery</td>
       <td class="muted">ap-south-1</td>
@@ -481,7 +477,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       <td class="n">99.87%</td>
       <td class="n">204ms</td>
       <td><span class="state s-success">Healthy</span></td>
-    </tr><tr>
+    </tr><tr data-state="ok" data-owner="Platform" data-req="16">
       <td>webhook-relay</td>
       <td class="muted">Platform</td>
       <td class="muted">eu-west-1</td>
@@ -489,7 +485,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       <td class="n">99.55%</td>
       <td class="n">88ms</td>
       <td><span class="state s-success">Healthy</span></td>
-    </tr><tr>
+    </tr><tr data-state="alarm" data-owner="Payments" data-req="12">
       <td>billing-sync</td>
       <td class="muted">Payments</td>
       <td class="muted">eu-west-1</td>
@@ -501,7 +497,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
           </table>
         </div>
         <div class="tfoot">
-          <span>6 services &middot; 409k requests</span>
+          <span id="tally" data-unit="k requests">6 services &middot; 409k requests</span>
           <s>Grouped by owner</s>
         </div>
       </section>
@@ -539,6 +535,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
     <span>Data through 17 Sep</span>
   </footer>
 </div>
+<div class="tip" hidden></div>
 <!-- specimen end -->
 <p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>
 <script>
@@ -557,6 +554,76 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
     try { localStorage.setItem(KEY, pick.value) } catch {}
     location.href = pick.value + location.search
   })
+
+  // Hover readout. The surface it wears is whichever separation the system
+  // declared — elevation, an edge, or a contrasting fill. A system declaring
+  // none of the three gets no tooltip rather than one drawn from nothing.
+  const tip = document.querySelector('.tip')
+  if (tip) {
+    const cross = c => document.querySelectorAll('.cross').forEach(l => {
+      if (c === null) return l.setAttribute('hidden', '')
+      l.removeAttribute('hidden'); l.setAttribute('x1', c); l.setAttribute('x2', c)
+    })
+    addEventListener('pointerover', e => {
+      const m = e.target.closest('[data-tip]')
+      if (!m) return
+      tip.textContent = m.dataset.tip
+      tip.hidden = false
+      cross(m.dataset.x ?? null)
+    })
+    addEventListener('pointermove', e => {
+      if (tip.hidden) return
+      tip.style.left = e.clientX + 'px'
+      tip.style.top = e.clientY + 'px'
+    })
+    addEventListener('pointerout', e => {
+      if (!e.target.closest('[data-tip]')) return
+      tip.hidden = true
+      cross(null)
+    })
+  }
+
+  // Nav, filters, the range and the environment move between two states the
+  // system has already declared — active and inactive. Nothing here invents a
+  // treatment; it only changes which element wears the one that exists.
+  for (const group of document.querySelectorAll('.chips, .range, .envlist, .navgroup')) {
+    group.addEventListener('click', e => {
+      const hit = e.target.closest('button, a')
+      if (!hit || !group.contains(hit)) return
+      if (hit.tagName === 'A') e.preventDefault()
+      for (const b of group.querySelectorAll('button, a')) {
+        const on = b === hit
+        b.classList.toggle('on', on)
+        if (on) b.setAttribute('aria-current', b.tagName === 'A' ? 'page' : 'true')
+        else b.removeAttribute('aria-current')
+      }
+      if (group.classList.contains('chips')) applyFilter(hit.dataset.filter)
+    })
+  }
+
+  // A filter hides rows; it does not restyle anything. The tally is recomputed
+  // from whichever rows are left, so it can never describe a table that is no
+  // longer on screen — the same rule the generated figures follow at build time.
+  function applyFilter(key) {
+    const rows = [...document.querySelectorAll('tbody tr[data-state]')]
+    if (!rows.length) return
+    const match = r =>
+      !key || key === 'all' ? true
+      : key === 'degraded' ? r.dataset.state !== 'ok'
+      : key.startsWith('owner:') ? r.dataset.owner === key.slice(6)
+      : true
+    let n = 0, sum = 0
+    for (const r of rows) {
+      const on = match(r)
+      r.hidden = !on
+      if (on) { n++; sum += Number(r.dataset.req) || 0 }
+    }
+    const tally = document.getElementById('tally')
+    if (tally) {
+      tally.textContent = n + ' service' + (n === 1 ? '' : 's') +
+        ' · ' + sum + (tally.dataset.unit || '')
+    }
+  }
 
   const MKEY = 'colophon:demo-mode'
   function setMode(m) {

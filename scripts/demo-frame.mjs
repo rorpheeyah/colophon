@@ -251,7 +251,7 @@ ${demo.module.css(t, meta)}
 <body>
 ${chrome(meta, demo, notes)}
 ${SPECIMEN_OPEN}
-${demo.module.body(t, meta)}
+${demo.module.body(t, meta)}${tipTreatment(t) ? '\n<div class="tip" hidden></div>' : ''}
 ${SPECIMEN_CLOSE}
 <p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>
 <script>
@@ -270,6 +270,76 @@ ${SPECIMEN_CLOSE}
     try { localStorage.setItem(KEY, pick.value) } catch {}
     location.href = pick.value + location.search
   })
+
+  // Hover readout. The surface it wears is whichever separation the system
+  // declared — elevation, an edge, or a contrasting fill. A system declaring
+  // none of the three gets no tooltip rather than one drawn from nothing.
+  const tip = document.querySelector('.tip')
+  if (tip) {
+    const cross = c => document.querySelectorAll('.cross').forEach(l => {
+      if (c === null) return l.setAttribute('hidden', '')
+      l.removeAttribute('hidden'); l.setAttribute('x1', c); l.setAttribute('x2', c)
+    })
+    addEventListener('pointerover', e => {
+      const m = e.target.closest('[data-tip]')
+      if (!m) return
+      tip.textContent = m.dataset.tip
+      tip.hidden = false
+      cross(m.dataset.x ?? null)
+    })
+    addEventListener('pointermove', e => {
+      if (tip.hidden) return
+      tip.style.left = e.clientX + 'px'
+      tip.style.top = e.clientY + 'px'
+    })
+    addEventListener('pointerout', e => {
+      if (!e.target.closest('[data-tip]')) return
+      tip.hidden = true
+      cross(null)
+    })
+  }
+
+  // Nav, filters, the range and the environment move between two states the
+  // system has already declared — active and inactive. Nothing here invents a
+  // treatment; it only changes which element wears the one that exists.
+  for (const group of document.querySelectorAll('.chips, .range, .envlist, .navgroup')) {
+    group.addEventListener('click', e => {
+      const hit = e.target.closest('button, a')
+      if (!hit || !group.contains(hit)) return
+      if (hit.tagName === 'A') e.preventDefault()
+      for (const b of group.querySelectorAll('button, a')) {
+        const on = b === hit
+        b.classList.toggle('on', on)
+        if (on) b.setAttribute('aria-current', b.tagName === 'A' ? 'page' : 'true')
+        else b.removeAttribute('aria-current')
+      }
+      if (group.classList.contains('chips')) applyFilter(hit.dataset.filter)
+    })
+  }
+
+  // A filter hides rows; it does not restyle anything. The tally is recomputed
+  // from whichever rows are left, so it can never describe a table that is no
+  // longer on screen — the same rule the generated figures follow at build time.
+  function applyFilter(key) {
+    const rows = [...document.querySelectorAll('tbody tr[data-state]')]
+    if (!rows.length) return
+    const match = r =>
+      !key || key === 'all' ? true
+      : key === 'degraded' ? r.dataset.state !== 'ok'
+      : key.startsWith('owner:') ? r.dataset.owner === key.slice(6)
+      : true
+    let n = 0, sum = 0
+    for (const r of rows) {
+      const on = match(r)
+      r.hidden = !on
+      if (on) { n++; sum += Number(r.dataset.req) || 0 }
+    }
+    const tally = document.getElementById('tally')
+    if (tally) {
+      tally.textContent = n + ' service' + (n === 1 ? '' : 's') +
+        ' \u00b7 ' + sum + (tally.dataset.unit || '')
+    }
+  }
 
   const MKEY = 'colophon:demo-mode'
   function setMode(m) {
