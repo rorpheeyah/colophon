@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lozenge — Dashboard</title>
+<title>Lozenge — Editorial</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Cpath%20d%3D%22M32%203H18A15%2015%200%200%200%203%2018v28a15%2015%200%200%200%2015%2015h14z%22%20fill%3D%22%23B03A2E%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%23B03A2E%22%20stroke-width%3D%224.5%22%2F%3E%3Crect%20x%3D%2212%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23B03A2E%22%2F%3E%3C%2Fsvg%3E">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap">
@@ -235,109 +235,94 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   transform:translate(-50%,-140%);white-space:nowrap}
 
 
-/* ── dashboard ────────────────────────────────────────────────────────── */
-/* The top bar is the one element on this page that content scrolls beneath, so
-   it is the one element glass may go on. Filament states the test as a question —
-   "does page content scroll underneath this element?" — and answers it for cards,
-   tables, sidebars and modals with a flat no. A demo that put glass on a panel
-   would be misplacing a declared value, the same class of error as putting
-   --clp-shadow on a container. Where a system declares no glass the bar stays
-   opaque on the page ground, and it is still sticky: content scrolling under an
-   opaque bar is ordinary. */
-.topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);
-  flex:none;position:sticky;top:0;z-index:5;background:var(--clp-bg);border-bottom:1px solid var(--clp-line)}
-.brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
-  font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
-.brand i{font-style:normal;font-weight:500;font-size:12.5px;color:var(--clp-text-3)}
-.topsearch{margin-left:clamp(10px,3vw,34px);flex:1;max-width:340px;
-  border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
-  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.topbar-end{margin-left:auto;display:flex;align-items:center;gap:11px;flex:none}
+/* ── editorial ────────────────────────────────────────────────────────── */
+/* A hairline and a shared column edge carry the structure. Nothing here is a
+   filled container, because Newsprint forbids grouping content with one and
+   declines --clp-card-fill to say so. */
+.masthead{display:flex;align-items:baseline;gap:var(--_gap);flex-wrap:wrap;flex:none;
+  padding:16px clamp(16px,4vw,44px) 12px;border-bottom:1px solid var(--clp-text)}
+.title{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);
+  font-size:clamp(24px,3.4vw,40px);letter-spacing:-.03em;line-height:1}
+.issue{font:500 11px/1.6 var(--_data);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--clp-text-3)}
+.sectionbar{display:flex;gap:clamp(14px,2vw,26px);flex-wrap:wrap;flex:none;
+  padding:9px clamp(16px,4vw,44px);border-bottom:1px solid var(--clp-line)}
+.sectionbar a{font:500 11px/1.6 var(--_data);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--clp-text-3);text-decoration:none}
+.sectionbar a.on{color:var(--clp-text)}
 
-.shell{display:grid;grid-template-columns:214px minmax(0,1fr);flex:1 0 auto;align-items:stretch}
-.side{padding:clamp(14px,2vw,22px) 0 22px clamp(16px,2.5vw,26px);
-  display:flex;flex-direction:column;gap:16px;border-right:1px solid var(--clp-line)}
-.navgroup{display:flex;flex-direction:column;gap:5px}
-.navgroup a{font-size:13.5px;text-decoration:none;padding:6px 10px;
-  border-radius:var(--clp-radius-control);color:var(--clp-text-2)}
-.navgroup a.on{color:var(--clp-text);font-weight:600;background:var(--clp-line)}
-.envbox{display:flex;flex-direction:column;gap:5px;padding-right:clamp(16px,2.5vw,26px)}
-.envlist{display:flex;flex-direction:column;background:var(--clp-invert-bg);color:var(--clp-invert-text);
-  border-radius:var(--clp-radius-box);padding:7px;gap:2px}
-.env{display:flex;align-items:center;gap:9px;padding:7px 10px;font-size:13px;
-  border-radius:var(--clp-radius-control);cursor:pointer;border:0;background:none;
-  text-align:left;color:inherit;opacity:.7}
-.env.on{font-weight:600;opacity:1}
-.env:active{transform:var(--_press)}
-/* Current location is carried by weight and by a neutral fill, never by colour.
-   Ration forbids colouring "a nav item" and "an icon" in the same breath, and
-   an accent dot on the active environment was both at once. A dashboard has no
-   payoff for an accent to land on, so this page uses none — the budget is a
-   ceiling, and zero is under it. */
-.env-dot{width:7px;height:7px;flex:none;border-radius:var(--clp-radius-control);
-  background:currentColor;opacity:.55}
+.sheet{width:100%;max-width:1120px;margin-inline:auto;padding:0 clamp(16px,4vw,44px);
+  display:flex;flex-direction:column}
+.head{padding:clamp(26px,4vw,52px) 0 clamp(18px,2.4vw,26px);
+  border-bottom:1px solid var(--clp-line);display:flex;flex-direction:column;gap:13px}
+.kicker{font:500 11px/1.6 var(--_data);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--clp-text-2)}
+.head h1{font-size:clamp(29px,5vw,54px);line-height:1.06;letter-spacing:-.025em;max-width:26ch}
+.deck{font-size:clamp(15px,1.6vw,19px);color:var(--clp-text-2);max-width:56ch;line-height:1.5}
+.byline{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--clp-text-3)}
+.byline b{color:var(--clp-text-2);font-weight:600}
+.byline time{font-family:var(--_data)}
 
-.main{padding:clamp(14px,2vw,22px) clamp(16px,2.5vw,26px) 40px;
-  display:flex;flex-direction:column;gap:calc(var(--_gap) * 1.5);min-width:0}
-.banner{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
-  border-radius:var(--clp-radius-box);padding:11px 15px;font-size:13px}
-.banner b{font-weight:700}
-.banner s{margin-left:auto;text-decoration:none;font:600 12px/1.6 var(--_data)}
+/* The column edge is the layout: body and margin share one vertical hairline. */
+.cols{display:grid;grid-template-columns:minmax(0,1fr) 232px;gap:0;
+  padding-bottom:clamp(30px,5vw,60px)}
+.body{padding:clamp(22px,3vw,34px) clamp(22px,3vw,40px) 0 0;min-width:0}
+.margin{padding:clamp(22px,3vw,34px) 0 0 clamp(22px,3vw,40px);
+  border-left:1px solid var(--clp-line);min-width:0;
+  display:flex;flex-direction:column;gap:clamp(18px,2.4vw,26px)}
+.body > p{font-size:15px;line-height:1.62;max-width:62ch;margin:0 0 15px}
+.body h2{font-size:clamp(17px,1.8vw,21px);margin:clamp(22px,3vw,32px) 0 11px;max-width:40ch}
 
-.page-h{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
-.page-h > div:first-child{display:flex;flex-direction:column;gap:6px;min-width:0}
-.page-act{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap;align-items:flex-start}
-.crumb{font-size:12.5px;color:var(--clp-text-3)}
-.meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--clp-text-2)}
-.meta b{font-family:var(--_data);font-weight:600;color:var(--clp-text)}
+/* Rules above and below, never a fill and never a quotation ornament — a second
+   decorative detail is forbidden and the deckle is already the first. */
+.pull{margin:clamp(22px,3vw,32px) 0;padding:17px 0;
+  border-top:1px solid var(--clp-text);border-bottom:1px solid var(--clp-line);max-width:52ch}
+.pull p{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);
+  font-size:clamp(17px,2vw,23px);line-height:1.28;letter-spacing:-.015em}
+.pull cite{display:block;margin-top:8px;font-style:normal;
+  font:500 11px/1.6 var(--_data);letter-spacing:.07em;text-transform:uppercase;
+  color:var(--clp-text-3)}
 
-.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.search{border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
-  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;min-width:180px}
-.chips{display:flex;gap:7px;flex-wrap:wrap}
-.filter{border:1px solid var(--clp-line);border-radius:var(--clp-radius-control);
-  padding:5px 11px;font:500 12px/1.5 var(--clp-font-body);color:var(--clp-text-2);
-  background:none;cursor:pointer}
-.filter.on{background:var(--clp-text);color:var(--clp-bg);border-color:var(--clp-text);font-weight:600}
-.filter:active{transform:var(--_press)}
-.range{margin-left:auto;display:flex;gap:2px;padding:2px;background:var(--clp-line);
-  border-radius:var(--clp-radius-control)}
-.range button{border:0;background:none;cursor:pointer;padding:5px 12px;
-  border-radius:var(--clp-radius-control);font:500 12px/1.5 var(--_data);color:var(--clp-text-2)}
-.range button.on{background:var(--clp-bg);color:var(--clp-text);font-weight:700}
+.figure{margin:clamp(24px,3vw,34px) 0;display:flex;flex-direction:column;gap:10px}
+.figure figcaption{font-size:12.5px;color:var(--clp-text-3);max-width:56ch}
+.figure figcaption b{color:var(--clp-text-2);font-weight:600}
 
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--_gap)}
-.split{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
-  gap:var(--_gap);align-items:start}
-.tfoot{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--clp-text-3);
-  padding:10px 16px;border-top:1px solid var(--clp-line)}
-.tfoot s{margin-left:auto;text-decoration:none}
+/* Three figures, right-aligned into one spine, which is the whole reason a
+   third family exists in this system. */
+.standfirst{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  border-top:1px solid var(--clp-text);border-bottom:1px solid var(--clp-line)}
+.sf{padding:14px 0;display:flex;flex-direction:column;gap:2px}
+.sf + .sf{border-left:1px solid var(--clp-line);padding-left:16px}
+.sf b{font:700 clamp(23px,3vw,30px)/1.05 var(--_data);letter-spacing:-.04em;
+  font-variant-numeric:tabular-nums}
+.sf span{font:500 10px/1.5 var(--_data);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--clp-text-3)}
 
-.feed{display:flex;flex-direction:column}
-.feed-row{display:flex;align-items:baseline;gap:11px;padding:10px 0;
-  border-bottom:1px solid var(--clp-line);font-size:13px;flex-wrap:wrap}
-.feed-row:last-child{border-bottom:0}
-.feed-row b{font-weight:600;min-width:118px}
-.feed-row span{color:var(--clp-text-2);flex:1;min-width:150px}
-.feed-row time{font-family:var(--_data);font-size:11.5px;color:var(--clp-text-3);margin-left:auto}
-.foot{padding:16px clamp(16px,2.5vw,26px);border-top:1px solid var(--clp-line);
-  font-size:12px;color:var(--clp-text-3);display:flex;gap:16px;flex-wrap:wrap;flex:none}
+.margin h3{font-size:13px;margin-bottom:9px}
+.marginlabel{font:500 10px/1.5 var(--_data);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--clp-text-3);margin-bottom:7px}
+.notes-l{display:flex;flex-direction:column;gap:11px}
+.note{font-size:12.5px;color:var(--clp-text-2);line-height:1.5}
+.note b{display:block;font:500 10px/1.6 var(--_data);letter-spacing:.08em;
+  text-transform:uppercase;color:var(--clp-text-3)}
+.further{display:flex;flex-direction:column}
+.further a{font-size:13px;color:var(--clp-text);text-decoration:none;
+  padding:9px 0;border-bottom:1px solid var(--clp-line);line-height:1.4}
+.further a:first-child{border-top:1px solid var(--clp-line)}
 
-@media(max-width:1000px){
-  .shell{grid-template-columns:minmax(0,1fr)}
-  .side{border-right:0;border-bottom:1px solid var(--clp-line);
-    padding:14px clamp(16px,2.5vw,26px);flex-direction:row;flex-wrap:wrap;gap:20px}
-  .navgroup{flex-direction:row;flex-wrap:wrap}
-  .envbox{padding-right:0}
-  .envlist{flex-direction:row}
-  .split{grid-template-columns:minmax(0,1fr)}
+.colophon{border-top:1px solid var(--clp-text);padding:16px 0 44px;
+  display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--clp-text-3)}
+.colophon b{color:var(--clp-text-2);font-weight:600}
+
+@media(max-width:860px){
+  .cols{grid-template-columns:minmax(0,1fr)}
+  .body{padding-right:0}
+  .margin{border-left:0;border-top:1px solid var(--clp-line);
+    padding:clamp(22px,3vw,34px) 0 0}
 }
-@media(max-width:660px){
-  .tiles{grid-template-columns:minmax(0,1fr)}
-  .topsearch{display:none}
-  .range{margin-left:0}
-  .page-act{margin-left:0;width:100%}
+@media(max-width:560px){
+  .standfirst{grid-template-columns:minmax(0,1fr)}
+  .sf + .sf{border-left:0;border-top:1px solid var(--clp-line);padding-left:0}
 }
 
 </style>
@@ -347,88 +332,68 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   <div class="crow">
     <h1>Lozenge <span class="ver">1.0</span></h1>
     <label class="pick">Demo
-        <select id="demo"><option value="demo-dashboard.html" selected>Dashboard</option><option value="demo-landing.html">Landing</option><option value="demo-editorial.html">Editorial</option></select>
+        <select id="demo"><option value="demo-dashboard.html">Dashboard</option><option value="demo-landing.html">Landing</option><option value="demo-editorial.html" selected>Editorial</option></select>
       </label>
     <span class="modes" id="modes" hidden>
       <button data-mode="light">Light</button><button data-mode="dark">Dark</button>
     </span>
   </div>
-  <p class="blurb">A service reliability console: dense figures, a data table, live state.</p>
+  <p class="blurb">A long-form report: one measure, a ruled table, figures on one spine.</p>
   
   <ul class="notes"><li>A page needs sentences, so this one is set in Latin only. Script reach is shown on the specimen sheet.</li></ul>
 </div>
 <!-- specimen start -->
 <div class="scr">
-  <header class="topbar">
-    <div class="brand">Northsel <i>/ Reliability</i></div>
-    <div class="topsearch">Search services, deploys and incidents</div>
-    <div class="topbar-end">
-      <button class="btn b2">Invite</button>
-      <span class="avatar">RM</span>
-    </div>
+  <header class="masthead">
+    <div class="title">The Sounding</div>
+    <div class="issue">Issue 114 &middot; 17 September</div>
   </header>
+  <nav class="sectionbar" data-group="section"><a href="#" class="on" aria-current="page">Transport</a><a href="#">Housing</a><a href="#">Energy</a><a href="#">Method</a></nav>
 
-  <div class="shell">
-    <aside class="side">
-      <div class="navgroup" data-group="nav">
-      <p class="eyebrow">Monitor</p>
-      <a href="#">Overview</a><a href="#" class="on" aria-current="page">Services</a><a href="#">Incidents</a>
-    </div><div class="navgroup" data-group="nav">
-      <p class="eyebrow">Deliver</p>
-      <a href="#">Releases</a><a href="#">Pipelines</a>
+  <div class="sheet">
+    <div class="head">
+      <p class="kicker">Transport &middot; Punctuality</p>
+      <h1>Four minutes is doing a great deal of work</h1>
+      <p class="deck">The network reports 88.6% of services on time. Change
+        the window by ninety seconds and two of its four lines change places.</p>
+      <p class="byline"><b>By the transport desk</b>
+        <time>17 September</time>
+        <span>4,730 services examined</span></p>
     </div>
-      <div class="envbox">
-        <p class="eyebrow">Environment</p>
-        <nav class="envlist" data-group="env"><button class="env on" aria-current="true"><i class="env-dot"></i>Production</button><button class="env"><i class="env-dot"></i>Staging</button></nav>
-      </div>
-    </aside>
 
-    <main class="main">
-      <div class="banner a-alarm" role="status">
-        <b>Failing:</b>
-        <span>billing-sync is at 97.40% availability with p95 at
-          883ms. Last deployed 9d ago.</span>
-        <s>Open incident</s>
-      </div>
+    <div class="cols">
+      <div class="body">
+        <p>A punctuality figure is a threshold wearing the clothes of a measurement. The network
+          publishes one number for the year, and the number is true; what it does not carry is
+          how much of its own weight rests on where the threshold was drawn.</p>
 
-      <div class="page-h">
-        <div>
-          <p class="crumb">Production / Services</p>
-          <h1>Services</h1>
-          <div class="meta">
-            <span>Owned by <b>6</b> teams</span>
-            <span>Window <b>7d</b></span>
-            <span>Last deploy <b>2h ago</b></span>
-          </div>
+        <div class="standfirst"><div class="sf"><b>88.6%</b><span>network on time</span></div><div class="sf"><b>4,730</b><span>services scheduled</span></div><div class="sf"><b>4</b><span>lines in the return</span></div></div>
+
+        <p>Across 4 lines and 4,730 scheduled
+          services, 4,190 arrived inside the published window.
+          That is the headline. Beneath it, Ridge returns
+          94.1% and Kiln returns 73.6%, a
+          spread of 20.5 points between the best and worst
+          performing line on the same network in the same year.</p>
+
+        <h2>The threshold is the argument</h2>
+        <p>Every line concentrates its late arrivals in a narrow band on either side of the
+          window rather than spreading them evenly, which is what you would expect from a
+          timetable written to be met rather than to be accurate. Move the boundary and you do
+          not shave a little off each line; you reclassify a cluster.</p>
+
+        <div class="pull">
+          <p>A timetable written to be met is not the same document as a timetable written to be
+            accurate, and only one of them can be audited.</p>
+          <cite>From the method note</cite>
         </div>
-        <div class="page-act">
-          <button class="btn b3">Export</button>
-          <button class="btn">New deploy</button>
-        </div>
-      </div>
 
-      <div class="toolbar">
-        <div class="search">Filter by name or owner</div>
-        <div class="chips" data-group="filter"><button class="filter on" data-filter="all" aria-current="true">All</button><button class="filter" data-filter="degraded">Degraded</button><button class="filter" data-filter="owner:Platform">Platform</button></div>
-        <div class="range" data-group="range"><button class="">24h</button><button class="on">7d</button><button class="">30d</button></div>
-      </div>
+        <p>Kiln is the clearest case. It runs the fewest services of the four and
+          carries 9 halts, and its margin is spent before the last two. The line
+          does not fail at a point; it fails gradually and then reports the failure at the end.</p>
 
-      <section class="tiles"><div class="tile">
-      <span>Requests, 7d</span>
-      <b>409k</b>
-      <span class="delta">+6.2%</span>
-    </div><div class="tile">
-      <span>Availability</span>
-      <b>99.73%</b>
-      <span class="delta">target 99.90%</span>
-    </div><div class="tile">
-      <span>Degraded services</span>
-      <b>2</b>
-      <span class="delta" style="color:var(--clp-alarm)">media-encoder, billing-sync</span>
-    </div></section>
-
-      <section class="split"><div class="panel">
-        <div class="panel-h"><h3>Request volume</h3><span>7 days &middot; 409k total</span></div>
+        <figure class="figure">
+        <div class="marginlabel">Services by day, latest week</div>
         <svg viewBox="0 0 320 150" class="chart" role="img" aria-label="Sessions by day">
     <line x1="0" y1="116" x2="320" y2="116" class="gridline"/>
     <line x1="0" y1="10" x2="320" y2="10" class="gridline"/>
@@ -443,113 +408,76 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
     <text x="0" y="8" text-anchor="start" class="ax">88</text>
     <text x="19.428571428571427" y="146" text-anchor="middle" class="ax">Mo</text><text x="66.28571428571428" y="146" text-anchor="middle" class="ax">Tu</text><text x="113.14285714285714" y="146" text-anchor="middle" class="ax">We</text><text x="159.99999999999997" y="146" text-anchor="middle" class="ax">Th</text><text x="206.85714285714283" y="146" text-anchor="middle" class="ax">Fr</text><text x="253.7142857142857" y="146" text-anchor="middle" class="ax">Sa</text><text x="300.57142857142856" y="146" text-anchor="middle" class="ax">Su</text>
   </svg>
-      </div><div class="panel">
-          <div class="panel-h"><h3>Error budget</h3></div>
-          <svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Completion, 72 percent">
-    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-line)" stroke-width="16"/>
-    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-chart-1)" stroke-width="16"
-      stroke-linecap="butt" stroke-dasharray="235.2 326.7256359733385"
-      transform="rotate(-90 70 70)" data-tip="Completed · 72%"/>
-    <text x="70" y="68" text-anchor="middle" class="donut-n">72%</text>
-    <text x="70" y="86" text-anchor="middle" class="ax">complete</text></svg>
-        </div></section>
+        <figcaption><b>409</b> services in the sample week, distributed across
+          7 days. The week is illustrative; the table carries the year.</figcaption>
+      </figure>
 
-      <section class="tblock">
-        <div class="tscroll">
-          <table>
-            <thead><tr>
-              <th>Service</th><th>Owner</th><th>Region</th><th class="n">Requests</th>
-              <th class="n">Availability</th><th class="n">p95</th><th>State</th>
-            </tr></thead>
-            <tbody><tr data-state="ok" data-owner="Platform" data-req="152">
-      <td>api-gateway</td>
-      <td class="muted">Platform</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">152k</td>
-      <td class="n">99.98%</td>
-      <td class="n">128ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="ok" data-owner="Identity" data-req="96">
-      <td>auth-worker</td>
-      <td class="muted">Identity</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">96k</td>
-      <td class="n">99.94%</td>
-      <td class="n">96ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="warn" data-owner="Media" data-req="71">
-      <td>media-encoder</td>
-      <td class="muted">Media</td>
-      <td class="muted">us-east-1</td>
-      <td class="n">71k</td>
-      <td class="n">99.21%</td>
-      <td class="n">412ms</td>
-      <td><span class="state s-warn">Degraded</span></td>
-    </tr><tr data-state="ok" data-owner="Discovery" data-req="62">
-      <td>search-index</td>
-      <td class="muted">Discovery</td>
-      <td class="muted">ap-south-1</td>
-      <td class="n">62k</td>
-      <td class="n">99.87%</td>
-      <td class="n">204ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="ok" data-owner="Platform" data-req="16">
-      <td>webhook-relay</td>
-      <td class="muted">Platform</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">16k</td>
-      <td class="n">99.55%</td>
-      <td class="n">88ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="alarm" data-owner="Payments" data-req="12">
-      <td>billing-sync</td>
-      <td class="muted">Payments</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">12k</td>
-      <td class="n">97.40%</td>
-      <td class="n">883ms</td>
-      <td><span class="state s-alarm">Failing</span></td>
+        <h2>What the return does not say</h2>
+        <p>The figures below are the filed return, unadjusted. They are what the regulator holds
+          and what the operator stands behind, and they are the reason the spread above can be
+          stated at all — a published threshold is at least a threshold anyone can move.</p>
+
+        <figure class="figure">
+          <div class="tblock">
+            <div class="tscroll">
+              <table>
+                <thead><tr>
+                  <th>Line</th><th class="n">Scheduled</th><th class="n">On time</th>
+                  <th class="n">Halts</th><th class="n">Share</th>
+                </tr></thead>
+                <tbody><tr>
+      <td>Coast</td>
+      <td class="n">1,840</td>
+      <td class="n">1,712</td>
+      <td class="n">22</td>
+      <td class="n">93.0%</td>
+    </tr><tr>
+      <td>Vale</td>
+      <td class="n">1,290</td>
+      <td class="n">1,104</td>
+      <td class="n">17</td>
+      <td class="n">85.6%</td>
+    </tr><tr>
+      <td>Ridge</td>
+      <td class="n">960</td>
+      <td class="n">903</td>
+      <td class="n">12</td>
+      <td class="n">94.1%</td>
+    </tr><tr>
+      <td>Kiln</td>
+      <td class="n">640</td>
+      <td class="n">471</td>
+      <td class="n">9</td>
+      <td class="n">73.6%</td>
     </tr></tbody>
-          </table>
-        </div>
-        <div class="tfoot">
-          <span id="tally" data-unit="k requests">6 services &middot; 409k requests</span>
-          <s>Grouped by owner</s>
-        </div>
-      </section>
+              </table>
+            </div>
+          </div>
+          <figcaption>Filed operator return, twelve months to September. Share is on-time
+            arrivals over scheduled services, at the published
+            <b>four-minute</b> window.</figcaption>
+        </figure>
+      </div>
 
-      <section class="panel">
-        <div class="panel-h"><h3>Recent deploys</h3><span>Across all environments</span></div>
-        <div class="feed"><div class="feed-row">
-      <b>api-gateway</b>
-      <span>rate limits per key &middot; Platform</span>
-      <span class="muted">Shipped</span>
-      <time>2h ago</time>
-    </div><div class="feed-row">
-      <b>auth-worker</b>
-      <span>rotate signing keys &middot; Identity</span>
-      <span class="muted">Shipped</span>
-      <time>6h ago</time>
-    </div><div class="feed-row">
-      <b>search-index</b>
-      <span>reindex on schema change &middot; Discovery</span>
-      <span class="muted">Shipped</span>
-      <time>1d ago</time>
-    </div><div class="feed-row">
-      <b>media-encoder</b>
-      <span>retry on transcode timeout &middot; Media</span>
-      <span class="state s-warn">Rolled back</span>
-      <time>3d ago</time>
-    </div></div>
-      </section>
-    </main>
+      <aside class="margin">
+        <div>
+          <p class="marginlabel">Method</p>
+          <div class="notes-l"><p class="note"><b>Window</b>A service counts as on time if it arrives within four minutes of the published time at its final halt.</p><p class="note"><b>Source</b>Operator returns for the twelve months to September, as filed with the regulator.</p><p class="note"><b>Excluded</b>Services cancelled before departure, and the eleven days of engineering closure on Kiln.</p></div>
+        </div>
+        <div>
+          <p class="marginlabel">Further reading</p>
+          <div class="further"><a href="#">How four minutes became the number</a><a href="#">The halt that costs Vale its margin</a><a href="#">What a punctuality figure cannot tell you</a></div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="colophon">
+      <span><b>The Sounding</b></span>
+      <span>Issue 114</span>
+      <span>Set in three families</span>
+      <span>Printed and online</span>
+    </footer>
   </div>
-
-  <footer class="foot">
-    <span>Northsel Reliability</span>
-    <span>Region eu-west-1</span>
-    <span>Data through 17 Sep</span>
-  </footer>
 </div>
 <div class="tip" hidden></div>
 <!-- specimen end -->
@@ -654,36 +582,6 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
     setMode('dark')
   }
 </script>
-<script>
 
-  // A filter hides rows; it does not restyle anything. The tally is recomputed
-  // from whichever rows are left, so it can never describe a table that is no
-  // longer on screen — the build-time rule about derived figures, at runtime.
-  function applyFilter(key) {
-    const rows = [...document.querySelectorAll('tbody tr[data-state]')]
-    if (!rows.length) return
-    const match = r =>
-      !key || key === 'all' ? true
-      : key === 'degraded' ? r.dataset.state !== 'ok'
-      : key.startsWith('owner:') ? r.dataset.owner === key.slice(6)
-      : true
-    let n = 0, sum = 0
-    for (const r of rows) {
-      const on = match(r)
-      r.hidden = !on
-      if (on) { n++; sum += Number(r.dataset.req) || 0 }
-    }
-    const tally = document.getElementById('tally')
-    if (tally) {
-      tally.textContent = n + ' service' + (n === 1 ? '' : 's') +
-        ' \u00b7 ' + sum + (tally.dataset.unit || '')
-    }
-  }
-
-  addEventListener('demo:select', e => {
-    if (e.detail.name === 'filter') applyFilter(e.detail.hit.dataset.filter)
-  })
-
-</script>
 </body>
 </html>

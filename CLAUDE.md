@@ -553,6 +553,20 @@ and the line it draws is:
 - **Composition is a free choice.** Which demo you are looking at is the viewer's, not the
   file's and not the generator's.
 
+### The demos, and what each spends its accent on
+
+| Demo | Composition | Accent |
+|---|---|---|
+| `dashboard` | A service reliability console | none — a console has no payoff |
+| `landing` | A product and pricing page | one, on the hero's promise phrase |
+| `editorial` | A long-form report | none — an article has no payoff, and Newsprint aliases its accent to the ink ramp, so an accented phrase would be the colour of the text beside it |
+
+Each demo answers the strictest rule in the library that applies to it, not the average one.
+`editorial` is the clearest case: Newsprint says *"Rules, not cards. Do not wrap content in
+filled containers to group it"*, so structure there is a hairline and a shared column edge and
+nothing on the page is a panel. It also caps uppercase at mono labels and column heads, which is
+why the kicker, the section bar and the figure labels are the only uppercase on it.
+
 ### What a demo observes that a sheet cannot
 
 - **`--clp-accent` appears at most once, and only on a payoff.** The count is a ceiling and
