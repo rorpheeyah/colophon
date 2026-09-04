@@ -551,12 +551,17 @@ and the line it draws is:
 
 ### What a demo observes that a sheet cannot
 
-- **`--clp-accent` appears exactly once, and it marks where you currently are.** The strictest
-  per-screen limit in the library is Lozenge's "Citron on more than one element per screen", and
-  unlike the rules beside it this one is countable, so `build-previews.mjs` counts it and fails
-  the build on a second use. The single owner is the current-location marker rather than the
-  primary action, because the primary action already carries `--clp-button-bg` and painting it
-  twice would say nothing.
+- **`--clp-accent` appears at most once, and only on a payoff.** The count is a ceiling and
+  `build-previews.mjs` fails the build on a second use, but **the count was never the hard part
+  — the placement is.** Lozenge caps citron at one element per screen; Ration goes further and
+  says where: *never colour anything that is not a payoff — not a border, not an icon, not an
+  eyebrow, not a nav item, not a button.* A rule that only counted was satisfied by an accent
+  dot on the active environment, which is a nav item and an icon at once, and which shipped.
+
+  So a demo may spend its one accent only on the thing the reader gets, and **zero is a legal
+  answer.** The dashboard has no payoff and uses none: current location is carried by weight and
+  by a neutral fill. A landing page does have one — the hero's promise — and spends it there.
+  Where a demo cannot name its payoff in a sentence, it has no accent to spend.
 - **Three summary tiles, never four.** Lozenge forbids more than three.
 - **One surface step.** Containment comes from the system's own edge where it draws one and from
   `--clp-surface` where it does not. Nothing is doubled.
