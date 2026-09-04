@@ -328,8 +328,10 @@ Added after the required set was closed, and **the required set stays at 42.**
 | `--clp-glass` | Translucent fill for chrome the page scrolls beneath | yes |
 | `--clp-glass-edge` | That surface's hairline | yes |
 | `--clp-blur` | Its `backdrop-filter` blur radius | yes |
+| `--clp-gradient` | The system's one gradient, as a full `background` value | yes |
+| `--clp-weight-display` | Heading weight | yes |
 
-**These four are optional, and absent is a warning rather than an error.** Making them required
+**These are optional, and absent is a warning rather than an error.** Making them required
 would mean editing every existing system file to add `--clp-duration: none`, which is the
 migration rule 4 exists to prevent and which rule 2 makes expensive on purpose. So an author
 sees the gap, and writes the refusal down when that file is next open for its own reasons.
@@ -462,6 +464,8 @@ either marker fails the build, the same way losing the stylesheet marker does.
 | `--_script` | falls back to `--clp-font-body` |
 | `--_gap` / `--_pad` | a preset chosen by the `density` field |
 | `--_border` | `0`, so nothing draws an edge |
+| `--_dur` | `0s`, so nothing transitions |
+| `--_wdisplay` | `700`, which is what the template used before the alias existed |
 
 ### Compositions the template owns
 
@@ -562,6 +566,16 @@ and the line it draws is:
   answer.** The dashboard has no payoff and uses none: current location is carried by weight and
   by a neutral fill. A landing page does have one — the hero's promise — and spends it there.
   Where a demo cannot name its payoff in a sentence, it has no accent to spend.
+
+  **And the count is of colours a reader sees, not of alias references.** Lozenge points
+  `--clp-accent` and `--clp-button-bg` at the same token, so an accent phrase beside a primary
+  button is citron twice while the reference count reads one. A demo therefore checks whether the
+  invitation has already spent the accent — the two aliases holding the same value — and if so
+  the payoff takes none. That is why a landing page carries exactly one primary button: two
+  invitations in such a system would break the rule before the hero said anything.
+
+  A declared `--clp-gradient` is a payoff colour too, and the same ceiling applies: it goes on
+  the hero's promise phrase and nowhere else, which is Ration's rule verbatim.
 - **Three summary tiles, never four.** Lozenge forbids more than three.
 - **One surface step.** Containment comes from the system's own edge where it draws one and from
   `--clp-surface` where it does not. Nothing is doubled.
@@ -579,6 +593,22 @@ count is the number of rows. A demo declares its sample data once and derives ev
 from it. **A hand-typed total that happens to match is not the same thing** — it stops matching
 the moment the sample data changes, and then the demo is quietly lying.
 
+### A demo owns its own behaviour
+
+The frame owns what is generic: the hover readout, and moving the active state within any
+container marked `data-group`. What a selection *means* belongs to the demo, so a demo may
+export `script(t, meta)` beside its `css()` and `body()`, and listen for the `demo:select` event
+the frame dispatches.
+
+**The group selector is a data attribute rather than a list of class names**, because a list
+means every new demo has to register its groups in the shared frame — and the first demo that
+forgot shipped an inert nav and an inert pricing toggle. A demo opts in where its markup is.
+
+Behaviour is held to the same rule as appearance: a filter hides rows and never restyles them,
+and any figure it changes is recomputed from the rows still on screen. The dashboard's tally and
+the landing page's prices both do that, so the build-time rule about derived figures holds at
+runtime too.
+
 ### Latin copy only
 
 A page needs sentences where a specimen needs only letterforms, and a generated sentence in a
@@ -591,9 +621,6 @@ specimen's job, and the demo says so in its own notes.
 Translucency, backdrop blur and a state-change duration are expressible now — see *Motion and
 atmosphere* above. Two things still are not, and neither may be worked around:
 
-- **A gradient.** Ration's `promise` sets its hero's payoff phrase and appears nowhere else, by
-  its own rule. An alias for it belongs with a demo that has a hero, not with one that does not,
-  so it waits for the Landing demo rather than being declared with nowhere to render.
 - **Choreography, and anything a token cannot hold.** Filament's travelling edge is a conic
   gradient rotated through a registered `@property` — no token can express it, and inventing
   `--clp-live-edge` for one system would be the shared template growing a special case. That CSS

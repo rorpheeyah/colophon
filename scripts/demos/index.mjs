@@ -15,6 +15,7 @@
 // shadow the system did not declare.
 
 import * as dashboard from './dashboard.mjs'
+import * as landing from './landing.mjs'
 
 /**
  * In order. The first is the default — what `In use` opens when a viewer has no
@@ -23,6 +24,8 @@ import * as dashboard from './dashboard.mjs'
 export const DEMOS = [
   { name: 'dashboard', title: 'Dashboard', module: dashboard,
     blurb: 'A service reliability console: dense figures, a data table, live state.' },
+  { name: 'landing', title: 'Landing', module: landing,
+    blurb: 'A product and pricing page: one hero, one payoff, plans in a table.' },
 ]
 
 export const DEFAULT_DEMO = DEMOS[0].name

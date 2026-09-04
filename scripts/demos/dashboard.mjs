@@ -240,7 +240,7 @@ export function body(t, meta) {
         </div>`
     : ''
 
-  const nav = NAV.map(([group, items]) => `<div class="navgroup">
+  const nav = NAV.map(([group, items]) => `<div class="navgroup" data-group="nav">
       <p class="eyebrow">${esc(group)}</p>
       ${items.map((it, i) => `<a href="#"${i === 1 && group === 'Monitor'
         ? ' class="on" aria-current="page"' : ''}>${esc(it)}</a>`).join('')}
@@ -271,7 +271,7 @@ export function body(t, meta) {
       ${nav}
       <div class="envbox">
         <p class="eyebrow">Environment</p>
-        <nav class="envlist">${ENVIRONMENTS.map((e, i) =>
+        <nav class="envlist" data-group="env">${ENVIRONMENTS.map((e, i) =>
           `<button class="env${i === 0 ? ' on' : ''}"${i === 0 ? ' aria-current="true"' : ''}>` +
           `<i class="env-dot"></i>${esc(e)}</button>`).join('')}</nav>
       </div>
@@ -298,10 +298,10 @@ export function body(t, meta) {
 
       <div class="toolbar">
         <div class="search">Filter by name or owner</div>
-        <div class="chips">${FILTERS.map((f, i) =>
+        <div class="chips" data-group="filter">${FILTERS.map((f, i) =>
           `<button class="filter${i === 0 ? ' on' : ''}" data-filter="${esc(f.key)}"${
             i === 0 ? ' aria-current="true"' : ''}>${esc(f.label)}</button>`).join('')}</div>
-        <div class="range">${RANGES.map((r, i) =>
+        <div class="range" data-group="range">${RANGES.map((r, i) =>
           `<button class="${i === 1 ? 'on' : ''}">${esc(r)}</button>`).join('')}</div>
       </div>
 
@@ -338,4 +338,41 @@ export function body(t, meta) {
     <span>Data through 17 Sep</span>
   </footer>
 </div>`
+}
+
+/**
+ * This demo's own behaviour. The frame owns the generic active-state move and
+ * announces it as `demo:select`; what a selection *means* belongs here, beside
+ * the data it selects from.
+ */
+export function script(t, meta) {
+  return `
+  // A filter hides rows; it does not restyle anything. The tally is recomputed
+  // from whichever rows are left, so it can never describe a table that is no
+  // longer on screen — the build-time rule about derived figures, at runtime.
+  function applyFilter(key) {
+    const rows = [...document.querySelectorAll('tbody tr[data-state]')]
+    if (!rows.length) return
+    const match = r =>
+      !key || key === 'all' ? true
+      : key === 'degraded' ? r.dataset.state !== 'ok'
+      : key.startsWith('owner:') ? r.dataset.owner === key.slice(6)
+      : true
+    let n = 0, sum = 0
+    for (const r of rows) {
+      const on = match(r)
+      r.hidden = !on
+      if (on) { n++; sum += Number(r.dataset.req) || 0 }
+    }
+    const tally = document.getElementById('tally')
+    if (tally) {
+      tally.textContent = n + ' service' + (n === 1 ? '' : 's') +
+        ' \\u00b7 ' + sum + (tally.dataset.unit || '')
+    }
+  }
+
+  addEventListener('demo:select', e => {
+    if (e.detail.name === 'filter') applyFilter(e.detail.hit.dataset.filter)
+  })
+`
 }

@@ -193,6 +193,12 @@ spend it on something else, and then the system is gone.
   --clp-chart-3:        none;
   --clp-chart-4:        none;
   --clp-chart-5:        none;
+  --clp-duration:       var(--settle);
+  --clp-glass:          none;
+  --clp-glass-edge:     none;
+  --clp-blur:           none;
+  --clp-gradient:       var(--promise);
+  --clp-weight-display: 500;
 }
 
 [data-mode="dark"] {
