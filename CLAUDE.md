@@ -26,9 +26,9 @@ These are not guidelines. Follow them literally.
    fixed and listed below. Never migrate existing system files to satisfy a field a newer
    system introduced.
 
-5. **Never hand-write a preview.** Previews come from `scripts/build-previews.mjs`, which reads
-   the tokens block out of the markdown. A preview must be physically incapable of showing
-   something its system file does not say.
+5. **Never hand-write a preview or a screen.** Both come from `scripts/build-previews.mjs`,
+   which reads the tokens block out of the markdown. They must be physically incapable of
+   showing something their system file does not say.
 
 6. **Run `scripts/validate.mjs` before finishing any task.** Do not report done if it fails.
 
@@ -54,14 +54,19 @@ CLAUDE.md
 systems/
   <slug>/
     <slug>.md                    the deliverable
-    preview.html                 generated, committed
+    preview.html                 generated, committed: the specimen sheet
+    screen.html                  generated, committed: one composition, by register
     thumb-light.svg              generated, committed; the library card image
     thumb-dark.svg               generated where the system publishes a dark mode
     assets/                      optional, text only
 scripts/
   lib.mjs                        shared parsing, so the two scripts cannot drift
   contrast.mjs                   WCAG ratios, opt-in via the `contrast` field
-  build-previews.mjs             tokens block -> preview.html
+  build-previews.mjs             tokens block -> preview.html and screen.html
+  preview-shared.mjs             what both artifacts must resolve identically
+  screen-frame.mjs               the screen's document shell
+  screens/index.mjs              register -> archetype, and the default
+  screens/<archetype>.mjs        one composition each
   build-site.mjs                 system files -> site/
   validate.mjs                   format contract enforcement
 site/
@@ -356,9 +361,10 @@ The status colours are reserved. They are never reused as a series, and a delta 
 colour from its direction — a system with no success colour shows a rise unstated rather than
 borrowing the attention colour for it.
 
-The preview is a **specimen sheet, not a screen.** It shows every component the system declares
-support for, side by side, so per-screen limits — "one accent per screen", "at most three
-summary cards" — are not observed there and cannot be.
+`preview.html` is a **specimen sheet, not a screen.** It shows every component the system
+declares support for, side by side, so per-screen limits — "one accent per screen", "at most
+three summary cards" — are not observed there and cannot be. `screen.html` is the other half,
+and does observe them. See *The screen*, below.
 
 A system that declines `--clp-button2-bg` gets no secondary button, rather than one composed from
 `--clp-surface`. The ghost treatment is still derived — transparent with `--clp-text-2` — and is
@@ -415,7 +421,7 @@ either marker fails the build, the same way losing the stylesheet marker does.
 
 - **The specimen is a sheet, not a screen.** Every declared component appears at once, so
   per-screen limits — one accent per screen, at most three summary cards — are not observed
-  and cannot be.
+  and cannot be. They are observed in `screen.html` instead, which is why both artifacts exist.
 - **`--clp-shadow` is a control shadow** and never goes on a container.
 - **A ghost control** is transparent with `--clp-text-2`: the most conservative reading, not
   the system's word.
@@ -451,6 +457,64 @@ either marker fails the build, the same way losing the stylesheet marker does.
   them, which is a known gap rather than a decision made silently.
 - **Sample content and layout** — figures, labels, record names, how many stat tiles, how many
   table rows.
+
+---
+
+## The screen
+
+`screen.html` renders the same tokens block as one composition instead of as a sheet of every
+component at once. It exists because a specimen cannot show what a system is *for*: a
+`register: promotional` system was being represented by a dashboard, and per-screen limits — the
+rules an agent most needs to follow — had nowhere to be demonstrated.
+
+**The screen branches; the specimen does not.** That is the one addition to the closed list
+above, and the line it draws is:
+
+- **Appearance never branches.** Every archetype is scanned by the same assertions as the
+  specimen, so none of them can introduce a paint, a radius or a shadow the system did not
+  declare. The guarantee that matters is untouched.
+- **Composition branches on a declared field.** Which archetype a system gets is read out of
+  `register`, exactly as spacing is already read out of `density`. That is the file speaking,
+  not the generator inventing.
+
+### The register map
+
+| register | archetype |
+|---|---|
+| `technical`, `utility` | `console` |
+| anything else | `console`, as the default |
+
+`register` is deliberately open — "one word, e.g. utility, editorial" — so an unmapped value
+must never fail the build. It falls back to `console`, the composition closest to the specimen,
+and `validate.mjs` warns so the author can see the default was taken rather than chosen. Adding
+an archetype is a composition decision and belongs in `scripts/screens/`.
+
+### What a screen observes that a sheet cannot
+
+- **`--clp-accent` appears exactly once.** The strictest per-screen limit in the library is
+  Lozenge's "Citron on more than one element per screen", and unlike the rules beside it this
+  one is countable, so `build-previews.mjs` counts it and fails the build on a second use.
+- **Three summary tiles, never four.** Lozenge forbids more than three.
+- **One surface step.** Containment comes from the system's own edge where it draws one and from
+  `--clp-surface` where it does not. Nothing is doubled.
+- **No decorative element used twice.** Newsprint allows its deckle once per surface.
+
+These are the template's reading of the strictest system in the library, so a screen under-uses
+a permissive system rather than violating a strict one. That is the acceptable failure direction.
+
+### Latin copy only
+
+A screen needs sentences where a specimen needs only letterforms, and a generated sentence in a
+script the generator cannot read is exactly the mistranslation the specimen sheet is careful to
+avoid. So a screen sets in Latin and does not exercise `--clp-font-script`; script reach stays
+the specimen's job, and the screen says so in its own notes.
+
+### What it still cannot show
+
+The 42 aliases carry one press transform and nothing else that moves, no gradient, no
+translucency and no backdrop blur. A screen fixes the *shape* of the misrepresentation, not that
+gap: Ration's gradient hero and Filament's travelling edge remain invisible in both artifacts.
+That is a contract question, not something an archetype may work around.
 
 ---
 

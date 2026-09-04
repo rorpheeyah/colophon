@@ -1,9 +1,10 @@
 // Reads the system files into the shape every page uses. index.json stays the
 // append-only ledger; everything mutable comes from frontmatter on each build.
 
-import { readFileSync } from 'node:fs'
+import { readFileSync, existsSync } from 'node:fs'
 import { join } from 'node:path'
 import { ROOT, systemSlugs, readSystem, scalar, list, tokensBlock, declaredAliases } from '../lib.mjs'
+import { archetypeFor } from '../screens/index.mjs'
 
 // The first real prose paragraph of the body, used when a system declares no
 // `summary` field — so adding that optional field never requires migrating a
@@ -41,6 +42,8 @@ export function load() {
       summary: scalar(f.summary) ?? derivedSummary(body),
       aliases: block ? [...declaredAliases(block.code)] : [],
       hasDark: block ? /\[data-mode\s*=\s*["']?dark["']?\]/.test(block.code) : false,
+      hasScreen: existsSync(join(ROOT, 'systems', slug, 'screen.html')),
+      archetype: archetypeFor({ register: scalar(f.register) }).name,
       sections: sys.headings.filter(h => h.depth === 2).map(h => h.title),
       body,
     }
