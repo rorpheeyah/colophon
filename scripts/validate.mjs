@@ -51,6 +51,25 @@ const CLP_NONE_PERMITTED = new Set([
   'chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5',
 ].map(n => `--clp-${n}`))
 
+/**
+ * Motion and atmosphere, added after the required set was closed.
+ *
+ * **These are optional, and the required set stays at 42.** Making them required
+ * would mean editing every existing system file to add `--clp-duration: none`,
+ * which is exactly the migration rule 4 exists to prevent and which rule 2 makes
+ * expensive on purpose. So absence is a warning rather than an error: an author
+ * sees the gap and can write the refusal down deliberately, next time that file
+ * is open for its own reasons, and nothing is forced.
+ *
+ * Absence and `none` render identically — the system gets no motion and no glass.
+ * The difference is only whether the refusal was written down.
+ */
+const CLP_OPTIONAL = ['duration', 'glass', 'glass-edge', 'blur'].map(n => `--clp-${n}`)
+
+// Glass is a translucent fill. Its hairline and its blur have nothing to sit on
+// without it, so both require it — the same shape as a wash requiring a colour.
+const CLP_REQUIRES = [['--clp-glass-edge', '--clp-glass'], ['--clp-blur', '--clp-glass']]
+
 // A wash needs a colour to pair with. The reverse does not hold: a system may mark
 // states with a border or with type colour alone and never fill anything.
 const CLP_PAIRS = [['success', 'success-wash'], ['warn', 'warn-wash'], ['alarm', 'alarm-wash']]
@@ -159,14 +178,15 @@ function validateSystem(slug) {
       err(`tokens block is missing ${missing.length} required --clp-* alias(es): ${missing.join(', ')}. ` +
           `Declare \`none\` to refuse a concept the system does not have`)
     }
-    const unknown = [...declared.keys()].filter(t => !CLP_ALIASES.includes(t))
+    const known = [...CLP_ALIASES, ...CLP_OPTIONAL]
+    const unknown = [...declared.keys()].filter(t => !known.includes(t))
     if (unknown.length) {
       err(`unrecognised --clp-* alias(es): ${unknown.join(', ')}. ` +
           `The preview template reads a fixed set — see CLAUDE.md`)
     }
 
     for (const [token, value] of declared) {
-      if (!CLP_ALIASES.includes(token)) continue
+      if (!CLP_ALIASES.includes(token)) continue   // optional aliases may all be `none`
       if (value === '') { err(`\`${token}\` is declared with no value`); continue }
       if (value === 'none' && !CLP_NONE_PERMITTED.has(token)) {
         err(`\`${token}: none\` — this alias carries structure and must hold a value. ` +
@@ -181,6 +201,23 @@ function validateSystem(slug) {
       if (a === 'none' && b !== 'none') {
         err(`\`${wash}\` is declared but \`${colour}\` is \`none\` — a wash with no colour ` +
             `to pair with`)
+      }
+    }
+
+    // Motion and atmosphere. Absent is a warning, never an error — see CLP_OPTIONAL.
+    const missingOptional = CLP_OPTIONAL.filter(n => declared.get(n) === undefined)
+    if (missingOptional.length) {
+      warn(`${missingOptional.length} optional alias(es) not declared: ` +
+           `${missingOptional.join(', ')}. The demos will render no motion and no glass. ` +
+           `Declare \`none\` to say so deliberately`)
+    }
+    for (const [dependent, needs] of CLP_REQUIRES) {
+      const a = declared.get(dependent)
+      const b = declared.get(needs)
+      if (a === undefined || a === 'none') continue
+      if (b === undefined || b === 'none') {
+        err(`\`${dependent}\` is declared but \`${needs}\` is not — ` +
+            `there is nothing for it to sit on`)
       }
     }
 

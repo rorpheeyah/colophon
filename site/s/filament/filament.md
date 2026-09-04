@@ -204,6 +204,10 @@ Two edges, two weights: `--hair` at rest, `--edge` when live. There is no third 
   --clp-chart-3:        none;
   --clp-chart-4:        none;
   --clp-chart-5:        none;
+  --clp-duration:       var(--settle);
+  --clp-glass:          var(--glass);
+  --clp-glass-edge:     var(--glass-edge);
+  --clp-blur:           var(--glass-blur);
 }
 
 [data-mode="dark"] {
@@ -495,12 +499,20 @@ travelling and become solid `--edge` borders — `live` for work in flight, `--s
 primary action. The state is still carried; only the motion goes. Motion must never be the only
 channel a state is available on.
 
-**A note on the specimen.** The generated preview renders one static frame per mode, and the 42
-`--clp-*` aliases have no way to express translucency, backdrop blur, or a metal gradient. So
-the specimen shows this system's edges but never shows them moving, and renders glass as an
-opaque surface. **Two of this system's three signatures are invisible in its own specimen
-sheet.** That is a known limitation of the preview contract, not a softening of the rules, and
-no alias was invented to work around it.
+**A note on the generated artifacts.** The specimen sheet renders one static frame per mode, so
+it shows this system's edges but never shows them moving, and it renders glass as an opaque
+surface. It is a sheet of components and that is what a sheet can do.
+
+The demos carry more. This system declares `--clp-glass`, `--clp-glass-edge`, `--clp-blur` and
+`--clp-duration`, so a demo's top bar — the one element page content scrolls beneath, which is
+the test in section 5 — is real frosted glass over real content, and state changes settle over
+`--settle` rather than snapping.
+
+**The travelling edge is still invisible everywhere.** It needs a registered custom property and
+a rotating conic gradient, which no token can hold and which is therefore the loudest thing this
+system does that neither artifact shows. The metal gradient is unexpressed too. Both are known
+limits of the contract rather than a softening of the rules, and no alias was invented to work
+around either.
 
 ---
 

@@ -126,8 +126,22 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 
 /* Everything below reads --clp-* only, plus the shims that resolve aliases this system declined. */
 .scr{--_gap: var(--clp-gap); --_pad: var(--clp-pad); --_data: var(--clp-font-body); --_script: var(--clp-font-script); --_press: var(--clp-press); --_border: var(--clp-border-width) solid var(--clp-border-color);
+  /* A fifth shim, and it belongs to the demos rather than to preview-shared:
+     the specimen is a static sheet and renders one frame per mode, so it has no
+     business transitioning. Declining a duration gives 0s — no motion at all,
+     which is the conservative reading rather than a guessed default. */
+  --_dur: 0s;
   background:var(--clp-bg);color:var(--clp-text);font-family:var(--clp-font-body);
   min-height:100vh;display:flex;flex-direction:column;font-size:14px;line-height:1.55}
+
+/* Motion is opt-in twice over: the system has to declare a duration, and the
+   reader has to not have asked for less of it. Two systems in the library
+   require this wrapper by name, and none of them loses meaning without motion. */
+@media (prefers-reduced-motion: no-preference){
+  .btn,.filter,.env,.navgroup a,.range button,.feed-row{
+    transition:background-color var(--_dur),color var(--_dur),
+      border-color var(--_dur),opacity var(--_dur)}
+}
 .scr *{box-sizing:border-box}
 .scr p{margin:0}
 .scr h1,.scr h2,.scr h3{margin:0;font-family:var(--clp-font-display);line-height:1.15}
@@ -214,8 +228,16 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 
 
 /* ── dashboard ────────────────────────────────────────────────────────── */
+/* The top bar is the one element on this page that content scrolls beneath, so
+   it is the one element glass may go on. Filament states the test as a question —
+   "does page content scroll underneath this element?" — and answers it for cards,
+   tables, sidebars and modals with a flat no. A demo that put glass on a panel
+   would be misplacing a declared value, the same class of error as putting
+   --clp-shadow on a container. Where a system declares no glass the bar stays
+   opaque on the page ground, and it is still sticky: content scrolling under an
+   opaque bar is ordinary. */
 .topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);
-  border-bottom:1px solid var(--clp-line);flex:none}
+  flex:none;position:sticky;top:0;z-index:5;background:var(--clp-bg);border-bottom:1px solid var(--clp-line)}
 .brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
   font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
 .brand i{font-style:normal;font-weight:500;font-size:12.5px;color:var(--clp-text-3)}
@@ -232,7 +254,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .navgroup a{font-size:13.5px;text-decoration:none;padding:6px 10px;
   border-radius:var(--clp-radius-control);color:var(--clp-text-2)}
 .navgroup a.on{color:var(--clp-text);font-weight:600;background:var(--clp-line)}
-.envbox{margin-top:auto;display:flex;flex-direction:column;gap:5px;padding-right:clamp(16px,2.5vw,26px)}
+.envbox{display:flex;flex-direction:column;gap:5px;padding-right:clamp(16px,2.5vw,26px)}
 .envlist{display:flex;flex-direction:column;background:var(--clp-invert-bg);color:var(--clp-invert-text);
   border-radius:var(--clp-radius-box);padding:7px;gap:2px}
 .env{display:flex;align-items:center;gap:9px;padding:7px 10px;font-size:13px;
@@ -297,7 +319,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   .side{border-right:0;border-bottom:1px solid var(--clp-line);
     padding:14px clamp(16px,2.5vw,26px);flex-direction:row;flex-wrap:wrap;gap:20px}
   .navgroup{flex-direction:row;flex-wrap:wrap}
-  .envbox{margin-top:0;padding-right:0}
+  .envbox{padding-right:0}
   .envlist{flex-direction:row}
   .split{grid-template-columns:minmax(0,1fr)}
 }
