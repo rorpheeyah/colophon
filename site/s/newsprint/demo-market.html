@@ -236,42 +236,72 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 
 
 /* ── market ───────────────────────────────────────────────────────────── */
-.topbar{display:flex;align-items:center;gap:clamp(12px,2vw,22px);flex-wrap:wrap;
-  padding:11px clamp(14px,2vw,22px);flex:none;position:sticky;top:0;z-index:5;background:var(--clp-bg);border-bottom:1px solid var(--clp-line)}
+.topbar{display:flex;align-items:center;gap:clamp(10px,1.6vw,18px);flex-wrap:wrap;
+  padding:11px clamp(14px,2vw,26px);flex:none;position:sticky;top:0;z-index:5;background:var(--clp-bg);border-bottom:1px solid var(--clp-line)}
 .venue{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);font-size:15px;
   letter-spacing:-.01em;white-space:nowrap}
-.quotebar{display:flex;align-items:baseline;gap:12px;margin-left:auto;flex:none}
-.quotebar b{font:700 clamp(20px,2.4vw,26px)/1 var(--_data);letter-spacing:-.03em;
+.search{flex:1;min-width:0;max-width:380px;border:var(--_border);
+  border-radius:var(--clp-radius-control);padding:8px 13px;background:var(--clp-surface);
+  color:var(--clp-text);font-size:12.5px;font-family:inherit}
+.search::placeholder{color:var(--clp-text-3);opacity:1}
+.topbar-end{margin-left:auto;display:flex;align-items:center;gap:9px;flex:none}
+
+.wrap{width:100%;max-width:1240px;margin-inline:auto;padding:0 clamp(14px,2vw,26px);
+  display:flex;flex-direction:column;gap:calc(var(--_gap) * 1.5)}
+.wrap > section{min-width:0}
+
+/* featured market beside what is busy */
+.top{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:var(--_gap);
+  padding-top:clamp(14px,2vw,22px)}
+.feature{border:var(--_border);background:var(--clp-bg);border-radius:var(--clp-radius-box);padding:var(--_pad);
+  display:flex;flex-direction:column;gap:var(--_gap);min-width:0}
+.feat-h{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
+.feat-h > div{display:flex;flex-direction:column;gap:5px;min-width:0}
+.crumb{font:500 10px/1.5 var(--_data);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--clp-text-3)}
+.feat-h h2{font-size:clamp(17px,2vw,23px);line-height:1.22;letter-spacing:-.015em;max-width:30ch}
+.bigquote{margin-left:auto;text-align:right;flex:none}
+.bigquote b{display:block;font:700 clamp(26px,3.2vw,36px)/1 var(--_data);letter-spacing:-.03em;
   font-variant-numeric:tabular-nums}
-.quotebar .chg{font:600 12.5px/1.6 var(--_data)}
+.bigquote span{font:600 12px/1.6 var(--_data)}
 .up{color:var(--clp-success)}
 .down{color:var(--clp-alarm)}
-.quotebar span{font-size:11.5px;color:var(--clp-text-3)}
+.pchart{display:block;width:100%;height:auto;max-height:340px}
+.feat-meta{display:flex;gap:15px;flex-wrap:wrap;font-size:12px;color:var(--clp-text-3)}
 
-.floor{display:grid;grid-template-columns:268px minmax(0,1fr) 296px;flex:1 0 auto;
-  align-items:start}
-.rail{padding:clamp(12px,1.6vw,18px) 0 24px;display:flex;flex-direction:column;gap:2px;
-  border-right:1px solid var(--clp-line)}
-.raillabel{font:500 10px/1.5 var(--_data);letter-spacing:.08em;text-transform:uppercase;
-  color:var(--clp-text-3);padding:0 clamp(14px,2vw,20px) 8px}
-.mkt{display:grid;grid-template-columns:1fr auto;gap:3px 10px;align-items:baseline;
-  padding:10px clamp(14px,2vw,20px);border:0;background:none;cursor:pointer;text-align:left;
-  color:var(--clp-text);font:inherit}
-.mkt.on{background:var(--clp-line);font-weight:600}
-.mkt:active{transform:var(--_press)}
-.mkt q{quotes:none;font-size:13px;line-height:1.35;min-width:0}
-.mkt .px{font:600 13px/1.3 var(--_data);font-variant-numeric:tabular-nums}
-.mkt .vol{grid-column:1;font-size:11px;color:var(--clp-text-3);font-family:var(--_data)}
+/* an outcome row: label, percentage, paired control */
+.ocs{display:flex;flex-direction:column}
+.oc{display:grid;grid-template-columns:1fr auto auto auto;gap:9px;align-items:center;
+  padding:9px 0}
+.ocs.bare .oc{grid-template-columns:1fr auto}
+.oc + .oc{border-top:1px solid var(--clp-line)}
+.oc b{font-weight:500;font-size:13.5px;min-width:0}
+.oc .pct{font:700 13.5px/1.3 var(--_data);font-variant-numeric:tabular-nums;min-width:38px;
+  text-align:right}
+.yes,.no{border-radius:var(--clp-radius-control);padding:5px 13px;cursor:pointer;
+  font:600 12px/1.5 var(--clp-font-body);min-width:52px}
+.yes{color:var(--clp-success);background:transparent;border:1px solid var(--clp-success)}
+.no{color:var(--clp-alarm);background:transparent;border:1px solid var(--clp-alarm)}
+.yes:active,.no:active{transform:var(--_press)}
 
-.mid{padding:clamp(12px,1.6vw,18px) clamp(14px,2vw,20px) 24px;display:flex;
-  flex-direction:column;gap:var(--_gap);min-width:0}
-.question{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);
-  font-size:clamp(17px,2vw,22px);line-height:1.25;letter-spacing:-.015em;max-width:36ch}
-.resolves{font-size:12px;color:var(--clp-text-3)}
-.panel-h span.small{font-size:11.5px;color:var(--clp-text-3);margin-left:auto}
+.hot{border:var(--_border);background:var(--clp-bg);border-radius:var(--clp-radius-box);padding:var(--_pad);
+  display:flex;flex-direction:column;gap:9px;min-width:0}
+.hot h3{font-size:14px}
+.hotrow{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:baseline;
+  font-size:13px}
+.hotrow i{font-style:normal;font:600 11px/1.5 var(--_data);color:var(--clp-text-3);
+  min-width:12px}
+.hotrow b{font-weight:500;min-width:0}
+.hotrow span{font:600 11.5px/1.5 var(--_data);font-variant-numeric:tabular-nums;
+  color:var(--clp-text-2);white-space:nowrap}
+.hotrow em{font-style:normal;margin-left:5px}
 
+/* the terminal half: book and ticket for the featured market */
+.desk{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:var(--_gap)}
 .book{display:grid;grid-template-columns:1fr 1fr;gap:var(--_gap)}
 .bookside{display:flex;flex-direction:column;gap:5px;min-width:0}
+.booklabel{font:500 10px/1.5 var(--_data);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--clp-text-3)}
 .bookrow{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;
   font:500 12.5px/1.5 var(--_data);font-variant-numeric:tabular-nums}
 .bookrow i{height:5px;border-radius:var(--clp-radius-control);background:var(--clp-line);
@@ -281,10 +311,8 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .bids .px{color:var(--clp-success)}
 .asks .px{color:var(--clp-alarm)}
 
-/* The ticket is the work, enclosed the way the table is. */
-.ticket{border:var(--_border);background:var(--clp-bg);border-radius:var(--clp-radius-box);
-  margin:clamp(12px,1.6vw,18px) clamp(14px,2vw,20px) 24px 0;
-  display:flex;flex-direction:column;position:sticky;top:clamp(12px,1.6vw,18px)}
+.ticket{border:var(--_border);background:var(--clp-bg);border-radius:var(--clp-radius-box);display:flex;flex-direction:column;
+  align-self:start}
 .ticket-h{padding:13px 15px;border-bottom:1px solid var(--clp-line);
   font-family:var(--clp-font-display);font-weight:var(--_wdisplay);font-size:14px}
 .sides{display:flex;gap:2px;padding:2px;background:var(--clp-line);
@@ -317,9 +345,26 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .place{padding:0 15px 15px}
 .place .btn{width:100%;padding:13px 18px;font-size:14px}
 
-.ledger{grid-column:1/-1;border-top:1px solid var(--clp-line);
-  padding:clamp(14px,2vw,20px) clamp(14px,2vw,22px) 36px;
-  display:flex;flex-direction:column;gap:var(--_gap);min-width:0}
+/* the browse half */
+.browse-h{display:flex;align-items:baseline;gap:var(--_gap);flex-wrap:wrap}
+.browse-h h2{font-size:clamp(17px,1.9vw,21px)}
+.browse-h span{margin-left:auto;font-size:12px;color:var(--clp-text-3);font-family:var(--_data)}
+.cats{display:flex;gap:7px;flex-wrap:wrap;margin:12px 0 var(--_gap)}
+.cat{border:0;background:var(--clp-line);color:var(--clp-text-2);cursor:pointer;
+  border-radius:var(--clp-radius-control);padding:6px 13px;
+  font:500 12.5px/1.4 var(--clp-font-body)}
+.cat.on{background:var(--clp-text);color:var(--clp-bg);font-weight:600}
+.cat:active{transform:var(--_press)}
+.mkts{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:var(--_gap)}
+.card{border:var(--_border);background:var(--clp-bg);border-radius:var(--clp-radius-box);padding:14px;display:flex;
+  flex-direction:column;gap:9px;min-width:0}
+.card h3{font-size:14px;line-height:1.32;min-height:2.6em}
+.card .ocs .oc{padding:7px 0}
+.card-f{display:flex;gap:12px;align-items:baseline;margin-top:auto;padding-top:4px;
+  border-top:1px solid var(--clp-line);font-size:11.5px;color:var(--clp-text-3);
+  font-family:var(--_data)}
+
+.ledger{display:flex;flex-direction:column;gap:var(--_gap);padding-bottom:40px}
 .figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--_gap)}
 .fig{display:flex;flex-direction:column;gap:2px;min-width:0}
 .fig b{font:700 clamp(19px,2.2vw,25px)/1.1 var(--_data);letter-spacing:-.03em;
@@ -327,18 +372,13 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .fig span{font:500 10px/1.5 var(--_data);letter-spacing:.08em;text-transform:uppercase;
   color:var(--clp-text-3)}
 
-@media(max-width:1180px){
-  .floor{grid-template-columns:minmax(0,1fr) 296px}
-  .rail{grid-column:1/-1;border-right:0;border-bottom:1px solid var(--clp-line);
-    flex-direction:row;flex-wrap:wrap;gap:0}
-  .raillabel{width:100%}
-  .ticket{margin-left:0}
+@media(max-width:1080px){
+  .top,.desk{grid-template-columns:minmax(0,1fr)}
 }
-@media(max-width:820px){
-  .floor{grid-template-columns:minmax(0,1fr)}
-  .ticket{position:static;margin:0 clamp(14px,2vw,20px) 24px}
-  .book{grid-template-columns:minmax(0,1fr)}
-  .figs{grid-template-columns:minmax(0,1fr)}
+@media(max-width:620px){
+  .book,.figs{grid-template-columns:minmax(0,1fr)}
+  .search{display:none}
+  .oc{grid-template-columns:1fr auto auto auto}
 }
 
 </style>
@@ -362,95 +402,127 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 <div class="scr">
   <header class="topbar">
     <div class="venue">Northsel Markets</div>
-    <div class="quotebar">
-      <b id="quote">84&cent;</b>
-      <span class="chg up">+6&cent;</span>
-      <span>128.4k volume</span>
-      <span>Resolves 31 December</span>
+    <input class="search" type="search" aria-label="Search markets"
+      placeholder="Search markets, outcomes and categories">
+    <div class="topbar-end">
+      <button class="btn b2">Portfolio</button>
+      <button class="btn b3">How it works</button>
     </div>
   </header>
 
-  <div class="floor">
-    <aside class="rail" data-group="mkt">
-      <p class="raillabel">Markets</p>
-      <button class="mkt on"
-      data-mkt="ridge-95" data-yes="84" aria-current="true">
-      <q>Ridge reports 95% punctuality in Q4</q>
-      <span class="px">84&cent;</span>
-      <span class="vol">128.4k volume</span>
-    </button><button class="mkt"
-      data-mkt="audit-export" data-yes="61">
-      <q>Audit export ships before December</q>
-      <span class="px">61&cent;</span>
-      <span class="vol">74.2k volume</span>
-    </button><button class="mkt"
-      data-mkt="coast-resurface" data-yes="37">
-      <q>Coast depot resurfacing finishes on schedule</q>
-      <span class="px">37&cent;</span>
-      <span class="vol">51.9k volume</span>
-    </button><button class="mkt"
-      data-mkt="vale-fourth" data-yes="23">
-      <q>Vale adds a fourth daily service</q>
-      <span class="px">23&cent;</span>
-      <span class="vol">29.8k volume</span>
-    </button><button class="mkt"
-      data-mkt="kiln-closure" data-yes="12">
-      <q>Kiln closure extends past November</q>
-      <span class="px">12&cent;</span>
-      <span class="vol">18.3k volume</span>
-    </button>
-    </aside>
-
-    <section class="mid">
-      <div>
-        <p class="question" id="question">Ridge reports 95% punctuality in Q4</p>
-        <p class="resolves">Resolves 31 December &middot; settles at 100&cent; or
-          0&cent;</p>
-      </div>
-      <div class="panel">
-        <div class="panel-h"><h3>Price history</h3>
-          <span class="small">Jan &ndash; Oct &middot; daily mid</span></div>
-        <svg viewBox="0 0 320 150" class="chart" role="img" aria-label="Sessions over time">
-    <line x1="0" y1="116" x2="320" y2="116" class="gridline"/>
-    <line x1="0" y1="63" x2="320" y2="63" class="gridline"/>
-    <path d="M0.0 88.2 L35.6 76.9 L71.1 81.9 L106.7 60.5 L142.2 66.8 L177.8 42.8 L213.3 50.4 L248.9 26.4 L284.4 34.0 L320.0 10.0 L320 116 L0 116 Z" fill="var(--clp-chart-1)" fill-opacity=".14"/>
-    <path d="M0.0 88.2 L35.6 76.9 L71.1 81.9 L106.7 60.5 L142.2 66.8 L177.8 42.8 L213.3 50.4 L248.9 26.4 L284.4 34.0 L320.0 10.0" fill="none" stroke="var(--clp-chart-1)" stroke-width="2"
-          stroke-linejoin="round" stroke-linecap="round"/>
-    <line class="cross" x1="0" y1="10" x2="0" y2="116" hidden/>
-    <circle cx="320.0" cy="10.0" r="4" fill="var(--clp-chart-1)"
-            stroke="var(--clp-surface)" stroke-width="2"/>
-    <rect x="-17.8" y="0" width="35.6"
-      height="116" fill="transparent" data-x="0.0"
-      data-tip="Point 1 · 22"/><rect x="17.8" y="0" width="35.6"
-      height="116" fill="transparent" data-x="35.6"
-      data-tip="Point 2 · 31"/><rect x="53.3" y="0" width="35.6"
-      height="116" fill="transparent" data-x="71.1"
-      data-tip="Point 3 · 27"/><rect x="88.9" y="0" width="35.6"
-      height="116" fill="transparent" data-x="106.7"
-      data-tip="Point 4 · 44"/><rect x="124.4" y="0" width="35.6"
-      height="116" fill="transparent" data-x="142.2"
-      data-tip="Point 5 · 39"/><rect x="160.0" y="0" width="35.6"
-      height="116" fill="transparent" data-x="177.8"
-      data-tip="Point 6 · 58"/><rect x="195.6" y="0" width="35.6"
-      height="116" fill="transparent" data-x="213.3"
-      data-tip="Point 7 · 52"/><rect x="231.1" y="0" width="35.6"
-      height="116" fill="transparent" data-x="248.9"
-      data-tip="Point 8 · 71"/><rect x="266.7" y="0" width="35.6"
-      height="116" fill="transparent" data-x="284.4"
-      data-tip="Point 9 · 65"/><rect x="302.2" y="0" width="35.6"
-      height="116" fill="transparent" data-x="320.0"
-      data-tip="Point 10 · 84"/>
-    <text x="0" y="8" text-anchor="start" class="ax">84</text>
-    <text x="0" y="146" text-anchor="start" class="ax">Jan</text>
-    <text x="320" y="146" text-anchor="end" class="ax">Oct</text>
+  <div class="wrap">
+    <section class="top">
+      <div class="feature">
+        <div class="feat-h">
+          <div>
+            <p class="crumb">Network &middot; Featured</p>
+            <h2>Ridge reports 95% punctuality in Q4</h2>
+          </div>
+          <div class="bigquote">
+            <b>84&cent;</b>
+            <span class="up">+6&cent;</span>
+          </div>
+        </div>
+        <div class="ocs bare"><div class="oc">
+      <b>Yes</b>
+      <span class="pct">84%</span>
+      
+    </div><div class="oc">
+      <b>No</b>
+      <span class="pct">16%</span>
+      
+    </div></div>
+        <svg viewBox="0 0 720 300" class="pchart" role="img"
+    aria-label="Price history, currently 84 percent">
+    <line x1="0" y1="250" x2="656" y2="250" class="gridline"/><text x="720" y="254" text-anchor="end" class="ax">0%</text><line x1="0" y1="191.5" x2="656" y2="191.5" class="gridline"/><text x="720" y="195.5" text-anchor="end" class="ax">25%</text><line x1="0" y1="133" x2="656" y2="133" class="gridline"/><text x="720" y="137" text-anchor="end" class="ax">50%</text><line x1="0" y1="74.5" x2="656" y2="74.5" class="gridline"/><text x="720" y="78.5" text-anchor="end" class="ax">75%</text><line x1="0" y1="16" x2="656" y2="16" class="gridline"/><text x="720" y="20" text-anchor="end" class="ax">100%</text>
+    <path d="M0.0 177.5 L34.5 184.5 L69.1 170.4 L103.6 154.1 L138.1 161.1 L172.6 147.0 L207.2 128.3 L241.7 140.0 L276.2 121.3 L310.7 107.3 L345.3 114.3 L379.8 100.2 L414.3 88.5 L448.8 97.9 L483.4 81.5 L517.9 67.5 L552.4 76.8 L586.9 62.8 L621.5 60.5 L656.0 53.4 L656 250 L0 250 Z" fill="var(--clp-chart-1)" fill-opacity=".12"/>
+    <path d="M0.0 88.5 L34.5 81.5 L69.1 95.6 L103.6 111.9 L138.1 104.9 L172.6 119.0 L207.2 137.7 L241.7 126.0 L276.2 144.7 L310.7 158.7 L345.3 151.7 L379.8 165.8 L414.3 177.5 L448.8 168.1 L483.4 184.5 L517.9 198.5 L552.4 189.2 L586.9 203.2 L621.5 205.5 L656.0 212.6" fill="none" stroke="var(--clp-chart-2)" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 4"/>
+    <path d="M0.0 177.5 L34.5 184.5 L69.1 170.4 L103.6 154.1 L138.1 161.1 L172.6 147.0 L207.2 128.3 L241.7 140.0 L276.2 121.3 L310.7 107.3 L345.3 114.3 L379.8 100.2 L414.3 88.5 L448.8 97.9 L483.4 81.5 L517.9 67.5 L552.4 76.8 L586.9 62.8 L621.5 60.5 L656.0 53.4" fill="none" stroke="var(--clp-chart-1)" stroke-width="2"
+      stroke-linejoin="round" stroke-linecap="round"/>
+    <line class="cross" x1="0" y1="16" x2="0" y2="250" hidden/>
+    <circle cx="656" cy="53.44" r="4.5" fill="var(--clp-chart-1)"
+      stroke="var(--clp-bg)" stroke-width="2"/>
+    <circle cx="656" cy="212.56" r="4.5" fill="var(--clp-chart-2)"
+      stroke="var(--clp-bg)" stroke-width="2"/>
+    <text x="0.0" y="294" text-anchor="start" class="ax">Jan</text><text x="69.1" y="294" text-anchor="middle" class="ax">Feb</text><text x="138.1" y="294" text-anchor="middle" class="ax">Mar</text><text x="207.2" y="294" text-anchor="middle" class="ax">Apr</text><text x="276.2" y="294" text-anchor="middle" class="ax">May</text><text x="345.3" y="294" text-anchor="middle" class="ax">Jun</text><text x="414.3" y="294" text-anchor="middle" class="ax">Jul</text><text x="483.4" y="294" text-anchor="middle" class="ax">Aug</text><text x="552.4" y="294" text-anchor="middle" class="ax">Sep</text><text x="621.5" y="294" text-anchor="middle" class="ax">Oct</text>
+    <rect x="-17.3" y="16" width="34.5"
+      height="234" fill="transparent" data-x="0.0"
+      data-tip="Jan · Yes 31% · No 69%"/><rect x="17.3" y="16" width="34.5"
+      height="234" fill="transparent" data-x="34.5"
+      data-tip="Mid · Yes 28% · No 72%"/><rect x="51.8" y="16" width="34.5"
+      height="234" fill="transparent" data-x="69.1"
+      data-tip="Feb · Yes 34% · No 66%"/><rect x="86.3" y="16" width="34.5"
+      height="234" fill="transparent" data-x="103.6"
+      data-tip="Mid · Yes 41% · No 59%"/><rect x="120.8" y="16" width="34.5"
+      height="234" fill="transparent" data-x="138.1"
+      data-tip="Mar · Yes 38% · No 62%"/><rect x="155.4" y="16" width="34.5"
+      height="234" fill="transparent" data-x="172.6"
+      data-tip="Mid · Yes 44% · No 56%"/><rect x="189.9" y="16" width="34.5"
+      height="234" fill="transparent" data-x="207.2"
+      data-tip="Apr · Yes 52% · No 48%"/><rect x="224.4" y="16" width="34.5"
+      height="234" fill="transparent" data-x="241.7"
+      data-tip="Mid · Yes 47% · No 53%"/><rect x="258.9" y="16" width="34.5"
+      height="234" fill="transparent" data-x="276.2"
+      data-tip="May · Yes 55% · No 45%"/><rect x="293.5" y="16" width="34.5"
+      height="234" fill="transparent" data-x="310.7"
+      data-tip="Mid · Yes 61% · No 39%"/><rect x="328.0" y="16" width="34.5"
+      height="234" fill="transparent" data-x="345.3"
+      data-tip="Jun · Yes 58% · No 42%"/><rect x="362.5" y="16" width="34.5"
+      height="234" fill="transparent" data-x="379.8"
+      data-tip="Mid · Yes 64% · No 36%"/><rect x="397.1" y="16" width="34.5"
+      height="234" fill="transparent" data-x="414.3"
+      data-tip="Jul · Yes 69% · No 31%"/><rect x="431.6" y="16" width="34.5"
+      height="234" fill="transparent" data-x="448.8"
+      data-tip="Mid · Yes 65% · No 35%"/><rect x="466.1" y="16" width="34.5"
+      height="234" fill="transparent" data-x="483.4"
+      data-tip="Aug · Yes 72% · No 28%"/><rect x="500.6" y="16" width="34.5"
+      height="234" fill="transparent" data-x="517.9"
+      data-tip="Mid · Yes 78% · No 22%"/><rect x="535.2" y="16" width="34.5"
+      height="234" fill="transparent" data-x="552.4"
+      data-tip="Sep · Yes 74% · No 26%"/><rect x="569.7" y="16" width="34.5"
+      height="234" fill="transparent" data-x="586.9"
+      data-tip="Mid · Yes 80% · No 20%"/><rect x="604.2" y="16" width="34.5"
+      height="234" fill="transparent" data-x="621.5"
+      data-tip="Oct · Yes 81% · No 19%"/><rect x="638.7" y="16" width="34.5"
+      height="234" fill="transparent" data-x="656.0"
+      data-tip="Mid · Yes 84% · No 16%"/>
   </svg>
+        <div class="legend"><span><i style="background:var(--clp-chart-1)"></i>Yes</span><span><i style="background:var(--clp-chart-2)"></i>No</span></div>
+        <div class="feat-meta">
+          <span>Jan &ndash; Oct &middot; daily mid</span>
+          <span>128.4k volume</span>
+          <span>Resolves 31 December</span>
+        </div>
       </div>
+
+      <aside class="hot">
+        <h3>Busiest today</h3>
+        <div class="hotrow">
+      <i>1</i><b>Ridge punctuality</b>
+      <span>128.4k <em class="up">+6&cent;</em></span>
+    </div><div class="hotrow">
+      <i>2</i><b>Audit export</b>
+      <span>74.2k <em class="down">−3&cent;</em></span>
+    </div><div class="hotrow">
+      <i>3</i><b>Coast resurfacing</b>
+      <span>51.9k <em class="up">+2&cent;</em></span>
+    </div><div class="hotrow">
+      <i>4</i><b>Vale timetable</b>
+      <span>29.8k <em class="down">−1&cent;</em></span>
+    </div><div class="hotrow">
+      <i>5</i><b>Kiln closure</b>
+      <span>18.3k <em class="up">+4&cent;</em></span>
+    </div>
+      </aside>
+    </section>
+
+    <section class="desk">
       <div class="panel">
-        <div class="panel-h"><h3>Order book</h3>
-          <span class="small">Depth cumulative</span></div>
+        <div class="panel-h"><h3>Order book</h3></div>
         <div class="book">
           <div class="bookside bids">
-            <p class="raillabel" style="padding:0">Bids</p><div class="bookrow">
+            <p class="booklabel">Bids</p><div class="bookrow">
         <span class="px">83&cent;</span>
         <i style="width:9.7%"></i>
         <span class="dep">1,200</span>
@@ -469,7 +541,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
       </div>
           </div>
           <div class="bookside asks">
-            <p class="raillabel" style="padding:0">Asks</p><div class="bookrow">
+            <p class="booklabel">Asks</p><div class="bookrow">
         <span class="px">85&cent;</span>
         <i style="width:9.4%"></i>
         <span class="dep">900</span>
@@ -489,24 +561,177 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
           </div>
         </div>
       </div>
+
+      <div class="ticket">
+        <div class="ticket-h">Place an order</div>
+        <div class="sides" data-group="side"><button class="on" data-side="yes" aria-current="true">Yes <span data-sidepx>84&cent;</span></button><button class="" data-side="no">No <span data-sidepx>16&cent;</span></button></div>
+        <div class="field-l">
+          <label>Shares</label>
+          <div class="sizes" data-group="size"><button class="" data-size="100">100</button><button class="on" data-size="250" aria-current="true">250</button><button class="" data-size="500">500</button></div>
+        </div>
+        <div class="calc">
+          <p class="crow">Price <span id="price">84&cent;</span></p>
+          <p class="crow">Cost <span id="cost">$210.00</span></p>
+          <p class="crow">Payout if correct <span id="payout">$250.00</span></p>
+          <p class="crow win"><b>To win</b> <span id="win">$40.00</span></p>
+        </div>
+        <div class="place">
+          <button class="btn" id="place">Buy Yes &middot; $210.00</button>
+        </div>
+      </div>
     </section>
 
-    <section class="ticket">
-      <div class="ticket-h">Place an order</div>
-      <div class="sides" data-group="side"><button class="on" data-side="yes" aria-current="true">Yes <span data-sidepx>84&cent;</span></button><button class="" data-side="no">No <span data-sidepx>16&cent;</span></button></div>
-      <div class="field-l">
-        <label>Shares</label>
-        <div class="sizes" data-group="size"><button class="" data-size="100">100</button><button class="on" data-size="250" aria-current="true">250</button><button class="" data-size="500">500</button></div>
+    <section>
+      <div class="browse-h">
+        <h2>All markets</h2>
+        <span id="tally">12 markets &middot; 461.4k volume</span>
       </div>
-      <div class="calc">
-        <p class="crow">Price <span id="price">84&cent;</span></p>
-        <p class="crow">Cost <span id="cost">$210.00</span></p>
-        <p class="crow">Payout if correct <span id="payout">$250.00</span></p>
-        <p class="crow win"><b>To win</b> <span id="win">$40.00</span></p>
-      </div>
-      <div class="place">
-        <button class="btn" id="place">Buy Yes &middot; $210.00</button>
-      </div>
+      <div class="cats" data-group="cat"><button class="cat on" data-cat="All" aria-current="true">All</button><button class="cat" data-cat="Network">Network</button><button class="cat" data-cat="Delivery">Delivery</button><button class="cat" data-cat="Depots">Depots</button><button class="cat" data-cat="Energy">Energy</button><button class="cat" data-cat="Weather">Weather</button></div>
+      <div class="mkts"><article class="card" data-cat="Network" data-vol="92400">
+      <h3>Which line posts the best Q4 punctuality?</h3>
+      <div class="ocs"><div class="oc">
+      <b>Ridge</b>
+      <span class="pct">58%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Coast</b>
+      <span class="pct">27%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>92.4k volume</span><span>Network</span></div>
+    </article><article class="card" data-cat="Delivery" data-vol="74200">
+      <h3>Audit export ships before December</h3>
+      <div class="ocs"><div class="oc">
+      <b>1 December</b>
+      <span class="pct">61%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>15 December</b>
+      <span class="pct">34%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>74.2k volume</span><span>Delivery</span></div>
+    </article><article class="card" data-cat="Depots" data-vol="51900">
+      <h3>Coast depot resurfacing finishes on schedule</h3>
+      <div class="ocs"><div class="oc">
+      <b>On schedule</b>
+      <span class="pct">37%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Within a month</b>
+      <span class="pct">66%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>51.9k volume</span><span>Depots</span></div>
+    </article><article class="card" data-cat="Network" data-vol="29750">
+      <h3>Vale adds a fourth daily service</h3>
+      <div class="ocs"><div class="oc">
+      <b>By March</b>
+      <span class="pct">23%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>By September</b>
+      <span class="pct">49%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>29.8k volume</span><span>Network</span></div>
+    </article><article class="card" data-cat="Depots" data-vol="18300">
+      <h3>Kiln closure extends past November</h3>
+      <div class="ocs"><div class="oc">
+      <b>Past November</b>
+      <span class="pct">12%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Past January</b>
+      <span class="pct">6%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>18.3k volume</span><span>Depots</span></div>
+    </article><article class="card" data-cat="Energy" data-vol="44100">
+      <h3>Overhead line renewal completes in one season</h3>
+      <div class="ocs"><div class="oc">
+      <b>One season</b>
+      <span class="pct">41%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Two seasons</b>
+      <span class="pct">72%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>44.1k volume</span><span>Energy</span></div>
+    </article><article class="card" data-cat="Weather" data-vol="16750">
+      <h3>Frost closes a halt before December</h3>
+      <div class="ocs"><div class="oc">
+      <b>Any halt</b>
+      <span class="pct">54%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Two or more</b>
+      <span class="pct">19%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>16.8k volume</span><span>Weather</span></div>
+    </article><article class="card" data-cat="Delivery" data-vol="38600">
+      <h3>Timetable rewrite lands with the winter print</h3>
+      <div class="ocs"><div class="oc">
+      <b>Winter print</b>
+      <span class="pct">45%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Spring print</b>
+      <span class="pct">88%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>38.6k volume</span><span>Delivery</span></div>
+    </article><article class="card" data-cat="Energy" data-vol="21300">
+      <h3>Depot substation upgrade signed off in Q4</h3>
+      <div class="ocs"><div class="oc">
+      <b>Signed in Q4</b>
+      <span class="pct">33%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Slips to Q1</b>
+      <span class="pct">64%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>21.3k volume</span><span>Energy</span></div>
+    </article><article class="card" data-cat="Network" data-vol="12900">
+      <h3>A fifth line enters the published return</h3>
+      <div class="ocs"><div class="oc">
+      <b>Next return</b>
+      <span class="pct">9%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Within two</b>
+      <span class="pct">31%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>12.9k volume</span><span>Network</span></div>
+    </article><article class="card" data-cat="Weather" data-vol="27400">
+      <h3>Storm days exceed last year's count</h3>
+      <div class="ocs"><div class="oc">
+      <b>Exceeds</b>
+      <span class="pct">52%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Doubles</b>
+      <span class="pct">11%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>27.4k volume</span><span>Weather</span></div>
+    </article><article class="card" data-cat="Depots" data-vol="33800">
+      <h3>Vale sheds reopen before the timetable change</h3>
+      <div class="ocs"><div class="oc">
+      <b>Before change</b>
+      <span class="pct">29%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div><div class="oc">
+      <b>Same quarter</b>
+      <span class="pct">57%</span>
+      <button class="yes">Yes</button><button class="no">No</button>
+    </div></div>
+      <div class="card-f"><span>33.8k volume</span><span>Depots</span></div>
+    </article></div>
     </section>
 
     <section class="ledger">
@@ -652,6 +877,7 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 <script>
 
   const money = c => '$' + (c / 100).toFixed(2)
+  const vol = n => (n >= 1000 ? (n / 1000).toFixed(1) + 'k' : String(n))
   const state = { yes: 84, side: 'yes', size: 250,
                   label: "Yes" }
 
@@ -669,25 +895,38 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
     set('win', money(payout - cost))
     const place = document.getElementById('place')
     if (place) place.textContent = 'Buy ' + state.label + ' \u00b7 ' + money(cost)
-    // Both side buttons show what that side costs right now.
     const px = document.querySelectorAll('[data-side] [data-sidepx]')
     if (px[0]) px[0].textContent = state.yes + '\u00a2'
     if (px[1]) px[1].textContent = (100 - state.yes) + '\u00a2'
   }
 
+  // Filtering the grid recomputes the tally from the cards still on screen, so
+  // the count and the volume can never describe a grid that is not there.
+  function applyCategory(want) {
+    const cards = [...document.querySelectorAll('.card[data-cat]')]
+    if (!cards.length) return
+    let n = 0, sum = 0
+    for (const c of cards) {
+      const on = !want || want === 'All' || c.dataset.cat === want
+      c.hidden = !on
+      if (on) { n++; sum += Number(c.dataset.vol) || 0 }
+    }
+    const tally = document.getElementById('tally')
+    if (tally) {
+      tally.textContent = n + (n === 1 ? ' market \u00b7 ' : ' markets \u00b7 ') +
+        vol(sum) + ' volume'
+    }
+  }
+
   addEventListener('demo:select', e => {
     const { name, hit } = e.detail
-    if (name === 'side') { state.side = hit.dataset.side; state.label = hit.textContent.trim().split(' ')[0] }
-    if (name === 'size') state.size = Number(hit.dataset.size) || state.size
-    if (name === 'mkt') {
-      state.yes = Number(hit.dataset.yes) || state.yes
-      const q = hit.querySelector('q')
-      const target = document.getElementById('question')
-      if (q && target) target.textContent = q.textContent
-      const quote = document.getElementById('quote')
-      if (quote) quote.textContent = state.yes + '\u00a2'
+    if (name === 'side') {
+      state.side = hit.dataset.side
+      state.label = hit.textContent.trim().split(' ')[0]
+      recompute()
     }
-    if (name === 'side' || name === 'size' || name === 'mkt') recompute()
+    if (name === 'size') { state.size = Number(hit.dataset.size) || state.size; recompute() }
+    if (name === 'cat') applyCategory(hit.dataset.cat)
   })
 
 </script>

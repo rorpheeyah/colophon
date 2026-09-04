@@ -57,10 +57,9 @@ export function css(t, meta) {
 .brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
   font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
 .brand i{font-style:normal;font-weight:500;font-size:12.5px;color:var(--clp-text-3)}
-.topsearch{margin-left:clamp(10px,3vw,34px);flex:1;max-width:340px;
+.topsearch{margin-left:clamp(10px,3vw,34px);flex:1;min-width:0;max-width:340px;
   border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
-  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  background:var(--clp-surface);color:var(--clp-text);font-size:12.5px;font-family:inherit}
 .topbar-end{margin-left:auto;display:flex;align-items:center;gap:11px;flex:none}
 
 .shell{display:grid;grid-template-columns:214px minmax(0,1fr);flex:1 0 auto;align-items:stretch}
@@ -106,7 +105,9 @@ export function css(t, meta) {
 
 .toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .search{border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
-  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;min-width:180px}
+  background:var(--clp-surface);color:var(--clp-text);font-size:12.5px;min-width:180px;
+  font-family:inherit}
+.topsearch::placeholder,.search::placeholder{color:var(--clp-text-3);opacity:1}
 .chips{display:flex;gap:7px;flex-wrap:wrap}
 .filter{border:1px solid var(--clp-line);border-radius:var(--clp-radius-control);
   padding:5px 11px;font:500 12px/1.5 var(--clp-font-body);color:var(--clp-text-2);
@@ -234,7 +235,8 @@ export function body(t, meta) {
   return `<div class="scr">
   <header class="topbar">
     <div class="brand">Northsel <i>/ Reliability</i></div>
-    <div class="topsearch">Search services, deploys and incidents</div>
+    <input class="topsearch" type="search" aria-label="Search services"
+      placeholder="Search services, deploys and incidents">
     <div class="topbar-end">
       ${has(t, '--clp-button2-bg') ? '<button class="btn b2">Invite</button>' : ''}
       <span class="avatar">RM</span>
@@ -272,7 +274,8 @@ export function body(t, meta) {
       </div>
 
       <div class="toolbar">
-        <div class="search">Filter by name or owner</div>
+        <input class="search" type="search" aria-label="Filter by name or owner"
+          placeholder="Filter by name or owner">
         <div class="chips" data-group="filter">${FILTERS.map((f, i) =>
           `<button class="filter${i === 0 ? ' on' : ''}" data-filter="${esc(f.key)}"${
             i === 0 ? ' aria-current="true"' : ''}>${esc(f.label)}</button>`).join('')}</div>
