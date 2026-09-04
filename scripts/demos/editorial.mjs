@@ -19,31 +19,15 @@
 // Every figure is computed from LINES and the chart's own array. Copy is
 // invented and Latin only.
 
-import { esc, has } from '../preview-shared.mjs'
+import { esc, has, fixture } from '../preview-shared.mjs'
 import { barChart, legend, stacked, WEEK, DAYS } from '../preview-charts.mjs'
 
-const SECTIONS = ['Transport', 'Housing', 'Energy', 'Method']
-
-// Invented figures for an invented network. `on` is trains arriving inside the
-// published window; `run` is trains scheduled.
-const LINES = [
-  { name: 'Coast', run: 1840, on: 1712, halts: 22 },
-  { name: 'Vale',  run: 1290, on: 1104, halts: 17 },
-  { name: 'Ridge', run: 960,  on: 903,  halts: 12 },
-  { name: 'Kiln',  run: 640,  on: 471,  halts: 9 },
-]
-
-const NOTES = [
-  ['Window', 'A service counts as on time if it arrives within four minutes of the published time at its final halt.'],
-  ['Source', 'Operator returns for the twelve months to September, as filed with the regulator.'],
-  ['Excluded', 'Services cancelled before departure, and the eleven days of engineering closure on Kiln.'],
-]
-
-const FURTHER = [
-  'How four minutes became the number',
-  'The halt that costs Vale its margin',
-  'What a punctuality figure cannot tell you',
-]
+const FX = fixture('editorial')
+const SECTIONS = FX.sections
+// `on` is trains arriving inside the published window; `run` is trains scheduled.
+const LINES = FX.lines
+const NOTES = FX.notes
+const FURTHER = FX.further
 
 // ── derived ───────────────────────────────────────────────────────────────────
 const TOTAL_RUN = LINES.reduce((n, l) => n + l.run, 0)

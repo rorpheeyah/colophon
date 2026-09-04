@@ -21,37 +21,17 @@
 // Sample copy is invented and Latin only — see the note in demo-frame.mjs about
 // why a demo does not exercise --clp-font-script.
 
-import { esc, has } from '../preview-shared.mjs'
+import { esc, has, fixture, glassBar } from '../preview-shared.mjs'
 import { barChart, donut, gauge, legend, WEEK } from '../preview-charts.mjs'
 
-/** requests are thousands over the trailing 7 days, and they sum to the chart. */
-const SERVICES = [
-  { name: 'api-gateway',   owner: 'Platform',  region: 'eu-west-1',  req: 152, avail: 99.98, p95: 128, state: 'ok',    deploy: '2h ago' },
-  { name: 'auth-worker',   owner: 'Identity',  region: 'eu-west-1',  req: 96,  avail: 99.94, p95: 96,  state: 'ok',    deploy: '6h ago' },
-  { name: 'media-encoder', owner: 'Media',     region: 'us-east-1',  req: 71,  avail: 99.21, p95: 412, state: 'warn',  deploy: '3d ago' },
-  { name: 'search-index',  owner: 'Discovery', region: 'ap-south-1', req: 62,  avail: 99.87, p95: 204, state: 'ok',    deploy: '1d ago' },
-  { name: 'webhook-relay', owner: 'Platform',  region: 'eu-west-1',  req: 16,  avail: 99.55, p95: 88,  state: 'ok',    deploy: '5d ago' },
-  { name: 'billing-sync',  owner: 'Payments',  region: 'eu-west-1',  req: 12,  avail: 97.40, p95: 883, state: 'alarm', deploy: '9d ago' },
-]
-
-const DEPLOYS = [
-  ['api-gateway', 'Platform', 'rate limits per key', '2h ago', 'ok'],
-  ['auth-worker', 'Identity', 'rotate signing keys', '6h ago', 'ok'],
-  ['search-index', 'Discovery', 'reindex on schema change', '1d ago', 'ok'],
-  ['media-encoder', 'Media', 'retry on transcode timeout', '3d ago', 'warn'],
-]
-
-const NAV = [
-  ['Monitor', ['Overview', 'Services', 'Incidents']],
-  ['Deliver', ['Releases', 'Pipelines']],
-]
-const ENVIRONMENTS = ['Production', 'Staging']
-const RANGES = ['24h', '7d', '30d']
-const FILTERS = [
-  { key: 'all', label: 'All' },
-  { key: 'degraded', label: 'Degraded' },
-  { key: 'owner:Platform', label: 'Platform' },
-]
+/** Records come from the fixture; requests are thousands over the trailing 7 days. */
+const FX = fixture('dashboard')
+const SERVICES = FX.services
+const DEPLOYS = FX.deploys
+const NAV = FX.nav
+const ENVIRONMENTS = FX.environments
+const RANGES = FX.ranges
+const FILTERS = FX.filters
 
 // ── derived, so nothing on the page can disagree with anything else ──────────
 const TOTAL_REQ = SERVICES.reduce((n, s) => n + s.req, 0)
@@ -73,12 +53,7 @@ export function css(t, meta) {
    --clp-shadow on a container. Where a system declares no glass the bar stays
    opaque on the page ground, and it is still sticky: content scrolling under an
    opaque bar is ordinary. */
-.topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);
-  flex:none;position:sticky;top:0;z-index:5;${has(t, '--clp-glass')
-    ? `background:var(--clp-glass);border-bottom:1px solid ${
-        has(t, '--clp-glass-edge') ? 'var(--clp-glass-edge)' : 'var(--clp-line)'}${
-        has(t, '--clp-blur') ? `;backdrop-filter:blur(var(--clp-blur))` : ''}`
-    : 'background:var(--clp-bg);border-bottom:1px solid var(--clp-line)'}}
+.topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);${glassBar(t)}}
 .brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
   font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
 .brand i{font-style:normal;font-weight:500;font-size:12.5px;color:var(--clp-text-3)}

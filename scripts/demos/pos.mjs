@@ -24,31 +24,14 @@
 //
 // Product names, prices and the tax rate are invented. Latin only.
 
-import { esc, has, accentSpentOnButton, borderless } from '../preview-shared.mjs'
+import { esc, has, accentSpentOnButton, borderless, fixture } from '../preview-shared.mjs'
 
-const TAX_BP = 825                       // basis points, so 8.25% is exact in integers
-const CATEGORIES = ['All', 'Coffee', 'Bakery', 'Retail']
-
-const PRODUCTS = [
-  { name: 'Filter, 12oz',    cents: 320, cat: 'Coffee' },
-  { name: 'Flat white',      cents: 395, cat: 'Coffee' },
-  { name: 'Cold brew',       cents: 450, cat: 'Coffee' },
-  { name: 'Cortado',         cents: 350, cat: 'Coffee' },
-  { name: 'Almond croissant', cents: 480, cat: 'Bakery' },
-  { name: 'Sourdough slice', cents: 260, cat: 'Bakery' },
-  { name: 'Banana bread',    cents: 340, cat: 'Bakery' },
-  { name: 'Beans, 250g',     cents: 1450, cat: 'Retail' },
-  { name: 'Enamel mug',      cents: 1800, cat: 'Retail' },
-]
-
-const TICKET = [
-  { name: 'Flat white',       cents: 395,  qty: 2 },
-  { name: 'Almond croissant', cents: 480,  qty: 1 },
-  { name: 'Beans, 250g',      cents: 1450, qty: 1 },
-  { name: 'Filter, 12oz',     cents: 320,  qty: 3 },
-]
-
-const TENDERS = [{ key: 'card', label: 'Card' }, { key: 'cash', label: 'Cash' }]
+const FX = fixture('pos')
+const TAX_BP = FX.taxBp                  // basis points, so 8.25% is exact in integers
+const CATEGORIES = FX.categories
+const PRODUCTS = FX.products
+const TICKET = FX.ticket
+const TENDERS = FX.tenders
 
 // ── derived, in integers ──────────────────────────────────────────────────────
 const money = cents => '$' + (cents / 100).toFixed(2)

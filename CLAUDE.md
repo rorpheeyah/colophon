@@ -620,6 +620,28 @@ count is the number of rows. A demo declares its sample data once and derives ev
 from it. **A hand-typed total that happens to match is not the same thing** — it stops matching
 the moment the sample data changes, and then the demo is quietly lying.
 
+### Fixtures — what is data and what is not
+
+A demo's record data lives in `scripts/demos/fixtures/<name>.json` and is read with
+`fixture(name)`. Services, plans, table rows, products, nav labels, tax rates: all data, all
+editable without opening a script.
+
+**Markup is not data, and pages are not rendered from JSON.** Which records a demo shows is
+data; how it composes them is not. A landing page's hero, a till's ticket rail and an editorial
+page's ruled columns share no structure at all, so rendering every demo from one JSON schema
+would mean either a per-demo renderer anyway — leaving JSON holding only the content, which is
+what a fixture already is — or a layout DSL expressed in JSON objects. The second is a template
+language with no type checking, no editor support and more code than the thing it replaces.
+
+The line therefore falls in one more place: **a sentence with a computed figure in the middle of
+it stays in the module.** The editorial page reads *"Ridge returns 94.1% and Kiln returns
+73.6%, a spread of 20.5 points"*, where every figure and both line names are derived. Moving
+that to JSON means inventing an interpolation syntax to put it back together, which is the same
+trap one step smaller.
+
+So: fixtures hold records. Modules hold composition, derivation, and any prose that names a
+derived value.
+
 ### A demo owns its own behaviour
 
 The frame owns what is generic: the hover readout, and moving the active state within any
