@@ -45,8 +45,9 @@ export const systemPage = (s, all) => shell({
       ${s.summary && html`<p class="lede">${s.summary}</p>`}
     </div>
     <div class="actions">
-      ${s.hasScreen && html`<a class="btn inuse" href="screen.html" target="_blank" rel="noreferrer"
-         title="A page built in this system, at full size">In use &#8599;</a>`}
+      ${s.demos.length && html`<a class="btn inuse" id="inuse" href="${s.defaultDemo}"
+         target="_blank" rel="noreferrer"
+         title="A whole page built in this system, at full size">In use &#8599;</a>`}
       <button class="btn primary" id="copy">Copy file</button>
       <a class="btn" href="${s.slug}.md" download>Download .md</a>
     </div>
@@ -64,8 +65,6 @@ export const systemPage = (s, all) => shell({
         <button class="chip" data-pmode="light" aria-pressed="false">Light</button>
         <button class="chip" data-pmode="dark" aria-pressed="false">Dark</button>
       </span>` : html`<span class="fine">Dark mode was not published for this system</span>`}
-      <a class="full" href="preview.html" target="_blank" rel="noreferrer"
-         title="Open the preview with no chrome around it">Full screen &#8599;</a>
     </b>
     <div class="pvpair" id="pvpair">
       <div class="pv-light">${s.hasDark ? html`<b>Light</b>` : ''}
@@ -74,11 +73,10 @@ export const systemPage = (s, all) => shell({
         <iframe src="preview.html?chrome=0&amp;mode=dark" title="${s.system} preview, dark"></iframe></div>`}
     </div>
 
-    ${s.hasScreen && html`<p class="fnote">This is the <b>specimen</b> — every component the
+    ${s.demos.length && html`<p class="fnote">This is the <b>specimen</b> — every component the
       system declares, at once, which is why per-screen limits are not observed here.
-      <a href="screen.html" target="_blank" rel="noreferrer">In use &#8599;</a> opens one
-      ${s.archetype} composition, chosen by <code>register: ${s.register}</code>, that does
-      observe them.</p>`}
+      <b>In use</b> opens whole pages built in this system, which do observe them, and lets you
+      pick which one.</p>`}
   </div>
 
   ${s.origin === 'own' ? installBlock(s) : html`
@@ -139,6 +137,18 @@ export const systemPage = (s, all) => shell({
     });
   }
   pair.dataset.show = ${json(s.hasDark ? 'both' : 'light')};
+
+  // The demo picker remembers what you last looked at, so "In use" opens the
+  // same composition on the next system rather than resetting to the default.
+  // Rewriting the href beats redirecting on arrival, which would fight the
+  // back button.
+  const inuse = document.getElementById('inuse');
+  if (inuse) {
+    const available = ${json(s.demos)};
+    let last = null;
+    try { last = localStorage.getItem('colophon:demo'); } catch {}
+    if (last && available.includes(last)) inuse.href = last;
+  }
 
   // Fit each frame to the preview inside it: no dead space, nothing clipped,
   // whatever a given system's content adds up to. Measured from the parent

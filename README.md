@@ -10,6 +10,7 @@ project so that AI-assisted development follows that system.
 ```
 systems/<slug>/<slug>.md        the deliverable
 systems/<slug>/preview.html     generated from the file's own tokens block
+systems/<slug>/demo-*.html      generated: whole pages built in the system
 systems/<slug>/thumb-*.svg      generated, one per mode, for the library cards
 site/                           generated browse UI: library, system pages, compare
 index.json                      append-only ledger

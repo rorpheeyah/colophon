@@ -65,8 +65,9 @@
       <p class="lede">A design system for retail and operational software. One primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. Built for dense, bilingual, decision-oriented screens.</p>
     </div>
     <div class="actions">
-      <a class="btn inuse" href="screen.html" target="_blank" rel="noreferrer"
-         title="A page built in this system, at full size">In use &#8599;</a>
+      <a class="btn inuse" id="inuse" href="demo-dashboard.html"
+         target="_blank" rel="noreferrer"
+         title="A whole page built in this system, at full size">In use &#8599;</a>
       <button class="btn primary" id="copy">Copy file</button>
       <a class="btn" href="lozenge.md" download>Download .md</a>
     </div>
@@ -81,8 +82,6 @@
         <button class="chip" data-pmode="light" aria-pressed="false">Light</button>
         <button class="chip" data-pmode="dark" aria-pressed="false">Dark</button>
       </span>
-      <a class="full" href="preview.html" target="_blank" rel="noreferrer"
-         title="Open the preview with no chrome around it">Full screen &#8599;</a>
     </b>
     <div class="pvpair" id="pvpair">
       <div class="pv-light"><b>Light</b>
@@ -93,9 +92,8 @@
 
     <p class="fnote">This is the <b>specimen</b> — every component the
       system declares, at once, which is why per-screen limits are not observed here.
-      <a href="screen.html" target="_blank" rel="noreferrer">In use &#8599;</a> opens one
-      console composition, chosen by <code>register: utility</code>, that does
-      observe them.</p>
+      <b>In use</b> opens whole pages built in this system, which do observe them, and lets you
+      pick which one.</p>
   </div>
 
   
@@ -495,6 +493,18 @@ aliases would keep their light values.</p>
     });
   }
   pair.dataset.show = "both";
+
+  // The demo picker remembers what you last looked at, so "In use" opens the
+  // same composition on the next system rather than resetting to the default.
+  // Rewriting the href beats redirecting on arrival, which would fight the
+  // back button.
+  const inuse = document.getElementById('inuse');
+  if (inuse) {
+    const available = ["demo-dashboard.html"];
+    let last = null;
+    try { last = localStorage.getItem('colophon:demo'); } catch {}
+    if (last && available.includes(last)) inuse.href = last;
+  }
 
   // Fit each frame to the preview inside it: no dead space, nothing clipped,
   // whatever a given system's content adds up to. Measured from the parent

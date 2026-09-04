@@ -26,8 +26,10 @@
     "added": "2026-09-04",
     "summary": "A design system for software that is doing something while you watch it. One primitive — an edge that moves when the thing it encloses is live — carried from a button to a service row to the navigation itself. One purple ramp, one achromatic metal, one colour for broken. Spacious, bilingual.",
     "hasDark": true,
-    "hasScreen": true,
-    "archetype": "console"
+    "demos": [
+      "demo-dashboard.html"
+    ],
+    "defaultDemo": "demo-dashboard.html"
   },
   {
     "slug": "lozenge",
@@ -55,8 +57,10 @@
     "added": "2026-09-02",
     "summary": "A design system for retail and operational software. One primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. Built for dense, bilingual, decision-oriented screens.",
     "hasDark": true,
-    "hasScreen": true,
-    "archetype": "console"
+    "demos": [
+      "demo-dashboard.html"
+    ],
+    "defaultDemo": "demo-dashboard.html"
   },
   {
     "slug": "newsprint",
@@ -85,8 +89,10 @@
     "added": "2026-09-02",
     "summary": "An editorial, print-inspired system with first-class Khmer and Latin support. Intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed.",
     "hasDark": true,
-    "hasScreen": true,
-    "archetype": "console"
+    "demos": [
+      "demo-dashboard.html"
+    ],
+    "defaultDemo": "demo-dashboard.html"
   },
   {
     "slug": "pharmly",
@@ -115,8 +121,8 @@
     "added": "2026-09-02",
     "summary": "A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.",
     "hasDark": false,
-    "hasScreen": false,
-    "archetype": "console"
+    "demos": [],
+    "defaultDemo": "demo-dashboard.html"
   },
   {
     "slug": "ration",
@@ -146,7 +152,9 @@
     "added": "2026-09-04",
     "summary": "A design system for pages that are selling something. Colour is rationed: it appears on the thing the reader gets and on nothing else. Everything that carries structure — every border, every label, every surface, every control — is achromatic. Large, light headlines; deep vertical rhythm; nothing lifts.",
     "hasDark": true,
-    "hasScreen": true,
-    "archetype": "console"
+    "demos": [
+      "demo-dashboard.html"
+    ],
+    "defaultDemo": "demo-dashboard.html"
   }
 ]

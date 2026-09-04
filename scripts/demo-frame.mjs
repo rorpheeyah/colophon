@@ -1,21 +1,22 @@
-// The document shell for systems/<slug>/screen.html.
+// The document shell for systems/<slug>/demo-<name>.html.
 //
 // The specimen sheet shows every component the system declares, side by side, so
 // per-screen limits — "one accent per screen", "at most three summary cards" —
-// are not observed there and cannot be. The screen is the other half: one
-// composition, fluid and full-bleed, that does observe them.
+// are not observed there and cannot be. A demo is the other half: a whole page,
+// fluid and full-bleed, that does observe them.
 //
-// It renders the same tokens block, through the same shims, under the same
-// assertions. The only thing that branches is *what is on the page*, chosen by
-// the `register` field — see screens/index.mjs.
+// Every demo renders the same tokens block through the same shims under the same
+// assertions. Only the composition differs, and which composition you are
+// looking at is the viewer's choice — nothing in the file gates it.
 //
 // Latin copy only. Two systems in the library declare a non-Latin script, and a
-// screen needs real sentences where the specimen needs only letterforms. A
-// generated sentence in a script the generator cannot read is exactly the
-// mistranslation the specimen sheet was careful to avoid, so script reach stays
-// the specimen's job and --clp-font-script is not exercised here.
+// page needs real sentences where a specimen needs only letterforms. A generated
+// sentence in a script the generator cannot read is exactly the mistranslation
+// the specimen sheet was careful to avoid, so script reach stays the specimen's
+// job and --clp-font-script is not exercised here.
 
 import { FAVICON, list } from './lib.mjs'
+import { DEMOS, demoFile } from './demos/index.mjs'
 import { esc, has, shimBlock, borderless, fontLink, tipTreatment } from './preview-shared.mjs'
 
 export const MARKER = 'Everything below reads --clp-* only'
@@ -23,9 +24,9 @@ export const SPECIMEN_OPEN = '<!-- specimen start -->'
 export const SPECIMEN_CLOSE = '<!-- specimen end -->'
 
 /**
- * The kit every archetype composes from. Appearance only ever comes from a
- * declared alias or one of the shims; anything an archetype needs beyond this
- * belongs in its own css() so it stays visible as that archetype's decision.
+ * The kit every demo composes from. Appearance only ever comes from a declared
+ * alias or one of the shims; anything a demo needs beyond this belongs in its
+ * own css() so it stays visible as that demo's decision.
  */
 function baseCss(t, meta) {
   const tip = tipTreatment(t)
@@ -114,7 +115,11 @@ ${['success', 'warn', 'alarm'].filter(k => has(t, `--clp-${k}`)).map(k => {
 }).join('\n')}
 
 /* charts — marks take the declared series colours, text never does */
-.chart{display:block;width:100%;height:auto}
+/* A chart's axis text is sized in viewBox units, so it scales with the box. The
+   charts are drawn for the specimen's narrow panels; in a full-bleed page the
+   same SVG would render at two or three times that and the labels with it. Cap
+   the height and the whole mark scales back to something readable. */
+.chart{display:block;width:100%;height:auto;max-height:230px;margin-inline:auto}
 .ax{font:500 9px var(--_data);fill:var(--clp-text-3);letter-spacing:.04em}
 .gridline{stroke:var(--clp-line);stroke-width:1}
 .donut{display:block;width:100%;max-width:150px;margin:0 auto;height:auto}
@@ -142,16 +147,30 @@ ${tip ? `.tip{position:fixed;z-index:9;pointer-events:none;${tip};
  * The neutral chrome around the screen. Same palette as the specimen's — it is
  * the preview page's own furniture and deliberately not the system's.
  */
-function chrome(meta, archetype, notes) {
+/**
+ * The neutral chrome: which system this is, which demo you are looking at, and a
+ * way to change either. Deliberately not in the system's own palette — it is the
+ * page's furniture, and a demo that dressed its own controls in the system would
+ * make it impossible to tell the specimen from the frame around it.
+ */
+function chrome(meta, demo, notes) {
+  const picker = DEMOS.length > 1
+    ? `<label class="pick">Demo
+        <select id="demo">${DEMOS.map(d =>
+          `<option value="${esc(demoFile(d.name))}"${d.name === demo.name ? ' selected' : ''}>${
+            esc(d.title)}</option>`).join('')}</select>
+      </label>`
+    : `<span class="pick"><b>Demo</b> ${esc(demo.title)}</span>`
+
   return `<div class="chrome">
-  <h1>${esc(meta.system)} <span style="font-weight:400;color:#71717a">${esc(meta.version)}</span></h1>
-  <dl>
-    <div><dt>screen</dt><dd>${esc(archetype.name)}${archetype.mapped ? '' : ' (default)'}</dd></div>
-    <div><dt>register</dt><dd>${esc(meta.register)}</dd></div>
-    <div><dt>density</dt><dd>${esc(meta.density)}</dd></div>
-    <div><dt>status</dt><dd>${esc(meta.status)}</dd></div>
-    <div><dt>origin</dt><dd>${esc(meta.origin)}</dd></div>
-  </dl>
+  <div class="crow">
+    <h1>${esc(meta.system)} <span class="ver">${esc(meta.version)}</span></h1>
+    ${picker}
+    <span class="modes" id="modes" hidden>
+      <button data-mode="light">Light</button><button data-mode="dark">Dark</button>
+    </span>
+  </div>
+  <p class="blurb">${esc(demo.blurb)}</p>
   ${meta.origin === 'reference' ? `<p class="prov"><strong>Reference record.</strong>
     A reading of someone else's public work, not an original system.
     ${esc(meta.credit ?? '')} <a href="${esc(meta['source-url'] ?? '')}">Source</a>.
@@ -160,17 +179,18 @@ function chrome(meta, archetype, notes) {
 </div>`
 }
 
-export function screenDocument({ meta, block, t, archetype }) {
+export function demoDocument({ meta, block, t, demo }) {
   const hasDark = /\[data-mode\s*=\s*["']?dark["']?\]/.test(block.code)
   const spacingFromDensity = !has(t, '--clp-gap') || !has(t, '--clp-pad')
 
+  // No note about which composition was chosen, because nothing chose it — the
+  // viewer did. What is worth saying is what this system declined, since that is
+  // why parts of the page look the way they do.
   const notes = [
-    `Composition chosen by <code>register: ${esc(meta.register)}</code>` +
-      (archetype.mapped ? '.' : ` — no archetype is mapped to it, so this is the <code>${esc(archetype.name)}</code> default.`),
     hasDark ? '' : 'Dark mode was not published for this system, so none is shown.',
     spacingFromDensity ? `Spacing from <code>density: ${esc(meta.density)}</code> — this system declares no spacing step.` : '',
-    list(meta.scripts).some(s => s !== 'latin')
-      ? 'A screen needs sentences, so this one is set in Latin only. Script reach is shown on the specimen sheet.'
+    list(meta.scripts).some(x => x !== 'latin')
+      ? 'A page needs sentences, so this one is set in Latin only. Script reach is shown on the specimen sheet.'
       : '',
   ].filter(Boolean)
 
@@ -179,7 +199,7 @@ export function screenDocument({ meta, block, t, archetype }) {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(meta.system)} — ${esc(archetype.name)} screen</title>
+<title>${esc(meta.system)} — ${esc(demo.title)}</title>
 <link rel="icon" href="${FAVICON}">
 ${fontLink(block.code)}
 <style>
@@ -187,15 +207,23 @@ ${fontLink(block.code)}
    The block below is copied verbatim from the system file. */
 ${block.code}
 
-/* ── shared shell ─────────────────────────────────────────────────────── */
+/* ── neutral chrome ───────────────────────────────────────────────────── */
 *{box-sizing:border-box}
 body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-serif}
-.chrome{padding:16px 20px;border-bottom:1px solid #d4d4d8}
-.chrome h1{margin:0 0 4px;font-size:17px}
-.chrome dl{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0;font-size:12px;color:#52525b}
-.chrome dt{font-weight:600}.chrome dd{margin:0 0 0 4px}
-.chrome dt,.chrome dd{display:inline}
-.prov{margin:10px 0 0;padding:8px 10px;background:#fff7ed;border:1px solid #fed7aa;
+.chrome{padding:14px 20px;border-bottom:1px solid #d4d4d8;background:#fafafa}
+.crow{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.chrome h1{margin:0;font-size:16px}
+.chrome .ver{font-weight:400;color:#71717a}
+.pick{font-size:12px;color:#52525b;display:flex;align-items:center;gap:7px}
+.pick b{font-weight:600}
+.pick select{font:12px system-ui,sans-serif;padding:4px 7px;border:1px solid #d4d4d8;
+  border-radius:4px;background:#fff;color:#18181b}
+.modes{margin-left:auto;display:flex;gap:3px}
+.modes button{font:12px system-ui,sans-serif;padding:4px 10px;cursor:pointer;
+  border:1px solid #d4d4d8;border-radius:4px;background:#fff;color:#52525b}
+.modes button[aria-pressed="true"]{background:#18181b;border-color:#18181b;color:#fff}
+.blurb{margin:7px 0 0;font-size:12.5px;color:#52525b;max-width:78ch}
+.prov{margin:9px 0 0;padding:8px 10px;background:#fff7ed;border:1px solid #fed7aa;
       border-radius:4px;font-size:12px;color:#7c2d12;max-width:72ch}
 .notes{margin:8px 0 0;padding-left:18px;font-size:12px;color:#52525b}
 .notes li{margin:2px 0}
@@ -203,24 +231,59 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 .nodark{margin:0;padding:22px;color:#71717a;font-size:13px}
 [data-nodark] .scr{display:none}
 ${baseCss(t, meta)}
-${archetype.module.css(t, meta)}
+${demo.module.css(t, meta)}
 </style>
 </head>
 <body>
-${chrome(meta, archetype, notes)}
+${chrome(meta, demo, notes)}
 ${SPECIMEN_OPEN}
-${archetype.module.body(t, meta)}
+${demo.module.body(t, meta)}
 ${SPECIMEN_CLOSE}
 <p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>
 <script>
-  // Set before paint. data-mode must live on the root element or the --clp-*
-  // aliases keep their light values — see the note at the top of build-previews.mjs.
+  // data-mode must live on the root element or the --clp-* aliases keep their
+  // light values — see the note at the top of build-previews.mjs.
   const q = new URLSearchParams(location.search)
   const root = document.documentElement
+  const hasDark = ${hasDark}
   if (q.get('chrome') === '0') root.dataset.nochrome = ''
-  if (q.get('mode') === 'dark') {
-    if (${hasDark}) root.dataset.mode = 'dark'
-    else { root.dataset.nodark = ''; document.querySelector('.nodark').hidden = false }
+
+  const KEY = 'colophon:demo'
+  const pick = document.getElementById('demo')
+  // Remembering the choice is what makes the picker useful across systems: pick
+  // a demo on one system and the next system's "In use" link opens the same one.
+  if (pick) pick.addEventListener('change', () => {
+    try { localStorage.setItem(KEY, pick.value) } catch {}
+    location.href = pick.value + location.search
+  })
+
+  const MKEY = 'colophon:demo-mode'
+  function setMode(m) {
+    if (m === 'dark' && !hasDark) {
+      root.dataset.nodark = ''
+      document.querySelector('.nodark').hidden = false
+      return
+    }
+    delete root.dataset.nodark
+    document.querySelector('.nodark').hidden = true
+    if (m === 'dark') root.dataset.mode = 'dark'
+    else delete root.dataset.mode
+    for (const b of document.querySelectorAll('#modes button')) {
+      b.setAttribute('aria-pressed', b.dataset.mode === m)
+    }
+    try { localStorage.setItem(MKEY, m) } catch {}
+  }
+
+  let mode = q.get('mode')
+  if (!mode) { try { mode = localStorage.getItem(MKEY) } catch {} }
+  if (hasDark) {
+    document.getElementById('modes').hidden = false
+    for (const b of document.querySelectorAll('#modes button')) {
+      b.addEventListener('click', () => setMode(b.dataset.mode))
+    }
+    setMode(mode === 'dark' ? 'dark' : 'light')
+  } else if (mode === 'dark') {
+    setMode('dark')
   }
 </script>
 </body>

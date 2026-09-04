@@ -65,7 +65,7 @@
       <p class="lede">A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.</p>
     </div>
     <div class="actions">
-      
+      0
       <button class="btn primary" id="copy">Copy file</button>
       <a class="btn" href="pharmly.md" download>Download .md</a>
     </div>
@@ -79,8 +79,6 @@
   <div class="frame">
     <b>Generated preview
       <span class="fine">Dark mode was not published for this system</span>
-      <a class="full" href="preview.html" target="_blank" rel="noreferrer"
-         title="Open the preview with no chrome around it">Full screen &#8599;</a>
     </b>
     <div class="pvpair" id="pvpair">
       <div class="pv-light">
@@ -88,7 +86,7 @@
       
     </div>
 
-    
+    0
   </div>
 
   
@@ -351,6 +349,18 @@ file, so nothing here is transcribed — every value is a reading.</p>
     });
   }
   pair.dataset.show = "light";
+
+  // The demo picker remembers what you last looked at, so "In use" opens the
+  // same composition on the next system rather than resetting to the default.
+  // Rewriting the href beats redirecting on arrival, which would fight the
+  // back button.
+  const inuse = document.getElementById('inuse');
+  if (inuse) {
+    const available = [];
+    let last = null;
+    try { last = localStorage.getItem('colophon:demo'); } catch {}
+    if (last && available.includes(last)) inuse.href = last;
+  }
 
   // Fit each frame to the preview inside it: no dead space, nothing clipped,
   // whatever a given system's content adds up to. Measured from the parent

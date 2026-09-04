@@ -26,7 +26,7 @@ These are not guidelines. Follow them literally.
    fixed and listed below. Never migrate existing system files to satisfy a field a newer
    system introduced.
 
-5. **Never hand-write a preview or a screen.** Both come from `scripts/build-previews.mjs`,
+5. **Never hand-write a preview or a demo.** Both come from `scripts/build-previews.mjs`,
    which reads the tokens block out of the markdown. They must be physically incapable of
    showing something their system file does not say.
 
@@ -55,19 +55,19 @@ systems/
   <slug>/
     <slug>.md                    the deliverable
     preview.html                 generated, committed: the specimen sheet
-    screen.html                  generated, committed: one composition, by register
-                                 `origin: own` only — see *The screen*
+    demo-<name>.html             generated, committed: a whole page in this system,
+                                 one per demo, `origin: own` only — see *The demos*
     thumb-light.svg              generated, committed; the library card image
     thumb-dark.svg               generated where the system publishes a dark mode
     assets/                      optional, text only
 scripts/
   lib.mjs                        shared parsing, so the two scripts cannot drift
   contrast.mjs                   WCAG ratios, opt-in via the `contrast` field
-  build-previews.mjs             tokens block -> preview.html and screen.html
+  build-previews.mjs             tokens block -> preview.html and demo-<name>.html
   preview-shared.mjs             what both artifacts must resolve identically
-  screen-frame.mjs               the screen's document shell
-  screens/index.mjs              register -> archetype, and the default
-  screens/<archetype>.mjs        one composition each
+  demo-frame.mjs                 a demo's document shell, picker and mode toggle
+  demos/index.mjs                the registry, in order; the first is the default
+  demos/<name>.mjs               one composition each
   build-site.mjs                 system files -> site/
   validate.mjs                   format contract enforcement
 site/
@@ -364,8 +364,8 @@ borrowing the attention colour for it.
 
 `preview.html` is a **specimen sheet, not a screen.** It shows every component the system
 declares support for, side by side, so per-screen limits — "one accent per screen", "at most
-three summary cards" — are not observed there and cannot be. `screen.html` is the other half,
-and does observe them. See *The screen*, below.
+three summary cards" — are not observed there and cannot be. The demos are the other half, and
+do observe them. See *The demos*, below.
 
 A system that declines `--clp-button2-bg` gets no secondary button, rather than one composed from
 `--clp-surface`. The ghost treatment is still derived — transparent with `--clp-text-2` — and is
@@ -422,7 +422,7 @@ either marker fails the build, the same way losing the stylesheet marker does.
 
 - **The specimen is a sheet, not a screen.** Every declared component appears at once, so
   per-screen limits — one accent per screen, at most three summary cards — are not observed
-  and cannot be. They are observed in `screen.html` instead, which is why both artifacts exist.
+  and cannot be. They are observed in the demos instead, which is why both artifacts exist.
 - **`--clp-shadow` is a control shadow** and never goes on a container.
 - **A ghost control** is transparent with `--clp-text-2`: the most conservative reading, not
   the system's word.
@@ -461,46 +461,50 @@ either marker fails the build, the same way losing the stylesheet marker does.
 
 ---
 
-## The screen
+## The demos
 
-`screen.html` renders the same tokens block as one composition instead of as a sheet of every
-component at once. It exists because a specimen cannot show what a system is *for*: a
-`register: promotional` system was being represented by a dashboard, and per-screen limits — the
-rules an agent most needs to follow — had nowhere to be demonstrated.
+A demo is a whole page built in a system: `systems/<slug>/demo-<name>.html`, one file per demo,
+generated from the same tokens block as the specimen. They exist because a specimen cannot show
+what a system looks like *doing something* — per-screen limits, the rules an agent most needs to
+follow, had nowhere to be demonstrated.
 
-**It opens at full size in its own tab, and is not embedded in the system page.** A screen is
-fluid and full-bleed, so fitting one into a column meant rendering it at a fixed desktop width
-and scaling it to roughly a third — neither legible nor honest. The system page shows the
-specimen, and links to the screen as *In use*.
+**Nothing in the file decides which demos a system gets.** An earlier version mapped `register`
+to one composition, so Ration was shown a dashboard because a table said so. That is the
+generator making an editorial judgment about the file, and it was wrong: a design system can be
+used for whatever its owner wants. Every `origin: own` system gets every demo, and the viewer
+picks with the selector in the demo's chrome.
 
-**A reference record gets no screen.** Its tokens are approximations of someone else's work. A
-specimen sheet in approximated colours reads as the reading it is; a fully realised product in
-them would read as a claim about work that is not ours. A reference is never installed either —
-it is forked into an `origin: own` system first, and that system gets the screen.
+`best-for` and `avoid-for` stay in the frontmatter and stay on the site. They are the author
+telling you something true about the system, which is content in the product — they are simply
+not a gate on rendering. Adding a demo is a composition decision and belongs in `scripts/demos/`.
 
-**The screen branches; the specimen does not.** That is the one addition to the closed list
-above, and the line it draws is:
+**One link, not two.** The system page previously offered *Full screen*, which opened the
+specimen that is already embedded directly below it — a second tab showing the same artifact no
+larger in substance. A demo is the only destination that is a *different* artifact, so it is the
+only one that earns a link: **In use**, beside *Copy file*. The picker remembers the viewer's
+choice in `localStorage`, and the system page rewrites its own link to match, so picking a demo
+on one system opens the same one on the next. It rewrites the href rather than redirecting on
+arrival, which would fight the back button.
 
-- **Appearance never branches.** Every archetype is scanned by the same assertions as the
-  specimen, so none of them can introduce a paint, a radius or a shadow the system did not
-  declare. The guarantee that matters is untouched.
-- **Composition branches on a declared field.** Which archetype a system gets is read out of
-  `register`, exactly as spacing is already read out of `density`. That is the file speaking,
-  not the generator inventing.
+**Demos open at full size in their own tab, and are never embedded.** A demo is fluid and
+full-bleed, so fitting one into a column meant rendering it at a fixed desktop width and scaling
+it to roughly a third — neither legible nor honest.
 
-### The register map
+**A reference record gets no demo.** Its tokens are approximations of someone else's work. A
+specimen sheet in approximated colours reads as the reading it is; a whole realised page in them
+would read as a claim about work that is not ours. A reference is never installed either — it is
+forked into an `origin: own` system first, and that fork gets the demos.
 
-| register | archetype |
-|---|---|
-| `technical`, `utility` | `console` |
-| anything else | `console`, as the default |
+**A demo branches; the specimen does not.** That is the one addition to the closed list above,
+and the line it draws is:
 
-`register` is deliberately open — "one word, e.g. utility, editorial" — so an unmapped value
-must never fail the build. It falls back to `console`, the composition closest to the specimen,
-and `validate.mjs` warns so the author can see the default was taken rather than chosen. Adding
-an archetype is a composition decision and belongs in `scripts/screens/`.
+- **Appearance never branches.** Every demo is scanned by the same assertions as the specimen,
+  so none of them can introduce a paint, a radius or a shadow the system did not declare. The
+  guarantee that matters is untouched.
+- **Composition is a free choice.** Which demo you are looking at is the viewer's, not the
+  file's and not the generator's.
 
-### What a screen observes that a sheet cannot
+### What a demo observes that a sheet cannot
 
 - **`--clp-accent` appears exactly once, and it marks where you currently are.** The strictest
   per-screen limit in the library is Lozenge's "Citron on more than one element per screen", and
@@ -513,31 +517,31 @@ an archetype is a composition decision and belongs in `scripts/screens/`.
   `--clp-surface` where it does not. Nothing is doubled.
 - **No decorative element used twice.** Newsprint allows its deckle once per surface.
 
-These are the template's reading of the strictest system in the library, so a screen under-uses
-a permissive system rather than violating a strict one. That is the acceptable failure direction.
+These are the template's reading of the strictest system in the library, so a demo under-uses a
+permissive system rather than violating a strict one. That is the acceptable failure direction.
 
 ### Every figure is derived
 
 Placeholder content reads as placeholder mostly because its numbers do not agree with each
-other. So a screen computes them: the summary tiles sum the table beneath them, a chart's
-caption sums that chart's own bars, a status banner names the record that is actually failing,
-and a row count is the number of rows. An archetype declares its sample data once and derives
-everything else from it. **A hand-typed total that happens to match is not the same thing** —
-it stops matching the moment the sample data changes, and then the screen is quietly lying.
+other. So a demo computes them: the summary tiles sum the table beneath them, a chart's caption
+sums that chart's own bars, a status banner names the record that is actually failing, and a row
+count is the number of rows. A demo declares its sample data once and derives everything else
+from it. **A hand-typed total that happens to match is not the same thing** — it stops matching
+the moment the sample data changes, and then the demo is quietly lying.
 
 ### Latin copy only
 
-A screen needs sentences where a specimen needs only letterforms, and a generated sentence in a
+A page needs sentences where a specimen needs only letterforms, and a generated sentence in a
 script the generator cannot read is exactly the mistranslation the specimen sheet is careful to
-avoid. So a screen sets in Latin and does not exercise `--clp-font-script`; script reach stays
-the specimen's job, and the screen says so in its own notes.
+avoid. So a demo sets in Latin and does not exercise `--clp-font-script`; script reach stays the
+specimen's job, and the demo says so in its own notes.
 
-### What it still cannot show
+### What demos still cannot show
 
 The 42 aliases carry one press transform and nothing else that moves, no gradient, no
-translucency and no backdrop blur. A screen fixes the *shape* of the misrepresentation, not that
-gap: Ration's gradient hero and Filament's travelling edge remain invisible in both artifacts.
-That is a contract question, not something an archetype may work around.
+translucency and no backdrop blur. Demos fix the *shape* of the misrepresentation, not that gap:
+Ration's gradient hero and Filament's travelling edge remain invisible in every artifact. That
+is a contract question, and the next one to answer — not something a demo may work around.
 
 ---
 

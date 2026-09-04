@@ -27,8 +27,8 @@ import {
 } from './preview-shared.mjs'
 import { barChart, lineChart, sparkline, donut, gauge, stacked, legend, ranked } from './preview-charts.mjs'
 import { thumbnail } from './preview-thumb.mjs'
-import { screenDocument } from './screen-frame.mjs'
-import { archetypeFor } from './screens/index.mjs'
+import { demoDocument } from './demo-frame.mjs'
+import { DEMOS, demoFile } from './demos/index.mjs'
 
 // Letterforms and digits, never a sentence — a specimen cannot mistranslate.
 // A system declares its reach in `scripts`; anything listed here gets a line.
@@ -716,21 +716,18 @@ ${SPECIMEN_CLOSE}
 }
 
 /**
- * systems/<slug>/screen.html — the same file, composed as one screen instead of
- * as a sheet of every component at once.
+ * systems/<slug>/demo-<name>.html — the same file, composed as a whole page
+ * instead of as a sheet of every component at once. One per demo, because a
+ * single document carrying every demo's CSS would grow with the registry and
+ * each demo is independently openable anyway.
  */
-function renderScreen(sys) {
+function renderDemo(sys, demo) {
   const meta = Object.fromEntries(Object.entries(sys.data)
     .map(([k, v]) => [k, Array.isArray(v) ? v : v.value]))
   const block = tokensBlock(sys.blocks)[0]
   if (!block) throw new Error(`${sys.slug}: no tokens block`)
 
-  return screenDocument({
-    meta,
-    block,
-    t: declaredAliases(block.code),
-    archetype: archetypeFor(meta),
-  })
+  return demoDocument({ meta, block, t: declaredAliases(block.code), demo })
 }
 
 /**
@@ -848,10 +845,10 @@ export function assertNoAppearanceLiterals(html, slug) {
 }
 
 /**
- * A screen observes the per-screen limits the specimen sheet cannot. The
- * strictest of those in the library is Lozenge's — "Citron on more than one
- * element per screen" — and unlike the composition rules beside it, this one is
- * countable, so it is counted rather than left to discipline.
+ * A demo observes the per-screen limits the specimen sheet cannot. The strictest
+ * of those in the library is Lozenge's — "Citron on more than one element per
+ * screen" — and unlike the composition rules beside it, this one is countable,
+ * so it is counted rather than left to discipline.
  *
  * The specimen is exempt by construction: it is a sheet, it shows the accent in
  * its swatch row and wherever else the system declares it, and CLAUDE.md already
@@ -870,8 +867,8 @@ export function assertAccentBudget(html, slug) {
 
   const uses = (regions.match(/var\(--clp-accent\)/g) ?? []).length
   if (uses > 1) {
-    throw new Error(`${slug}: the screen uses --clp-accent ${uses} times. ` +
-      `A screen observes per-screen limits, and the strictest in the library allows one.`)
+    throw new Error(`${slug}: the demo uses --clp-accent ${uses} times. ` +
+      `A demo observes per-screen limits, and the strictest in the library allows one.`)
   }
   return html
 }
@@ -894,15 +891,19 @@ for (const slug of slugs) {
       assertBalancedTags(assertNoAppearanceLiterals(render(sys), slug), slug)],
   ]
 
-  // A reference record gets no screen. Its tokens are approximations of someone
+  // A reference record gets no demo. Its tokens are approximations of someone
   // else's work, and a specimen sheet in approximated colours reads as the
-  // reading it is, where a fully realised product in them would read as a claim
+  // reading it is, where a whole realised page in them would read as a claim
   // about work that is not ours. A reference is never installed either — it is
-  // forked into an `origin: own` system first, and that system gets the screen.
+  // forked into an `origin: own` system first, and that fork gets the demos.
   if (scalar(sys.data.origin) === 'own') {
-    files.push(['screen.html',
-      assertAccentBudget(
-        assertBalancedTags(assertNoAppearanceLiterals(renderScreen(sys), slug), slug), slug)])
+    for (const demo of DEMOS) {
+      files.push([demoFile(demo.name),
+        assertAccentBudget(
+          assertBalancedTags(
+            assertNoAppearanceLiterals(renderDemo(sys, demo), `${slug}/${demo.name}`),
+            `${slug}/${demo.name}`), `${slug}/${demo.name}`)])
+    }
   }
   if (block) {
     for (const mode of ['light', 'dark']) {
