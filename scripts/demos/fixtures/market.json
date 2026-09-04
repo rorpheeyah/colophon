@@ -15,42 +15,230 @@
     250,
     500
   ],
-  "markets": [
+  "categories": [
+    "All",
+    "Network",
+    "Delivery",
+    "Depots",
+    "Energy",
+    "Weather"
+  ],
+  "featured": {
+    "id": "ridge-95",
+    "cat": "Network",
+    "q": "Ridge reports 95% punctuality in Q4",
+    "yes": 84,
+    "vol": 128400,
+    "chg": 6,
+    "series": "Jan – Oct"
+  },
+  "hot": [
     {
-      "id": "ridge-95",
-      "q": "Ridge reports 95% punctuality in Q4",
-      "yes": 84,
+      "name": "Ridge punctuality",
       "vol": 128400,
-      "chg": 6,
-      "active": true
+      "chg": 6
     },
     {
-      "id": "audit-export",
-      "q": "Audit export ships before December",
-      "yes": 61,
+      "name": "Audit export",
       "vol": 74200,
       "chg": -3
     },
     {
-      "id": "coast-resurface",
-      "q": "Coast depot resurfacing finishes on schedule",
-      "yes": 37,
+      "name": "Coast resurfacing",
       "vol": 51900,
       "chg": 2
     },
     {
-      "id": "vale-fourth",
-      "q": "Vale adds a fourth daily service",
-      "yes": 23,
+      "name": "Vale timetable",
       "vol": 29750,
       "chg": -1
     },
     {
-      "id": "kiln-closure",
-      "q": "Kiln closure extends past November",
-      "yes": 12,
+      "name": "Kiln closure",
       "vol": 18300,
       "chg": 4
+    }
+  ],
+  "grid": [
+    {
+      "cat": "Network",
+      "q": "Which line posts the best Q4 punctuality?",
+      "vol": 92400,
+      "outcomes": [
+        {
+          "label": "Ridge",
+          "pct": 58
+        },
+        {
+          "label": "Coast",
+          "pct": 27
+        }
+      ]
+    },
+    {
+      "cat": "Delivery",
+      "q": "Audit export ships before December",
+      "vol": 74200,
+      "outcomes": [
+        {
+          "label": "1 December",
+          "pct": 61
+        },
+        {
+          "label": "15 December",
+          "pct": 34
+        }
+      ]
+    },
+    {
+      "cat": "Depots",
+      "q": "Coast depot resurfacing finishes on schedule",
+      "vol": 51900,
+      "outcomes": [
+        {
+          "label": "On schedule",
+          "pct": 37
+        },
+        {
+          "label": "Within a month",
+          "pct": 66
+        }
+      ]
+    },
+    {
+      "cat": "Network",
+      "q": "Vale adds a fourth daily service",
+      "vol": 29750,
+      "outcomes": [
+        {
+          "label": "By March",
+          "pct": 23
+        },
+        {
+          "label": "By September",
+          "pct": 49
+        }
+      ]
+    },
+    {
+      "cat": "Depots",
+      "q": "Kiln closure extends past November",
+      "vol": 18300,
+      "outcomes": [
+        {
+          "label": "Past November",
+          "pct": 12
+        },
+        {
+          "label": "Past January",
+          "pct": 6
+        }
+      ]
+    },
+    {
+      "cat": "Energy",
+      "q": "Overhead line renewal completes in one season",
+      "vol": 44100,
+      "outcomes": [
+        {
+          "label": "One season",
+          "pct": 41
+        },
+        {
+          "label": "Two seasons",
+          "pct": 72
+        }
+      ]
+    },
+    {
+      "cat": "Weather",
+      "q": "Frost closes a halt before December",
+      "vol": 16750,
+      "outcomes": [
+        {
+          "label": "Any halt",
+          "pct": 54
+        },
+        {
+          "label": "Two or more",
+          "pct": 19
+        }
+      ]
+    },
+    {
+      "cat": "Delivery",
+      "q": "Timetable rewrite lands with the winter print",
+      "vol": 38600,
+      "outcomes": [
+        {
+          "label": "Winter print",
+          "pct": 45
+        },
+        {
+          "label": "Spring print",
+          "pct": 88
+        }
+      ]
+    },
+    {
+      "cat": "Energy",
+      "q": "Depot substation upgrade signed off in Q4",
+      "vol": 21300,
+      "outcomes": [
+        {
+          "label": "Signed in Q4",
+          "pct": 33
+        },
+        {
+          "label": "Slips to Q1",
+          "pct": 64
+        }
+      ]
+    },
+    {
+      "cat": "Network",
+      "q": "A fifth line enters the published return",
+      "vol": 12900,
+      "outcomes": [
+        {
+          "label": "Next return",
+          "pct": 9
+        },
+        {
+          "label": "Within two",
+          "pct": 31
+        }
+      ]
+    },
+    {
+      "cat": "Weather",
+      "q": "Storm days exceed last year's count",
+      "vol": 27400,
+      "outcomes": [
+        {
+          "label": "Exceeds",
+          "pct": 52
+        },
+        {
+          "label": "Doubles",
+          "pct": 11
+        }
+      ]
+    },
+    {
+      "cat": "Depots",
+      "q": "Vale sheds reopen before the timetable change",
+      "vol": 33800,
+      "outcomes": [
+        {
+          "label": "Before change",
+          "pct": 29
+        },
+        {
+          "label": "Same quarter",
+          "pct": 57
+        }
+      ]
     }
   ],
   "book": {

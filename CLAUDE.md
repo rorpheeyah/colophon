@@ -561,6 +561,15 @@ and the line it draws is:
 | `landing` | A product and pricing page | one, on the hero's promise phrase |
 | `editorial` | A long-form report | none — an article has no payoff, and Newsprint aliases its accent to the ink ramp, so an accented phrase would be the colour of the text beside it |
 | `pos` | A point-of-sale till | one, on the amount due — unless the Charge button has already spent it |
+| `market` | A prediction-market venue: a featured market traded in place, over a grid of market cards | one, on what a fill would win — unless the Buy button has already spent it |
+
+`market` carries the densest repetition in the library — twelve cards, each with outcome rows and
+a paired Yes/No control — and two rules fall out of that. **A paired control is not a primary
+button**: twenty-four of them wearing `--clp-button-bg` would put Lozenge's citron on two dozen
+elements, which it caps at one. And **a pair takes direction colour only if the system declares
+both directions**: Lozenge declares alarm and declines success, so colouring one half would make
+No look like a warning and Yes like nothing, which is a judgment the file never made. Both
+halves or neither.
 
 Each demo answers the strictest rule in the library that applies to it, not the average one.
 `editorial` is the clearest case: Newsprint says *"Rules, not cards. Do not wrap content in
