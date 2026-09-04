@@ -1,8 +1,9 @@
-// The `console` archetype: a service reliability console, for a system whose
-// register is technical or utility — and the default for any register with no
-// archetype mapped to it.
+// The `dashboard` demo: a service reliability console.
 //
-// It is a screen, so it observes the per-screen limits the specimen sheet cannot:
+// Nothing in a system's file decides whether it gets this demo — every
+// `origin: own` system gets every demo and the viewer picks. See demos/index.mjs.
+//
+// It is a whole page, so it observes the per-screen limits the sheet cannot:
 //
 //   - --clp-accent appears exactly once, marking where you currently are.
 //     build-previews.mjs counts the references and fails the build on a second.
@@ -11,14 +12,14 @@
 //     draws one and from --clp-surface where it does not; nothing is doubled.
 //   - no decorative element used twice.
 //
-// **Every figure on this screen is computed from SERVICES below.** The tiles sum
+// **Every figure on this page is computed from SERVICES below.** The tiles sum
 // the table, the chart's caption sums the chart's own bars, the incident banner
 // names the service that is actually failing, and the row count is the number of
 // rows. Placeholder content reads as placeholder mostly because its numbers do
 // not agree with each other; these do.
 //
-// Sample copy is invented and Latin only — see the note in screen-frame.mjs
-// about why a screen does not exercise --clp-font-script.
+// Sample copy is invented and Latin only — see the note in demo-frame.mjs about
+// why a demo does not exercise --clp-font-script.
 
 import { esc, has } from '../preview-shared.mjs'
 import { barChart, lineChart, donut, gauge, legend, WEEK } from '../preview-charts.mjs'
@@ -47,7 +48,7 @@ const NAV = [
 const ENVIRONMENTS = ['Production', 'Staging']
 const RANGES = ['24h', '7d', '30d']
 
-// ── derived, so nothing on the screen can disagree with anything else ─────────
+// ── derived, so nothing on the page can disagree with anything else ──────────
 const TOTAL_REQ = SERVICES.reduce((n, s) => n + s.req, 0)
 const CHART_TOTAL = WEEK.reduce((n, v) => n + v, 0)
 const AVAILABILITY = SERVICES.reduce((n, s) => n + s.avail * s.req, 0) / TOTAL_REQ
@@ -58,7 +59,7 @@ const STATE_LABEL = { ok: 'Healthy', warn: 'Degraded', alarm: 'Failing' }
 export function css(t, meta) {
   const railInverted = has(t, '--clp-invert-bg')
   return `
-/* ── console ──────────────────────────────────────────────────────────── */
+/* ── dashboard ────────────────────────────────────────────────────────── */
 .topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);
   border-bottom:1px solid var(--clp-line);flex:none}
 .brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
@@ -89,7 +90,7 @@ export function css(t, meta) {
   ? 'background:var(--clp-invert-accent);color:var(--clp-invert-bg);opacity:1'
   : 'color:var(--clp-text)'}}
 .env:active{transform:var(--_press)}
-/* The one accent on this screen: which environment you are looking at. Every
+/* The one accent on this page: which environment you are looking at. Every
    other current-state marker on the page is carried by weight or by a rule. */
 .env-dot{width:7px;height:7px;flex:none;border-radius:var(--clp-radius-control);
   background:var(--clp-line)}
