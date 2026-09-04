@@ -387,11 +387,18 @@ a `border-radius` that is not a `var()`, or a `box-shadow` that is not exactly `
 single `--clp-*` reference. The template therefore cannot invent an appearance; it can only
 misplace a declared one.
 
-**That check scans the stylesheet, not the markup.** Fills written as SVG attributes are on
-discipline alone, and today every one of them is a `var(--clp-*)` — except the `white` and
-`black` inside the avatar row's mask, which are that mask's 1 and 0 rather than an appearance.
-Extending the check to markup would be worth doing; until then this paragraph is the record of
-what it does not cover.
+**The specimen's markup is held to the same rule**, scoped between `<!-- specimen start -->`
+and `<!-- specimen end -->`; the chrome around it is the preview page's own furniture and keeps
+its own neutral palette. Every `fill`, `stroke`, `stop-color`, `flood-color`, `lighting-color`
+and `color` attribute, and every inline paint declaration, must be a `var(--clp-*)`, `none`,
+`transparent`, `currentColor` or `inherit`. That catches a named colour as well as a hex, which
+scanning CSS alone could not — SVG carries appearance in attributes, so every `fill=` in the
+charts and the avatars used to be on discipline.
+
+One carve-out, enforced rather than assumed: inside a `<mask>`, `fill` may be `white` or
+`black`. Those are the mask's 1 and 0 — the alpha channel, not an appearance — and they are
+rejected on any other attribute, anywhere outside a mask, and in any other spelling. Losing
+either marker fails the build, the same way losing the stylesheet marker does.
 
 ### Resolving a declined alias — four shims
 

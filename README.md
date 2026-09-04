@@ -86,7 +86,7 @@ node scripts/contrast.mjs --all           including systems that have not opted 
 | coherence | a wash without its colour, a border colour without a width, a series palette with a gap |
 | `contrast: AA` \| `AAA` | text under the floor in either mode — **only where a system declares it** |
 | adjacent chart series | ΔE under 15 to a full-colour reader, or 6 under simulated colour blindness |
-| appearance literals | the preview template asserting a colour, radius or shadow the system did not declare |
+| appearance literals | the preview template asserting a colour, radius or shadow the system did not declare — in its stylesheet and in the specimen's markup, attributes included |
 | container balance | an unclosed wrapper swallowing its siblings |
 | inline scripts | generated JavaScript that does not parse |
 | freshness | a committed preview, thumbnail or built page that is stale |

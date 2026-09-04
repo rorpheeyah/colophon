@@ -683,7 +683,9 @@ td{padding:9px 8px;border-bottom:1px solid var(--clp-line);color:var(--clp-text)
     Tokens are approximations, not the author's values.</p>` : ''}
   ${notes.length ? `<ul class="notes">${notes.map(n => `<li>${n}</li>`).join('')}</ul>` : ''}
 </div>
+${SPECIMEN_OPEN}
 ${stage(t, meta)}
+${SPECIMEN_CLOSE}
 <p class="nodark" hidden>Dark mode was not published for this system, so there is nothing to show.</p>
 <script>
   // Set before paint. data-mode must live on the root element or the --clp-*
@@ -791,25 +793,78 @@ export function assertBalancedTags(html, slug) {
  * CLAUDE.md. This catches the class that actually went wrong four times.
  */
 const MARKER = 'Everything below reads --clp-* only'
+const SPECIMEN_OPEN = '<!-- specimen start -->'
+const SPECIMEN_CLOSE = '<!-- specimen end -->'
+
+// A paint the template is allowed to write. Anything else has to come from the
+// system's own declaration.
+const PAINT_OK = /^(?:var\(--clp-[a-z0-9-]+\)|none|transparent|currentColor|inherit)$/
+const PAINT_ATTR = /\b(fill|stroke|stop-color|flood-color|lighting-color|color)="([^"]*)"/g
+const PAINT_PROP = /^(?:background|background-color|color|fill|stroke|border-color|outline-color)$/
+
+/** The three scanners, run over whichever region is being checked. */
+function scanCss(region, where, bad) {
+  for (const m of region.matchAll(/#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\s*\(/g)) {
+    bad.push(`${where}: colour literal \`${m[0]}\``)
+  }
+  for (const m of region.matchAll(/border-radius\s*:\s*([^;}"]+)/g)) {
+    if (!m[1].includes('var(')) bad.push(`${where}: radius not from a declaration: \`${m[1].trim()}\``)
+  }
+  for (const m of region.matchAll(/box-shadow\s*:\s*([^;}"]+)/g)) {
+    const v = m[1].trim()
+    if (v !== 'none' && !/^var\(--clp-[a-z-]+\)$/.test(v)) {
+      bad.push(`${where}: shadow not from a declaration: \`${v}\``)
+    }
+  }
+}
+
+/**
+ * The specimen's markup, held to the same rule as its stylesheet.
+ *
+ * SVG carries appearance in attributes, so scanning CSS alone left every `fill=`
+ * in the charts and the avatars on discipline alone. The one thing markup may
+ * say that CSS may not is a mask's `white` and `black`: those are its 1 and 0,
+ * the alpha channel rather than an appearance. They are allowed only inside a
+ * <mask>, only on `fill`, and only as those two words.
+ */
+function scanMarkup(region, bad) {
+  // A fragment reference is not a colour — #av-seam must not read as a hex triple.
+  scanCss(region.replace(/url\(#[^)]*\)/g, 'url()').replace(/\sid="[^"]*"/g, ''), 'markup', bad)
+
+  const masks = [...region.matchAll(/<mask\b[\s\S]*?<\/mask>/g)]
+    .map(m => [m.index, m.index + m[0].length])
+  const inMask = i => masks.some(([a, b]) => i >= a && i < b)
+
+  for (const m of region.matchAll(PAINT_ATTR)) {
+    const [, attr, value] = m
+    if (PAINT_OK.test(value)) continue
+    if (attr === 'fill' && inMask(m.index) && (value === 'white' || value === 'black')) continue
+    bad.push(`markup: \`${attr}="${value}"\` is not a declared paint`)
+  }
+
+  for (const m of region.matchAll(/\bstyle="([^"]*)"/g)) {
+    for (const decl of m[1].split(';')) {
+      const at = decl.indexOf(':')
+      if (at === -1) continue
+      const prop = decl.slice(0, at).trim(), value = decl.slice(at + 1).trim()
+      if (PAINT_PROP.test(prop) && !PAINT_OK.test(value)) {
+        bad.push(`markup: inline \`${prop}: ${value}\` is not a declared paint`)
+      }
+    }
+  }
+}
 
 export function assertNoAppearanceLiterals(html, slug) {
   const at = html.indexOf(MARKER)
   if (at === -1) throw new Error(`${slug}: template marker missing; the check cannot scope itself`)
-  const region = html.slice(at, html.indexOf('</style>', at))
   const bad = []
+  scanCss(html.slice(at, html.indexOf('</style>', at)), 'stylesheet', bad)
 
-  for (const m of region.matchAll(/#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?)\s*\(/g)) {
-    bad.push(`colour literal \`${m[0]}\``)
+  const from = html.indexOf(SPECIMEN_OPEN), to = html.indexOf(SPECIMEN_CLOSE)
+  if (from === -1 || to === -1) {
+    throw new Error(`${slug}: specimen markers missing; the check cannot scope itself`)
   }
-  for (const m of region.matchAll(/border-radius\s*:\s*([^;}]+)/g)) {
-    if (!m[1].includes('var(')) bad.push(`radius not from a declaration: \`${m[1].trim()}\``)
-  }
-  for (const m of region.matchAll(/box-shadow\s*:\s*([^;}]+)/g)) {
-    const v = m[1].trim()
-    if (v !== 'none' && !/^var\(--clp-[a-z-]+\)$/.test(v)) {
-      bad.push(`shadow not from a declaration: \`${v}\``)
-    }
-  }
+  scanMarkup(html.slice(from + SPECIMEN_OPEN.length, to), bad)
 
   if (bad.length) {
     throw new Error(`${slug}: the template asserts ${bad.length} appearance value(s) ` +
