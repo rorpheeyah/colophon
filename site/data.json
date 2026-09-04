@@ -1,5 +1,33 @@
 [
   {
+    "slug": "filament",
+    "system": "Filament",
+    "version": "1.0",
+    "status": "active",
+    "origin": "own",
+    "register": "technical",
+    "density": "spacious",
+    "scripts": [
+      "latin",
+      "khmer"
+    ],
+    "bestFor": [
+      "deployment and infrastructure consoles",
+      "developer tooling",
+      "service status and monitoring screens",
+      "bilingual technical products"
+    ],
+    "avoidFor": [
+      "print output",
+      "long-form reading",
+      "static marketing sites",
+      "screens with no live or transitional state"
+    ],
+    "added": "2026-09-04",
+    "summary": "A design system for software that is doing something while you watch it. One primitive — an edge that moves when the thing it encloses is live — carried from a button to a service row to the navigation itself. One purple ramp, one achromatic metal, one colour for broken. Spacious, bilingual.",
+    "hasDark": true
+  },
+  {
     "slug": "lozenge",
     "system": "Lozenge",
     "version": "1.0",
