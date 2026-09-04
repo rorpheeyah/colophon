@@ -560,12 +560,25 @@ and the line it draws is:
 | `dashboard` | A service reliability console | none — a console has no payoff |
 | `landing` | A product and pricing page | one, on the hero's promise phrase |
 | `editorial` | A long-form report | none — an article has no payoff, and Newsprint aliases its accent to the ink ramp, so an accented phrase would be the colour of the text beside it |
+| `pos` | A point-of-sale till | one, on the amount due — unless the Charge button has already spent it |
 
 Each demo answers the strictest rule in the library that applies to it, not the average one.
 `editorial` is the clearest case: Newsprint says *"Rules, not cards. Do not wrap content in
 filled containers to group it"*, so structure there is a hairline and a shared column edge and
 nothing on the page is a panel. It also caps uppercase at mono labels and column heads, which is
 why the kicker, the section bar and the figure labels are the only uppercase on it.
+
+**A product grid and a ticket take the same enclosure ladder as the table**, not the one summary
+tiles take: an edge where `--clp-border-width` is non-zero, a **surface step** where it is `0`.
+They are the work itself rather than a summary of it, which is why they are enclosed at all, and
+Lozenge's own words are the reason the ladder ends where it does — "separation comes from surface
+steps... if you reach for a border, you have missed a surface step."
+
+**Hiding uses the `hidden` attribute, and the frame resets it with
+`[hidden]{display:none!important}`.** A demo's own `display` rule beats the UA stylesheet, so
+without the reset the DOM reports a row hidden, every derived figure agrees with the DOM, and the
+reader still sees the row. That is exactly how a filtered product grid and a zeroed ticket line
+both stayed on screen while every automated check passed.
 
 ### What a demo observes that a sheet cannot
 
