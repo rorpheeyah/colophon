@@ -109,5 +109,34 @@
     "added": "2026-09-02",
     "summary": "A pharmacy admin dashboard concept. Included because it does three things unusually well and gets three things visibly wrong, and both halves are useful.",
     "hasDark": false
+  },
+  {
+    "slug": "ration",
+    "system": "Ration",
+    "version": "1.0",
+    "status": "active",
+    "origin": "own",
+    "register": "promotional",
+    "density": "spacious",
+    "scripts": [
+      "latin",
+      "khmer"
+    ],
+    "bestFor": [
+      "product and marketing pages",
+      "pricing and plan comparison",
+      "launch announcements",
+      "documentation landing pages",
+      "bilingual promotional sites"
+    ],
+    "avoidFor": [
+      "operational dashboards",
+      "data entry",
+      "admin consoles",
+      "screens carrying live or transitional state"
+    ],
+    "added": "2026-09-04",
+    "summary": "A design system for pages that are selling something. Colour is rationed: it appears on the thing the reader gets and on nothing else. Everything that carries structure — every border, every label, every surface, every control — is achromatic. Large, light headlines; deep vertical rhythm; nothing lifts.",
+    "hasDark": true
   }
 ]

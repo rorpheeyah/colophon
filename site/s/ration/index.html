@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ration — colophon</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Cpath%20d%3D%22M32%203H18A15%2015%200%200%200%203%2018v28a15%2015%200%200%200%2015%2015h14z%22%20fill%3D%22%23B03A2E%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%23B03A2E%22%20stroke-width%3D%224.5%22%2F%3E%3Crect%20x%3D%2212%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23B03A2E%22%2F%3E%3C%2Fsvg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../../assets/style.css">
+<script>
+  // Resolved before first paint. Two states in the UI; the OS decides only
+  // which one a first-time visitor lands in.
+  try {
+    var t = localStorage.getItem('colophon-theme');
+    if (t !== 'light' && t !== 'dark') {
+      t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.dataset.theme = t;
+  } catch (e) { document.documentElement.dataset.theme = 'light'; }
+</script>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="lockup " href="../../index.html">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+  <mask id="mk-cph">
+    <rect width="64" height="64" fill="#fff"/>
+    <rect x="32" width="32" height="64" fill="#000"/>
+    <rect x="34" y="28" width="18" height="8" rx="4" fill="#fff"/>
+    <rect x="12" y="28" width="18" height="8" rx="4" fill="#000"/>
+  </mask>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="currentColor" mask="url(#mk-cph)"/>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
+</svg><span>colophon</span>
+</a>
+  <nav><a href="../../index.html">Library</a><a href="../../compare.html">Compare</a><a href="../../about.html">About</a></nav>
+  <div class="tools">
+    <a class="ghost" href="https://github.com/rorpheeyah/colophon" rel="noreferrer">GitHub</a>
+    <button class="theme" id="theme" aria-label="Switch theme">
+<svg data-t="light" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+  <circle cx="8" cy="8" r="3.1" fill="currentColor"/>
+  <path d="M8 .9v2.1M8 13v2.1M.9 8h2.1M13 8h2.1M3 3l1.5 1.5M11.5 11.5L13 13M13 3l-1.5 1.5M4.5 11.5L3 13"
+    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+<svg data-t="dark" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+  <path d="M13.4 10.3A6.2 6.2 0 0 1 5.7 2.6a6.2 6.2 0 1 0 7.7 7.7z" fill="currentColor"/></svg></button>
+  </div>
+</div></header>
+
+<main>
+<div class="wrap">
+  <nav class="crumbs">
+  <a href="../../index.html">Library</a> <span>/</span> <b>Ration</b>
+</nav>
+  <div class="head">
+    <div>
+      <h1>Ration <em>1.0</em></h1>
+      <div class="meta">
+  <span class="tag">promotional</span>
+  <span class="tag">spacious</span>
+  <span class="tag">latin</span><span class="tag">khmer</span>
+  
+  
+</div>
+      <p class="lede">A design system for pages that are selling something. Colour is rationed: it appears on the thing the reader gets and on nothing else. Everything that carries structure — every border, every label, every surface, every control — is achromatic. Large, light headlines; deep vertical rhythm; nothing lifts.</p>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="copy">Copy file</button>
+      <a class="btn" href="ration.md" download>Download .md</a>
+    </div>
+  </div>
+
+  
+
+  <div class="frame">
+    <b>Generated preview
+      <span class="modes">
+        <button class="chip" data-pmode="both" aria-pressed="true">Both</button>
+        <button class="chip" data-pmode="light" aria-pressed="false">Light</button>
+        <button class="chip" data-pmode="dark" aria-pressed="false">Dark</button>
+      </span>
+      <a class="full" href="preview.html" target="_blank" rel="noreferrer"
+         title="Open the preview with no chrome around it">Full screen &#8599;</a>
+    </b>
+    <div class="pvpair" id="pvpair">
+      <div class="pv-light"><b>Light</b>
+        <iframe src="preview.html?chrome=0" title="Ration preview, light"></iframe></div>
+      <div class="pv-dark"><b>Dark</b>
+        <iframe src="preview.html?chrome=0&amp;mode=dark" title="Ration preview, dark"></iframe></div>
+    </div>
+  </div>
+
+  
+<section class="install" id="install">
+  <h2>Install</h2>
+  <ol>
+    <li>Save <code>ration.md</code> as <code>.claude/design-system.md</code>.</li>
+    <li>Add to the project's <code>CLAUDE.md</code>:</li>
+  </ol>
+  <pre id="snippet">## Design system
+
+This project follows Ration. The rules in @.claude/design-system.md are
+binding for all UI work. Where a rule and your instinct disagree, the rule wins.</pre>
+  <div class="actions">
+    <button class="btn" id="copysnip">Copy snippet</button>
+    <a class="btn" href="ration.md" download>Download .md</a>
+  </div>
+  <details class="alt">
+    <summary>Install as a skill instead</summary>
+    <p>Save as <code>.claude/skills/design-system/SKILL.md</code> with a frontmatter
+    <code>name</code> and <code>description</code>. Costs less context, but is not guaranteed to
+    load on a given edit — which is how a system quietly stops being followed.</p>
+  </details>
+</section>
+
+  <div class="cols">
+    <nav class="toc" aria-label="Sections">
+      <a href="#how-to-apply-this-file">How to apply this file</a><a href="#1-what-this-system-changes">1. What this system changes</a><a href="#2-the-primitive">2. The primitive</a><a href="#3-tokens">3. Tokens</a><a href="#4-type">4. Type</a><a href="#5-structure">5. Structure</a><a href="#6-components">6. Components</a><a href="#7-motion">7. Motion</a><a href="#8-never">8. Never</a>
+      <a href="#tokens-table">Declared aliases</a>
+    </nav>
+
+    <div class="doc">
+      <p><strong>Install:</strong> copy this file into the target project as <code>.claude/design-system.md</code>, then add
+this to that project&#39;s own <code>CLAUDE.md</code>:</p>
+<pre><code class="language-md">## Design system
+
+This project follows Ration. The rules in @.claude/design-system.md are
+binding for all UI work. Where a rule and your instinct disagree, the rule wins.
+</code></pre>
+<p>Everything below is binding.</p>
+<p>A design system for pages that are selling something. Colour is rationed: it appears on the
+thing the reader gets and on nothing else. Everything that carries structure — every border,
+every label, every surface, every control — is achromatic. Large, light headlines; deep vertical
+rhythm; nothing lifts.</p>
+<hr>
+<h2 id="how-to-apply-this-file">How to apply this file</h2>
+<p>Follow the rules literally. Where a rule and your instinct disagree, the rule wins.</p>
+<p>When something isn&#39;t covered here, choose the option most consistent with the rules that are —
+and prefer removing the element over inventing a new token for it. Do not introduce colours,
+radii, shadows, borders, or type families that this file does not define. That is the most
+common way a system decays.</p>
+<p>Before colouring anything, answer one question: <strong>is this the thing the reader gets?</strong> If the
+answer is no, it is neutral. See section 2.</p>
+<p><strong>On installing this file.</strong> Prefer the <code>@</code>-import above over pasting these rules into a
+project&#39;s <code>CLAUDE.md</code>: the import keeps the system in context for every turn without displacing
+the project&#39;s own rules, and updating the system later is a one-file copy. Installing instead as
+<code>.claude/skills/design-system/SKILL.md</code> costs less context but is not guaranteed to load on any
+given edit, which is how a system quietly stops being followed.</p>
+<hr>
+<h2 id="1-what-this-system-changes">1. What this system changes</h2>
+<p>Several ideas here were taken from published product-marketing work: a headline where the phrase
+naming the promise carries the accent, a small uppercase capsule announcing each section, large
+headlines set light rather than bold, hairline-bordered cards that never lift, and a comparison
+table that marks its recommended row by tinting the row. Those are behaviours, and behaviours
+are portable.</p>
+<p>What this system does differently:</p>
+<table>
+<thead>
+<tr>
+<th>Axis</th>
+<th>There</th>
+<th>Here</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Chroma</strong></td>
+<td>A brand hue and a slate neutral family, unreconciled — measured at two different hues</td>
+<td>One chroma family, and neutrals at <strong>exactly zero chroma</strong>. The split is deliberate and checkable</td>
+</tr>
+<tr>
+<td><strong>Placement</strong></td>
+<td>Colour lands on payoff phrases, and also on glyphs, icon tiles and chrome</td>
+<td>Colour lands on a payoff and nowhere else. Chrome is colourless by rule</td>
+</tr>
+<tr>
+<td><strong>Gradient</strong></td>
+<td>One gradient, on the hero, flat accents elsewhere — a pattern, not a stated rule</td>
+<td>Stated: one gradient per page, hero only, never anywhere else</td>
+</tr>
+<tr>
+<td><strong>Type</strong></td>
+<td>Three families, including a monospace</td>
+<td>One family. Figures align with <code>tabular-nums</code>, not with a second family</td>
+</tr>
+<tr>
+<td><strong>States</strong></td>
+<td>Framework state colours available and unused</td>
+<td>No state colours at all. A page that is selling has nothing to report</td>
+</tr>
+<tr>
+<td><strong>Reach</strong></td>
+<td>Latin only</td>
+<td>Latin and Khmer, with a per-script line-height rule</td>
+</tr>
+<tr>
+<td><strong>Rigour</strong></td>
+<td>No measured contrast floor</td>
+<td><code>contrast: AA</code> in both modes, enforced by the build</td>
+</tr>
+</tbody></table>
+<p>The first row is the one that matters. There, the neutral family is a different hue from the
+brand because a framework&#39;s defaults were never replaced — an accident. Here the neutrals are
+colourless <strong>on purpose</strong>, because chroma is a scarce signal and spending it on a border is
+spending it on nothing. Same visible split, opposite reasons, and only one of them can be
+extrapolated to the next screen.</p>
+<p><strong>Ration and Filament disagree, deliberately.</strong> Filament makes every neutral a step of its
+purple ramp, so the hue is everywhere and motion carries meaning. Ration keeps the hue almost
+nowhere and lets its scarcity carry the meaning. They are opposite answers to the same question
+and must never be mixed in one product.</p>
+<hr>
+<h2 id="2-the-primitive">2. The primitive</h2>
+<p><strong>Chroma is reserved for the payoff.</strong> If a thing is coloured, it is the thing the reader gets.
+Everything else is achromatic.</p>
+<p>That is the whole system. Every other rule below is a consequence.</p>
+<p>A payoff is one of exactly these, and nothing else:</p>
+<table>
+<thead>
+<tr>
+<th>Payoff</th>
+<th>Where colour is permitted</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>The promise</td>
+<td>The phrase in a headline that names what the reader gets</td>
+</tr>
+<tr>
+<td>The recommendation</td>
+<td>The row, plan or option being recommended</td>
+</tr>
+<tr>
+<td>The price</td>
+<td>A figure the reader is being asked to accept</td>
+</tr>
+<tr>
+<td>The quantity</td>
+<td>A meter or single chart series showing what they receive</td>
+</tr>
+</tbody></table>
+<p>Everything not on that list is neutral: borders, rules, labels, eyebrows, body copy, subheads,
+captions, surfaces, nav, footer, buttons, icons, fine print. <strong>A button is not a payoff</strong> — it
+is the invitation to collect one, so it is achromatic like the rest of the chrome.</p>
+<p>The rule is machine-checkable, which is why it survives contact:</p>
+<blockquote>
+<p><strong>Every neutral in this system has equal red, green and blue channels.</strong> If a hex is not of
+the form <code>#XXYYZZ</code> where <code>XX == YY == ZZ</code>, it is either a payoff colour or a bug.</p>
+</blockquote>
+<p>There is no second chroma family. There is no muted brand tint used &quot;just for warmth&quot;. A colour
+that is not carrying a payoff is spending a scarce signal on nothing, and the next person will
+spend it on something else, and then the system is gone.</p>
+<hr>
+<h2 id="3-tokens">3. Tokens</h2>
+<pre><code class="language-css">:root {
+  --paper:   #FFFFFF;
+  --sheet:   #F7F7F7;
+  --ink:     #141414;
+  --ink-2:   #565656;
+  --ink-3:   #6A6A6A;
+  --rule:    #E4E4E4;
+  --onyx:    #121212;
+  --on-onyx: #FFFFFF;
+
+  --payoff:      #8B4188;
+  --payoff-lift: #AD52AA;
+  --payoff-wash: #F6EDF6;
+  --scrim-c:     rgba(18, 18, 18, .6);
+
+  --promise: linear-gradient(90deg, var(--payoff), var(--payoff-lift));
+
+  --sans: &quot;Inter&quot;, system-ui, sans-serif;
+  --km:   &quot;Noto Sans Khmer&quot;, &quot;Inter&quot;, sans-serif;
+
+  --capsule: 999px;
+  --box:     16px;
+  --hair:    1px;
+
+  --gap-tight: 8px;
+  --gap:       20px;
+  --gap-loose: 40px;
+  --section:   96px;
+  --pad:       24px 28px;
+
+  --settle: 200ms;
+
+  --clp-bg:             var(--sheet);
+  --clp-surface:        var(--paper);
+  --clp-card-fill:      var(--paper);
+  --clp-text:           var(--ink);
+  --clp-text-2:         var(--ink-2);
+  --clp-text-3:         var(--ink-3);
+  --clp-line:           var(--rule);
+  --clp-accent:         var(--payoff);
+  --clp-radius-box:     var(--box);
+  --clp-radius-control: var(--capsule);
+  --clp-border-width:   var(--hair);
+  --clp-border-color:   var(--rule);
+  --clp-shadow:         none;
+  --clp-press:          scale(0.98);
+  --clp-focus:          var(--ink);
+  --clp-button-bg:      var(--onyx);
+  --clp-button-text:    var(--on-onyx);
+  --clp-button2-bg:     var(--paper);
+  --clp-state-text:     none;
+  --clp-font-display:   var(--sans);
+  --clp-font-body:      var(--sans);
+  --clp-font-data:      none;
+  --clp-gap:            var(--gap);
+  --clp-pad:            var(--pad);
+  --clp-success:        none;
+  --clp-success-wash:   none;
+  --clp-warn:           none;
+  --clp-warn-wash:      none;
+  --clp-alarm:          none;
+  --clp-alarm-wash:     none;
+  --clp-invert-bg:      var(--onyx);
+  --clp-invert-text:    var(--on-onyx);
+  --clp-invert-accent:  var(--payoff-lift);
+  --clp-hatch:          none;
+  --clp-font-script:    var(--km);
+  --clp-scrim:          var(--scrim-c);
+  --clp-shadow-surface: none;
+  --clp-chart-1:        var(--payoff);
+  --clp-chart-2:        none;
+  --clp-chart-3:        none;
+  --clp-chart-4:        none;
+  --clp-chart-5:        none;
+}
+
+[data-mode=&quot;dark&quot;] {
+  --paper:   #161616;
+  --sheet:   #0E0E0E;
+  --ink:     #F2F2F2;
+  --ink-2:   #A8A8A8;
+  --ink-3:   #8E8E8E;
+  --rule:    #2A2A2A;
+  --onyx:    #050505;
+
+  --payoff:      #C964C5;
+  --payoff-lift: #E3A5E0;
+  --payoff-wash: #2A122A;
+}
+</code></pre>
+<p>Dark mode is required, not optional. Every screen must work in both. <strong>Dark is a token layer</strong>:
+the block above redeclares values, and nothing anywhere else carries a mode-specific literal.</p>
+<p>Set <code>data-mode=&quot;dark&quot;</code> on the <strong>root element</strong>. Scoped to a wrapper it will not work: a <code>var()</code>
+inside a custom property resolves where the property is declared, so the <code>--clp-*</code> aliases would
+keep their light values.</p>
+<p><strong>Count the neutrals.</strong> <code>paper</code>, <code>sheet</code>, <code>ink</code>, <code>ink-2</code>, <code>ink-3</code>, <code>rule</code>, <code>onyx</code>, <code>on-onyx</code> —
+eight tokens in each mode, every one with equal red, green and blue channels. Three tokens carry
+chroma. That ratio is the system.</p>
+<p><strong>There are no state colours.</strong> <code>success</code>, <code>warn</code> and <code>alarm</code> are all declined, with their
+washes. A page that is selling something has nothing to report — no deploy is failing, no job is
+running. A surface that needs to report an operational state is the wrong surface for this
+system, and Filament is the right one.</p>
+<p><strong><code>--clp-focus</code> is <code>ink</code>, not the payoff.</strong> A focus ring is not a payoff, and the primitive does
+not get an exception on its first page. Achromatic works in both modes and needs no carve-out.</p>
+<h3 id="colour-rules">Colour rules</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>payoff</code></td>
+<td>The thing the reader gets. The promise phrase, the recommended row, the price</td>
+</tr>
+<tr>
+<td><code>payoff-lift</code></td>
+<td>The far end of the hero gradient, and the accent on an inverted surface</td>
+</tr>
+<tr>
+<td><code>payoff-wash</code></td>
+<td>The tint on a recommended row, and nothing else</td>
+</tr>
+<tr>
+<td><code>promise</code></td>
+<td>The <strong>one</strong> gradient. Hero headline phrase only</td>
+</tr>
+<tr>
+<td><code>ink-3</code></td>
+<td>Fine print, captions, anything the reader may skip</td>
+</tr>
+<tr>
+<td><code>onyx</code></td>
+<td>Every control, and the inverted surface</td>
+</tr>
+</tbody></table>
+<p><strong>One gradient per page.</strong> <code>promise</code> sets the hero&#39;s payoff phrase and appears nowhere else —
+not on a button, not on a card, not on a border, not on a second heading. A gradient used twice
+is a decoration; used once it is the loudest thing on the page, which is what the top of a page
+is for.</p>
+<p><strong>Flat below the fold.</strong> Every payoff after the hero is flat <code>payoff</code>. Depth of treatment marks
+rank, so there is exactly one first place.</p>
+<hr>
+<h2 id="4-type">4. Type</h2>
+<p><strong>One family.</strong> <code>sans</code> sets everything Latin; <code>km</code> covers Khmer. There is no display face and no
+monospace — figures align with <code>font-variant-numeric: tabular-nums</code>, applied at <code>body</code> level,
+which is what a monospace would have been imported to do.</p>
+<table>
+<thead>
+<tr>
+<th>Role</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Tracking</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Hero headline</td>
+<td>88px</td>
+<td>500</td>
+<td>−0.03em</td>
+</tr>
+<tr>
+<td>Section headline</td>
+<td>48px</td>
+<td>500</td>
+<td>−0.02em</td>
+</tr>
+<tr>
+<td>Subhead</td>
+<td>18px</td>
+<td>400</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Body</td>
+<td>16px</td>
+<td>400</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Price figure</td>
+<td>32px</td>
+<td>500</td>
+<td>−0.02em, tabular</td>
+</tr>
+<tr>
+<td>Eyebrow</td>
+<td>12px</td>
+<td>700</td>
+<td>+0.06em, uppercase</td>
+</tr>
+<tr>
+<td>Fine print</td>
+<td>13px</td>
+<td>400</td>
+<td>0</td>
+</tr>
+</tbody></table>
+<p><strong>Size carries emphasis, weight does not.</strong> Both headline roles are weight 500 — the same weight
+as a price and lighter than an eyebrow. An 88px headline does not need to be bold to be loud,
+and setting it bold makes a page shout at a reader who has not yet been told anything. There is
+no headline heavier than 500 in this system.</p>
+<p><strong>The eyebrow is the only uppercase.</strong> 12px, weight 700, tracked +0.06em, inside a <code>capsule</code>
+with a <code>--hair</code> border. It names the section&#39;s subject in two or three words and never contains
+a verb. Uppercase appears nowhere else — not on buttons, not on column heads, not on labels.</p>
+<p><strong>The promise phrase.</strong> Every headline is one sentence in which exactly one phrase carries
+<code>payoff</code>, and that phrase is the one naming what the reader gets. Not the verb, not the subject
+— the payoff. <em>&quot;Build, deploy and scale <strong>without limits</strong>.&quot;</em> If a headline has no such phrase,
+it is not finished; if it has two, one of them is not a payoff.</p>
+<h3 id="bilingual-conventions">Bilingual conventions</h3>
+<p>Khmer sets in <code>km</code> at the same weight as its Latin sibling, with line-height raised roughly 0.15
+above the Latin value so bilingual blocks keep an even rhythm. Khmer and Latin frequently share a
+line — never assume a block is one script.</p>
+<p><strong>Khmer headlines do not take the Latin tracking.</strong> The negative tracking in the table above
+applies to Latin only; Khmer sets at 0. Tightening Khmer collides its marks.</p>
+<p>A promise phrase in a Khmer headline carries <code>payoff</code> exactly as a Latin one does. The rule is
+about meaning, not about script.</p>
+<hr>
+<h2 id="5-structure">5. Structure</h2>
+<p><strong>One column, centred, the whole way down.</strong> Sections are centred; content inside a card is
+left-aligned. There is no two-column marketing layout in this system and no left-aligned section
+heading.</p>
+<p><strong>A section is three parts, in this order:</strong> eyebrow capsule, headline, subhead. The eyebrow is
+optional, the other two are not, and nothing else may sit between them.</p>
+<p><strong>Vertical rhythm is the separation.</strong> <code>--section</code> between sections, <code>gap-loose</code> between blocks
+within one, <code>gap</code> between grouped items, <code>gap-tight</code> inside a group. <strong>Sections are never
+separated by alternating background bands</strong> — the page is one ground from top to bottom, and
+distance does the work a stripe would have done.</p>
+<table>
+<thead>
+<tr>
+<th>Ground</th>
+<th>Used by</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sheet</code></td>
+<td>The page</td>
+</tr>
+<tr>
+<td><code>paper</code></td>
+<td>Cards, tables, panels — anything the page contains</td>
+</tr>
+<tr>
+<td><code>onyx</code></td>
+<td>The inverted band, and every control</td>
+</tr>
+</tbody></table>
+<p><strong>Every surface has an edge and nothing lifts.</strong> A <code>--hair</code> border in <code>rule</code>, radius <code>box</code>. No
+shadow on a card, a control, a nav, a popover or a modal. Separation is the edge and the rhythm.</p>
+<p><strong>Cards are equal.</strong> A grid of cards is a grid of equals: same padding, same edge, same fill. A
+card is never enlarged, tinted or elevated to mark it as important — if one option is
+recommended, that belongs in a table row, where the comparison is legible.</p>
+<p><strong>A comparison table marks its recommendation by tinting the row</strong> in <code>payoff-wash</code>, with the
+plan name in <code>payoff</code>. One row per table, never two. The tint is a payoff and is the only place
+<code>payoff-wash</code> appears.</p>
+<p><strong>Density is spacious and that is a commitment.</strong> This system trades screens-per-scroll for
+room. If content needs to be dense, it is the wrong system.</p>
+<hr>
+<h2 id="6-components">6. Components</h2>
+<p>Every value below is a token reference. Nothing here restates a colour.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Primary button</td>
+<td><code>--clp-button-bg</code> fill, <code>--clp-button-text</code>, <code>capsule</code>, <code>pad</code>. Never coloured</td>
+</tr>
+<tr>
+<td>Secondary button</td>
+<td><code>--clp-button2-bg</code> fill, <code>--clp-text</code>, <code>capsule</code>, <code>--hair</code> edge in <code>rule</code></td>
+</tr>
+<tr>
+<td>Ghost button</td>
+<td>Transparent, <code>--clp-text-2</code>, no edge until hover</td>
+</tr>
+<tr>
+<td>Eyebrow capsule</td>
+<td><code>paper</code> fill, <code>--hair</code> edge in <code>rule</code>, <code>capsule</code>, text in <code>--clp-text-2</code></td>
+</tr>
+<tr>
+<td>Announcement pill</td>
+<td><code>paper</code> fill, <code>--hair</code> edge in <code>rule</code>, <code>capsule</code>, with a trailing arrow</td>
+</tr>
+<tr>
+<td>Card</td>
+<td><code>--clp-card-fill</code>, <code>--hair</code> edge in <code>rule</code>, <code>box</code>, <code>pad</code></td>
+</tr>
+<tr>
+<td>Card grid</td>
+<td>Equal cards, <code>gap</code>. Never a featured card</td>
+</tr>
+<tr>
+<td>Comparison table</td>
+<td>On <code>paper</code> in a <code>box</code> container, <code>rule</code> hairlines between rows; recommended row tinted <code>payoff-wash</code></td>
+</tr>
+<tr>
+<td>Price</td>
+<td><code>payoff</code>, tabular, with its period in <code>--clp-text-3</code> beside it</td>
+</tr>
+<tr>
+<td>Tab switcher</td>
+<td><code>capsule</code> track in <code>sheet</code>, active tab <code>onyx</code> with <code>--clp-invert-text</code></td>
+</tr>
+<tr>
+<td>Inverted band</td>
+<td><code>--clp-invert-bg</code>, <code>--clp-invert-text</code>, accent <code>--clp-invert-accent</code></td>
+</tr>
+<tr>
+<td>Q&amp;A card</td>
+<td>Same as card. Question in <code>--clp-text</code>, answer in <code>--clp-text-2</code></td>
+</tr>
+<tr>
+<td>Chart, meter</td>
+<td><code>--clp-chart-1</code> only. Axes and grid in <code>--clp-line</code></td>
+</tr>
+<tr>
+<td>Focus ring</td>
+<td><code>--clp-focus</code> at 2px. Never removed</td>
+</tr>
+</tbody></table>
+<p><strong>One chart series, and no legend.</strong> A promotional chart shows one quantity — what the reader
+gets. Two series is a comparison, and a comparison belongs in the table.</p>
+<p><strong>One inverted band per page at most.</strong> It is the second loudest thing after the hero, and two
+of them means neither is.</p>
+<hr>
+<h2 id="7-motion">7. Motion</h2>
+<p>Motion here is functional and quiet. Nothing in this system moves to attract attention.</p>
+<p><strong>Chrome contracts as you descend.</strong> Persistent navigation begins flush and full-width on
+<code>paper</code>. Once the page is scrolled past the hero it detaches into a floating <code>capsule</code>, inset
+from the edges and narrower than the bar it replaced. It transitions width, inset and ground
+over <code>--settle</code>. It does not lift, because nothing lifts.</p>
+<p><strong>Press.</strong> <code>--clp-press</code> on every control. There is no shadow to flatten.</p>
+<p><strong>Reveal on scroll is permitted once per section, and must be a fade only</strong> — no translate, no
+scale, no stagger. A section that assembles itself as you arrive is telling the reader to wait,
+which is the opposite of what a page selling something should do.</p>
+<p><strong>Reduced motion.</strong> Under <code>prefers-reduced-motion: reduce</code>, reveals are removed entirely and the
+nav contracts without transition. Nothing in this system carries meaning through motion, so
+nothing is lost.</p>
+<p><strong>A note on the specimen.</strong> The generated preview renders one static frame per mode and has no
+alias for a gradient, so <code>promise</code> — the hero treatment, and the system&#39;s loudest single
+decision — does not appear in the specimen at all. The preview will show <code>payoff</code> flat wherever
+a gradient belongs. That is a limitation of the preview contract, not a softening of the rule,
+and no alias was invented to work around it.</p>
+<hr>
+<h2 id="8-never">8. Never</h2>
+<ul>
+<li><strong>Never colour anything that is not a payoff.</strong> Not a border, not an icon, not a label, not an
+eyebrow, not a nav item, not a button. If it is coloured, name the payoff or make it neutral.</li>
+<li><strong>Never introduce a neutral that is not strictly achromatic.</strong> Every neutral has equal red,
+green and blue channels. A &quot;slightly warm grey&quot; is a second chroma family arriving quietly.</li>
+<li><strong>Never add a second chroma family.</strong> One hue, three tokens. A teal for variety is the end of
+the system.</li>
+<li><strong>Never use the gradient more than once per page</strong>, and never anywhere but the hero&#39;s promise
+phrase.</li>
+<li><strong>Never colour the primary button.</strong> It is the invitation, not the payoff.</li>
+<li><strong>Never set a headline heavier than 500.</strong> Size carries emphasis. A bold headline shouts at a
+reader who has not been told anything yet.</li>
+<li><strong>Never use uppercase outside the eyebrow.</strong> Not on buttons, column heads, labels or headings.</li>
+<li><strong>Never put a shadow on anything.</strong> Not on a card, a control, a nav, a popover or a modal.</li>
+<li><strong>Never separate sections with alternating background bands.</strong> The page is one ground and
+rhythm does the work.</li>
+<li><strong>Never feature a card by enlarging, tinting or elevating it.</strong> A recommendation belongs in a
+table row.</li>
+<li><strong>Never tint two rows in one table.</strong> One recommendation, or none.</li>
+<li><strong>Never add a state colour.</strong> No success, no warning, no alarm. A surface needing one is the
+wrong surface for this system.</li>
+<li><strong>Never add a monospace family.</strong> <code>tabular-nums</code> is why it is not needed.</li>
+<li><strong>Never add a second chart series.</strong> A comparison belongs in the table.</li>
+<li><strong>Never let a scroll reveal translate, scale or stagger.</strong> Fade only, once per section.</li>
+<li><strong>Never ship Latin-only.</strong> Khmer is declared in <code>scripts</code>, and a Khmer headline carries its
+promise phrase in <code>payoff</code> exactly as a Latin one does.</li>
+<li><strong>Never apply Latin negative tracking to Khmer.</strong> It collides the marks.</li>
+<li><strong>Never set <code>data-mode=&quot;dark&quot;</code> on anything but the root element.</strong></li>
+<li><strong>Never mix this system with Filament.</strong> They are opposite answers to where colour belongs.</li>
+<li><strong>Never introduce a colour, radius, spacing step, border width, duration or type family this
+file does not define.</strong></li>
+</ul>
+
+
+      <h2 id="tokens-table">Declared aliases</h2>
+      <p><code>none</code> is a refusal the author wrote down. The preview renders nothing for it.</p>
+      <table class="aliases">
+        <thead><tr><th>Alias</th><th>Value</th></tr></thead>
+        <tbody><tr>
+          <td><code>--clp-bg</code></td><td><code>var(--sheet)</code></td></tr><tr>
+          <td><code>--clp-surface</code></td><td><code>var(--paper)</code></td></tr><tr>
+          <td><code>--clp-card-fill</code></td><td><code>var(--paper)</code></td></tr><tr>
+          <td><code>--clp-text</code></td><td><code>var(--ink)</code></td></tr><tr>
+          <td><code>--clp-text-2</code></td><td><code>var(--ink-2)</code></td></tr><tr>
+          <td><code>--clp-text-3</code></td><td><code>var(--ink-3)</code></td></tr><tr>
+          <td><code>--clp-line</code></td><td><code>var(--rule)</code></td></tr><tr>
+          <td><code>--clp-accent</code></td><td><code>var(--payoff)</code></td></tr><tr>
+          <td><code>--clp-radius-box</code></td><td><code>var(--box)</code></td></tr><tr>
+          <td><code>--clp-radius-control</code></td><td><code>var(--capsule)</code></td></tr><tr>
+          <td><code>--clp-border-width</code></td><td><code>var(--hair)</code></td></tr><tr>
+          <td><code>--clp-border-color</code></td><td><code>var(--rule)</code></td></tr><tr class="declined">
+          <td><code>--clp-shadow</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-press</code></td><td><code>scale(0.98)</code></td></tr><tr>
+          <td><code>--clp-focus</code></td><td><code>var(--ink)</code></td></tr><tr>
+          <td><code>--clp-button-bg</code></td><td><code>var(--onyx)</code></td></tr><tr>
+          <td><code>--clp-button-text</code></td><td><code>var(--on-onyx)</code></td></tr><tr>
+          <td><code>--clp-button2-bg</code></td><td><code>var(--paper)</code></td></tr><tr class="declined">
+          <td><code>--clp-state-text</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-font-display</code></td><td><code>var(--sans)</code></td></tr><tr>
+          <td><code>--clp-font-body</code></td><td><code>var(--sans)</code></td></tr><tr class="declined">
+          <td><code>--clp-font-data</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-gap</code></td><td><code>var(--gap)</code></td></tr><tr>
+          <td><code>--clp-pad</code></td><td><code>var(--pad)</code></td></tr><tr class="declined">
+          <td><code>--clp-success</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-success-wash</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-warn</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-warn-wash</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-alarm</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-alarm-wash</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-invert-bg</code></td><td><code>var(--onyx)</code></td></tr><tr>
+          <td><code>--clp-invert-text</code></td><td><code>var(--on-onyx)</code></td></tr><tr>
+          <td><code>--clp-invert-accent</code></td><td><code>var(--payoff-lift)</code></td></tr><tr class="declined">
+          <td><code>--clp-hatch</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-font-script</code></td><td><code>var(--km)</code></td></tr><tr>
+          <td><code>--clp-scrim</code></td><td><code>var(--scrim-c)</code></td></tr><tr class="declined">
+          <td><code>--clp-shadow-surface</code></td><td><code>none</code></td></tr><tr>
+          <td><code>--clp-chart-1</code></td><td><code>var(--payoff)</code></td></tr><tr class="declined">
+          <td><code>--clp-chart-2</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-chart-3</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-chart-4</code></td><td><code>none</code></td></tr><tr class="declined">
+          <td><code>--clp-chart-5</code></td><td><code>none</code></td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <nav class="pager">
+    <a href="../pharmly/index.html">← Pharmly</a>
+    <span></span>
+  </nav>
+</div>
+<script id="src" type="application/json">"\n**Install:** copy this file into the target project as `.claude/design-system.md`, then add\nthis to that project's own `CLAUDE.md`:\n\n```md\n## Design system\n\nThis project follows Ration. The rules in @.claude/design-system.md are\nbinding for all UI work. Where a rule and your instinct disagree, the rule wins.\n```\n\nEverything below is binding.\n\nA design system for pages that are selling something. Colour is rationed: it appears on the\nthing the reader gets and on nothing else. Everything that carries structure — every border,\nevery label, every surface, every control — is achromatic. Large, light headlines; deep vertical\nrhythm; nothing lifts.\n\n---\n\n## How to apply this file\n\nFollow the rules literally. Where a rule and your instinct disagree, the rule wins.\n\nWhen something isn't covered here, choose the option most consistent with the rules that are —\nand prefer removing the element over inventing a new token for it. Do not introduce colours,\nradii, shadows, borders, or type families that this file does not define. That is the most\ncommon way a system decays.\n\nBefore colouring anything, answer one question: **is this the thing the reader gets?** If the\nanswer is no, it is neutral. See section 2.\n\n**On installing this file.** Prefer the `@`-import above over pasting these rules into a\nproject's `CLAUDE.md`: the import keeps the system in context for every turn without displacing\nthe project's own rules, and updating the system later is a one-file copy. Installing instead as\n`.claude/skills/design-system/SKILL.md` costs less context but is not guaranteed to load on any\ngiven edit, which is how a system quietly stops being followed.\n\n---\n\n## 1. What this system changes\n\nSeveral ideas here were taken from published product-marketing work: a headline where the phrase\nnaming the promise carries the accent, a small uppercase capsule announcing each section, large\nheadlines set light rather than bold, hairline-bordered cards that never lift, and a comparison\ntable that marks its recommended row by tinting the row. Those are behaviours, and behaviours\nare portable.\n\nWhat this system does differently:\n\n| Axis | There | Here |\n|---|---|---|\n| **Chroma** | A brand hue and a slate neutral family, unreconciled — measured at two different hues | One chroma family, and neutrals at **exactly zero chroma**. The split is deliberate and checkable |\n| **Placement** | Colour lands on payoff phrases, and also on glyphs, icon tiles and chrome | Colour lands on a payoff and nowhere else. Chrome is colourless by rule |\n| **Gradient** | One gradient, on the hero, flat accents elsewhere — a pattern, not a stated rule | Stated: one gradient per page, hero only, never anywhere else |\n| **Type** | Three families, including a monospace | One family. Figures align with `tabular-nums`, not with a second family |\n| **States** | Framework state colours available and unused | No state colours at all. A page that is selling has nothing to report |\n| **Reach** | Latin only | Latin and Khmer, with a per-script line-height rule |\n| **Rigour** | No measured contrast floor | `contrast: AA` in both modes, enforced by the build |\n\nThe first row is the one that matters. There, the neutral family is a different hue from the\nbrand because a framework's defaults were never replaced — an accident. Here the neutrals are\ncolourless **on purpose**, because chroma is a scarce signal and spending it on a border is\nspending it on nothing. Same visible split, opposite reasons, and only one of them can be\nextrapolated to the next screen.\n\n**Ration and Filament disagree, deliberately.** Filament makes every neutral a step of its\npurple ramp, so the hue is everywhere and motion carries meaning. Ration keeps the hue almost\nnowhere and lets its scarcity carry the meaning. They are opposite answers to the same question\nand must never be mixed in one product.\n\n---\n\n## 2. The primitive\n\n**Chroma is reserved for the payoff.** If a thing is coloured, it is the thing the reader gets.\nEverything else is achromatic.\n\nThat is the whole system. Every other rule below is a consequence.\n\nA payoff is one of exactly these, and nothing else:\n\n| Payoff | Where colour is permitted |\n|---|---|\n| The promise | The phrase in a headline that names what the reader gets |\n| The recommendation | The row, plan or option being recommended |\n| The price | A figure the reader is being asked to accept |\n| The quantity | A meter or single chart series showing what they receive |\n\nEverything not on that list is neutral: borders, rules, labels, eyebrows, body copy, subheads,\ncaptions, surfaces, nav, footer, buttons, icons, fine print. **A button is not a payoff** — it\nis the invitation to collect one, so it is achromatic like the rest of the chrome.\n\nThe rule is machine-checkable, which is why it survives contact:\n\n> **Every neutral in this system has equal red, green and blue channels.** If a hex is not of\n> the form `#XXYYZZ` where `XX == YY == ZZ`, it is either a payoff colour or a bug.\n\nThere is no second chroma family. There is no muted brand tint used \"just for warmth\". A colour\nthat is not carrying a payoff is spending a scarce signal on nothing, and the next person will\nspend it on something else, and then the system is gone.\n\n---\n\n## 3. Tokens\n\n```css\n:root {\n  --paper:   #FFFFFF;\n  --sheet:   #F7F7F7;\n  --ink:     #141414;\n  --ink-2:   #565656;\n  --ink-3:   #6A6A6A;\n  --rule:    #E4E4E4;\n  --onyx:    #121212;\n  --on-onyx: #FFFFFF;\n\n  --payoff:      #8B4188;\n  --payoff-lift: #AD52AA;\n  --payoff-wash: #F6EDF6;\n  --scrim-c:     rgba(18, 18, 18, .6);\n\n  --promise: linear-gradient(90deg, var(--payoff), var(--payoff-lift));\n\n  --sans: \"Inter\", system-ui, sans-serif;\n  --km:   \"Noto Sans Khmer\", \"Inter\", sans-serif;\n\n  --capsule: 999px;\n  --box:     16px;\n  --hair:    1px;\n\n  --gap-tight: 8px;\n  --gap:       20px;\n  --gap-loose: 40px;\n  --section:   96px;\n  --pad:       24px 28px;\n\n  --settle: 200ms;\n\n  --clp-bg:             var(--sheet);\n  --clp-surface:        var(--paper);\n  --clp-card-fill:      var(--paper);\n  --clp-text:           var(--ink);\n  --clp-text-2:         var(--ink-2);\n  --clp-text-3:         var(--ink-3);\n  --clp-line:           var(--rule);\n  --clp-accent:         var(--payoff);\n  --clp-radius-box:     var(--box);\n  --clp-radius-control: var(--capsule);\n  --clp-border-width:   var(--hair);\n  --clp-border-color:   var(--rule);\n  --clp-shadow:         none;\n  --clp-press:          scale(0.98);\n  --clp-focus:          var(--ink);\n  --clp-button-bg:      var(--onyx);\n  --clp-button-text:    var(--on-onyx);\n  --clp-button2-bg:     var(--paper);\n  --clp-state-text:     none;\n  --clp-font-display:   var(--sans);\n  --clp-font-body:      var(--sans);\n  --clp-font-data:      none;\n  --clp-gap:            var(--gap);\n  --clp-pad:            var(--pad);\n  --clp-success:        none;\n  --clp-success-wash:   none;\n  --clp-warn:           none;\n  --clp-warn-wash:      none;\n  --clp-alarm:          none;\n  --clp-alarm-wash:     none;\n  --clp-invert-bg:      var(--onyx);\n  --clp-invert-text:    var(--on-onyx);\n  --clp-invert-accent:  var(--payoff-lift);\n  --clp-hatch:          none;\n  --clp-font-script:    var(--km);\n  --clp-scrim:          var(--scrim-c);\n  --clp-shadow-surface: none;\n  --clp-chart-1:        var(--payoff);\n  --clp-chart-2:        none;\n  --clp-chart-3:        none;\n  --clp-chart-4:        none;\n  --clp-chart-5:        none;\n}\n\n[data-mode=\"dark\"] {\n  --paper:   #161616;\n  --sheet:   #0E0E0E;\n  --ink:     #F2F2F2;\n  --ink-2:   #A8A8A8;\n  --ink-3:   #8E8E8E;\n  --rule:    #2A2A2A;\n  --onyx:    #050505;\n\n  --payoff:      #C964C5;\n  --payoff-lift: #E3A5E0;\n  --payoff-wash: #2A122A;\n}\n```\n\nDark mode is required, not optional. Every screen must work in both. **Dark is a token layer**:\nthe block above redeclares values, and nothing anywhere else carries a mode-specific literal.\n\nSet `data-mode=\"dark\"` on the **root element**. Scoped to a wrapper it will not work: a `var()`\ninside a custom property resolves where the property is declared, so the `--clp-*` aliases would\nkeep their light values.\n\n**Count the neutrals.** `paper`, `sheet`, `ink`, `ink-2`, `ink-3`, `rule`, `onyx`, `on-onyx` —\neight tokens in each mode, every one with equal red, green and blue channels. Three tokens carry\nchroma. That ratio is the system.\n\n**There are no state colours.** `success`, `warn` and `alarm` are all declined, with their\nwashes. A page that is selling something has nothing to report — no deploy is failing, no job is\nrunning. A surface that needs to report an operational state is the wrong surface for this\nsystem, and Filament is the right one.\n\n**`--clp-focus` is `ink`, not the payoff.** A focus ring is not a payoff, and the primitive does\nnot get an exception on its first page. Achromatic works in both modes and needs no carve-out.\n\n### Colour rules\n\n| Token | Means |\n|---|---|\n| `payoff` | The thing the reader gets. The promise phrase, the recommended row, the price |\n| `payoff-lift` | The far end of the hero gradient, and the accent on an inverted surface |\n| `payoff-wash` | The tint on a recommended row, and nothing else |\n| `promise` | The **one** gradient. Hero headline phrase only |\n| `ink-3` | Fine print, captions, anything the reader may skip |\n| `onyx` | Every control, and the inverted surface |\n\n**One gradient per page.** `promise` sets the hero's payoff phrase and appears nowhere else —\nnot on a button, not on a card, not on a border, not on a second heading. A gradient used twice\nis a decoration; used once it is the loudest thing on the page, which is what the top of a page\nis for.\n\n**Flat below the fold.** Every payoff after the hero is flat `payoff`. Depth of treatment marks\nrank, so there is exactly one first place.\n\n---\n\n## 4. Type\n\n**One family.** `sans` sets everything Latin; `km` covers Khmer. There is no display face and no\nmonospace — figures align with `font-variant-numeric: tabular-nums`, applied at `body` level,\nwhich is what a monospace would have been imported to do.\n\n| Role | Size | Weight | Tracking |\n|---|---|---|---|\n| Hero headline | 88px | 500 | −0.03em |\n| Section headline | 48px | 500 | −0.02em |\n| Subhead | 18px | 400 | 0 |\n| Body | 16px | 400 | 0 |\n| Price figure | 32px | 500 | −0.02em, tabular |\n| Eyebrow | 12px | 700 | +0.06em, uppercase |\n| Fine print | 13px | 400 | 0 |\n\n**Size carries emphasis, weight does not.** Both headline roles are weight 500 — the same weight\nas a price and lighter than an eyebrow. An 88px headline does not need to be bold to be loud,\nand setting it bold makes a page shout at a reader who has not yet been told anything. There is\nno headline heavier than 500 in this system.\n\n**The eyebrow is the only uppercase.** 12px, weight 700, tracked +0.06em, inside a `capsule`\nwith a `--hair` border. It names the section's subject in two or three words and never contains\na verb. Uppercase appears nowhere else — not on buttons, not on column heads, not on labels.\n\n**The promise phrase.** Every headline is one sentence in which exactly one phrase carries\n`payoff`, and that phrase is the one naming what the reader gets. Not the verb, not the subject\n— the payoff. *\"Build, deploy and scale **without limits**.\"* If a headline has no such phrase,\nit is not finished; if it has two, one of them is not a payoff.\n\n### Bilingual conventions\n\nKhmer sets in `km` at the same weight as its Latin sibling, with line-height raised roughly 0.15\nabove the Latin value so bilingual blocks keep an even rhythm. Khmer and Latin frequently share a\nline — never assume a block is one script.\n\n**Khmer headlines do not take the Latin tracking.** The negative tracking in the table above\napplies to Latin only; Khmer sets at 0. Tightening Khmer collides its marks.\n\nA promise phrase in a Khmer headline carries `payoff` exactly as a Latin one does. The rule is\nabout meaning, not about script.\n\n---\n\n## 5. Structure\n\n**One column, centred, the whole way down.** Sections are centred; content inside a card is\nleft-aligned. There is no two-column marketing layout in this system and no left-aligned section\nheading.\n\n**A section is three parts, in this order:** eyebrow capsule, headline, subhead. The eyebrow is\noptional, the other two are not, and nothing else may sit between them.\n\n**Vertical rhythm is the separation.** `--section` between sections, `gap-loose` between blocks\nwithin one, `gap` between grouped items, `gap-tight` inside a group. **Sections are never\nseparated by alternating background bands** — the page is one ground from top to bottom, and\ndistance does the work a stripe would have done.\n\n| Ground | Used by |\n|---|---|\n| `sheet` | The page |\n| `paper` | Cards, tables, panels — anything the page contains |\n| `onyx` | The inverted band, and every control |\n\n**Every surface has an edge and nothing lifts.** A `--hair` border in `rule`, radius `box`. No\nshadow on a card, a control, a nav, a popover or a modal. Separation is the edge and the rhythm.\n\n**Cards are equal.** A grid of cards is a grid of equals: same padding, same edge, same fill. A\ncard is never enlarged, tinted or elevated to mark it as important — if one option is\nrecommended, that belongs in a table row, where the comparison is legible.\n\n**A comparison table marks its recommendation by tinting the row** in `payoff-wash`, with the\nplan name in `payoff`. One row per table, never two. The tint is a payoff and is the only place\n`payoff-wash` appears.\n\n**Density is spacious and that is a commitment.** This system trades screens-per-scroll for\nroom. If content needs to be dense, it is the wrong system.\n\n---\n\n## 6. Components\n\nEvery value below is a token reference. Nothing here restates a colour.\n\n| Component | Rule |\n|---|---|\n| Primary button | `--clp-button-bg` fill, `--clp-button-text`, `capsule`, `pad`. Never coloured |\n| Secondary button | `--clp-button2-bg` fill, `--clp-text`, `capsule`, `--hair` edge in `rule` |\n| Ghost button | Transparent, `--clp-text-2`, no edge until hover |\n| Eyebrow capsule | `paper` fill, `--hair` edge in `rule`, `capsule`, text in `--clp-text-2` |\n| Announcement pill | `paper` fill, `--hair` edge in `rule`, `capsule`, with a trailing arrow |\n| Card | `--clp-card-fill`, `--hair` edge in `rule`, `box`, `pad` |\n| Card grid | Equal cards, `gap`. Never a featured card |\n| Comparison table | On `paper` in a `box` container, `rule` hairlines between rows; recommended row tinted `payoff-wash` |\n| Price | `payoff`, tabular, with its period in `--clp-text-3` beside it |\n| Tab switcher | `capsule` track in `sheet`, active tab `onyx` with `--clp-invert-text` |\n| Inverted band | `--clp-invert-bg`, `--clp-invert-text`, accent `--clp-invert-accent` |\n| Q&A card | Same as card. Question in `--clp-text`, answer in `--clp-text-2` |\n| Chart, meter | `--clp-chart-1` only. Axes and grid in `--clp-line` |\n| Focus ring | `--clp-focus` at 2px. Never removed |\n\n**One chart series, and no legend.** A promotional chart shows one quantity — what the reader\ngets. Two series is a comparison, and a comparison belongs in the table.\n\n**One inverted band per page at most.** It is the second loudest thing after the hero, and two\nof them means neither is.\n\n---\n\n## 7. Motion\n\nMotion here is functional and quiet. Nothing in this system moves to attract attention.\n\n**Chrome contracts as you descend.** Persistent navigation begins flush and full-width on\n`paper`. Once the page is scrolled past the hero it detaches into a floating `capsule`, inset\nfrom the edges and narrower than the bar it replaced. It transitions width, inset and ground\nover `--settle`. It does not lift, because nothing lifts.\n\n**Press.** `--clp-press` on every control. There is no shadow to flatten.\n\n**Reveal on scroll is permitted once per section, and must be a fade only** — no translate, no\nscale, no stagger. A section that assembles itself as you arrive is telling the reader to wait,\nwhich is the opposite of what a page selling something should do.\n\n**Reduced motion.** Under `prefers-reduced-motion: reduce`, reveals are removed entirely and the\nnav contracts without transition. Nothing in this system carries meaning through motion, so\nnothing is lost.\n\n**A note on the specimen.** The generated preview renders one static frame per mode and has no\nalias for a gradient, so `promise` — the hero treatment, and the system's loudest single\ndecision — does not appear in the specimen at all. The preview will show `payoff` flat wherever\na gradient belongs. That is a limitation of the preview contract, not a softening of the rule,\nand no alias was invented to work around it.\n\n---\n\n## 8. Never\n\n- **Never colour anything that is not a payoff.** Not a border, not an icon, not a label, not an\n  eyebrow, not a nav item, not a button. If it is coloured, name the payoff or make it neutral.\n- **Never introduce a neutral that is not strictly achromatic.** Every neutral has equal red,\n  green and blue channels. A \"slightly warm grey\" is a second chroma family arriving quietly.\n- **Never add a second chroma family.** One hue, three tokens. A teal for variety is the end of\n  the system.\n- **Never use the gradient more than once per page**, and never anywhere but the hero's promise\n  phrase.\n- **Never colour the primary button.** It is the invitation, not the payoff.\n- **Never set a headline heavier than 500.** Size carries emphasis. A bold headline shouts at a\n  reader who has not been told anything yet.\n- **Never use uppercase outside the eyebrow.** Not on buttons, column heads, labels or headings.\n- **Never put a shadow on anything.** Not on a card, a control, a nav, a popover or a modal.\n- **Never separate sections with alternating background bands.** The page is one ground and\n  rhythm does the work.\n- **Never feature a card by enlarging, tinting or elevating it.** A recommendation belongs in a\n  table row.\n- **Never tint two rows in one table.** One recommendation, or none.\n- **Never add a state colour.** No success, no warning, no alarm. A surface needing one is the\n  wrong surface for this system.\n- **Never add a monospace family.** `tabular-nums` is why it is not needed.\n- **Never add a second chart series.** A comparison belongs in the table.\n- **Never let a scroll reveal translate, scale or stagger.** Fade only, once per section.\n- **Never ship Latin-only.** Khmer is declared in `scripts`, and a Khmer headline carries its\n  promise phrase in `payoff` exactly as a Latin one does.\n- **Never apply Latin negative tracking to Khmer.** It collides the marks.\n- **Never set `data-mode=\"dark\"` on anything but the root element.**\n- **Never mix this system with Filament.** They are opposite answers to where colour belongs.\n- **Never introduce a colour, radius, spacing step, border width, duration or type family this\n  file does not define.**\n"</script>
+<script>
+  const copyTo = async (btn, text, label) => {
+    try { await navigator.clipboard.writeText(text); btn.textContent = 'Copied'; }
+    catch { btn.textContent = 'Copy failed'; }
+    setTimeout(() => { btn.textContent = label; }, 2200);
+  };
+  const raw = JSON.parse(document.getElementById('src').textContent);
+  const copy = document.getElementById('copy');
+  copy.addEventListener('click', () => copyTo(copy, raw, 'Copy file'));
+
+  const snip = document.getElementById('copysnip');
+  if (snip) snip.addEventListener('click', () =>
+    copyTo(snip, document.getElementById('snippet').textContent, 'Copy snippet'));
+
+  // Both iframes stay loaded; the switch only changes which is visible, so
+  // there is no reload flicker when flipping between modes.
+  const pair = document.getElementById('pvpair');
+  for (const btn of document.querySelectorAll('[data-pmode]')) {
+    btn.addEventListener('click', () => {
+      const m = btn.dataset.pmode;
+      pair.dataset.show = m;
+      document.querySelectorAll('[data-pmode]').forEach(x =>
+        x.setAttribute('aria-pressed', x.dataset.pmode === m));
+    });
+  }
+  pair.dataset.show = "both";
+
+  // Fit each frame to the preview inside it: no dead space, nothing clipped,
+  // whatever a given system's content adds up to. Measured from the parent
+  // because both documents are same-origin — messaging from the frame would
+  // race the parent's listener and usually lose.
+  function fit(f) {
+    const doc = f.contentDocument;
+    if (!doc) return;
+    const set = () => {
+      const h = Math.ceil(doc.body.getBoundingClientRect().height) + 2;
+      if (Math.abs(h - parseFloat(f.style.height || 0)) > 1) f.style.height = h + 'px';
+    };
+    set();
+    if (doc.fonts) doc.fonts.ready.then(set);
+    new ResizeObserver(set).observe(doc.body);
+  }
+  function fitAll(frames) {
+    for (const f of frames) {
+      f.addEventListener('load', () => fit(f));
+      if (f.contentDocument && f.contentDocument.readyState === 'complete') fit(f);
+    }
+  }
+  fitAll(pair.querySelectorAll('iframe'));
+</script></main>
+
+<footer class="foot"><div class="wrap">
+  <div class="foot-grid">
+    <div class="foot-brand">
+      <a class="lockup sm" href="../../index.html">
+  <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+  <mask id="mk-cph">
+    <rect width="64" height="64" fill="#fff"/>
+    <rect x="32" width="32" height="64" fill="#000"/>
+    <rect x="34" y="28" width="18" height="8" rx="4" fill="#fff"/>
+    <rect x="12" y="28" width="18" height="8" rx="4" fill="#000"/>
+  </mask>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="currentColor" mask="url(#mk-cph)"/>
+  <rect x="3" y="3" width="58" height="58" rx="15" fill="none" stroke="currentColor" stroke-width="4.5"/>
+</svg><span>colophon</span>
+</a>
+      <p>Design systems as drop-in markdown. Each one is a single file; the site is a browser for it.</p>
+    </div>
+    <div>
+      <h2>Library</h2>
+      <a href="../../s/filament/index.html">Filament</a><a href="../../s/ration/index.html">Ration</a><a href="../../s/lozenge/index.html">Lozenge</a><a href="../../s/newsprint/index.html">Newsprint</a><a href="../../s/pharmly/index.html">Pharmly</a>
+      
+    </div>
+    <div>
+      <h2>Project</h2>
+      <a href="../../about.html">About</a>
+      <a href="../../colophon.html">Colophon</a>
+      <a href="https://github.com/rorpheeyah/colophon" rel="noreferrer">Source</a>
+    </div>
+  </div>
+  <div class="foot-legal">
+    <p>&copy; 2026 colophon (rorpheeyah). Site and writing all rights reserved.</p>
+    <p>The design system files are <a href="../../colophon.html#licensing">MIT licensed</a>.</p>
+  </div>
+</div></footer>
+
+<script>
+  (() => {
+    const root = document.documentElement;
+    const btn = document.getElementById('theme');
+    function set(t) {
+      root.dataset.theme = t;
+      btn.dataset.state = t;
+      btn.title = t === 'dark' ? 'Switch to light' : 'Switch to dark';
+      try { localStorage.setItem('colophon-theme', t); } catch (e) {}
+    }
+    set(root.dataset.theme === 'dark' ? 'dark' : 'light');
+    btn.addEventListener('click', () => set(root.dataset.theme === 'dark' ? 'light' : 'dark'));
+  })();
+</script>
+</body>
+</html>

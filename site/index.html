@@ -60,7 +60,7 @@
   <path d="M10.4 10.4L14 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       <input id="q" type="search" placeholder="Search" aria-label="Search systems" autocomplete="off">
     </label>
-    <div class="chips"><button class="chip" data-k="register" data-v="editorial" title="register: editorial" aria-pressed="false">editorial</button><button class="chip" data-k="register" data-v="technical" title="register: technical" aria-pressed="false">technical</button><button class="chip" data-k="register" data-v="utility" title="register: utility" aria-pressed="false">utility</button><i class="sep"></i><button class="chip" data-k="density" data-v="comfortable" title="density: comfortable" aria-pressed="false">comfortable</button><button class="chip" data-k="density" data-v="compact" title="density: compact" aria-pressed="false">compact</button><button class="chip" data-k="density" data-v="spacious" title="density: spacious" aria-pressed="false">spacious</button><i class="sep"></i><button class="chip" data-k="origin" data-v="own" title="origin: own" aria-pressed="false">own</button><button class="chip" data-k="origin" data-v="reference" title="origin: reference" aria-pressed="false">reference</button><i class="sep"></i><button class="chip" data-k="scripts" data-v="khmer" title="scripts: khmer" aria-pressed="false">khmer</button><button class="chip" data-k="scripts" data-v="latin" title="scripts: latin" aria-pressed="false">latin</button></div>
+    <div class="chips"><button class="chip" data-k="register" data-v="editorial" title="register: editorial" aria-pressed="false">editorial</button><button class="chip" data-k="register" data-v="promotional" title="register: promotional" aria-pressed="false">promotional</button><button class="chip" data-k="register" data-v="technical" title="register: technical" aria-pressed="false">technical</button><button class="chip" data-k="register" data-v="utility" title="register: utility" aria-pressed="false">utility</button><i class="sep"></i><button class="chip" data-k="density" data-v="comfortable" title="density: comfortable" aria-pressed="false">comfortable</button><button class="chip" data-k="density" data-v="compact" title="density: compact" aria-pressed="false">compact</button><button class="chip" data-k="density" data-v="spacious" title="density: spacious" aria-pressed="false">spacious</button><i class="sep"></i><button class="chip" data-k="origin" data-v="own" title="origin: own" aria-pressed="false">own</button><button class="chip" data-k="origin" data-v="reference" title="origin: reference" aria-pressed="false">reference</button><i class="sep"></i><button class="chip" data-k="scripts" data-v="khmer" title="scripts: khmer" aria-pressed="false">khmer</button><button class="chip" data-k="scripts" data-v="latin" title="scripts: latin" aria-pressed="false">latin</button></div>
     <span class="count" id="count"></span>
     <button class="clear" id="clear" hidden>Clear</button>
     <button class="viewtoggle" id="viewtoggle" aria-label="Change layout">
@@ -175,11 +175,36 @@
       <a class="btn" href="s/pharmly/index.html">Open</a>
     </div>
   </div>
+</article>
+<article class="card" data-slug="ration">
+  <a class="thumb" href="s/ration/index.html" aria-label="Open Ration" tabindex="-1">
+    <img class="t-light" src="s/ration/thumb-light.svg" alt="" loading="lazy" width="400" height="240">
+    <img class="t-dark" src="s/ration/thumb-dark.svg" alt="" loading="lazy" width="400" height="240">
+    
+  </a>
+  <div class="body">
+    <h2><a href="s/ration/index.html">Ration</a> <em>1.0</em></h2>
+    <div class="meta">
+  <span class="tag">promotional</span>
+  <span class="tag">spacious</span>
+  <span class="tag">latin</span><span class="tag">khmer</span>
+  
+  
+</div>
+    <dl class="fit">
+      <dt class="y">For</dt><dd>product and marketing pages, pricing and plan comparison, launch announcements</dd>
+      <dt class="n">Not</dt><dd>operational dashboards, data entry</dd>
+    </dl>
+    <div class="actions">
+      <a class="btn primary" href="s/ration/ration.md" download>Download .md</a>
+      <a class="btn" href="s/ration/index.html">Open</a>
+    </div>
+  </div>
 </article></div>
   <p class="empty" id="empty" hidden>Nothing matches those filters.</p>
 </div>
 <script>
-  const data = [{"slug":"filament","register":"technical","density":"spacious","origin":"own","status":"active","scripts":["latin","khmer"],"text":"filament technical spacious a design system for software that is doing something while you watch it. one primitive — an edge that moves when the thing it encloses is live — carried from a button to a service row to the navigation itself. one purple ramp, one achromatic metal, one colour for broken. spacious, bilingual. latin khmer deployment and infrastructure consoles developer tooling service status and monitoring screens bilingual technical products print output long-form reading static marketing sites screens with no live or transitional state"},{"slug":"lozenge","register":"utility","density":"compact","origin":"own","status":"active","scripts":["latin","khmer"],"text":"lozenge utility compact a design system for retail and operational software. one primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. built for dense, bilingual, decision-oriented screens. latin khmer dense data tables retail and pos interfaces inventory and status screens bilingual products long-form reading marketing pages editorial layouts"},{"slug":"newsprint","register":"editorial","density":"comfortable","origin":"own","status":"active","scripts":["latin","khmer"],"text":"newsprint editorial comfortable an editorial, print-inspired system with first-class khmer and latin support. intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed. latin khmer long-form reading documentation reports and printed output bilingual editorial layouts ruled data tables high-speed data entry dense operational dashboards touch-first mobile interfaces"},{"slug":"pharmly","register":"utility","density":"spacious","origin":"reference","status":"active","scripts":["latin"],"text":"pharmly utility spacious a pharmacy admin dashboard concept. included because it does three things unusually well and gets three things visibly wrong, and both halves are useful. latin admin dashboards list-and-detail crud interfaces portfolio presentation point of sale high-density catalogues non-latin scripts anything requiring speed at a counter"}];
+  const data = [{"slug":"filament","register":"technical","density":"spacious","origin":"own","status":"active","scripts":["latin","khmer"],"text":"filament technical spacious a design system for software that is doing something while you watch it. one primitive — an edge that moves when the thing it encloses is live — carried from a button to a service row to the navigation itself. one purple ramp, one achromatic metal, one colour for broken. spacious, bilingual. latin khmer deployment and infrastructure consoles developer tooling service status and monitoring screens bilingual technical products print output long-form reading static marketing sites screens with no live or transitional state"},{"slug":"lozenge","register":"utility","density":"compact","origin":"own","status":"active","scripts":["latin","khmer"],"text":"lozenge utility compact a design system for retail and operational software. one primitive — the capsule — repeated at every scale, from a coverage segment to a chart bar. built for dense, bilingual, decision-oriented screens. latin khmer dense data tables retail and pos interfaces inventory and status screens bilingual products long-form reading marketing pages editorial layouts"},{"slug":"newsprint","register":"editorial","density":"comfortable","origin":"own","status":"active","scripts":["latin","khmer"],"text":"newsprint editorial comfortable an editorial, print-inspired system with first-class khmer and latin support. intended as a shared foundation across projects: documentation, reports, reading surfaces, and anything that will eventually be printed. latin khmer long-form reading documentation reports and printed output bilingual editorial layouts ruled data tables high-speed data entry dense operational dashboards touch-first mobile interfaces"},{"slug":"pharmly","register":"utility","density":"spacious","origin":"reference","status":"active","scripts":["latin"],"text":"pharmly utility spacious a pharmacy admin dashboard concept. included because it does three things unusually well and gets three things visibly wrong, and both halves are useful. latin admin dashboards list-and-detail crud interfaces portfolio presentation point of sale high-density catalogues non-latin scripts anything requiring speed at a counter"},{"slug":"ration","register":"promotional","density":"spacious","origin":"own","status":"active","scripts":["latin","khmer"],"text":"ration promotional spacious a design system for pages that are selling something. colour is rationed: it appears on the thing the reader gets and on nothing else. everything that carries structure — every border, every label, every surface, every control — is achromatic. large, light headlines; deep vertical rhythm; nothing lifts. latin khmer product and marketing pages pricing and plan comparison launch announcements documentation landing pages bilingual promotional sites operational dashboards data entry admin consoles screens carrying live or transitional state"}];
   const on = {};
   const cards = new Map([...document.querySelectorAll('.card')].map(c => [c.dataset.slug, c]));
   const q = document.getElementById('q');
@@ -253,7 +278,7 @@
     </div>
     <div>
       <h2>Library</h2>
-      <a href="s/filament/index.html">Filament</a><a href="s/lozenge/index.html">Lozenge</a><a href="s/newsprint/index.html">Newsprint</a><a href="s/pharmly/index.html">Pharmly</a>
+      <a href="s/filament/index.html">Filament</a><a href="s/ration/index.html">Ration</a><a href="s/lozenge/index.html">Lozenge</a><a href="s/newsprint/index.html">Newsprint</a><a href="s/pharmly/index.html">Pharmly</a>
       
     </div>
     <div>
