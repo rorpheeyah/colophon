@@ -38,6 +38,11 @@ function baseCss(t, meta) {
      business transitioning. Declining a duration gives 0s — no motion at all,
      which is the conservative reading rather than a guessed default. */
   --_dur: ${ref(t, '--clp-duration', '0s')};
+  /* Heading weight was the template's own, undeclared and unaliased, and it was
+     set to 700 — which Ration forbids by name: "no headline heavier than 500 in
+     this system". Declining it keeps the 700 that was already there, so nothing
+     changes for a system that never legislated it. */
+  --_wdisplay: ${ref(t, '--clp-weight-display', '700')};
   background:var(--clp-bg);color:var(--clp-text);font-family:var(--clp-font-body);
   min-height:100vh;display:flex;flex-direction:column;font-size:14px;line-height:1.55}
 
@@ -52,9 +57,9 @@ function baseCss(t, meta) {
 .scr *{box-sizing:border-box}
 .scr p{margin:0}
 .scr h1,.scr h2,.scr h3{margin:0;font-family:var(--clp-font-display);line-height:1.15}
-.scr h1{font-size:clamp(21px,2.6vw,29px);font-weight:700;letter-spacing:-.01em}
-.scr h2{font-size:clamp(17px,1.8vw,20px);font-weight:700}
-.scr h3{font-size:15px;font-weight:700}
+.scr h1{font-size:clamp(21px,2.6vw,29px);font-weight:var(--_wdisplay);letter-spacing:-.01em}
+.scr h2{font-size:clamp(17px,1.8vw,20px);font-weight:var(--_wdisplay)}
+.scr h3{font-size:15px;font-weight:var(--_wdisplay)}
 .sub{color:var(--clp-text-2);max-width:62ch}
 .eyebrow{font:600 10px/1.4 var(--_data);letter-spacing:.12em;text-transform:uppercase;
   color:var(--clp-text-3)}
@@ -299,10 +304,15 @@ ${SPECIMEN_CLOSE}
     })
   }
 
-  // Nav, filters, the range and the environment move between two states the
+  // Any container a demo marks with data-group moves between two states the
   // system has already declared — active and inactive. Nothing here invents a
   // treatment; it only changes which element wears the one that exists.
-  for (const group of document.querySelectorAll('.chips, .range, .envlist, .navgroup')) {
+  //
+  // The selector is a data attribute rather than a list of class names, because
+  // a list means every new demo has to register its groups in this shared file,
+  // and the first demo that forgot shipped an inert nav and an inert pricing
+  // toggle. A demo opts in where its markup is.
+  for (const group of document.querySelectorAll('[data-group]')) {
     group.addEventListener('click', e => {
       const hit = e.target.closest('button, a')
       if (!hit || !group.contains(hit)) return
@@ -313,33 +323,12 @@ ${SPECIMEN_CLOSE}
         if (on) b.setAttribute('aria-current', b.tagName === 'A' ? 'page' : 'true')
         else b.removeAttribute('aria-current')
       }
-      if (group.classList.contains('chips')) applyFilter(hit.dataset.filter)
+      group.dispatchEvent(new CustomEvent('demo:select', {
+        detail: { group, hit, name: group.dataset.group }, bubbles: true,
+      }))
     })
   }
 
-  // A filter hides rows; it does not restyle anything. The tally is recomputed
-  // from whichever rows are left, so it can never describe a table that is no
-  // longer on screen — the same rule the generated figures follow at build time.
-  function applyFilter(key) {
-    const rows = [...document.querySelectorAll('tbody tr[data-state]')]
-    if (!rows.length) return
-    const match = r =>
-      !key || key === 'all' ? true
-      : key === 'degraded' ? r.dataset.state !== 'ok'
-      : key.startsWith('owner:') ? r.dataset.owner === key.slice(6)
-      : true
-    let n = 0, sum = 0
-    for (const r of rows) {
-      const on = match(r)
-      r.hidden = !on
-      if (on) { n++; sum += Number(r.dataset.req) || 0 }
-    }
-    const tally = document.getElementById('tally')
-    if (tally) {
-      tally.textContent = n + ' service' + (n === 1 ? '' : 's') +
-        ' \u00b7 ' + sum + (tally.dataset.unit || '')
-    }
-  }
 
   const MKEY = 'colophon:demo-mode'
   function setMode(m) {
@@ -370,6 +359,9 @@ ${SPECIMEN_CLOSE}
     setMode('dark')
   }
 </script>
+${demo.module.script ? `<script>
+${demo.module.script(t, meta)}
+</script>` : ''}
 </body>
 </html>
 `

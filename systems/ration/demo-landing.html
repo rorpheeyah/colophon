@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ration — Dashboard</title>
+<title>Ration — Landing</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Cpath%20d%3D%22M32%203H18A15%2015%200%200%200%203%2018v28a15%2015%200%200%200%2015%2015h14z%22%20fill%3D%22%23B03A2E%22%2F%3E%3Crect%20x%3D%223%22%20y%3D%223%22%20width%3D%2258%22%20height%3D%2258%22%20rx%3D%2215%22%20fill%3D%22none%22%20stroke%3D%22%23B03A2E%22%20stroke-width%3D%224.5%22%2F%3E%3Crect%20x%3D%2212%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23F2F0EA%22%2F%3E%3Crect%20x%3D%2234%22%20y%3D%2228%22%20width%3D%2218%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22%23B03A2E%22%2F%3E%3C%2Fsvg%3E">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Khmer:wght@400;500;600;700&display=swap">
@@ -238,109 +238,87 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   transform:translate(-50%,-140%);white-space:nowrap}
 
 
-/* ── dashboard ────────────────────────────────────────────────────────── */
-/* The top bar is the one element on this page that content scrolls beneath, so
-   it is the one element glass may go on. Filament states the test as a question —
-   "does page content scroll underneath this element?" — and answers it for cards,
-   tables, sidebars and modals with a flat no. A demo that put glass on a panel
-   would be misplacing a declared value, the same class of error as putting
-   --clp-shadow on a container. Where a system declares no glass the bar stays
-   opaque on the page ground, and it is still sticky: content scrolling under an
-   opaque bar is ordinary. */
-.topbar{display:flex;align-items:center;gap:var(--_gap);padding:11px clamp(16px,2.5vw,26px);
+/* ── landing ──────────────────────────────────────────────────────────── */
+.topbar{display:flex;align-items:center;gap:var(--_gap);padding:13px clamp(16px,4vw,40px);
   flex:none;position:sticky;top:0;z-index:5;background:var(--clp-bg);border-bottom:1px solid var(--clp-line)}
-.brand{display:flex;align-items:baseline;gap:8px;font-family:var(--clp-font-display);
-  font-weight:700;font-size:15px;letter-spacing:-.01em;white-space:nowrap}
-.brand i{font-style:normal;font-weight:500;font-size:12.5px;color:var(--clp-text-3)}
-.topsearch{margin-left:clamp(10px,3vw,34px);flex:1;max-width:340px;
-  border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
-  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.topbar-end{margin-left:auto;display:flex;align-items:center;gap:11px;flex:none}
+.brand{font-family:var(--clp-font-display);font-weight:var(--_wdisplay);font-size:16px;
+  letter-spacing:-.01em;white-space:nowrap}
+.topnav{display:flex;gap:clamp(14px,2vw,26px);margin-left:clamp(12px,4vw,44px);flex-wrap:wrap}
+.topnav a{font-size:13.5px;color:var(--clp-text-2);text-decoration:none;padding:4px 0}
+.topnav a.on{color:var(--clp-text);font-weight:600}
+.topbar-end{margin-left:auto;display:flex;align-items:center;gap:10px;flex:none}
 
-.shell{display:grid;grid-template-columns:214px minmax(0,1fr);flex:1 0 auto;align-items:stretch}
-.side{padding:clamp(14px,2vw,22px) 0 22px clamp(16px,2.5vw,26px);
-  display:flex;flex-direction:column;gap:16px;border-right:1px solid var(--clp-line)}
-.navgroup{display:flex;flex-direction:column;gap:5px}
-.navgroup a{font-size:13.5px;text-decoration:none;padding:6px 10px;
-  border-radius:var(--clp-radius-control);color:var(--clp-text-2)}
-.navgroup a.on{color:var(--clp-text);font-weight:600;background:var(--clp-line)}
-.envbox{display:flex;flex-direction:column;gap:5px;padding-right:clamp(16px,2.5vw,26px)}
-.envlist{display:flex;flex-direction:column;background:var(--clp-invert-bg);color:var(--clp-invert-text);
-  border-radius:var(--clp-radius-box);padding:7px;gap:2px}
-.env{display:flex;align-items:center;gap:9px;padding:7px 10px;font-size:13px;
-  border-radius:var(--clp-radius-control);cursor:pointer;border:0;background:none;
-  text-align:left;color:inherit;opacity:.7}
-.env.on{font-weight:600;opacity:1}
-.env:active{transform:var(--_press)}
-/* Current location is carried by weight and by a neutral fill, never by colour.
-   Ration forbids colouring "a nav item" and "an icon" in the same breath, and
-   an accent dot on the active environment was both at once. A dashboard has no
-   payoff for an accent to land on, so this page uses none — the budget is a
-   ceiling, and zero is under it. */
-.env-dot{width:7px;height:7px;flex:none;border-radius:var(--clp-radius-control);
-  background:currentColor;opacity:.55}
+/* One ground for the whole page. Sections are separated by rhythm, never by an
+   alternating band — Ration forbids the band by name. */
+.wrap{width:100%;max-width:1080px;margin-inline:auto;padding:0 clamp(16px,4vw,40px)}
+.sec{padding:clamp(40px,7vw,84px) 0}
+.sec + .sec{border-top:1px solid var(--clp-line)}
+.sec-h{display:flex;flex-direction:column;gap:9px;margin-bottom:clamp(22px,3vw,34px);max-width:60ch}
 
-.main{padding:clamp(14px,2vw,22px) clamp(16px,2.5vw,26px) 40px;
-  display:flex;flex-direction:column;gap:calc(var(--_gap) * 1.5);min-width:0}
-.banner{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;
-  border-radius:var(--clp-radius-box);padding:11px 15px;font-size:13px}
-.banner b{font-weight:700}
-.banner s{margin-left:auto;text-decoration:none;font:600 12px/1.6 var(--_data)}
+.hero{padding:clamp(48px,9vw,104px) 0 clamp(36px,5vw,60px);
+  display:flex;flex-direction:column;gap:clamp(16px,2vw,22px);align-items:flex-start}
+.hero h1{font-size:clamp(34px,6.4vw,72px);line-height:1.04;letter-spacing:-.03em;max-width:20ch}
+/* The one payoff colour on this page, on the one phrase the reader is here for.
+   A declared gradient goes here and may go nowhere else.
 
-.page-h{display:flex;align-items:flex-start;gap:var(--_gap);flex-wrap:wrap}
-.page-h > div:first-child{display:flex;flex-direction:column;gap:6px;min-width:0}
-.page-act{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap;align-items:flex-start}
-.crumb{font-size:12.5px;color:var(--clp-text-3)}
-.meta{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--clp-text-2)}
-.meta b{font-family:var(--_data);font-weight:600;color:var(--clp-text)}
+   Where there is no gradient the flat accent stands in — **unless the system
+   routes its accent through --clp-button-bg as well.** Lozenge aliases both to
+   citron, so an accent phrase plus a citron button is citron twice, and its rule
+   is one citron element per screen. Counting alias references read that as one;
+   the reader sees two. Where the invitation has already spent the accent, the
+   phrase takes none. */
+.promise{font-style:normal;background:var(--clp-gradient);-webkit-background-clip:text;background-clip:text;
+  color:transparent}
+.hero .sub{font-size:clamp(15px,1.7vw,19px);max-width:52ch}
+.hero-act{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.fine{font-size:12.5px;color:var(--clp-text-3)}
 
-.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.search{border:var(--_border);border-radius:var(--clp-radius-control);padding:8px 12px;
-  background:var(--clp-surface);color:var(--clp-text-3);font-size:12.5px;min-width:180px}
-.chips{display:flex;gap:7px;flex-wrap:wrap}
-.filter{border:1px solid var(--clp-line);border-radius:var(--clp-radius-control);
-  padding:5px 11px;font:500 12px/1.5 var(--clp-font-body);color:var(--clp-text-2);
-  background:none;cursor:pointer}
-.filter.on{background:var(--clp-text);color:var(--clp-bg);border-color:var(--clp-text);font-weight:600}
-.filter:active{transform:var(--_press)}
-.range{margin-left:auto;display:flex;gap:2px;padding:2px;background:var(--clp-line);
+.feats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--_gap)}
+.feat{display:flex;flex-direction:column;gap:7px;min-width:0}
+.feat h3{font-size:16px}
+.feat p{font-size:13.5px;color:var(--clp-text-2)}
+
+.figs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--_gap)}
+.fig{display:flex;flex-direction:column;gap:3px;min-width:0}
+.fig b{font:var(--_wdisplay) clamp(30px,4.4vw,46px)/1.05 var(--_data);letter-spacing:-.03em;
+  font-variant-numeric:tabular-nums}
+.fig span{font-size:12.5px;color:var(--clp-text-3)}
+
+.priceh{display:flex;align-items:flex-end;gap:var(--_gap);flex-wrap:wrap;
+  margin-bottom:clamp(18px,2.5vw,26px)}
+.billing{margin-left:auto;display:flex;gap:2px;padding:2px;background:var(--clp-line);
   border-radius:var(--clp-radius-control)}
-.range button{border:0;background:none;cursor:pointer;padding:5px 12px;
-  border-radius:var(--clp-radius-control);font:500 12px/1.5 var(--_data);color:var(--clp-text-2)}
-.range button.on{background:var(--clp-bg);color:var(--clp-text);font-weight:700}
+.billing button{border:0;background:none;cursor:pointer;padding:6px 14px;
+  border-radius:var(--clp-radius-control);font:500 12.5px/1.5 var(--clp-font-body);
+  color:var(--clp-text-2)}
+.billing button.on{background:var(--clp-bg);color:var(--clp-text);font-weight:600}
+.billing button:active{transform:var(--_press)}
+.amount{font-family:var(--_data);font-variant-numeric:tabular-nums;font-weight:600}
+.per{font-size:11.5px;color:var(--clp-text-3)}
+.pill{border:1px solid var(--clp-line);border-radius:var(--clp-radius-control);
+  padding:2px 9px;font-size:11px;color:var(--clp-text-2);white-space:nowrap}
+/* One recommended row, tinted only where the system fills things at all. Two
+   tinted rows are forbidden and a card that is enlarged, tinted or elevated to
+   feature it is forbidden too, so the recommendation lives in the table. */
+.pick td{background:var(--clp-card-fill)}
+.pick td:first-child{font-weight:600}
 
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--_gap)}
-.split{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);
-  gap:var(--_gap);align-items:start}
-.tfoot{display:flex;align-items:center;gap:10px;font-size:12px;color:var(--clp-text-3);
-  padding:10px 16px;border-top:1px solid var(--clp-line)}
-.tfoot s{margin-left:auto;text-decoration:none}
+.faq{display:flex;flex-direction:column;max-width:74ch}
+.qa{border-bottom:1px solid var(--clp-line)}
+.qa summary{cursor:pointer;padding:15px 0;font-size:15px;font-weight:600;list-style:none}
+.qa summary::-webkit-details-marker{display:none}
+.qa p{padding:0 0 16px;font-size:13.5px;color:var(--clp-text-2);max-width:62ch}
 
-.feed{display:flex;flex-direction:column}
-.feed-row{display:flex;align-items:baseline;gap:11px;padding:10px 0;
-  border-bottom:1px solid var(--clp-line);font-size:13px;flex-wrap:wrap}
-.feed-row:last-child{border-bottom:0}
-.feed-row b{font-weight:600;min-width:118px}
-.feed-row span{color:var(--clp-text-2);flex:1;min-width:150px}
-.feed-row time{font-family:var(--_data);font-size:11.5px;color:var(--clp-text-3);margin-left:auto}
-.foot{padding:16px clamp(16px,2.5vw,26px);border-top:1px solid var(--clp-line);
-  font-size:12px;color:var(--clp-text-3);display:flex;gap:16px;flex-wrap:wrap;flex:none}
+.foot{border-top:1px solid var(--clp-line);padding:26px 0 40px;display:flex;gap:18px;
+  flex-wrap:wrap;font-size:12.5px;color:var(--clp-text-3)}
+.foot b{color:var(--clp-text-2);font-weight:600}
 
-@media(max-width:1000px){
-  .shell{grid-template-columns:minmax(0,1fr)}
-  .side{border-right:0;border-bottom:1px solid var(--clp-line);
-    padding:14px clamp(16px,2.5vw,26px);flex-direction:row;flex-wrap:wrap;gap:20px}
-  .navgroup{flex-direction:row;flex-wrap:wrap}
-  .envbox{padding-right:0}
-  .envlist{flex-direction:row}
-  .split{grid-template-columns:minmax(0,1fr)}
+@media(max-width:820px){
+  .feats,.figs{grid-template-columns:minmax(0,1fr)}
 }
-@media(max-width:660px){
-  .tiles{grid-template-columns:minmax(0,1fr)}
-  .topsearch{display:none}
-  .range{margin-left:0}
-  .page-act{margin-left:0;width:100%}
+@media(max-width:600px){
+  .topnav{width:100%;margin-left:0;order:3}
+  .billing{margin-left:0}
 }
 
 </style>
@@ -350,204 +328,124 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
   <div class="crow">
     <h1>Ration <span class="ver">1.0</span></h1>
     <label class="pick">Demo
-        <select id="demo"><option value="demo-dashboard.html" selected>Dashboard</option><option value="demo-landing.html">Landing</option></select>
+        <select id="demo"><option value="demo-dashboard.html">Dashboard</option><option value="demo-landing.html" selected>Landing</option></select>
       </label>
     <span class="modes" id="modes" hidden>
       <button data-mode="light">Light</button><button data-mode="dark">Dark</button>
     </span>
   </div>
-  <p class="blurb">A service reliability console: dense figures, a data table, live state.</p>
+  <p class="blurb">A product and pricing page: one hero, one payoff, plans in a table.</p>
   
   <ul class="notes"><li>A page needs sentences, so this one is set in Latin only. Script reach is shown on the specimen sheet.</li></ul>
 </div>
 <!-- specimen start -->
 <div class="scr">
   <header class="topbar">
-    <div class="brand">Northsel <i>/ Reliability</i></div>
-    <div class="topsearch">Search services, deploys and incidents</div>
+    <div class="brand">Northsel</div>
+    <nav class="topnav" data-group="nav"><a href="#">Product</a><a href="#" class="on" aria-current="page">Pricing</a><a href="#">Docs</a></nav>
     <div class="topbar-end">
-      <button class="btn b2">Invite</button>
-      <span class="avatar">RM</span>
+      <button class="btn b3">Sign in</button>
+      <button class="btn b3">Start free</button>
     </div>
   </header>
 
-  <div class="shell">
-    <aside class="side">
-      <div class="navgroup" data-group="nav">
-      <p class="eyebrow">Monitor</p>
-      <a href="#">Overview</a><a href="#" class="on" aria-current="page">Services</a><a href="#">Incidents</a>
-    </div><div class="navgroup" data-group="nav">
-      <p class="eyebrow">Deliver</p>
-      <a href="#">Releases</a><a href="#">Pipelines</a>
-    </div>
-      <div class="envbox">
-        <p class="eyebrow">Environment</p>
-        <nav class="envlist" data-group="env"><button class="env on" aria-current="true"><i class="env-dot"></i>Production</button><button class="env"><i class="env-dot"></i>Staging</button></nav>
+  <div class="wrap">
+    <section class="hero">
+      <p class="eyebrow">Billing, for teams that close the month</p>
+      <h1>Stop reconciling. <em class="promise">Start closing.</em></h1>
+      <p class="sub">One ledger for invoices, expenses and payouts, with approval rules written
+        in sentences instead of conditions.</p>
+      <div class="hero-act">
+        <button class="btn">Start free</button>
+        <button class="btn b3">Book a walkthrough</button>
       </div>
-    </aside>
+      <p class="fine">Free for 2 weeks. No card, no call, cancel from the
+        dashboard.</p>
+    </section>
 
-    <main class="main">
-      
+    <section class="sec">
+      <div class="sec-h">
+        <h2>Three things it does properly</h2>
+        <p class="sub">Not a feature list — the three decisions the rest of the product follows
+          from.</p>
+      </div>
+      <div class="feats"><div class="feat">
+      <h3>Everything in one ledger</h3><p>Invoices, expenses and payouts settle against the same records, so a month closes without reconciliation.</p>
+    </div><div class="feat">
+      <h3>Rules you can read</h3><p>Approval routes are written as plain sentences rather than nested conditions, and they say who is waiting.</p>
+    </div><div class="feat">
+      <h3>Built to be handed over</h3><p>Every figure traces to the entry that produced it, so an audit is a query rather than a project.</p>
+    </div></div>
+    </section>
 
-      <div class="page-h">
-        <div>
-          <p class="crumb">Production / Services</p>
-          <h1>Services</h1>
-          <div class="meta">
-            <span>Owned by <b>6</b> teams</span>
-            <span>Window <b>7d</b></span>
-            <span>Last deploy <b>2h ago</b></span>
-          </div>
+    <section class="sec">
+      <div class="figs"><div class="fig"><b>$12</b><span>per month, smallest plan</span></div><div class="fig"><b>50</b><span>seats on the largest</span></div><div class="fig"><b>3</b><span>plans, no add-ons</span></div></div>
+    </section>
+
+    <section class="sec">
+      <div class="priceh">
+        <div class="sec-h" style="margin-bottom:0">
+          <h2>Pricing</h2>
+          <p class="sub">Every plan includes every feature. The difference is scale.</p>
         </div>
-        <div class="page-act">
-          <button class="btn b3">Export</button>
-          <button class="btn">New deploy</button>
-        </div>
+        <div class="billing" data-group="billing"><button class="on" data-billing="monthly" aria-current="true">Monthly</button><button class="" data-billing="annual">Annual</button></div>
       </div>
-
-      <div class="toolbar">
-        <div class="search">Filter by name or owner</div>
-        <div class="chips" data-group="filter"><button class="filter on" data-filter="all" aria-current="true">All</button><button class="filter" data-filter="degraded">Degraded</button><button class="filter" data-filter="owner:Platform">Platform</button></div>
-        <div class="range" data-group="range"><button class="">24h</button><button class="on">7d</button><button class="">30d</button></div>
-      </div>
-
-      <section class="tiles"><div class="tile">
-      <span>Requests, 7d</span>
-      <b>409k</b>
-      <span class="delta">+6.2%</span>
-    </div><div class="tile">
-      <span>Availability</span>
-      <b>99.73%</b>
-      <span class="delta">target 99.90%</span>
-    </div><div class="tile">
-      <span>Degraded services</span>
-      <b>2</b>
-      <span class="delta">media-encoder, billing-sync</span>
-    </div></section>
-
-      <section class="split"><div class="panel">
-        <div class="panel-h"><h3>Request volume</h3><span>7 days &middot; 409k total</span></div>
-        <svg viewBox="0 0 320 150" class="chart" role="img" aria-label="Sessions by day">
-    <line x1="0" y1="116" x2="320" y2="116" class="gridline"/>
-    <line x1="0" y1="10" x2="320" y2="10" class="gridline"/>
-    <path d="M0 116 V68 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Mo · 42"/><path d="M46.857142857142854 116 V49 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Tu · 58"/><path d="M93.71428571428571 116 V77 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="We · 35"/><path d="M140.57142857142856 116 V33 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Th · 71"/><path d="M187.42857142857142 116 V60 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Fr · 49"/><path d="M234.28571428571428 116 V39 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Sa · 66"/><path d="M281.1428571428571 116 V13 a3 3 0 0 1 3 -3 h32.857142857142854 a3 3 0 0 1 3 3 V116 Z" fill="var(--clp-chart-1)"
-      data-tip="Su · 88"/>
-    <text x="0" y="8" text-anchor="start" class="ax">88</text>
-    <text x="19.428571428571427" y="146" text-anchor="middle" class="ax">Mo</text><text x="66.28571428571428" y="146" text-anchor="middle" class="ax">Tu</text><text x="113.14285714285714" y="146" text-anchor="middle" class="ax">We</text><text x="159.99999999999997" y="146" text-anchor="middle" class="ax">Th</text><text x="206.85714285714283" y="146" text-anchor="middle" class="ax">Fr</text><text x="253.7142857142857" y="146" text-anchor="middle" class="ax">Sa</text><text x="300.57142857142856" y="146" text-anchor="middle" class="ax">Su</text>
-  </svg>
-      </div><div class="panel">
-          <div class="panel-h"><h3>Error budget</h3></div>
-          <svg viewBox="0 0 140 140" class="donut" role="img" aria-label="Completion, 72 percent">
-    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-line)" stroke-width="16"/>
-    <circle cx="70" cy="70" r="52" fill="none" stroke="var(--clp-chart-1)" stroke-width="16"
-      stroke-linecap="butt" stroke-dasharray="235.2 326.7256359733385"
-      transform="rotate(-90 70 70)" data-tip="Completed · 72%"/>
-    <text x="70" y="68" text-anchor="middle" class="donut-n">72%</text>
-    <text x="70" y="86" text-anchor="middle" class="ax">complete</text></svg>
-        </div></section>
-
-      <section class="tblock">
+      <div class="tblock">
         <div class="tscroll">
           <table>
             <thead><tr>
-              <th>Service</th><th>Owner</th><th>Region</th><th class="n">Requests</th>
-              <th class="n">Availability</th><th class="n">p95</th><th>State</th>
+              <th>Plan</th><th class="n">Seats</th><th>Storage</th><th>Support</th>
+              <th class="n">Price</th>
             </tr></thead>
-            <tbody><tr data-state="ok" data-owner="Platform" data-req="152">
-      <td>api-gateway</td>
-      <td class="muted">Platform</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">152k</td>
-      <td class="n">99.98%</td>
-      <td class="n">128ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="ok" data-owner="Identity" data-req="96">
-      <td>auth-worker</td>
-      <td class="muted">Identity</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">96k</td>
-      <td class="n">99.94%</td>
-      <td class="n">96ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="warn" data-owner="Media" data-req="71">
-      <td>media-encoder</td>
-      <td class="muted">Media</td>
-      <td class="muted">us-east-1</td>
-      <td class="n">71k</td>
-      <td class="n">99.21%</td>
-      <td class="n">412ms</td>
-      <td><span class="muted">Degraded</span></td>
-    </tr><tr data-state="ok" data-owner="Discovery" data-req="62">
-      <td>search-index</td>
-      <td class="muted">Discovery</td>
-      <td class="muted">ap-south-1</td>
-      <td class="n">62k</td>
-      <td class="n">99.87%</td>
-      <td class="n">204ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="ok" data-owner="Platform" data-req="16">
-      <td>webhook-relay</td>
-      <td class="muted">Platform</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">16k</td>
-      <td class="n">99.55%</td>
-      <td class="n">88ms</td>
-      <td><span class="muted">Healthy</span></td>
-    </tr><tr data-state="alarm" data-owner="Payments" data-req="12">
-      <td>billing-sync</td>
-      <td class="muted">Payments</td>
-      <td class="muted">eu-west-1</td>
-      <td class="n">12k</td>
-      <td class="n">97.40%</td>
-      <td class="n">883ms</td>
-      <td><span class="muted">Failing</span></td>
+            <tbody><tr data-monthly="12">
+      <td>Starter</td>
+      <td class="n">3</td>
+      <td>10 GB</td>
+      <td>Community</td>
+      <td class="n"><span class="amount" data-amount>$12</span>
+        <span class="per" data-per>/ month</span></td>
+    </tr><tr class="pick" data-monthly="32">
+      <td>Team <span class="pill">Recommended</span></td>
+      <td class="n">15</td>
+      <td>250 GB</td>
+      <td>Priority email</td>
+      <td class="n"><span class="amount" data-amount>$32</span>
+        <span class="per" data-per>/ month</span></td>
+    </tr><tr data-monthly="78">
+      <td>Scale</td>
+      <td class="n">50</td>
+      <td>2 TB</td>
+      <td>Dedicated</td>
+      <td class="n"><span class="amount" data-amount>$78</span>
+        <span class="per" data-per>/ month</span></td>
     </tr></tbody>
           </table>
         </div>
         <div class="tfoot">
-          <span id="tally" data-unit="k requests">6 services &middot; 409k requests</span>
-          <s>Grouped by owner</s>
+          <span id="billnote">Billed monthly. Switch to annual for
+            2 months free.</span>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <section class="panel">
-        <div class="panel-h"><h3>Recent deploys</h3><span>Across all environments</span></div>
-        <div class="feed"><div class="feed-row">
-      <b>api-gateway</b>
-      <span>rate limits per key &middot; Platform</span>
-      <span class="muted">Shipped</span>
-      <time>2h ago</time>
-    </div><div class="feed-row">
-      <b>auth-worker</b>
-      <span>rotate signing keys &middot; Identity</span>
-      <span class="muted">Shipped</span>
-      <time>6h ago</time>
-    </div><div class="feed-row">
-      <b>search-index</b>
-      <span>reindex on schema change &middot; Discovery</span>
-      <span class="muted">Shipped</span>
-      <time>1d ago</time>
-    </div><div class="feed-row">
-      <b>media-encoder</b>
-      <span>retry on transcode timeout &middot; Media</span>
-      <span class="muted">Rolled back</span>
-      <time>3d ago</time>
-    </div></div>
-      </section>
-    </main>
+    <section class="sec">
+      <div class="sec-h"><h2>Questions people actually ask</h2></div>
+      <div class="faq"><details class="qa">
+      <summary>Can we change plan mid-term?</summary><p>Yes. A change takes effect on the next invoice and the difference is prorated to the day.</p>
+    </details><details class="qa">
+      <summary>Do you charge per seat?</summary><p>Seats are included up to each plan’s limit. Beyond it, the next plan is cheaper than the overage.</p>
+    </details><details class="qa">
+      <summary>What happens to our data if we leave?</summary><p>It exports in full, in the format it went in, for as long as the account exists.</p>
+    </details></div>
+    </section>
+
+    <footer class="foot">
+      <span><b>Northsel</b></span>
+      <span>From $12 / month</span>
+      <span>3 plans</span>
+      <span>Up to 50 seats</span>
+    </footer>
   </div>
-
-  <footer class="foot">
-    <span>Northsel Reliability</span>
-    <span>Region eu-west-1</span>
-    <span>Data through 17 Sep</span>
-  </footer>
 </div>
 <div class="tip" hidden></div>
 <!-- specimen end -->
@@ -654,32 +552,26 @@ body{margin:0;background:#f4f4f5;color:#18181b;font:14px/1.5 system-ui,sans-seri
 </script>
 <script>
 
-  // A filter hides rows; it does not restyle anything. The tally is recomputed
-  // from whichever rows are left, so it can never describe a table that is no
-  // longer on screen — the build-time rule about derived figures, at runtime.
-  function applyFilter(key) {
-    const rows = [...document.querySelectorAll('tbody tr[data-state]')]
-    if (!rows.length) return
-    const match = r =>
-      !key || key === 'all' ? true
-      : key === 'degraded' ? r.dataset.state !== 'ok'
-      : key.startsWith('owner:') ? r.dataset.owner === key.slice(6)
-      : true
-    let n = 0, sum = 0
-    for (const r of rows) {
-      const on = match(r)
-      r.hidden = !on
-      if (on) { n++; sum += Number(r.dataset.req) || 0 }
+  const MONTHS_FREE = 2
+  function applyBilling(key) {
+    const annual = key === 'annual'
+    for (const row of document.querySelectorAll('tbody tr[data-monthly]')) {
+      const m = Number(row.dataset.monthly) || 0
+      const amount = row.querySelector('[data-amount]')
+      const per = row.querySelector('[data-per]')
+      if (amount) amount.textContent = '$' + (annual ? m * (12 - MONTHS_FREE) : m)
+      if (per) per.textContent = annual ? '/ year' : '/ month'
     }
-    const tally = document.getElementById('tally')
-    if (tally) {
-      tally.textContent = n + ' service' + (n === 1 ? '' : 's') +
-        ' \u00b7 ' + sum + (tally.dataset.unit || '')
+    const note = document.getElementById('billnote')
+    if (note) {
+      note.textContent = annual
+        ? 'Billed annually — ' + MONTHS_FREE + ' months free against the monthly price.'
+        : 'Billed monthly. Switch to annual for ' + MONTHS_FREE + ' months free.'
     }
   }
 
   addEventListener('demo:select', e => {
-    if (e.detail.name === 'filter') applyFilter(e.detail.hit.dataset.filter)
+    if (e.detail.name === 'billing') applyBilling(e.detail.hit.dataset.billing)
   })
 
 </script>

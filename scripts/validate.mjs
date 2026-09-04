@@ -64,7 +64,9 @@ const CLP_NONE_PERMITTED = new Set([
  * Absence and `none` render identically — the system gets no motion and no glass.
  * The difference is only whether the refusal was written down.
  */
-const CLP_OPTIONAL = ['duration', 'glass', 'glass-edge', 'blur'].map(n => `--clp-${n}`)
+const CLP_OPTIONAL = [
+  'duration', 'glass', 'glass-edge', 'blur', 'gradient', 'weight-display',
+].map(n => `--clp-${n}`)
 
 // Glass is a translucent fill. Its hairline and its blur have nothing to sit on
 // without it, so both require it — the same shape as a wash requiring a colour.
