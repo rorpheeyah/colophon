@@ -103,10 +103,13 @@ before writing, the install block, appending one `index.json` entry, and validat
 normal `origin: own` system from here on.
 
 ```
-node scripts/build-previews.mjs
+pnpm build                       previews and thumbnails, then the site
 node scripts/validate.mjs <slug>
 node scripts/contrast.mjs <slug>
-node scripts/validate.mjs
+pnpm check
 ```
+
+`pnpm build` rather than `build-previews.mjs` alone: `validate.mjs` checks the site's freshness
+too, so a new slug that has no library card yet fails as `site out of date`.
 
 Do not report done if any of those fail. Then open a PR. Never commit to `main`.
