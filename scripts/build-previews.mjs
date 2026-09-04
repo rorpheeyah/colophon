@@ -850,11 +850,19 @@ export function assertNoAppearanceLiterals(html, slug) {
  * screen" — and unlike the composition rules beside it, this one is countable,
  * so it is counted rather than left to discipline.
  *
+ * **Counting alias references was not enough, twice.** A system may route one
+ * colour through more than one alias: Lozenge points `--clp-accent` and
+ * `--clp-button-bg` at citron, so an accent phrase beside a primary button is
+ * citron on two elements while the reference count reads one. That shipped, and
+ * a reader's eye caught it rather than this function. The demos guard it with
+ * `accentSpentOnButton`, and now so does the build — a rule held only by
+ * discipline is a rule that has already been broken once.
+ *
  * The specimen is exempt by construction: it is a sheet, it shows the accent in
  * its swatch row and wherever else the system declares it, and CLAUDE.md already
  * says per-screen limits are not observed there.
  */
-export function assertAccentBudget(html, slug) {
+export function assertAccentBudget(html, slug, t) {
   const at = html.indexOf(MARKER)
   const from = html.indexOf(SPECIMEN_OPEN), to = html.indexOf(SPECIMEN_CLOSE)
   if (at === -1 || from === -1 || to === -1) {
@@ -869,6 +877,17 @@ export function assertAccentBudget(html, slug) {
   if (uses > 1) {
     throw new Error(`${slug}: the demo uses --clp-accent ${uses} times. ` +
       `A demo observes per-screen limits, and the strictest in the library allows one.`)
+  }
+
+  // The same colour reachable through a second alias the demo also paints with.
+  // Aliases are `var()` references by contract, so equal declared values mean
+  // the same token and therefore the same colour on screen.
+  const accent = t?.get('--clp-accent')
+  const button = t?.get('--clp-button-bg')
+  if (uses && accent && accent === button && regions.includes('var(--clp-button-bg)')) {
+    throw new Error(`${slug}: --clp-accent and --clp-button-bg are both \`${accent}\`, ` +
+      `and this demo paints with both. That is one colour on two elements while the ` +
+      `reference count reads one. Gate the payoff on accentSpentOnButton(t).`)
   }
   return html
 }
@@ -897,12 +916,13 @@ for (const slug of slugs) {
   // about work that is not ours. A reference is never installed either — it is
   // forked into an `origin: own` system first, and that fork gets the demos.
   if (scalar(sys.data.origin) === 'own') {
+    const aliases = block ? declaredAliases(block.code) : new Map()
     for (const demo of DEMOS) {
       files.push([demoFile(demo.name),
         assertAccentBudget(
           assertBalancedTags(
             assertNoAppearanceLiterals(renderDemo(sys, demo), `${slug}/${demo.name}`),
-            `${slug}/${demo.name}`), `${slug}/${demo.name}`)])
+            `${slug}/${demo.name}`), `${slug}/${demo.name}`, aliases)])
     }
   }
   if (block) {

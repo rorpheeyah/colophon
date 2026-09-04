@@ -665,6 +665,37 @@ script the generator cannot read is exactly the mistranslation the specimen shee
 avoid. So a demo sets in Latin and does not exercise `--clp-font-script`; script reach stays the
 specimen's job, and the demo says so in its own notes.
 
+### Decided: a system file's CSS is not executed — yet
+
+The open question was whether a designated `css` block in a system file should be **executed** by
+the generator rather than staying illustrative. It is the only route to Filament's travelling
+edge, which is a conic gradient rotated through a registered `@property` and which no token can
+hold. **The answer for now is no**, on two grounds, and both are recorded so this is a decision
+rather than a recurring debate.
+
+**It has no decoupled target yet.** For injected CSS to do anything it must select something. If
+the system file names the demo's class names, the *product* is coupled to this repo's internals
+— and the product is a file meant to be dropped into someone else's project. The only safe form
+is the reverse: colophon guarantees a namespaced state attribute, and a system styles that.
+
+So the shape it would take, when it is taken:
+
+- a designated block may contain `@property`, `@keyframes`, and rules whose selectors are
+  `[data-clp-state~="…"]` and nothing else
+- `validate.mjs` enforces that allowlist, on top of the no-colour-literal rule that already
+  applies to every code block in the file
+- the template applies `data-clp-state` to elements it already knows the state of — a row whose
+  work is in flight, the environment you are in, a position that is losing
+
+**And the guarantees it would lean on have just been shown to leak.** Five violations of one
+class shipped while the demos were built — a declared value used in a place the prose ruled out
+— and the last two were caught by a reader's eye rather than by any check: an accent dot on a
+nav item Ration forbids by name, and one colour reaching two elements through two aliases. A
+large new unchecked surface does not belong in a repo whose existing checks were that porous.
+Close the gap first, then widen the contract.
+
+That is the order: the accent guard now resolves through the alias layer, and the block waits.
+
 ### What demos still cannot show
 
 Translucency, backdrop blur and a state-change duration are expressible now — see *Motion and
@@ -672,9 +703,9 @@ atmosphere* above. Two things still are not, and neither may be worked around:
 
 - **Choreography, and anything a token cannot hold.** Filament's travelling edge is a conic
   gradient rotated through a registered `@property` — no token can express it, and inventing
-  `--clp-live-edge` for one system would be the shared template growing a special case. That CSS
-  is already written in Filament's own markdown, which is why the open question is whether a
-  designated block in a system file should be *executed* rather than merely illustrative.
+  `--clp-live-edge` for one system would be the shared template growing a special case. It
+  therefore remains invisible in every artifact, deliberately, and Filament's own file says so.
+  See *Decided: a system file's CSS is not executed — yet*, above.
 
 ---
 
